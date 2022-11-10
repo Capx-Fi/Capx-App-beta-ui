@@ -7,6 +7,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   signOut,
+  TwitterAuthProvider,
 } from "firebase/auth";
 import axios from "axios";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
@@ -22,70 +23,61 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const provider = new GoogleAuthProvider(auth);
-const db = getFirestore();
+const googleProvider = new GoogleAuthProvider(auth);
+const twitterProvider = new TwitterAuthProvider(auth);
+const db = getFirestore(app);
 
 console.log(db);
 
 export default function App() {
-  const handleLogin = async () => {
-    // getting user details here from firebaseAuth
-    const { user: userDetails } = await signInWithPopup(auth, provider);
-    const idtoken = await userDetails.getIdToken();
-    // checking user existance in db
-
-    console.log(userDetails.uid);
-    const isUserExists = await axios.post(
-      "https://firestore.googleapis.com/v1/projects/firestore-app-f637c/databases/(default)/documents:runQuery?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao",
-      {
-        structuredQuery: {
-          from: [{ collectionId: "users" }],
-          where: {
-            fieldFilter: {
-              field: { fieldPath: "email" },
-              op: "EQUAL",
-              value: { stringValue: userDetails.email },
-            },
-          },
-        },
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + idtoken,
-        },
-      }
-    );
-
-    if (!isUserExists.data[0].document) {
-      const writeResponse = await axios.post(
-        `https://firestore.googleapis.com/v1/projects/firestore-app-f637c/databases/(default)/documents/users?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao&documentId=${userDetails.uid}`,
+  const handleLogin = async (method) => {
+    try {
+      const { user: userDetails } = await signInWithPopup(auth, method);
+      const idtoken = await userDetails.getIdToken();
+      console.log(userDetails.uid);
+      const isUserExists = await axios.post(
+        "https://firestore.googleapis.com/v1/projects/firestore-app-f637c/databases/(default)/documents:runQuery?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao",
         {
-          fields: {
-            name: { stringValue: userDetails.displayName },
-            email: { stringValue: userDetails.email },
+          structuredQuery: {
+            from: [{ collectionId: "users" }],
+            where: {
+              fieldFilter: {
+                field: { fieldPath: "email" },
+                op: "EQUAL",
+                value: { stringValue: userDetails.email },
+              },
+            },
           },
         },
         {
           headers: {
-            Authorization: "Bearer " + idtoken, //the token is a variable which holds the token
+            Authorization: "Bearer " + idtoken,
           },
         }
       );
-      console.log("wrote user data");
-    } else {
-      console.log("user already exist");
+
+      if (!isUserExists.data[0].document) {
+        const writeResponse = await axios.post(
+          `https://firestore.googleapis.com/v1/projects/firestore-app-f637c/databases/(default)/documents/users?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao&documentId=${userDetails.uid}`,
+          {
+            fields: {
+              name: { stringValue: userDetails.displayName },
+              email: { stringValue: userDetails.email },
+            },
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + idtoken, //the token is a variable which holds the token
+            },
+          }
+        );
+        console.log("wrote user data");
+      } else {
+        console.log("user already exist");
+      }
+    } catch (err) {
+      console.log(err.message);
     }
-
-    // const data = await axios.get(
-    //   "https://content-firestore.googleapis.com/v1/projects/firestore-app-f637c/databases/(default)/documents/users?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao",
-    //   {
-    //     headers: {
-    //       Authorization: `Bearer ${userDetails.accessToken}"`,
-    //     },
-    //   }
-    // );
-
-    // console.log(data);
   };
 
   const signout = () => {
@@ -97,22 +89,37 @@ export default function App() {
         console.log(error);
       });
   };
-  // const userCollectionRef = collection(db, "users");
 
-  // useEffect(() => {
-  //   const getData = async () => {
-  //     const getUsers = await getDocs(userCollectionRef);
-  //     console.log(getUsers.docs[0].data());
-  //   };
-  //   getData();
-  // }, [userCollectionRef]);
+  const userCollectionRef = collection(db, "users");
+
+  useEffect(() => {
+    const getData = async () => {
+      const getUsers = await getDocs(userCollectionRef);
+      console.log(getUsers.docs[0].data());
+    };
+    getData();
+  }, [userCollectionRef]);
 
   return (
     <div className="App">
       <header className="App-header">
-        <button onClick={handleLogin}>google</button>
+        <button
+          onClick={() => {
+            handleLogin(googleProvider);
+          }}
+        >
+          google
+        </button>
+        <button
+          onClick={() => {
+            handleLogin(twitterProvider);
+          }}
+        >
+          Twitter
+        </button>
         <button onClick={signout}>Signout</button>
       </header>
+      <main></main>
     </div>
   );
 }

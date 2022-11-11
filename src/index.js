@@ -1,13 +1,40 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { configureChains, createClient, WagmiConfig } from "wagmi";
+import { MetaMaskConnector } from "wagmi/connectors/metaMask";
+import { WalletConnectConnector } from "wagmi/connectors/walletConnect";
+import { mainnet, polygon } from "wagmi/chains";
+import { publicProvider } from "wagmi/providers/public";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const { chains, provider, webSocketProvider } = configureChains(
+  [mainnet, polygon],
+  [publicProvider()]
+);
+
+const client = createClient({
+  autoConnect: false,
+  connectors: [
+    new MetaMaskConnector({ chains }),
+    new WalletConnectConnector({
+      chains,
+      options: {
+        qrcode: true,
+      },
+    }),
+  ],
+  provider,
+  webSocketProvider,
+});
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>
-    <App />
+    <WagmiConfig client={client}>
+      <App />
+    </WagmiConfig>
   </React.StrictMode>
 );
 

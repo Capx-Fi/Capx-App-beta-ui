@@ -1,22 +1,25 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import {
+  FacebookAuthProvider,
+  getAuth,
+  GoogleAuthProvider,
+  TwitterAuthProvider,
+} from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
 
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyBtAptKjErKi7DyKOBTvvmP9cRXBg-FWog",
-  authDomain: "capx-x-web3auth.firebaseapp.com",
-  projectId: "capx-x-web3auth",
-  storageBucket: "capx-x-web3auth.appspot.com",
-  messagingSenderId: "991366839944",
-  appId: "1:991366839944:web:0223a49d20fdd5bbe6693d",
-  measurementId: "G-B91G4H2ZPB"
+  apiKey: "AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao",
+  authDomain: "firestore-app-f637c.firebaseapp.com",
+  projectId: "firestore-app-f637c",
+  storageBucket: "firestore-app-f637c.appspot.com",
+  messagingSenderId: "448546221885",
+  appId: "1:448546221885:web:2d7e8e4a1c1d5d61351f54",
 };
 
-// Initialize Firebase
 const app = initializeApp(firebaseConfig);
-console.log(app)
-export const auth = getAuth()
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+export const googleLoginProvider = new GoogleAuthProvider(auth);
+export const twitterLoginProvider = new TwitterAuthProvider(auth);
+export const facebookLoginProvider = new FacebookAuthProvider(auth);

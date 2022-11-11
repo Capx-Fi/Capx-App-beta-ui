@@ -4,9 +4,12 @@ import "./App.css";
 import useCapxWalletConnection from "./utils/useCapxWalletConnection";
 import { useSignMessage } from "wagmi";
 import { verifyMessage } from "ethers/lib/utils";
+import { SignMessage } from "./pages/sign-message";
+
+window.Buffer = window.Buffer || require("buffer").Buffer;
 
 export default function App() {
-  const { connect, account, connectors } = useCapxWalletConnection();
+  const { connect, active, connectors } = useCapxWalletConnection();
 
   const recoveredAddress = React.useRef();
   const { data, error, isLoading, signMessage } = useSignMessage({
@@ -16,45 +19,31 @@ export default function App() {
       recoveredAddress.current = address;
     },
   });
-  console.log(account);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <button
-          onClick={() => {
-            connect({ connector: connectors[0] });
-          }}
-        >
-          Connect wallet
-        </button>
-        <form
-          onSubmit={(event) => {
-            event.preventDefault();
-            const formData = new FormData(event.target);
-            const message = formData.get("message");
-            signMessage({ message });
-          }}
-        >
-          <label htmlFor="message">Enter a message to sign</label>
-          <textarea
-            id="message"
-            name="message"
-            placeholder="The quick brown fox…"
-          />
-          <button disabled={isLoading}>
-            {isLoading ? "Check Wallet" : "Sign Message"}
-          </button>
-
-          {data && (
-            <div>
-              <div>Recovered Address: {recoveredAddress.current}</div>
-              <div>Signature: {data}</div>
-            </div>
-          )}
-
-          {error && <div>{error.message}</div>}
-        </form>
-      </header>
+      <main className="App-header">
+        {!active ? (
+          <>
+            <button
+              onClick={() => {
+                connect({ connector: connectors[0] });
+              }}
+            >
+              metamask
+            </button>
+            <button
+              onClick={() => {
+                connect({ connector: connectors[1] });
+              }}
+            >
+              WalletConnect
+            </button>
+          </>
+        ) : (
+          <SignMessage />
+        )}
+      </main>
     </div>
   );
 }

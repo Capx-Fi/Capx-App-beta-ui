@@ -1,0 +1,30 @@
+.custom-container {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.contained-btn{
+    background: $dark-gradiant;
+}
+
+.outlined-btn{
+    &:hover{
+        background: $dark-gradiant;
+    }
+}
+
+.dark-bg-gradient-2{
+    background: $dark-gradiant-2;
+}
+
+.light-bg-gradient{
+    background: $light-gradiant;
+}
+
+.yellow-bg-gradient{
+    background: $yellow-gradiant;
+}
+
+body{
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 57.8%), #FFFFFF;
+}

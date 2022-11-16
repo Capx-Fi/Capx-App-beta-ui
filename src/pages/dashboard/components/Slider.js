@@ -1,6 +1,8 @@
 import React from "react";
 import { PenSvg } from "../../../assets/svg";
 import Slider from "react-slick";
+
+import { BiRightArrowAlt } from "react-icons/bi";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
@@ -32,8 +34,9 @@ const CustomSlider = ({ heading, data }) => {
           <h5 className="fs-16 font-black mobile-primary-text leading-5 mb-2">
             Claim daily sign in reward
           </h5>
-          <button className="green-bg-gradient text-white fs-10 font-black px-3 py-1 rounded-lg">
-            Claim quest
+          <button className="green-bg-gradient flex items-center  text-white fs-10 font-black px-3 py-1 rounded-lg">
+            <span>Claim quest</span>
+            <BiRightArrowAlt className="text-base" />
           </button>
         </div>
       </div>

@@ -5,6 +5,9 @@ import HomeIcon from "./homeIcon.svg";
 import ElecIcon from "./elecIcon.svg";
 import ProfileIcon from "./profileIcon.svg";
 import WalletIcon from "./walletIcon.svg";
+import DummyProfile from "./dummyProfile.svg";
+import ContainedDollerSvg from "./containDoller.svg";
+import LevelSvg from "./levelSvg.svg";
 
 export {
   BrandSvgLogo,
@@ -14,4 +17,7 @@ export {
   ElecIcon,
   ProfileIcon,
   WalletIcon,
+  DummyProfile,
+  ContainedDollerSvg,
+  LevelSvg,
 };

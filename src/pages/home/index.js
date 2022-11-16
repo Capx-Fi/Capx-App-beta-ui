@@ -1,8 +1,10 @@
 import React from "react";
 import Header from "./components/Header";
 import { BiRightArrowAlt } from "react-icons/bi";
-import { CardsImg } from "../../assets/images";
+import { CardsImg, DummyImg } from "../../assets/images";
 import QuestCard from "./components/QuestCard";
+import ContributersTable from "./components/ContributersTable";
+import DesktopFooter from "../../components/DesktopFooter";
 
 const index = () => {
   return (
@@ -10,9 +12,9 @@ const index = () => {
       <header>
         <Header />
       </header>
-      <main>
+      <main className="block pb-20 bg-white">
         <div className="custom-container">
-          <div class="grid md:grid-cols-1 md:grid-cols-3 gap-3 py-20">
+          <div class="grid md:grid-cols-1 md:grid-cols-3 gap-8 py-20">
             <div class="md:col-span-2 col-span-1">
               <div className="flex flex-col items-start justify-center h-full">
                 <h2 className="lg:text-6xl md:text-5xl text-4xl font-semibold">
@@ -38,7 +40,7 @@ const index = () => {
             Contribute to the ecosystem and earn attractive rewards
           </p>
 
-          <div className="grid grid-cols-8 gap-4">
+          <div className="grid grid-cols-8 gap-4 mb-24">
             <div></div>
             {Array(3)
               .fill("")
@@ -53,12 +55,29 @@ const index = () => {
             <div></div>
           </div>
           <div />
-          <div className="grid md:grid-cols-1 md:grid-cols-3 gap-3 py-10">
-            <div class="md:col-span-2 col-span-1">ddf</div>
-            <div class="col-span-1 hidden md:block">ff</div>
+          <h2 className="fs-44  font-semibold leading-10 mb-1">
+            Top Contributors
+          </h2>
+          <p className="fs-20  font-normal mb-10">
+            Contribute to the ecosystem and earn attractive rewards
+          </p>
+          <div className="grid md:grid-cols-9 gap-20">
+            <div class="md:col-span-6 col-span-1">
+              <ContributersTable />
+              <button className="fs-16 contained-btn px-7 py-3 inline-flex items-center justify-center whitespace-nowrap rounded-xl border border-transparent text-base font-medium text-white shadow-sm hover:bg-Gray-900">
+                <span>Begin you journey</span>
+                <BiRightArrowAlt className="text-2xl" />
+              </button>
+            </div>
+            <div class="col-span-3 hidden md:block">
+              <img src={DummyImg} alt="Dummy" />
+            </div>
           </div>
         </div>
       </main>
+      <footer>
+        <DesktopFooter />
+      </footer>
     </>
   );
 };

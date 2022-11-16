@@ -25,6 +25,11 @@
     background: $yellow-gradiant;
 }
 
-body{
-    background: linear-gradient(180deg, rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0) 57.8%), #FFFFFF;
+.green-bg-gradient{
+    background: $green-gradiant;
 }
+
+.mobile-primary-text{
+    color: $green-900
+}
+

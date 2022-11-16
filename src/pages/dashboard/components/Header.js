@@ -3,26 +3,34 @@ import { Popover, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
 import { BrandSvgLogo, CoinSvg } from "../../../assets/svg";
 import { ImCross } from "react-icons/im";
-import { BiMenuAltRight } from "react-icons/bi";
 import { BsBell } from "react-icons/bs";
 import { CgProfile } from "react-icons/cg";
 
 export default function Header() {
   return (
     <>
-      <Popover className="relative bg-slate-100">
+      <Popover className="relative bg-white md:bg-slate-100 md:border-b-0 border-b-2">
         <div className="mx-auto px-8">
           <div className="flex items-center justify-between  border-gray-100 py-4 md:justify-start md:space-x-10">
             <div className="flex justify-start lg:w-0 lg:flex-1">
-              <Link href="#">
+              <Link href="#" className="md:block hidden">
                 <span className="sr-only">Your Company</span>
                 <img className="w-auto " src={BrandSvgLogo} alt="Capx" />
               </Link>
+              <h2 className="md:hidden block fs-18 font-extrabold text-gray-800">
+                Home
+              </h2>
             </div>
-            <div className="-my-2 -mr-2 md:hidden">
-              <Popover.Button className="inline-flex items-center justify-center rounded-md bg-white p-2 text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-900">
+            <div className="-my-2 -mr-2 flex items-stretch md:hidden">
+              <button class="bg-white flex justify-center items-center fs-15 mr-2 hover:bg-gray-100 text-gray-800 font-semibold px-2 border border-gray-400 rounded-2xl shadow">
+                <img src={CoinSvg} alt="coin" />
+                <span>5 xCapx</span>
+              </button>
+              <Popover.Button className="inline-flex items-center justify-center rounded-full bg-white text-gray-400 hover:bg-gray-100 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-900">
                 <span className="sr-only">Open menu</span>
-                <BiMenuAltRight />
+                <button class="bg-white  hover:bg-gray-100 text-gray-800  font-semibold p-2.5 border border-gray-400 rounded-full shadow">
+                  <CgProfile />
+                </button>
               </Popover.Button>
             </div>
             <Popover.Group as="nav" className="hidden space-x-10 md:flex">

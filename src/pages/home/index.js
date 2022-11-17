@@ -5,14 +5,16 @@ import { CardsImg, DummyImg } from "../../assets/images";
 import QuestCard from "./components/QuestCard";
 import ContributersTable from "./components/ContributersTable";
 import DesktopFooter from "../../components/DesktopFooter";
+import { BrandSvgLogo } from "../../assets/svg";
 
 const index = () => {
   return (
     <>
-      <header>
+      <header className="md:block hidden">
         <Header />
       </header>
-      <main className="block pb-20 bg-white">
+      {/* desktop view */}
+      <main className="md:block hidden pb-20 bg-white">
         <div className="custom-container">
           <div class="grid md:grid-cols-1 md:grid-cols-3 gap-8 py-20">
             <div class="md:col-span-2 col-span-1">
@@ -75,7 +77,30 @@ const index = () => {
           </div>
         </div>
       </main>
-      <footer>
+      <main className="md:hidden block">
+        <div className="custom-container">
+          <div className="flex flex-col items-start">
+            <button className="bg-transparent rounded-full border-2 border-green-300 px-2 py-1">
+              <img className="h-6" src={BrandSvgLogo} alt="Capx" />
+            </button>
+            <h2 className="font-black fs-72 leading-none primary-text-gradient">
+              Learn, contribute and claim rewards
+            </h2>
+            <p>
+              Join Capx and learn to earn contribution to communities and
+              projects. Begin your journey.
+            </p>
+            <div className="h-1 bg-green-500 mb-2 self-stretch"></div>
+            <button className="green-bg-gradient text-white  py-3  self-stretch rounded-2xl">
+              Register
+            </button>
+            <button className="bg-transparent text-green-600 py-3 border-2 border-green-600 self-stretch rounded-2xl">
+              Login
+            </button>
+          </div>
+        </div>
+      </main>
+      <footer className="md:block hidden">
         <DesktopFooter />
       </footer>
     </>

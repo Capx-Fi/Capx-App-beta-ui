@@ -1,0 +1,22 @@
+.onboarding-page{
+  
+    .left-content-box{
+        max-width: 417px;
+
+        .m-heaidng{
+            font-size: 48px;
+            line-height: 54px;
+            @media screen and (max-width: 767.98px){
+                font-size: 72px;
+                line-height: 76px;
+            }
+        }
+
+        .devider{
+            height: 2px;
+        }
+    }
+    
+
+    
+}

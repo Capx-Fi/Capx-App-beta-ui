@@ -27,7 +27,7 @@ export const handleFirebaseLogin = async (method) => {
     const { user: userDetails } = await signInWithPopup(auth, method);
     const idtoken = await userDetails.getIdToken();
     const isUserExists = await axios.post(
-      "https://firestore.googleapis.com/v1/projects/firestore-app-f637c/databases/(default)/documents:runQuery?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao",
+      `${config.APIEndpoint}/documents:runQuery?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao`,
       {
         structuredQuery: {
           from: [{ collectionId: "users" }],
@@ -49,7 +49,7 @@ export const handleFirebaseLogin = async (method) => {
 
     if (!isUserExists.data[0].document) {
       const writeResponse = await axios.post(
-        `https://firestore.googleapis.com/v1/projects/firestore-app-f637c/databases/(default)/documents/users?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao&documentId=${userDetails.uid}`,
+        `${config.APIEndpoint}/documents/users?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao&documentId=${userDetails.uid}`,
         {
           fields: {
             name: { stringValue: userDetails.displayName },

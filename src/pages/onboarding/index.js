@@ -13,8 +13,8 @@ import { Link } from "react-router-dom";
 const Onboarding = () => {
   return (
     <>
-      <main className="onboarding-page">
-        <div className="flex">
+      <main className="onboarding-page min-h-screen">
+        <div className="flex min-h-screen">
           <div className="flex-1 p-6 flex-col  flex justify-center items-center bg-white-transparent min-h-screen relative">
             <img
               className="md:hidden block absolute top-0 right-0"
@@ -48,7 +48,7 @@ const Onboarding = () => {
                   <span className="text-white font-bold fs-16">Sign up</span>
                 </div>
               </Link>
-              <button className=" md:mb-20 self-stretch">
+              <Link to="/signin" className=" md:mb-20 self-stretch">
                 <div className="md:flex hidden items-center bg-primary-100 border-primary-200 border-1 px-2 py-2 rounded-xl">
                   <img src={RightPandaImg} alt="Panda" />
                   <div className="flex flex-col items-start ml-4 ">
@@ -61,12 +61,12 @@ const Onboarding = () => {
                 </div>
                 <div className="rounded=xl md:hidden flex justify-center self-stretch py-3 rounded-xl border-2 border-primary-200">
                   <span className="text-primary-800 font-bold fs-16">
-                    Sign up
+                    Sign in
                   </span>
                 </div>
-              </button>
+              </Link>
 
-              <p className="text-gray-400 fs-15 font-bold hidden md:block">
+              <p className="text-gray-400 fs-15 font-bold hidden md:block absolute bottom-0 py-5">
                 © Capx 2022. All rights reserved
               </p>
             </div>

@@ -5,7 +5,7 @@ import {
   OnboardMobBg,
   RightPandaImg,
 } from "../../assets/images";
-import { ChipCapxSvg } from "../../assets/svg";
+import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import LayoutSideImg from "./components/LayoutSideImg";
 import { FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
@@ -21,7 +21,7 @@ const Onboarding = () => {
               src={OnboardMobBg}
               alt="bg"
             />
-            <div className="left-content-box flex flex-col items-center justify-center min-h-screen">
+            <div className="left-content-box flex flex-col items-center justify-center">
               <div className="bg-primary-100 border-primary-200 border-1 px-4 py-1.5 rounded-full mb-6 md:self-center self-start">
                 <img src={ChipCapxSvg} alt="capx" />
               </div>
@@ -72,7 +72,7 @@ const Onboarding = () => {
             </div>
           </div>
           <div className="flex-1 md:min-h-screen hidden md:block">
-            <LayoutSideImg image={OnboardImg} />
+            <LayoutSideImg image={OnboardSvg} />
           </div>
         </div>
       </main>

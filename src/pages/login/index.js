@@ -3,6 +3,8 @@ import { GetstartImg2, GetStatedImg } from "../../assets/images";
 import {
   ChipCapxSvg,
   DiscordIcon,
+  GetStatedSvg,
+  GetStatedSvg2,
   GoogleIcon,
   TwitterIcon,
 } from "../../assets/svg";
@@ -92,10 +94,10 @@ const Login = () => {
             </div>
           </div>
           <div className="flex-1 md:min-h-screen hidden md:block">
-            <LayoutSideImg image={GetStatedImg} />
+            <LayoutSideImg image={GetStatedSvg} />
           </div>
           <div className="right-img-wrapper flex-1 md:min-h-screen block md:hidden pt-10">
-            <LayoutSideImg image={GetstartImg2} />
+            <LayoutSideImg image={GetStatedSvg2} />
             <p className="gredient-text text-center fs-40 font-black tracking-tight -translate-y-10">
               Welcome back !
             </p>

@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  FrontPandaImg,
-  GetstartImg2,
-  GetStatedImg,
-  OnboardImg,
-  OnboardMobBg,
-  RightPandaImg,
-} from "../../assets/images";
+import { GetstartImg2, GetStatedImg } from "../../assets/images";
 import {
   ChipCapxSvg,
   DiscordIcon,

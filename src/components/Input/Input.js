@@ -15,13 +15,13 @@ const Input = (props) => {
 
   return (
     <div
-      className={`custom-input w-full rounded-xl border-2 border-primary-200 px-2 py-1.5 ${
+      className={`custom-input w-full rounded-xl border-2 border-primary-200 md:px-2 px-2.5 md:py-1.5 py-2 ${
         error ? "" : "bg-primary-100"
       }`}
     >
       <label
         htmlFor={name}
-        className="fs-11 font-black text-primary-800 uppercase"
+        className="fs-11 font-black text-primary-800 uppercase md:mb-0 mb-1.5"
       >
         {label}
       </label>

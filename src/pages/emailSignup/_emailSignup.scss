@@ -1,9 +1,11 @@
 .emailSignup-page {
   .left-content-box-wrapper {
     flex-basis: 49.4%;
+    background-color: rgba($color: #fff, $alpha: 0.5);
     @media screen and (max-width: 767.98px) {
       flex-basis: unset;
       flex-grow: 1;
+      background-color: unset;
     }
     .left-content-box {
       min-width: 380px;

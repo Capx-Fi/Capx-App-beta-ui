@@ -32,7 +32,7 @@ const ResetPassword = () => {
     <>
       <main className="emaillogin-page min-h-screen">
         <div className="flex min-h-screen">
-          <div className="left-content-box-wrapper  p-6 flex-col  flex justify-center items-stretch md:items-center bg-white-transparent min-h-screen relative">
+          <div className="left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start md:mt-0 mt-14 items-stretch md:items-center bg-white-transparent min-h-screen relative">
             <div className="left-content-box flex flex-col items-center justify-center">
               <div className="brand-chip bg-primary-100  hidden md:block border-primary-200 border-1 rounded-full mb-6 md:self-center self-start">
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
@@ -84,10 +84,10 @@ const ResetPassword = () => {
                     </label>
                   </div>
                   <Link
-                    to="/signup"
+                    to="/signin/email"
                     className="text-primary-900 fs-12 font-bold underline"
                   >
-                    Not a member? Sign up
+                    Back to Login
                   </Link>
                 </div>
                 <button
@@ -101,7 +101,7 @@ const ResetPassword = () => {
                     !!formik.errors.confirmPassword || !!formik.errors.password
                   }
                 >
-                  Login
+                  Reset Password
                 </button>
               </form>
 

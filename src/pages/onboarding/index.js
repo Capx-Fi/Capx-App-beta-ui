@@ -14,22 +14,26 @@ const Onboarding = () => {
     <>
       <main className="onboarding-page min-h-screen">
         <div className="flex min-h-screen">
-          <div className="left-content-box-wrapper p-6 flex-col  flex justify-center items-center bg-white-transparent min-h-screen relative">
+          <div className="left-content-box-wrapper p-6 flex-col  flex md:justify-center justify:start items-center bg-white-transparent min-h-screen relative">
             <img
               className="md:hidden block absolute top-0 right-0"
               src={OnboardMobBg}
               alt="bg"
             />
-            <div className="left-content-box flex flex-col items-center justify-center">
-              <div className="brand-chip bg-primary-100   border-primary-200 border-1 rounded-full mb-6 md:self-center self-start">
+            <div className="left-content-box flex flex-col items-center justify-center mt-12 md:mt-0">
+              <div className="brand-chip bg-primary-100   border-primary-200 border-1 rounded-full md:mb-6 mb-10 md:self-center self-start">
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-2 mb-3">
                 Learn, contribute and earn rewards
               </h2>
-              <p className="fs-16 font-bold text-slate-500 md:text-center md:mb-10 mb-8">
+              <p className="discription fs-16 font-bold text-slate-500 md:text-center md:mb-10 mb-8 hidden md:block">
                 Join Capx to learn & earn while contributing to the Capx
                 ecosystem. Begin your journey!
+              </p>
+              <p className="discription fs-16 font-bold text-slate-500 md:text-center md:mb-10 mb-8 block md:hidden">
+                Join Capx and learn to earn contribution to communities and
+                projects. Begin your journey.
               </p>
               <div className="md:hidden block devider self-stretch h-1 mb-2 bg-primary-200 mb-9"></div>
               <Link to="/signup" className="mb-6 self-stretch">

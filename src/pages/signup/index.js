@@ -20,7 +20,7 @@ const Signup = () => {
     <>
       <main className="signup-page min-h-screen">
         <div className="flex md:flex-row flex-col-reverse min-h-screen">
-          <div className="left-content-box-wrapper p-6 flex-col  flex justify-center md:items-center bg-white-transparent relative rounded-t-3xl md:rounded-none md:mt-0 -mt-6 ">
+          <div className="left-content-box-wrapper md:p-6 px-11 py-8 flex-col  flex justify-center md:items-center bg-white-transparent relative rounded-t-3xl md:rounded-none md:mt-0 -mt-6">
             <div className="left-content-box flex flex-col items-center justify-center ">
               <div className="brand-chip bg-primary-100  hidden md:block border-primary-200 border-1 rounded-full mb-7 md:self-center self-start">
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
@@ -91,7 +91,7 @@ const Signup = () => {
               </p>
             </div>
           </div>
-          <div className="flex-1 md:min-h-screen hidden md:block">
+          <div className="right-img-wrapper flex-1 md:min-h-screen hidden md:block">
             <div className="h-full w-full flex items-end justify-end">
               <img className="width-90p" src={GetStatedSvg} alt="dummy" />
             </div>

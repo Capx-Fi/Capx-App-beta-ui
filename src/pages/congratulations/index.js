@@ -1,17 +1,15 @@
 import { useFormik } from "formik";
-import {
-  ChipCapxSvg,
-  CongratulationSvg,
-  CreateunameSticker,
-  CreateunameStickermMob,
-  GetStatedSvg,
-  OnboardSvg,
-} from "../../assets/svg";
+
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
 import { signupWithEmail } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
+import {
+  CongratulationSvg,
+  CreateunameStickermMob,
+  OnboardSvg,
+} from "../../assets/svg";
 
 const Congratulaions = () => {
   const navigate = useNavigate();
@@ -55,8 +53,7 @@ const Congratulaions = () => {
 
               <button
                 type="submit"
-                className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4   bg-gredient-2
-                  `}
+                className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 bg-gredient-2`}
               >
                 Start
               </button>

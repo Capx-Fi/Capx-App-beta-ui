@@ -3,6 +3,7 @@ import {
   ChipCapxSvg,
   CreateunameStickermMob,
   InviteCodeSideSticker,
+  InvitecodeStickerMob,
 } from "../../assets/svg";
 import OtpInput from "react-otp-input";
 import * as Yup from "yup";
@@ -24,16 +25,16 @@ const InviteCode = () => {
   console.log(inviteCode.length);
   return (
     <>
-      <main className="create-username-page min-h-screen">
+      <main className="invite-code-page min-h-screen">
         <div className="flex min-h-screen">
-          <div className="left-content-box-wrapper  p-6 flex-col  flex justify-center items-stretch md:items-center bg-white-transparent min-h-screen relative">
-            <div className="left-content-box flex flex-col items-center justify-center mb-20">
+          <div className="left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start items-stretch md:items-center min-h-screen relative">
+            <div className="left-content-box flex flex-col items-center justify-center mb-20 md:mt-0 mt-24">
               <Stepper step1={"checked"} step2={"checked"} step3={"active"} />
               <div className="brand-chip bg-primary-100  hidden md:block border-primary-200 border-1 rounded-full mb-6 md:self-center self-start">
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-3">
-                Create a username
+                Enter your invite code
               </h2>
 
               <form
@@ -94,9 +95,9 @@ const InviteCode = () => {
               </p>
 
               <img
-                src={CreateunameStickermMob}
+                src={InvitecodeStickerMob}
                 alt="sticker"
-                className="block md:hidden absolute bottom-0 mb-3"
+                className="block md:hidden absolute bottom-0 mb-16"
               />
             </div>
           </div>

@@ -32,8 +32,8 @@ const CreateUsername = () => {
     <>
       <main className="create-username-page min-h-screen">
         <div className="flex min-h-screen">
-          <div className="left-content-box-wrapper  p-6 flex-col  flex justify-center items-stretch md:items-center bg-white-transparent min-h-screen relative">
-            <div className="left-content-box flex flex-col items-center justify-center">
+          <div className="left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start items-stretch md:items-center min-h-screen relative">
+            <div className="left-content-box flex flex-col items-center justify-center md:mt-0 mt-20">
               <Stepper step1={"checked"} step2={"active"} step3={"disable"} />
               <div className="brand-chip bg-primary-100  hidden md:block border-primary-200 border-1 rounded-full mb-6 md:self-center self-start">
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
@@ -46,9 +46,9 @@ const CreateUsername = () => {
                 className="w-full flex flex-col"
                 onSubmit={formik.handleSubmit}
               >
-                <div className="w-full mb-4">
+                <div className="w-full md:mb-4 mb-8">
                   <Input
-                    placeholder="Enter your email"
+                    placeholder="Create a catchy username"
                     label="username"
                     type="text"
                     error={!!formik.errors.username}
@@ -60,7 +60,7 @@ const CreateUsername = () => {
 
                 <button
                   type="submit"
-                  className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 ${
+                  className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 md:mb-4 mb-8 ${
                     formik.errors.username ? "disabled" : "bg-gredient-2"
                   }`}
                   disabled={!!formik.errors.username}
@@ -80,7 +80,7 @@ const CreateUsername = () => {
                 <img
                   src={CreateunameStickermMob}
                   alt="sticker"
-                  className="block md:hidden absolute bottom-0 mb-3"
+                  className="block md:hidden absolute bottom-0 mb-12"
                 />
               )}
             </div>

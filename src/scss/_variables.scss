@@ -9,6 +9,14 @@ $gredient-green-1: linear-gradient(
   #ffffff;
 $gredient-green-2: linear-gradient(180deg, #94bf7e 0%, #479b77 100%);
 
+$mob-bg-gredient: linear-gradient(
+  180deg,
+  #f8fdf8 0%,
+  #e2f6e1 51.87%,
+  #b6edcf 105.45%,
+  #dcf1df 105.45%
+);
+
 //colors
 $green-100: #8ec48926;
 $green-200: #8ec48966;

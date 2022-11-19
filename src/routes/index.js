@@ -14,7 +14,7 @@ import Signup from "../pages/signup";
 const routes = (isLoggedIn) => [
   {
     path: "/",
-    element: <Home />,
+    element: <Onboarding />,
   },
   {
     path: "/signup",
@@ -47,10 +47,6 @@ const routes = (isLoggedIn) => [
   {
     path: "/signin/email",
     element: <EmailLogin />,
-  },
-  {
-    path: "/onboarding",
-    element: <Onboarding />,
   },
 ];
 

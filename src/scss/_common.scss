@@ -1,51 +1,69 @@
-
 // backgrounds
-.bg-white-transparent{
-    background-color: rgba(255, 255, 255, 0.5);
+.bg-white-transparent {
+  background-color: rgba(255, 255, 255, 0.5);
 }
 
-.bg-primary-100{
-    background-color: $green-100;
+.bg-primary-100 {
+  background-color: $green-100;
 }
 
-.bg-primary-200{
-    background-color: $green-200;
+.bg-primary-200 {
+  background-color: $green-200;
 }
 
-.bg-gredient-2{
-    background: $gredient-green-2;
+.bg-gredient-2 {
+  background: $gredient-green-2;
 }
-.bg-gredient-1{
-    background: $gredient-green-1;
+.bg-gredient-1 {
+  background: $gredient-green-1;
 }
-
 
 //borders
-.border-primary-100{
-    border-color: $green-100;
+.border-primary-100 {
+  border-color: $green-100;
 }
 
-.border-primary-200{
-    border-color: $green-200 !important;
+.border-primary-200 {
+  border-color: $green-200 !important;
 }
 
 //texts
-.gredient-text{
-    background: -webkit-linear-gradient(249.41deg, #4E8C74 11.53%, #1D6258 86.57%);
+.gredient-text {
+  background: -webkit-linear-gradient(
+    249.41deg,
+    #4e8c74 11.53%,
+    #1d6258 86.57%
+  );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
-.text-primary-800{
-    color: $green-800;
+.text-primary-800 {
+  color: $green-800;
 }
 
+.text-primary-900 {
+  color: $green-900;
+}
 
 // width
-.width-90p{
-    width: 90%;
+.width-90p {
+  width: 90%;
 }
 
 // border sizes
-.border-1{
-    border: 1px solid;
+.border-1 {
+  border: 1px solid;
+}
+
+.brand-chip {
+  padding: 4px 17px;
+  img {
+    height: 20px;
+  }
+}
+
+.disabled {
+  background-color: $disabled-btn-bg !important;
+  background: unset;
+  cursor: not-allowed;
 }

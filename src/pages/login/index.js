@@ -1,5 +1,4 @@
 import React from "react";
-import { GetstartImg2, GetStatedImg } from "../../assets/images";
 import {
   ChipCapxSvg,
   DiscordIcon,
@@ -8,7 +7,6 @@ import {
   GoogleIcon,
   TwitterIcon,
 } from "../../assets/svg";
-import LayoutSideImg from "../onboarding/components/LayoutSideImg";
 import { IoMdMail } from "react-icons/io";
 import { Link } from "react-router-dom";
 import {
@@ -20,27 +18,27 @@ import {
 const Login = () => {
   return (
     <>
-      <main className="login-page min-h-screen">
+      <main className="signup-page min-h-screen">
         <div className="flex md:flex-row flex-col-reverse min-h-screen">
-          <div className="flex-1 p-6 flex-col  flex justify-center md:items-center bg-white-transparent relative rounded-t-3xl md:rounded-none md:mt-0 -mt-6 ">
+          <div className="left-content-box-wrapper p-6 flex-col  flex justify-center md:items-center bg-white-transparent relative rounded-t-3xl md:rounded-none md:mt-0 -mt-6 ">
             <div className="left-content-box flex flex-col items-center justify-center ">
-              <div className="bg-primary-100  hidden md:block border-primary-200 border-1 px-4 py-1.5 rounded-full mb-6 md:self-center self-start">
-                <img src={ChipCapxSvg} alt="capx" />
+              <div className="brand-chip bg-primary-100  hidden md:block border-primary-200 border-1 rounded-full mb-7 md:self-center self-start">
+                <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
               <h2 className="m-heaidng hidden md:block font-black gredient-text leading-tight md:mb-5 mb-3">
                 Welcome back!
               </h2>
-              <button className="mb-3 self-stretch">
-                <div className=" flex justify-center items-center self-stretch bg-gredient-2 py-2.5 rounded-xl">
+              <Link to="email" className="mb-5 self-stretch">
+                <div className=" flex justify-center items-center self-stretch bg-gredient-2 py-3 rounded-xl">
                   <IoMdMail className="text-white fs-22" />
-                  <span className="text-white font-bold fs-15 ml-4">
+                  <span className="text-white font-medium fs-15 ml-4">
                     Login with Email
                   </span>
                 </div>
-              </button>
-              <div class="flex items-center self-stretch  mb-3">
+              </Link>
+              <div class="flex items-center self-stretch  mb-5">
                 <div className="bg-primary-200 devider flex-grow"></div>
-                <span className="fs-16 font-bold text-primary-800 mx-3">
+                <span className="fs-16 font-medium text-primary-800 mx-3">
                   or
                 </span>
                 <div className="bg-primary-200 devider flex-grow"></div>
@@ -49,11 +47,11 @@ const Login = () => {
                 onClick={() => {
                   handleFirebaseLogin(googleLoginProvider);
                 }}
-                className="mb-3 self-stretch"
+                className="mb-5 self-stretch"
               >
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={GoogleIcon} alt="google" />
-                  <span className="text-primary-800 font-bold fs-15 ml-4">
+                  <span className="text-primary-800 font-medium fs-15 ml-4">
                     Login with Google
                   </span>
                 </div>
@@ -62,31 +60,31 @@ const Login = () => {
                 onClick={() => {
                   handleFirebaseLogin(twitterLoginProvider);
                 }}
-                className="mb-3 self-stretch"
+                className="mb-5 self-stretch"
               >
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={TwitterIcon} alt="google" />
-                  <span className="text-primary-800 font-bold fs-15 ml-4">
+                  <span className="text-primary-800 font-medium fs-15 ml-4">
                     Login with Twitter
                   </span>
                 </div>
               </button>
-              <button className="mb-3  self-stretch">
+              <button className="mb-5  self-stretch">
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={DiscordIcon} alt="google" />
-                  <span className="text-primary-800 font-bold fs-15 ml-4">
+                  <span className="text-primary-800 font-medium fs-15 ml-4">
                     Login with Discord
                   </span>
                 </div>
               </button>
               <Link
                 to="/signup"
-                className="fs-15 font-black text-slate-500 underline mb-6"
+                className="fs-15 font-bold text-primary-900 underline mb-6"
               >
                 Not a member? Get Started
               </Link>
-              <div className="bg-primary-100 md:hidden block  border-primary-200 border-1 px-4 py-1.5 rounded-full mb-6 md:self-center self-center">
-                <img src={ChipCapxSvg} alt="capx" />
+              <div className="brand-chip bg-primary-100  block md:hidden border-primary-200 border-1 rounded-full mb-7">
+                <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
               <p className="text-gray-400 fs-15 font-bold hidden md:block absolute bottom-0 py-5">
                 © Capx 2022. All rights reserved
@@ -94,10 +92,14 @@ const Login = () => {
             </div>
           </div>
           <div className="flex-1 md:min-h-screen hidden md:block">
-            <LayoutSideImg image={GetStatedSvg} />
+            <div className="h-full w-full flex items-end justify-end">
+              <img className="width-90p" src={GetStatedSvg} alt="dummy" />
+            </div>
           </div>
           <div className="right-img-wrapper flex-1 md:min-h-screen block md:hidden pt-10">
-            <LayoutSideImg image={GetStatedSvg2} />
+            <div className="h-full w-full flex items-end justify-center px-6">
+              <img className="width-90p" src={GetStatedSvg2} alt="dummy" />
+            </div>
             <p className="gredient-text text-center fs-40 font-black tracking-tight -translate-y-10">
               Welcome back !
             </p>

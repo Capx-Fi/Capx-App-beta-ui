@@ -1,6 +1,7 @@
 import axios from "axios";
 import { initializeApp } from "firebase/app";
 import {
+  createUserWithEmailAndPassword,
   FacebookAuthProvider,
   getAuth,
   GoogleAuthProvider,
@@ -69,6 +70,11 @@ export const handleFirebaseLogin = async (method) => {
   } catch (err) {
     console.log(err.message);
   }
+};
+
+export const signupWithEmail = async (email, password) => {
+  const response = await createUserWithEmailAndPassword(auth, email, password);
+  console.log(response);
 };
 
 export const handleFirebaseSignout = () => {

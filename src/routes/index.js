@@ -7,6 +7,7 @@ import EmailLogin from "../pages/emailLogin/index.js";
 import EmailSignup from "../pages/emailSignup/index.js";
 import Home from "../pages/home";
 import InviteCode from "../pages/inviteCode/index.js";
+import Leaderboard from "../pages/leaderboard/index.js";
 import Login from "../pages/login";
 import Onboarding from "../pages/onboarding";
 import ResetPassword from "../pages/reserPassword/index.js";
@@ -65,8 +66,12 @@ const privateRoutes = [
     element: <Layout />,
     children: [
       {
-        path: "/messages",
+        index: true,
         element: <Home />,
+      },
+      {
+        path: "leaderboard",
+        element: <Leaderboard />,
       },
     ],
   },

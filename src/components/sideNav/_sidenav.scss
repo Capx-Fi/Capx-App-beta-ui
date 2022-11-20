@@ -5,4 +5,17 @@
   padding: 32px 0;
   .brand-logo {
   }
+
+  .tabs {
+    padding: 10px 0;
+    .icons {
+      height: 22px;
+      margin-bottom: 6px;
+    }
+    span {
+      font-size: 12px;
+      font-weight: 700;
+      color: $green-800;
+    }
+  }
 }

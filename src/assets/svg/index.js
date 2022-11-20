@@ -14,9 +14,16 @@ import InviteCodeSideSticker from "./inviteCodeSideSticker.svg";
 import CongratulationSvg from "./congratulationSvg.svg";
 import InvitecodeStickerMob from "./invitecodeStickerMob.svg";
 import BrandLogoSvg from "./BrandLogo.svg";
+import HomeIconSvg from "./homeIcon.svg";
+import WalletIconSvg from "./walletIcon.svg";
+import LeaderboardIconSvg from "./leaderboardIcon.svg";
+import ProfileIconSvg from "./profileIcon.svg";
 
 export {
   ChipCapxSvg,
+  WalletIconSvg,
+  LeaderboardIconSvg,
+  ProfileIconSvg,
   TwitterIcon,
   GoogleIcon,
   DiscordIcon,
@@ -32,4 +39,5 @@ export {
   CongratulationSvg,
   InvitecodeStickerMob,
   BrandLogoSvg,
+  HomeIconSvg,
 };

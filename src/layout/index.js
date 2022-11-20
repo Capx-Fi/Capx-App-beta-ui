@@ -5,11 +5,13 @@ import SideNav from "../components/sideNav/SideNav";
 
 const Layout = () => {
   return (
-    <div className="flex">
+    <div className="layout flex">
       <SideNav />
       <div className="flex-grow flex flex-col min-h-screen">
         <Header />
-        <main className="flex-grow ">{Outlet}</main>
+        <main className="main flex-grow ">
+          <Outlet />
+        </main>
       </div>
     </div>
   );

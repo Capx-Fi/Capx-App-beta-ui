@@ -7,7 +7,7 @@ const Home = () => {
   const dispatch = useDispatch();
 
   return (
-    <div className="h-screen flex justify-center items-center">
+    <div className="min-h-full flex justify-center items-center">
       <div className="flex">
         <button
           className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

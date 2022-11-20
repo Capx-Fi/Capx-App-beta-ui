@@ -13,6 +13,7 @@ import CreateunameStickermMob from "./createunameStickermMob.svg";
 import InviteCodeSideSticker from "./inviteCodeSideSticker.svg";
 import CongratulationSvg from "./congratulationSvg.svg";
 import InvitecodeStickerMob from "./invitecodeStickerMob.svg";
+import BrandLogoSvg from "./BrandLogo.svg";
 
 export {
   ChipCapxSvg,
@@ -30,4 +31,5 @@ export {
   InviteCodeSideSticker,
   CongratulationSvg,
   InvitecodeStickerMob,
+  BrandLogoSvg,
 };

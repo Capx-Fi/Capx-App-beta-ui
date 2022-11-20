@@ -1,5 +1,6 @@
 import React, { Suspense, lazy } from "react";
-import { Navigate, useNavigate, useRoutes } from "react-router-dom";
+import { Navigate, useRoutes } from "react-router-dom";
+import Layout from "../layout/index.js";
 import Congratulaions from "../pages/congratulations/index.js";
 import CreateUsername from "../pages/create-username/index.js";
 import EmailLogin from "../pages/emailLogin/index.js";
@@ -15,9 +16,9 @@ const Redirect = ({ to }) => {
   return <Navigate to={to} />;
 };
 
-const routes = (isLoggedIn) => [
+const publicRoutes = [
   {
-    path: "/",
+    path: "/onboarding",
     element: <Onboarding />,
   },
   {
@@ -54,9 +55,33 @@ const routes = (isLoggedIn) => [
   },
   {
     path: "*",
+    element: <Redirect to="/onboarding" />,
+  },
+];
+
+const privateRoutes = [
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "/messages",
+        element: <Home />,
+      },
+    ],
+  },
+  {
+    path: "*",
     element: <Redirect to="/" />,
   },
 ];
+
+const routes = (isLoggedIn) => {
+  if (true) {
+    return [...privateRoutes];
+  }
+  return [...publicRoutes];
+};
 
 export default function Routes({ isloggedIn }) {
   return useRoutes(routes(isloggedIn));

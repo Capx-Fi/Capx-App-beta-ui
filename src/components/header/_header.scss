@@ -3,6 +3,7 @@
   background-color: #f8fdf9;
   border-bottom: 1px solid;
   width: calc(100% - 90px);
+  z-index: 100;
   @media screen and (max-width: 767.98px) {
     min-height: 64px;
     width: 100%;

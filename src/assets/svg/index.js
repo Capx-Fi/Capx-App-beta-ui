@@ -24,8 +24,12 @@ import ActiveLeaderboardIconSvg from "./activeleaderboardIcon.svg";
 import LeaderboardIconSvg from "./leaderboardIcon.svg";
 import ActiveHomeIcon from "./ActiveHomeIcon.svg";
 import ActiveProfiletIcon from "./activeprofiletIcon.svg";
+import BannerSvg from "./bannerSvg.svg";
+import LeaderboardBadge from "./leaderboardBadge.svg";
 
 export {
+  LeaderboardBadge,
+  BannerSvg,
   ActiveProfiletIcon,
   ActiveHomeIcon,
   ActiveWalletIcon,

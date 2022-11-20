@@ -1,0 +1,21 @@
+.leaderboard {
+  .left-bar {
+    flex-basis: 54.4%;
+    @media screen and (max-width: 1023.98px) {
+      flex-grow: 1;
+    }
+    .badge {
+      p {
+        font-weight: 900;
+        font-size: 15px;
+        letter-spacing: -0.25px;
+        color: #153945;
+      }
+    }
+  }
+  .right-bar {
+    img {
+      width: 35%;
+    }
+  }
+}

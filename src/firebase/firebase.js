@@ -27,6 +27,7 @@ export const handleFirebaseLogin = async (method) => {
   try {
     const { user: userDetails } = await signInWithPopup(auth, method);
     const idtoken = await userDetails.getIdToken();
+    console.log(idtoken);
     const isUserExists = await axios.post(
       `${config.APIEndpoint}/documents:runQuery?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao`,
       {

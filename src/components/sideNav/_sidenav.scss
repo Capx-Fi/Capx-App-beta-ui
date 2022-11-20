@@ -12,10 +12,22 @@
       height: 22px;
       margin-bottom: 6px;
     }
+    .active-icon {
+      display: none !important;
+    }
     span {
       font-size: 12px;
       font-weight: 700;
       color: $green-800;
+    }
+  }
+
+  .active {
+    .icons {
+      display: none;
+    }
+    .active-icon {
+      display: block !important;
     }
   }
 }

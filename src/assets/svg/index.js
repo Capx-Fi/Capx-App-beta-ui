@@ -15,14 +15,26 @@ import CongratulationSvg from "./congratulationSvg.svg";
 import InvitecodeStickerMob from "./invitecodeStickerMob.svg";
 import BrandLogoSvg from "./BrandLogo.svg";
 import HomeIconSvg from "./homeIcon.svg";
-import WalletIconSvg from "./walletIcon.svg";
-import LeaderboardIconSvg from "./leaderboardIcon.svg";
 import ProfileIconSvg from "./profileIcon.svg";
+import CoinSvg from "./coinSvg.svg";
+import BellIcon from "./bellIcon.svg";
+import WalletIconSvg from "./walletIcon.svg";
+import ActiveWalletIcon from "./activewalletIcon.svg";
+import ActiveLeaderboardIconSvg from "./activeleaderboardIcon.svg";
+import LeaderboardIconSvg from "./leaderboardIcon.svg";
+import ActiveHomeIcon from "./ActiveHomeIcon.svg";
+import ActiveProfiletIcon from "./activeprofiletIcon.svg";
 
 export {
+  ActiveProfiletIcon,
+  ActiveHomeIcon,
+  ActiveWalletIcon,
+  LeaderboardIconSvg,
+  BellIcon,
+  CoinSvg,
   ChipCapxSvg,
   WalletIconSvg,
-  LeaderboardIconSvg,
+  ActiveLeaderboardIconSvg,
   ProfileIconSvg,
   TwitterIcon,
   GoogleIcon,

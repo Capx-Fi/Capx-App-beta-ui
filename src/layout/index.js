@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 import Header from "../components/header/Header";
+import MobileNav from "../components/mobileNav/MobileNav";
 import SideNav from "../components/sideNav/SideNav";
 
 const Layout = () => {
@@ -9,10 +10,13 @@ const Layout = () => {
       <SideNav />
       <div className="flex-grow flex flex-col min-h-screen">
         <Header />
-        <main className="main flex-grow ">
-          <Outlet />
+        <main className="main-wrapper flex-grow ">
+          <div className="main">
+            <Outlet />
+          </div>
         </main>
       </div>
+      <MobileNav />
     </div>
   );
 };

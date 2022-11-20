@@ -5,38 +5,26 @@ import {
   ActiveLeaderboardIconSvg,
   ActiveProfiletIcon,
   ActiveWalletIcon,
-  BrandLogoSvg,
   HomeIconSvg,
   LeaderboardIconSvg,
   ProfileIconSvg,
   WalletIconSvg,
 } from "../../assets/svg";
 
-const SideNav = () => {
+const MobileNav = () => {
   return (
-    <div className="sidenav flex flex-col items-center min-h-screen hidden md:flex border-primary-200">
-      <img className="brand-logo" src={BrandLogoSvg} alt="Capx" />
-      <NavLink
-        to="/"
-        className="tabs flex flex-col items-center justify-center mt-14 mb-4"
-      >
+    <div className="mobile-nav flex justify-evenly px-3 pb-3 md:hidden block fixed bottom-0">
+      <NavLink to="/" className="tabs">
         <img className="icons" src={HomeIconSvg} alt="home" />
         <img className="icons active-icon" src={ActiveHomeIcon} alt="home" />
-
         <span>Home</span>
       </NavLink>
-      <NavLink
-        to="/"
-        className="tabs flex flex-col items-center justify-center mb-4"
-      >
+      <NavLink to="/" className="tabs">
         <img className="icons" src={WalletIconSvg} alt="home" />
-        <img className="icons  active-icon" src={ActiveWalletIcon} alt="home" />
+        <img className="icons active-icon" src={ActiveWalletIcon} alt="home" />
         <span>Wallet</span>
       </NavLink>
-      <NavLink
-        to="/leaderboard"
-        className="tabs flex flex-col items-center justify-center mb-4"
-      >
+      <NavLink to="/leaderboard" className="tabs">
         <img className="icons" src={LeaderboardIconSvg} alt="home" />
         <img
           className="icons active-icon"
@@ -45,14 +33,11 @@ const SideNav = () => {
         />
         <span>Leaderboard</span>
       </NavLink>
-      <div className="flex-grow" />
-      <NavLink
-        to="/"
-        className="tabs flex flex-col items-center justify-center"
-      >
+
+      <NavLink to="/" className="tabs">
         <img className="icons" src={ProfileIconSvg} alt="home" />
         <img
-          className="icons  active-icon"
+          className="icons active-icon"
           src={ActiveProfiletIcon}
           alt="home"
         />
@@ -62,4 +47,4 @@ const SideNav = () => {
   );
 };
 
-export default SideNav;
+export default MobileNav;

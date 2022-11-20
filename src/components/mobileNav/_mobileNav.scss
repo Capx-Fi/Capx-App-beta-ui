@@ -1,0 +1,31 @@
+.mobile-nav {
+  background-color: #f8fdf9;
+  width: 100%;
+  height: 118px;
+  .tabs {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .icons {
+      height: 25px;
+      margin-bottom: 5px;
+    }
+    .active-icon {
+      display: none !important;
+    }
+    span {
+      font-size: 13px;
+      color: $green-800;
+      font-weight: 700;
+    }
+  }
+  .active {
+    .icons {
+      display: none;
+    }
+    .active-icon {
+      display: block !important;
+    }
+  }
+}

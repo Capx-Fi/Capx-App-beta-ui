@@ -1,13 +1,13 @@
 import React from "react";
-import {
-  FrontPandaImg,
-  OnboardImg,
-  OnboardMobBg,
-  RightPandaImg,
-} from "../../assets/images";
+
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import { FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import {
+  FrontPandaImg,
+  OnboardMobBg,
+  RightPandaImg,
+} from "../../assets/images";
 
 const Onboarding = () => {
   return (

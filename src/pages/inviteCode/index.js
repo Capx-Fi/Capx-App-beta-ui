@@ -10,13 +10,15 @@ import Stepper from "../../components/stepper/Stepper";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../firebase/firebase";
+import { setLoggeding } from "../../store/slices/userSlice";
 
 const InviteCode = () => {
   const navigate = useNavigate();
   const routeData = useLocation();
   const functions = getFunctions();
+  const dispatch = useDispatch();
   const name = useSelector((state) => state.user.name);
   console.log(name);
   const [inviteCode, setInviteCode] = useState("");
@@ -33,6 +35,7 @@ const InviteCode = () => {
         username: routeData.state.username,
       });
       console.log(response);
+      // dispatch(setLoggeding());
       navigate("/congratulation");
     } catch (err) {}
   };

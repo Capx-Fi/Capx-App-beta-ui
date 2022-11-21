@@ -38,10 +38,7 @@ const publicRoutes = [
     path: "/invite-code",
     element: <InviteCode />,
   },
-  {
-    path: "/congratulation",
-    element: <Congratulaions />,
-  },
+
   {
     path: "/signin",
     element: <Login />,
@@ -57,6 +54,10 @@ const publicRoutes = [
   {
     path: "*",
     element: <Redirect to="/onboarding" />,
+  },
+  {
+    path: "/congratulation",
+    element: <Congratulaions />,
   },
 ];
 
@@ -74,6 +75,10 @@ const privateRoutes = [
         element: <Leaderboard />,
       },
     ],
+  },
+  {
+    path: "/congratulation",
+    element: <Congratulaions />,
   },
   {
     path: "*",

@@ -8,16 +8,30 @@ import {
   TwitterIcon,
 } from "../../assets/svg";
 import { IoMdMail } from "react-icons/io";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   handleFirebaseLogin,
   googleLoginProvider,
   twitterLoginProvider,
   auth,
 } from "../../firebase/firebase";
+import { useDispatch } from "react-redux";
+import { setUser } from "../../store/slices/userSlice";
 
 const Signup = () => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   console.log(auth.currentUser, "this");
+
+  const handleLogin = async (method) => {
+    try {
+      const data = await handleFirebaseLogin(method);
+      dispatch(setUser(data));
+      navigate("/create-username");
+    } catch (err) {
+      console.log(err);
+    }
+  };
   return (
     <>
       <main className="signup-page min-h-screen">
@@ -47,7 +61,7 @@ const Signup = () => {
               </div>
               <button
                 onClick={() => {
-                  handleFirebaseLogin(googleLoginProvider);
+                  handleLogin(googleLoginProvider);
                 }}
                 className="mb-5 self-stretch"
               >
@@ -60,7 +74,7 @@ const Signup = () => {
               </button>
               <button
                 onClick={() => {
-                  handleFirebaseLogin(twitterLoginProvider);
+                  handleLogin(twitterLoginProvider);
                 }}
                 className="mb-5 self-stretch"
               >

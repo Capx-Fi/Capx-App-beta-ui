@@ -11,14 +11,32 @@ import Stepper from "../../components/stepper/Stepper";
 import { useNavigate } from "react-router-dom";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import { useState } from "react";
+import { auth } from "../../firebase/firebase";
 
 const CreateUsername = () => {
   const functions = getFunctions();
   const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
-  const handleFormSubmit = (value, { resetForm }) => {
-    resetForm();
-    navigate("/invite-code");
+  const handleFormSubmit = async (values, { resetForm }) => {
+    const checkIfUsernameAvailable = httpsCallable(
+      functions,
+      "checkIfUsernameAvailable"
+    );
+    const response = await checkIfUsernameAvailable({
+      username: formik.values.username,
+    });
+    if (!response.data) {
+      formik.setFieldError("username", "User already exist");
+    } else {
+      const createUser = httpsCallable(functions, "createUser");
+      const response = await createUser({
+        name: "parvez",
+        username: formik.values.username,
+      });
+      console.log(auth.currentUser);
+      console.log(response);
+
+      navigate("/invite-code");
+    }
   };
 
   const formik = useFormik({
@@ -33,14 +51,7 @@ const CreateUsername = () => {
     onSubmit: handleFormSubmit,
   });
 
-  const checkUserExistance = async () => {
-    setLoading(true);
-    const addMessage = httpsCallable(functions, "checkIfUsernameAvailable");
-    const response = await addMessage({ username: formik.values.username });
-    if (!response.data) formik.setFieldError("username", "User already exist");
-    setLoading(false);
-  };
-  console.log(formik.errors);
+  console.log(auth.currentUser);
 
   return (
     <>
@@ -69,18 +80,15 @@ const CreateUsername = () => {
                     value={formik.values.username}
                     name="username"
                     onChange={formik.handleChange}
-                    onBlur={checkUserExistance}
                   />
                 </div>
 
                 <button
                   type="submit"
                   className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 md:mb-4 mb-8 ${
-                    formik.errors.username || loading
-                      ? "disabled"
-                      : "bg-gredient-2"
+                    formik.errors.username ? "disabled" : "bg-gredient-2"
                   }`}
-                  disabled={!!formik.errors.username && loading}
+                  disabled={!!formik.errors.username}
                 >
                   Continue
                 </button>

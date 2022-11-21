@@ -31,7 +31,10 @@ export const handleFirebaseLogin = async (method) => {
     const { user: userDetails } = await signInWithPopup(auth, method);
     const idtoken = await userDetails.getIdToken();
     console.log(idtoken);
-    console.log(userDetails);
+
+    const name = userDetails.displayName;
+    const email = userDetails.email;
+    return { name, email };
   } catch (err) {
     console.log(err);
   }

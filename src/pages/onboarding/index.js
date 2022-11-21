@@ -56,7 +56,7 @@ const Onboarding = () => {
                 <div className="md:flex hidden items-center bg-primary-100 border-primary-200 border-1 px-3 py-4 rounded-xl">
                   <img src={RightPandaImg} alt="Panda" />
                   <div className="flex flex-col items-start ml-4 ">
-                    <span className="fs-15 font-medium">I’m new here</span>
+                    <span className="fs-15 font-medium">I'm new here</span>
                     <span className="fs-15 font-medium text-slate-500">
                       I need to create an account and explore
                     </span>

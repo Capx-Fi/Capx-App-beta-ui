@@ -8,25 +8,39 @@ import {
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
-import { signupWithEmail } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
+import { getFunctions, httpsCallable } from "firebase/functions";
+import { useState } from "react";
 
 const CreateUsername = () => {
+  const functions = getFunctions();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(false);
   const handleFormSubmit = (value, { resetForm }) => {
     resetForm();
     navigate("/invite-code");
   };
 
   const formik = useFormik({
-    initialValues: { username: "" },
+    initialValues: { username: "@" },
     validationSchema: Yup.object().shape({
       username: Yup.string()
         .required("Password is required")
         .min(6, "6 letters required"),
     }),
+    validateOnChange: false,
+    validateOnBlur: true,
     onSubmit: handleFormSubmit,
   });
+
+  const checkUserExistance = async () => {
+    setLoading(true);
+    const addMessage = httpsCallable(functions, "checkIfUsernameAvailable");
+    const response = await addMessage({ username: formik.values.username });
+    if (!response.data) formik.setFieldError("username", "User already exist");
+    setLoading(false);
+  };
+  console.log(formik.errors);
 
   return (
     <>
@@ -55,15 +69,18 @@ const CreateUsername = () => {
                     value={formik.values.username}
                     name="username"
                     onChange={formik.handleChange}
+                    onBlur={checkUserExistance}
                   />
                 </div>
 
                 <button
                   type="submit"
                   className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 md:mb-4 mb-8 ${
-                    formik.errors.username ? "disabled" : "bg-gredient-2"
+                    formik.errors.username || loading
+                      ? "disabled"
+                      : "bg-gredient-2"
                   }`}
-                  disabled={!!formik.errors.username}
+                  disabled={!!formik.errors.username && loading}
                 >
                   Continue
                 </button>

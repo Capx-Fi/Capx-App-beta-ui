@@ -10,7 +10,7 @@ import {
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
-import { signupWithEmail } from "../../firebase/firebase";
+import { auth, signupWithEmail } from "../../firebase/firebase";
 
 const EmailSignup = () => {
   const navigate = useNavigate();

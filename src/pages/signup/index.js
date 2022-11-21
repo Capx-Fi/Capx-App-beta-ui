@@ -13,9 +13,11 @@ import {
   handleFirebaseLogin,
   googleLoginProvider,
   twitterLoginProvider,
+  auth,
 } from "../../firebase/firebase";
 
 const Signup = () => {
+  console.log(auth.currentUser, "this");
   return (
     <>
       <main className="signup-page min-h-screen">

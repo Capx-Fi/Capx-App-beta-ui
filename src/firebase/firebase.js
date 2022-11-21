@@ -1,5 +1,7 @@
 import axios from "axios";
 import { initializeApp } from "firebase/app";
+import { getFunctions, httpsCallable } from "firebase/functions";
+import "firebase/functions";
 import {
   createUserWithEmailAndPassword,
   FacebookAuthProvider,
@@ -30,46 +32,6 @@ export const handleFirebaseLogin = async (method) => {
     const idtoken = await userDetails.getIdToken();
     console.log(idtoken);
     console.log(userDetails);
-    const isUserExists = await axios.post(
-      `${config.APIEndpoint}/documents:runQuery?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao`,
-      {
-        structuredQuery: {
-          from: [{ collectionId: "users" }],
-          where: {
-            fieldFilter: {
-              field: { fieldPath: "email" },
-              op: "EQUAL",
-              value: { stringValue: userDetails.email },
-            },
-          },
-        },
-      },
-      {
-        headers: {
-          Authorization: "Bearer " + idtoken,
-        },
-      }
-    );
-
-    if (!isUserExists.data[0].document) {
-      const writeResponse = await axios.post(
-        `${config.APIEndpoint}/documents/users?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao&documentId=${userDetails.uid}`,
-        {
-          fields: {
-            name: { stringValue: userDetails.displayName },
-            email: { stringValue: userDetails.email },
-          },
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + idtoken, //the token is a variable which holds the token
-          },
-        }
-      );
-      console.log("wrote user data");
-    } else {
-      console.log("user already exist");
-    }
   } catch (err) {
     console.log(err);
   }
@@ -92,8 +54,6 @@ export const handleFirebaseSignout = () => {
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const googleLoginProvider = new GoogleAuthProvider(auth).addScope(
-  "email"
-);
+export const googleLoginProvider = new GoogleAuthProvider(auth);
 export const twitterLoginProvider = new TwitterAuthProvider(auth);
 export const facebookLoginProvider = new FacebookAuthProvider(auth);

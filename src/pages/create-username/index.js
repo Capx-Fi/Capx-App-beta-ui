@@ -16,26 +16,21 @@ import { auth } from "../../firebase/firebase";
 const CreateUsername = () => {
   const functions = getFunctions();
   const navigate = useNavigate();
-  const handleFormSubmit = async (values, { resetForm }) => {
-    const checkIfUsernameAvailable = httpsCallable(
-      functions,
-      "checkIfUsernameAvailable"
-    );
-    const response = await checkIfUsernameAvailable({
-      username: formik.values.username,
-    });
-    if (!response.data) {
-      formik.setFieldError("username", "User already exist");
-    } else {
-      const createUser = httpsCallable(functions, "createUser");
-      const response = await createUser({
-        name: "parvez",
-        username: formik.values.username,
-      });
-      console.log(auth.currentUser);
-      console.log(response);
 
-      navigate("/invite-code");
+  const handleFormSubmit = async (values, { resetForm }) => {
+    try {
+      const checkIfUsernameAvailable = httpsCallable(
+        functions,
+        "checkIfUsernameAvailable"
+      );
+      const response = await checkIfUsernameAvailable({
+        username: values.username,
+      });
+      if (response.data) {
+        navigate("/invite-code", { state: { username: values.username } });
+      }
+    } catch (err) {
+      console.log(err);
     }
   };
 

@@ -21,7 +21,6 @@ import { setUser } from "../../store/slices/userSlice";
 const Signup = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(auth.currentUser, "this");
 
   const handleLogin = async (method) => {
     try {
@@ -32,6 +31,7 @@ const Signup = () => {
       console.log(err);
     }
   };
+
   return (
     <>
       <main className="signup-page min-h-screen">

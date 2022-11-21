@@ -6,23 +6,37 @@ import {
   InvitecodeStickerMob,
 } from "../../assets/svg";
 import OtpInput from "react-otp-input";
-import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
-import { signupWithEmail } from "../../firebase/firebase";
 import { useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { getFunctions, httpsCallable } from "firebase/functions";
+import { useSelector } from "react-redux";
+import { auth } from "../../firebase/firebase";
 
 const InviteCode = () => {
   const navigate = useNavigate();
+  const routeData = useLocation();
+  const functions = getFunctions();
+  const name = useSelector((state) => state.user.name);
+  console.log(name);
   const [inviteCode, setInviteCode] = useState("");
 
   const handleCodeChange = (code) => {
     setInviteCode(code);
   };
-  const handleFormSubmit = () => {
-    navigate("/congratulation");
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const createUser = httpsCallable(functions, "createUser");
+      const response = await createUser({
+        name: name,
+        username: routeData.state.username,
+      });
+      console.log(response);
+      navigate("/congratulation");
+    } catch (err) {}
   };
-  console.log(inviteCode.length);
+  console.log(auth.currentUser);
   return (
     <>
       <main className="invite-code-page min-h-screen">

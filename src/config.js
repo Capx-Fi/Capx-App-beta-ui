@@ -7,6 +7,7 @@ const config = {
   StorageBucket: process.env.REACT_APP_FIREBASE_API_ENDPOINT,
   MessagingSenderId: process.env.REACT_APP_FIREBASE_API_MESSAGINGSENDERID,
   AppId: process.env.REACT_APP_FIREBASE_API_APPID,
+  MeasurementId: process.env.REACT_APP_FIREBASE_API_MEASUREMENTID,
 };
 
 export default config;

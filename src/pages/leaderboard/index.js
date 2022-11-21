@@ -19,7 +19,7 @@ const Leaderboard = () => {
         </div>
       </div>
       <div className="right-bar  justify-end items-end hidden lg:flex flex-grow ">
-        <img className="fixed bottom-0 right-0" src={OnboardSvg} alt="img" />
+        <img className="fixed" src={OnboardSvg} alt="img" />
       </div>
     </div>
   );

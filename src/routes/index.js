@@ -82,7 +82,7 @@ const privateRoutes = [
 ];
 
 const routes = (isLoggedIn) => {
-  if (true) {
+  if (false) {
     return [...privateRoutes];
   }
   return [...publicRoutes];

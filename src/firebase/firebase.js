@@ -19,6 +19,7 @@ const firebaseConfig = {
   projectId: config.ProjectId,
   messagingSenderId: config.MessagingSenderId,
   appId: config.AppId,
+  measurementId: config.MeasurementId,
 };
 
 const app = initializeApp(firebaseConfig);
@@ -28,6 +29,7 @@ export const handleFirebaseLogin = async (method) => {
     const { user: userDetails } = await signInWithPopup(auth, method);
     const idtoken = await userDetails.getIdToken();
     console.log(idtoken);
+    console.log(userDetails);
     const isUserExists = await axios.post(
       `${config.APIEndpoint}/documents:runQuery?key=AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao`,
       {
@@ -69,7 +71,7 @@ export const handleFirebaseLogin = async (method) => {
       console.log("user already exist");
     }
   } catch (err) {
-    console.log(err.message);
+    console.log(err);
   }
 };
 
@@ -90,6 +92,8 @@ export const handleFirebaseSignout = () => {
 
 export const auth = getAuth(app);
 export const db = getFirestore(app);
-export const googleLoginProvider = new GoogleAuthProvider(auth);
+export const googleLoginProvider = new GoogleAuthProvider(auth).addScope(
+  "email"
+);
 export const twitterLoginProvider = new TwitterAuthProvider(auth);
 export const facebookLoginProvider = new FacebookAuthProvider(auth);

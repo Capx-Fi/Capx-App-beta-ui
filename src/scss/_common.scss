@@ -1,0 +1,48 @@
+
+.bg-white-transparent {
+    background-color: #ffffff50;
+  }
+
+.bg-white-transparent-2 {
+    background-color: #ffffff30;
+  }
+  
+  //borders
+  .border-primary-100 {
+    border-color: $cgreen-border;
+  }
+  
+  //texts
+  .gradient-text {
+    background: -webkit-linear-gradient(
+      249.41deg,
+      #4e8c74 11.53%,
+      #1d6258 86.57%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  
+  .text-primary-800 {
+    color: $cgreen-700;
+  }
+  
+  .text-primary-900 {
+    color: $cgreen-700;
+  }
+  
+  .width-90p {
+    width: 92.5%;
+  }
+  
+  .border-1 {
+    border: 1px solid;
+  }
+
+  
+  .disabled {
+    background-color: $disabled-btn-bg !important;
+    background: unset;
+    cursor: not-allowed;
+  }
+  

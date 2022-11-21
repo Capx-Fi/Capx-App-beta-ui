@@ -1,0 +1,9 @@
+body {
+    background: $gradient-cgreen-1;
+    min-height: 100vh;
+    font-family: Satoshi;
+    @media screen and (max-width: 767.98px) {
+      background: $gradient-cgreen-ph;
+    }
+  }
+  

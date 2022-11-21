@@ -1,0 +1,77 @@
+
+.myProfile{
+    .pfp{
+    .pfp-inner{
+        .pfp-inner1{
+            color: $cgreen-700;
+            .pfp-background{
+                background: $gradient-cgreen-2;
+                img{
+                    border-image: linear-gradient(180deg, #94bf7e 0%, #479b77 100%);
+                }
+            }
+            .level-badge{
+                display: flex;
+                margin-top: -12px;
+                background: linear-gradient(360deg, rgba(255, 226, 89, 0.5) -2.63%, rgba(237, 231, 218, 0.5) 100%), #DAEDDB;
+                padding: 0.5rem 1.25rem 4px 1.25rem;
+                color: #451515;
+                img{
+                    filter: drop-shadow(0px 4px 4px rgba(162, 125, 91, 0.36));
+                }
+            }
+            .pfp-username{
+                background: #1F7A5514;
+            }
+            .pfp-progress{
+                width: 80%;
+                .pfp-progressbar{
+                    border-radius: 100px;
+                    overflow: hidden;
+                    background-color: #1F7A5526;
+                    .pfp-progressbar-inner{
+                        border-radius: 100px;
+                        width:70%;
+                        background: linear-gradient(90deg, #746FEC -21.71%, #B0ADF8 96.61%);
+                    }
+                }
+                .pfp-chip{
+                    background-color: #1F7A5526;
+                    border-color: $cgreen-border;
+                }
+            }
+        }
+        .pfp-inner2{
+            .fullname{
+                background-color: #1F7A5515;
+                border-color: $cgreen-border;
+            }
+            button{
+                background-color: #1F7A5515;
+                border-color: $cgreen-border;
+                transition: all 300ms;
+            }
+            button:hover{
+                transform: scale(1.05)!important;
+                filter: drop-shadow(0px 6px 10px rgba(55, 125, 87, 0.5));
+            }
+            .submit-btn{
+                background: $gradient-cgreen-2;
+                transition: all 250ms;
+                cursor: pointer;
+            }
+
+            .submit-btn:hover{
+                transform: scale(1.05);
+            }
+        }
+
+        .pfp-inner3{
+            margin-top: -3rem;
+            background: url("../../assets/images/profile/profile_splash.png") no-repeat;
+            background-size: 80%;
+            background-position: 50%;
+        }
+    }
+}
+}

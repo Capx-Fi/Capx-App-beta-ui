@@ -14,7 +14,7 @@ import {
 import { getFirestore } from "firebase/firestore";
 import config from "../config";
 
-const firebaseConfig = {
+export const firebaseConfig = {
   apiKey: config.APIKey,
   authDomain: config.AuthDomain,
   storageBucket: config.storageBucket,

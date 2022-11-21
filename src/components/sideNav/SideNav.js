@@ -47,7 +47,7 @@ const SideNav = () => {
       </NavLink>
       <div className="flex-grow" />
       <NavLink
-        to="/"
+        to="/profile"
         className="tabs flex flex-col items-center justify-center"
       >
         <img className="icons" src={ProfileIconSvg} alt="home" />

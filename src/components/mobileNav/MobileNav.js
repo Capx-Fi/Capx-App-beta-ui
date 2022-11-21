@@ -34,7 +34,7 @@ const MobileNav = () => {
         <span>Leaderboard</span>
       </NavLink>
 
-      <NavLink to="/" className="tabs">
+      <NavLink to="/profile" className="tabs">
         <img className="icons" src={ProfileIconSvg} alt="home" />
         <img
           className="icons active-icon"

@@ -10,12 +10,14 @@ import {
 import { IoMdMail } from "react-icons/io";
 import { Link, useNavigate } from "react-router-dom";
 import {
+  db,
   handleFirebaseLogin,
   googleLoginProvider,
   twitterLoginProvider,
 } from "../../firebase/firebase";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/slices/userSlice";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -25,7 +27,18 @@ const Login = () => {
     try {
       const data = await handleFirebaseLogin(method);
       dispatch(setUser(data));
-      navigate("/create-username");
+      console.log("User Email", data.email);
+      // Check if user exists.
+
+      const userRef = collection(db, "users");
+      const q = query(userRef, where("email", "==", data.email));
+      const querySnapshot = await getDocs(q);
+      const userDatails = querySnapshot.docs[0].data();
+
+      console.log(querySnapshot.docs[0].data());
+      console.log(userDatails);
+
+      navigate("/profile", { state: userDatails });
     } catch (err) {
       console.log(err);
     }

@@ -85,17 +85,18 @@ const privateRoutes = [
     path: "/congratulation",
     element: <Congratulaions />,
   },
-  {
-    path: "*",
-    element: <Redirect to="/" />,
-  },
+  // {
+  //   path: "*",
+  //   element: <Redirect to="/" />,
+  // },
 ];
 
 const routes = (isLoggedIn) => {
-  if (false) {
-    return [...privateRoutes];
-  }
-  return [...publicRoutes];
+  // if (true) {
+  //   return [...privateRoutes];
+  // }
+
+  return [...publicRoutes, ...privateRoutes];
 };
 
 export default function Routes({ isloggedIn }) {

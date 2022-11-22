@@ -8,12 +8,12 @@ import {Pfp,Badge,Check,CommProf,TwitterIcon,DiscordIcon,IGIcon,ConnectSo,FullNa
 
 const  myProfile = () => {
   return (
-  <div className="myProfile flex flex-row h-full ">
+  <div className="myProfile flex flex-row h-screen ">
     <LeftNavigation />
     <div className="pfp flex flex-col w-screen">
     <TopNavigation pagename="My Profile"/>
   
-        <div className="pfp-inner flex flex-col md:flex-row items-center md:items-start pt-16 h-full">
+        <div className="pfp-inner flex flex-col md:flex-row items-center md:items-start pt-16 pb-40 h-full">
             <div className="pfp-inner1 flex flex-col basis-1/3 items-center">    
 
 {/* Wrapper for Profile Image -----------------------------------------------------------------------------*/}  
@@ -63,7 +63,7 @@ const  myProfile = () => {
 
           
         <div className="pfp-inner2 flex flex-col basis-1/3 items-center gap-10 pt-8">
-            <div className="w-3/4 flex justify-start">
+            <div className="w-3/4 flex justify-center md:justify-start">
             <Link className="fs-14 underline font-black text-cgreen-700 opacity-60">Edit Profile</Link>
             </div>
 
@@ -84,7 +84,7 @@ const  myProfile = () => {
 
 {/* Wrapper for Social Link Chips ------------------------------------------------------------------------*/}  
 
-              <div className="social-title flex flex-col w-full items-start gap-5">
+              <div className="social-title flex flex-col w-full items-start md:items-center gap-5">
                     <div className="pfp-progress-title flex flex-row gap-3 w-full md:w-3/4 items-center">
                         <img src={ConnectSo} alt="" className="w-8"/>
                         <p className="font-black fs-18 text-cgreen-700 opacity-80">Social</p>

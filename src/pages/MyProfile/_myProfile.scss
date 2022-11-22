@@ -51,11 +51,16 @@
         }
 
         .pfp-inner3{
-            margin-top: -3rem;
+            margin-top: 3rem;
             background: url("../../assets/images/profile/profile_splash.png") no-repeat;
-            background-size: 80%;
+            background-size: 10%;
             background-position: 50%;
         }
     }
 }
+}
+
+@media screen and (max-width:760px){
+    .pfp-inner1{width:100%!important;}
+    .pfp-inner2{width: 80%!important;}
 }

@@ -1,6 +1,6 @@
 import { async } from "@firebase/util";
 import { collection, getDocs, query, where } from "firebase/firestore";
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
 import {
@@ -14,11 +14,32 @@ import {
   ConnectSo,
   FullName,
 } from "../../assets/images/profile";
-import { db } from "../../firebase/firebase";
+import { db, useAuth } from "../../firebase/firebase";
 
 function Profile() {
-  const { state } = useLocation();
-  console.log(state);
+  const currentUser = useAuth();
+  const [useData, setUserData] = useState();
+  const userData = useSelector((state) => state.user);
+  console.log(userData);
+  const getUserDetails = useCallback(async () => {
+    try {
+      if (currentUser) {
+        const userRef = collection(db, "users");
+        const q = query(userRef, where("email", "==", currentUser.email));
+        const querySnapshot = await getDocs(q);
+        const userDatails = querySnapshot.docs[0].data();
+        setUserData(userDatails);
+        console.log(userDatails);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }, [currentUser]);
+
+  useEffect(() => {
+    getUserDetails();
+  }, [getUserDetails]);
+
   return (
     <div className="myProfile flex flex-row h-full ">
       <div className="pfp flex flex-col w-full">
@@ -27,7 +48,7 @@ function Profile() {
             {/* Wrapper for Profile Image -----------------------------------------------------------------------------*/}
             <div className="pfp-bg flex flex-col items-center">
               <img
-                src={state.image_url}
+                src={useData?.image_url}
                 alt=""
                 className="pfp-background rounded-full w-4/5 p-1"
               />
@@ -43,7 +64,7 @@ function Profile() {
             {/* Wrapper for Username Chip ----------------------------------------------------------------------------*/}
             <div className="pfp-username py-3 px-6 rounded-xl my-5">
               {/* Target the below paragraph for changing Username */}
-              <p className="fs-18 font-black">{state.username}</p>
+              <p className="fs-18 font-black">{useData?.username}</p>
             </div>
 
             {/* Wrapper for Level Progressbar -----------------------------------------------------------------------*/}
@@ -98,7 +119,7 @@ function Profile() {
               <div className="fullname flex flex-row w-full md:w-3/4 py-3 px-4 justify-between items-center rounded-2xl">
                 {/* Target the below class for linking Fullname */}
                 <p className="fs-16 font-bold text-cgreen-700 opacity-75">
-                  {state.name}
+                  {useData?.name}
                 </p>
                 <img
                   src={Check}
@@ -128,8 +149,8 @@ function Profile() {
                     />
                     {/* Target the below class for changing Twitter Handle */}
                     <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
-                      {state.socials.twitter_id !== ""
-                        ? state.socials.twitter_id
+                      {useData?.socials.twitter_id !== ""
+                        ? useData?.socials.twitter_id
                         : "Connect your Twitter"}
                     </p>
                   </div>

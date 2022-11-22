@@ -14,19 +14,28 @@ import {
   googleLoginProvider,
   twitterLoginProvider,
   auth,
+  db,
+  handleFirebaseSignout,
 } from "../../firebase/firebase";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/slices/userSlice";
+import { collection, getDocs, query, where } from "firebase/firestore";
 
 const Signup = () => {
-  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleLogin = async (method) => {
     try {
       const data = await handleFirebaseLogin(method);
-      dispatch(setUser(data));
-      navigate("/create-username");
+      const userRef = collection(db, "users");
+      const q = query(userRef, where("email", "==", data.email));
+      const querySnapshot = await getDocs(q);
+      if (querySnapshot.docs.length === 0) {
+        navigate("/create-username");
+      } else {
+        navigate("/profile");
+        throw Error("user already exists");
+      }
     } catch (err) {
       console.log(err);
     }

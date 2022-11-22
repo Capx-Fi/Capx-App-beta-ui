@@ -10,9 +10,19 @@ import {
   signInWithPopup,
   signOut,
   TwitterAuthProvider,
+  onAuthStateChanged,
 } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
 import config from "../config";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { setUser } from "../store/slices/userSlice";
 
 export const firebaseConfig = {
   apiKey: config.APIKey,
@@ -31,7 +41,7 @@ export const handleFirebaseLogin = async (method) => {
     const { user: userDetails } = await signInWithPopup(auth, method);
     const idtoken = await userDetails.getIdToken();
     console.log(idtoken);
-
+    console.log(userDetails);
     const name = userDetails.displayName;
     const email = userDetails.email;
     return { name, email };
@@ -60,3 +70,29 @@ export const db = getFirestore(app);
 export const googleLoginProvider = new GoogleAuthProvider(auth);
 export const twitterLoginProvider = new TwitterAuthProvider(auth);
 export const facebookLoginProvider = new FacebookAuthProvider(auth);
+
+export function useAuth() {
+  const [currentUser, setCurrentUser] = useState();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const unsub = onAuthStateChanged(auth, async (user) => {
+      try {
+        const userRef = collection(db, "users");
+        const q = query(userRef, where("email", "==", user.email));
+        const querySnapshot = await getDocs(q);
+        console.log(querySnapshot);
+        if (querySnapshot.docs.length === 0) {
+          setCurrentUser(null);
+        } else {
+          setCurrentUser(querySnapshot.docs[0].data());
+          dispatch(setUser(querySnapshot.docs[0].data()));
+        }
+      } catch (error) {
+        console.log(error);
+        setCurrentUser(null);
+      }
+    });
+    return unsub;
+  }, []);
+  return currentUser;
+}

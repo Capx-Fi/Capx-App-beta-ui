@@ -3,7 +3,10 @@ import { useFormik } from "formik";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
-import { signupWithEmail } from "../../firebase/firebase";
+import {
+  handleFirebaseSignout,
+  signupWithEmail,
+} from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
 import {
   CongratulationSvg,
@@ -13,21 +16,6 @@ import {
 
 const Congratulaions = () => {
   const navigate = useNavigate();
-  const handleFormSubmit = (values, { resetForm }) => {
-    resetForm();
-    navigate("/invite-code");
-  };
-
-  const formik = useFormik({
-    initialValues: { username: "" },
-    validationSchema: Yup.object().shape({
-      username: Yup.string()
-        .required("Password is required")
-        .min(6, "6 letters required"),
-    }),
-    onSubmit: handleFormSubmit,
-  });
-  console.log(formik.values);
 
   return (
     <>
@@ -54,6 +42,10 @@ const Congratulaions = () => {
               <button
                 type="submit"
                 className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 bg-gredient-2`}
+                onClick={() => {
+                  handleFirebaseSignout();
+                  navigate("/signin");
+                }}
               >
                 Start
               </button>
@@ -61,13 +53,6 @@ const Congratulaions = () => {
               <p className="text-gray-400 fs-15 font-bold hidden md:block absolute bottom-0 py-5">
                 © Capx 2022. All rights reserved
               </p>
-              {!!formik.values.username && !formik.errors.username && (
-                <img
-                  src={CreateunameStickermMob}
-                  alt="sticker"
-                  className="block md:hidden absolute bottom-0 mb-3"
-                />
-              )}
             </div>
           </div>
           <div className="flex-1 md:min-h-screen py-8 hidden md:block">

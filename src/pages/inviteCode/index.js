@@ -35,7 +35,7 @@ const InviteCode = () => {
         username: routeData.state.username,
       });
       console.log(response);
-      // dispatch(setLoggeding());
+
       navigate("/congratulation");
     } catch (err) {}
   };

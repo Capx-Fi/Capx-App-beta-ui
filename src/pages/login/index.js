@@ -12,6 +12,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   db,
   handleFirebaseLogin,
+  handleFirebaseSignout,
   googleLoginProvider,
   twitterLoginProvider,
 } from "../../firebase/firebase";
@@ -26,6 +27,7 @@ const Login = () => {
   const handleLogin = async (method) => {
     try {
       const data = await handleFirebaseLogin(method);
+      console.log(data);
       dispatch(setUser(data));
       console.log("User Email", data.email);
       // Check if user exists.
@@ -33,12 +35,11 @@ const Login = () => {
       const userRef = collection(db, "users");
       const q = query(userRef, where("email", "==", data.email));
       const querySnapshot = await getDocs(q);
-      const userDatails = querySnapshot.docs[0].data();
-
-      console.log(querySnapshot.docs[0].data());
-      console.log(userDatails);
-
-      navigate("/profile", { state: userDatails });
+      if (querySnapshot.docs.length === 0) {
+        throw Error("user not exists");
+      } else {
+        navigate("/profile");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -96,7 +97,10 @@ const Login = () => {
                   </span>
                 </div>
               </button>
-              <button className="mb-5  self-stretch">
+              <button
+                className="mb-5  self-stretch"
+                onClick={handleFirebaseSignout}
+              >
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={DiscordIcon} alt="google" />
                   <span className="text-primary-800 font-medium fs-15 ml-4">

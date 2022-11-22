@@ -7,7 +7,6 @@
 @import "./fontSizes";
 @import "./common";
 
-
 @font-face {
   font-family: "Satoshi";
   src: url("../assets/fonts/Satoshi-Light.eot");
@@ -78,8 +77,6 @@
   font-display: swap;
 }
 
-
-
 // layout
 @import "../layout/layout";
 
@@ -94,6 +91,7 @@
 @import "../pages/inviteCode/inviteCode";
 @import "../pages/congratulations/congratulations";
 @import "../pages/leaderboard/leaderboard";
+@import "../pages/MyWallet/MyWallet";
 
 // components
 @import "../components/Input/input";
@@ -103,6 +101,9 @@
 @import "../components/mobileNav/mobileNav";
 @import "../components/banner/banner";
 @import "../pages/leaderboard/components/scss/table";
+@import "../pages/MyWallet/components/MyWalletData/MyWalletData";
+@import "../pages/MyWallet/components/WalletBanner/WalletBanner";
+@import "../pages/MyProfileEdit/myProfileEdit";
 
-
+@import "../pages/profile/profile";
 @import "../pages/profile/profile";

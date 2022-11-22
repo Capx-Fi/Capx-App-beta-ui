@@ -1,13 +1,11 @@
 import React from "react";
 import { BannerSvg } from "../../assets/svg";
 
-const Banner = () => {
+const Banner = ({ heading }) => {
   return (
     <div className="banner bg-gredient-2">
       <img src={BannerSvg} alt="banner" />
-      <h2 className="banner-heading text-white">
-        You’re on leaderboard <span className="inline-block">rank #8!</span>
-      </h2>
+      <h2 className="banner-heading text-white">{heading}</h2>
     </div>
   );
 };

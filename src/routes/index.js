@@ -13,6 +13,8 @@ import Onboarding from "../pages/onboarding";
 import ResetPassword from "../pages/reserPassword/index.js";
 import Signup from "../pages/signup";
 import Profile from "../pages/profile/index.js";
+import MyWallet from "../pages/MyWallet/index.js";
+import MyProfileEdit from "../pages/MyProfileEdit/index.js";
 
 const Redirect = ({ to }) => {
   return <Navigate to={to} />;
@@ -76,8 +78,16 @@ const privateRoutes = [
         element: <Leaderboard />,
       },
       {
+        path: "my-wallet",
+        element: <MyWallet />,
+      },
+      {
         path: "profile",
         element: <Profile />,
+      },
+      {
+        path: "edit-profile",
+        element: <MyProfileEdit />,
       },
     ],
   },

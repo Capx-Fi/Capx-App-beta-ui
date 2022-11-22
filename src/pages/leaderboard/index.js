@@ -8,7 +8,7 @@ const Leaderboard = () => {
     <div className="leaderboard md:px-10 p-6 md:py-11 flex">
       <div className="left-bar bg-stale-500">
         <div className="mb-6">
-          <Banner />
+          <Banner heading="You’re on leaderboard rank #8!" />
         </div>
         <div className="badge flex items-center mb-4">
           <img src={LeaderboardBadge} alt="Badge" />

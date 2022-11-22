@@ -5,7 +5,6 @@ import {
   InviteCodeSideSticker,
   InvitecodeStickerMob,
 } from "../../assets/svg";
-import OtpInput from "react-otp-input";
 import Stepper from "../../components/stepper/Stepper";
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -13,6 +12,7 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../firebase/firebase";
 import { setLoggeding } from "../../store/slices/userSlice";
+import OtpInput from "react-otp-input";
 
 const InviteCode = () => {
   const navigate = useNavigate();

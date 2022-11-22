@@ -11,6 +11,7 @@ import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
 import { auth, signupWithEmail } from "../../firebase/firebase";
+import { createUserWithEmailAndPassword } from "firebase/auth";
 
 const EmailSignup = () => {
   const navigate = useNavigate();
@@ -22,7 +23,7 @@ const EmailSignup = () => {
 
   const handleFormSubmit = (value, { resetForm }) => {
     const { email, password } = value;
-    // signupWithEmail(email, password);
+    createUserWithEmailAndPassword(auth, email, password);
     resetForm();
     navigate("/create-username");
   };

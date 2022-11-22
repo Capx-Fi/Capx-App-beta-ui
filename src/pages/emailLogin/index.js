@@ -5,6 +5,8 @@ import { OnboardMobBg } from "../../assets/images";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
+import { auth } from "../../firebase/firebase";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 const EmailLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -14,7 +16,13 @@ const EmailLogin = () => {
     alert("hu");
   };
 
-  const handleFormSubmit = (value, { resetForm }) => {
+  const handleFormSubmit = async (value, { resetForm }) => {
+    const data = await signInWithEmailAndPassword(
+      auth,
+      value.email,
+      value.password
+    );
+    console.log(data);
     resetForm();
     formik.setValues({ email: "", password: "" });
   };

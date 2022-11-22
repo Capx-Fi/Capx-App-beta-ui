@@ -1,19 +1,42 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { OnboardMobBg } from "../../assets/images";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
+import { async } from "@firebase/util";
+import { confirmPasswordReset } from "firebase/auth";
+import { auth } from "../../firebase/firebase";
+
+function useQuery() {
+  const location = useLocation();
+  return new URLSearchParams(location.search);
+}
 
 const ResetPassword = () => {
+  const location = useLocation();
+  const query = useQuery();
+  const navigate = useNavigate();
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = () => {
     setShowPassword((prev) => (prev ? false : true));
   };
 
-  const handleFormSubmit = (values, { resetForm }) => {
+  const handleFormSubmit = async (values, { resetForm }) => {
+    try {
+      const data = await confirmPasswordReset(
+        auth,
+        query.get("oobCode"),
+        values.password
+      );
+      navigate("/signin/email");
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
     resetForm();
   };
 

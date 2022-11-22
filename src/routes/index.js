@@ -15,6 +15,7 @@ import Signup from "../pages/signup";
 import Profile from "../pages/profile/index.js";
 import MyWallet from "../pages/MyWallet/index.js";
 import MyProfileEdit from "../pages/MyProfileEdit/index.js";
+import ForgotPassowrd from "../pages/forget-password/index.js";
 
 const Redirect = ({ to }) => {
   return <Navigate to={to} />;
@@ -61,6 +62,10 @@ const publicRoutes = [
   {
     path: "/congratulation",
     element: <Congratulaions />,
+  },
+  {
+    path: "/forgot-password",
+    element: <ForgotPassowrd />,
   },
 ];
 

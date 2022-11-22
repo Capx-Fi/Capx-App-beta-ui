@@ -11,8 +11,8 @@ import WalletBanner from "./components/WalletBanner/WalletBanner";
 
 function MyWallet() {
   return (
-    <div className="wallet-main flex flex-row h-screen">
-      <div className="wallet-content flex flex-col w-screen h-screen">
+    <div className="wallet-main flex flex-row">
+      <div className="wallet-content flex flex-col w-screen">
         <div className="wallet-wrapper flex flex-col md:flex-row p-5 md:p-10 h-full overflow-y-hidden">
           <div className="wallet-1 flex flex-col h-full gap-8	">
             {/* Import for Banner -----------------------------------------------------------------------------*/}

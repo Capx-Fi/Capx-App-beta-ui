@@ -1,0 +1,20 @@
+.constcards{
+    .constcards-wrapper{
+        .constcards-main{
+            background: #D6F1D9;
+            border-color: #8EC48950;
+            background-image: url(../../../../assets/images/home/thumb.png);
+            background-repeat: no-repeat;
+            background-size: 35%;
+            .taskchip{
+                padding:10px 10px 10px 10px;
+                background: #8EC48935;
+                width: fit-content;
+                border: 2px solid #8EC48935; 
+            }
+            .taskbtn{
+                background: $gradient-cgreen-2;
+            }
+        }
+    }
+}

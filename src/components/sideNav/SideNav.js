@@ -26,7 +26,7 @@ const SideNav = () => {
         <span>Home</span>
       </NavLink>
       <NavLink
-        to="/"
+        to="/wallet"
         className="tabs flex flex-col items-center justify-center mb-4"
       >
         <img className="icons" src={WalletIconSvg} alt="home" />

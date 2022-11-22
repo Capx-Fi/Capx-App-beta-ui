@@ -1,0 +1,11 @@
+.dailycards{
+    .dailycards-wrapper{
+        .dailycard-main{
+            background: #D6F1D9;
+            border-color: #8EC48950;
+            .taskbtn{
+                background: $gradient-cgreen-2;
+            }
+        }
+    }
+}

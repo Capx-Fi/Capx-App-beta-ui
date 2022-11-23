@@ -18,7 +18,7 @@ import {
 } from "../../firebase/firebase";
 import { useDispatch } from "react-redux";
 import { setUser } from "../../store/slices/userSlice";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -31,15 +31,24 @@ const Login = () => {
       dispatch(setUser(data));
       console.log("User Email", data.email);
       // Check if user exists.
+      console.log(data?.uid);
+      const userDoc = doc(db, "users", data?.uid);
+      const docSnap = await getDoc(userDoc);
 
-      const userRef = collection(db, "users");
-      const q = query(userRef, where("email", "==", data.email));
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot.docs.length === 0) {
-        throw Error("user not exists");
-      } else {
+      if (docSnap.data()) {
         navigate("/profile");
+      } else {
+        throw Error("user not exists");
       }
+
+      // const userRef = collection(db, "users");
+      // const q = query(userRef, where("email", "==", data.email));
+      // const querySnapshot = await getDocs(q);
+      // if (querySnapshot.docs.length === 0) {
+      //   throw Error("user not exists");
+      // } else {
+      //   navigate("/profile");
+      // }
     } catch (err) {
       console.log(err);
     }

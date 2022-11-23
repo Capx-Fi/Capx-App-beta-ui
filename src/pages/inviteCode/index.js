@@ -29,11 +29,14 @@ const InviteCode = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
+      const userDetails = !name
+        ? { username: routeData.state.username }
+        : {
+            name: name,
+            username: routeData.state.username,
+          };
       const createUser = httpsCallable(functions, "createUser");
-      const response = await createUser({
-        name: name,
-        username: routeData.state.username,
-      });
+      const response = await createUser(userDetails);
       console.log(response);
 
       navigate("/congratulation");

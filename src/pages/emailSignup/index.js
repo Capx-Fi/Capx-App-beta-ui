@@ -12,6 +12,7 @@ import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
 import { auth, signupWithEmail } from "../../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
+import { async } from "@firebase/util";
 
 const EmailSignup = () => {
   const navigate = useNavigate();
@@ -21,18 +22,22 @@ const EmailSignup = () => {
     setShowPassword((prev) => (prev ? false : true));
   };
 
-  const handleFormSubmit = (value, { resetForm }) => {
+  const handleFormSubmit = async (value, { resetForm }) => {
     const { email, password } = value;
-    createUserWithEmailAndPassword(auth, email, password);
-    resetForm();
-    navigate("/create-username");
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      resetForm();
+      navigate("/create-username");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: Yup.object().shape({
       email: Yup.string()
-        .required("Password is required")
+        .required("Email is required")
         .matches(
           /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/,
           "Invalid email adress"

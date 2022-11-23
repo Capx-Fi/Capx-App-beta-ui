@@ -1,10 +1,8 @@
-import { async } from "@firebase/util";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import React, { useCallback, useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import {
-  Pfp,
   Badge,
   Check,
   CommProf,

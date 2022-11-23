@@ -1,14 +1,16 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { OnboardMobBg } from "../../assets/images";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
-import { auth } from "../../firebase/firebase";
+import { auth, db } from "../../firebase/firebase";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { doc, getDoc } from "firebase/firestore";
 
 const EmailLogin = () => {
+  const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = () => {
@@ -22,16 +24,23 @@ const EmailLogin = () => {
       value.email,
       value.password
     );
-    console.log(data);
+    console.log(data.user.uid);
+    const userDoc = doc(db, "users", data.user.uid);
+    const docSnap = await getDoc(userDoc);
+
+    if (docSnap.data()) {
+      navigate("/profile");
+    } else {
+      throw Error("user not exists");
+    }
     resetForm();
-    formik.setValues({ email: "", password: "" });
   };
 
   const formik = useFormik({
     initialValues: { email: "", password: "" },
     validationSchema: Yup.object().shape({
       email: Yup.string()
-        .required("Password is required")
+        .required("Email is required")
         .matches(
           /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/,
           "Invalid email adress"

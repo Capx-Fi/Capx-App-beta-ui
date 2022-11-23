@@ -14,6 +14,8 @@ import {
 } from "firebase/auth";
 import {
   collection,
+  doc,
+  getDoc,
   getDocs,
   getFirestore,
   query,
@@ -41,10 +43,9 @@ export const handleFirebaseLogin = async (method) => {
     const { user: userDetails } = await signInWithPopup(auth, method);
     const idtoken = await userDetails.getIdToken();
     console.log(idtoken);
-    console.log(userDetails);
-    const name = userDetails.displayName;
-    const email = userDetails.email;
-    return { name, email };
+    console.log(userDetails.uid);
+
+    return userDetails;
   } catch (err) {
     console.log(err);
   }
@@ -77,21 +78,21 @@ export function useAuth() {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
       try {
-        const userRef = collection(db, "users");
-        const q = query(userRef, where("email", "==", user.email));
-        const querySnapshot = await getDocs(q);
-        console.log(querySnapshot);
-        if (querySnapshot.docs.length === 0) {
-          setCurrentUser(null);
+        const userDoc = doc(db, "users", auth.currentUser?.uid);
+        const docSnap = await getDoc(userDoc);
+        console.log(docSnap.data());
+        if (docSnap.exists()) {
+          setCurrentUser(await docSnap.data());
+          dispatch(setUser(await docSnap.data()));
         } else {
-          setCurrentUser(querySnapshot.docs[0].data());
-          dispatch(setUser(querySnapshot.docs[0].data()));
+          setCurrentUser(null);
         }
       } catch (error) {
         console.log(error);
         setCurrentUser(null);
       }
     });
+
     return unsub;
   }, []);
   return currentUser;

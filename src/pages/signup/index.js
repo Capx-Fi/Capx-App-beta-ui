@@ -8,18 +8,14 @@ import {
   TwitterIcon,
 } from "../../assets/svg";
 import { IoMdMail } from "react-icons/io";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   handleFirebaseLogin,
   googleLoginProvider,
   twitterLoginProvider,
-  auth,
   db,
-  handleFirebaseSignout,
 } from "../../firebase/firebase";
-import { useDispatch } from "react-redux";
-import { setUser } from "../../store/slices/userSlice";
-import { collection, getDocs, query, where } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -27,15 +23,27 @@ const Signup = () => {
   const handleLogin = async (method) => {
     try {
       const data = await handleFirebaseLogin(method);
-      const userRef = collection(db, "users");
-      const q = query(userRef, where("email", "==", data.email));
-      const querySnapshot = await getDocs(q);
-      if (querySnapshot.docs.length === 0) {
-        navigate("/create-username");
-      } else {
+
+      const userDoc = doc(db, "users", data?.uid);
+      const docSnap = await getDoc(userDoc);
+
+      if (docSnap.exists()) {
         navigate("/profile");
         throw Error("user already exists");
+      } else {
+        navigate("/create-username");
       }
+
+      // const userRef = collection(db, "users");
+      // const q = query(userRef, where("email", "==", data.email));
+      // const querySnapshot = await getDocs(q);
+
+      // if (querySnapshot.docs.length === 0) {
+      //   navigate("/create-username");
+      // } else {
+      //   navigate("/profile");
+      //   throw Error("user already exists");
+      // }
     } catch (err) {
       console.log(err);
     }

@@ -10,11 +10,12 @@ const Leaderboard = () => {
         <div className="mb-6">
           <Banner heading="You’re on leaderboard rank #8!" />
         </div>
-        <div className="badge flex items-center mb-4">
-          <img src={LeaderboardBadge} alt="Badge" />
-          <p className="ml-2">Leaderboard</p>
-        </div>
+
         <div>
+          <div className="badge flex items-center mb-4">
+            <img src={LeaderboardBadge} alt="Badge" />
+            <p className="ml-2">Leaderboard</p>
+          </div>
           <Table />
         </div>
       </div>

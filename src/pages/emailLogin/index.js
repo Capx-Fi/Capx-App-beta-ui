@@ -1,7 +1,6 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { OnboardMobBg } from "../../assets/images";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
@@ -15,7 +14,6 @@ const EmailLogin = () => {
 
   const handleShowPassword = () => {
     setShowPassword((prev) => (prev ? false : true));
-    alert("hu");
   };
 
   const handleFormSubmit = async (value, { resetForm }) => {
@@ -42,7 +40,7 @@ const EmailLogin = () => {
       email: Yup.string()
         .required("Email is required")
         .matches(
-          /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/,
+          /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/,
           "Invalid email adress"
         ),
       password: Yup.string().required("Password is required"),
@@ -114,7 +112,7 @@ const EmailLogin = () => {
                 </div>
                 <button
                   type="submit"
-                  className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 ${
+                  className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-2 ${
                     formik.errors.email || formik.errors.password
                       ? "disabled"
                       : "bg-gredient-2"
@@ -123,6 +121,12 @@ const EmailLogin = () => {
                 >
                   Login
                 </button>
+                <Link
+                  to="/forgot-password"
+                  className="text-primary-900 fs-12 font-bold underline text-center md:mb-0 mb-2"
+                >
+                  Forgot Password?
+                </Link>
               </form>
               <p className="block md:hidden text-center fs-12 text-primary-900 font-medium mb-6">
                 By clicking Sign Up above, you agree to Capx’s

@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import {
   Pfp,
   Badge,
-  Check,
   CommProf,
   TwitterIcon,
   DiscordIcon,
@@ -14,8 +13,8 @@ import {
 
 const MyProfileEdit = () => {
   return (
-    <div className="myProfile flex flex-row h-screen ">
-      <div className="pfp flex flex-col w-screen">
+    <div className="myProfile flex flex-row">
+      <div className="pfp flex flex-col flex-grow">
         <div className="pfp-inner flex flex-row items-start pt-16 h-full md:max-md:flex-col">
           <div className="pfp-inner1 flex flex-col basis-1/3 items-center md:max-md:flex-row">
             {/* Wrapper for Profile Image -----------------------------------------------------------------------------*/}

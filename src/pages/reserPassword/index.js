@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { OnboardMobBg } from "../../assets/images";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
@@ -15,11 +15,15 @@ function useQuery() {
 }
 
 const ResetPassword = () => {
-  const location = useLocation();
   const query = useQuery();
   const navigate = useNavigate();
-
   const [showPassword, setShowPassword] = useState(false);
+
+  useEffect(() => {
+    if (!query.get("oobCode")) {
+      navigate("/forgot-password");
+    }
+  }, []);
 
   const handleShowPassword = () => {
     setShowPassword((prev) => (prev ? false : true));

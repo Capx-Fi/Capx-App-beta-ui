@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   ChipCapxSvg,
   DxSignupSticker,
@@ -10,9 +10,8 @@ import {
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
-import { auth, signupWithEmail } from "../../firebase/firebase";
+import { auth } from "../../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
-import { async } from "@firebase/util";
 
 const EmailSignup = () => {
   const navigate = useNavigate();
@@ -39,7 +38,7 @@ const EmailSignup = () => {
       email: Yup.string()
         .required("Email is required")
         .matches(
-          /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/,
+          /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/,
           "Invalid email adress"
         ),
       password: Yup.string().required("Password is required"),

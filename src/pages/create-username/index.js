@@ -10,8 +10,6 @@ import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
 import { useNavigate } from "react-router-dom";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { useState } from "react";
-import { auth } from "../../firebase/firebase";
 
 const CreateUsername = () => {
   const functions = getFunctions();
@@ -45,8 +43,6 @@ const CreateUsername = () => {
     validateOnBlur: true,
     onSubmit: handleFormSubmit,
   });
-
-  console.log(auth.currentUser);
 
   return (
     <>

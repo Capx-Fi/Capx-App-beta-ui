@@ -4,13 +4,19 @@
       .pfp-inner1 {
         color: $cgreen-700;
 
-        .pfp-background {
+        .pfp-bg {
           background: $gradient-cgreen-2;
           height: 200px;
           width: 200px;
           border-radius: 50%;
+          overflow: hidden;
           img {
-            border-image: linear-gradient(180deg, #94bf7e 0%, #479b77 100%);
+            width: 100%;
+            height: 100%;
+          }
+          p {
+            font-weight: 900;
+            font-size: 50px;
           }
         }
         .level-badge {

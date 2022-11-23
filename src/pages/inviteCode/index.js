@@ -1,27 +1,26 @@
-import { Formik, useFormik } from "formik";
 import {
   ChipCapxSvg,
-  CreateunameStickermMob,
   InviteCodeSideSticker,
   InvitecodeStickerMob,
 } from "../../assets/svg";
 import Stepper from "../../components/stepper/Stepper";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getFunctions, httpsCallable } from "firebase/functions";
-import { useDispatch, useSelector } from "react-redux";
 import { auth } from "../../firebase/firebase";
-import { setLoggeding } from "../../store/slices/userSlice";
 import OtpInput from "react-otp-input";
 
 const InviteCode = () => {
   const navigate = useNavigate();
   const routeData = useLocation();
   const functions = getFunctions();
-  const dispatch = useDispatch();
-  const name = useSelector((state) => state.user.name);
-  console.log(name);
   const [inviteCode, setInviteCode] = useState("");
+
+  useEffect(() => {
+    if (!routeData.state) {
+      navigate("/");
+    }
+  }, []);
 
   const handleCodeChange = (code) => {
     setInviteCode(code);
@@ -29,14 +28,8 @@ const InviteCode = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     try {
-      const userDetails = !name
-        ? { username: routeData.state.username }
-        : {
-            name: name,
-            username: routeData.state.username,
-          };
       const createUser = httpsCallable(functions, "createUser");
-      const response = await createUser(userDetails);
+      const response = await createUser({ username: routeData.state.username });
       console.log(response);
 
       navigate("/congratulation");

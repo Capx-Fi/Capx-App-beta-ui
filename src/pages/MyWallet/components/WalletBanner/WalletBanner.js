@@ -1,9 +1,6 @@
 import React from "react";
 import { BannerSvg } from "../../../../assets/svg";
-// import "react-alice-carousel/lib/alice-carousel.css";
 // import { BannerPanda } from '../../../../assets/images/wallet';
-
-const handleDragStart = (e) => e.preventDefault();
 
 function WalletBanner() {
   return (

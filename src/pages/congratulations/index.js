@@ -1,18 +1,7 @@
-import { useFormik } from "formik";
-
-import Input from "../../components/Input/Input";
-import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
-import {
-  handleFirebaseSignout,
-  signupWithEmail,
-} from "../../firebase/firebase";
+import { handleFirebaseSignout } from "../../firebase/firebase";
 import { useNavigate } from "react-router-dom";
-import {
-  CongratulationSvg,
-  CreateunameStickermMob,
-  OnboardSvg,
-} from "../../assets/svg";
+import { CongratulationSvg, OnboardSvg } from "../../assets/svg";
 
 const Congratulaions = () => {
   const navigate = useNavigate();

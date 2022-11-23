@@ -82,8 +82,8 @@ export function useAuth() {
         const docSnap = await getDoc(userDoc);
         console.log(docSnap.data());
         if (docSnap.exists()) {
-          setCurrentUser(await docSnap.data());
-          dispatch(setUser(await docSnap.data()));
+          setCurrentUser(docSnap.data());
+          dispatch(setUser(docSnap.data()));
         } else {
           setCurrentUser(null);
         }

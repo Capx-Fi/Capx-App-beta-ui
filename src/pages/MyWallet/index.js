@@ -1,12 +1,6 @@
 import React from "react";
-import { Link } from "react-router-dom";
 import { GetStatedSvg } from "../../assets/svg";
 import MyWalletData from "./components/MyWalletData/MyWalletData";
-// import {
-//   BannerPanda,
-//   LadyonRight,
-//   HistoryIcon,
-// } from "../../assets/images/wallet";
 import WalletBanner from "./components/WalletBanner/WalletBanner";
 
 function MyWallet() {

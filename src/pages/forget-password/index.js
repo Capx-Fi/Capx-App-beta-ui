@@ -19,7 +19,12 @@ const ForgotPassowrd = () => {
   const formik = useFormik({
     initialValues: { email: "" },
     validationSchema: Yup.object().shape({
-      email: Yup.string().required("Password is required"),
+      email: Yup.string()
+        .required("Password is required")
+        .matches(
+          /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/,
+          "Invalid email adress"
+        ),
     }),
     onSubmit: handleFormSubmit,
   });

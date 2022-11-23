@@ -33,17 +33,6 @@ const Signup = () => {
       } else {
         navigate("/create-username");
       }
-
-      // const userRef = collection(db, "users");
-      // const q = query(userRef, where("email", "==", data.email));
-      // const querySnapshot = await getDocs(q);
-
-      // if (querySnapshot.docs.length === 0) {
-      //   navigate("/create-username");
-      // } else {
-      //   navigate("/profile");
-      //   throw Error("user already exists");
-      // }
     } catch (err) {
       console.log(err);
     }

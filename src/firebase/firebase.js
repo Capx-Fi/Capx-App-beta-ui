@@ -74,10 +74,12 @@ export const facebookLoginProvider = new FacebookAuthProvider(auth);
 
 export function useAuth() {
   const [currentUser, setCurrentUser] = useState();
+  const [firebaseUser, setFirebaseUser] = useState();
   const dispatch = useDispatch();
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
       try {
+        console.log(user);
         const userDoc = doc(db, "users", auth.currentUser?.uid);
         const docSnap = await getDoc(userDoc);
         console.log(docSnap.data());

@@ -27,8 +27,26 @@ import ActiveProfiletIcon from "./activeprofiletIcon.svg";
 import BannerSvg from "./bannerSvg.svg";
 import LeaderboardBadge from "./leaderboardBadge.svg";
 import QuestReportIcon from "./questReportIcon.svg";
+import CardCoinIcon from "./cardCoinIcon.svg";
+import PeopleIcon from "./PeopleIcon.svg";
+import DailyQuestsIcon from "./DailyQuestsIcon.svg";
+import AlertIcon from "./AlertIcon.svg";
+import BannerPlayIcon from "./BannerPlayIcon.svg";
+import TwitterContainedIcon from "./TwitterContainedIcon.svg";
+import InstaContainedIcon from "./InstaContainedIcon.svg";
+import QuestLayoutSvg from "./QuestLayoutSvg.svg";
+import QuestSuccessSvg from "./QuestSuccessSvg.svg";
 
 export {
+  QuestSuccessSvg,
+  QuestLayoutSvg,
+  InstaContainedIcon,
+  TwitterContainedIcon,
+  BannerPlayIcon,
+  AlertIcon,
+  DailyQuestsIcon,
+  PeopleIcon,
+  CardCoinIcon,
   QuestReportIcon,
   LeaderboardBadge,
   BannerSvg,

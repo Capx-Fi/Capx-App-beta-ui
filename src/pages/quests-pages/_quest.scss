@@ -1,0 +1,52 @@
+.quest-layout {
+  padding: 28px;
+  background-image: url("../../assets/svg/QuestLayoutSvg.svg");
+  background-repeat: no-repeat;
+  background-position: 100% 98%;
+  .quest-details {
+    flex-basis: 39%;
+    padding: 25px 25px 0 25px;
+    border-right: 2px solid rgba(31, 122, 85, 0.2);
+  }
+  .quest-action {
+    padding: 25px 0 0 50px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .task-heading {
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+    text-decoration-line: underline;
+    color: rgba(21, 57, 69, 0.9);
+  }
+  .task-text {
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.5px;
+    color: rgba(21, 57, 69, 0.9);
+  }
+
+  .social-btn {
+    width: 50px;
+    height: 46px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid;
+    border-color: $green-200;
+    border-radius: 12px;
+    background: $action-card-gredient;
+  }
+
+  .footer {
+    padding: 0 25px;
+    font-weight: 500;
+    font-size: 15px;
+    line-height: 24px;
+    letter-spacing: -0.25px;
+  }
+}

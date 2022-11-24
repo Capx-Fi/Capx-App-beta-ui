@@ -16,6 +16,9 @@ import Profile from "../pages/profile/index.js";
 import MyWallet from "../pages/MyWallet/index.js";
 import MyProfileEdit from "../pages/MyProfileEdit/index.js";
 import ForgotPassowrd from "../pages/forget-password/index.js";
+import WatchVideo from "../pages/quests-pages/watch-video/index.js";
+import AnswerQuiz from "../pages/quests-pages/answer-quiz/index.js";
+import QuestSuccess from "../pages/quests-pages/quest-success/index.js";
 
 const Redirect = ({ to }) => {
   return <Navigate to={to} />;
@@ -79,20 +82,32 @@ const privateRoutes = [
         element: <Home />,
       },
       {
-        path: "leaderboard",
+        path: "/leaderboard",
         element: <Leaderboard />,
       },
       {
-        path: "my-wallet",
+        path: "/my-wallet",
         element: <MyWallet />,
       },
       {
-        path: "profile",
+        path: "/profile",
         element: <Profile />,
       },
       {
-        path: "edit-profile",
+        path: "/edit-profile",
         element: <MyProfileEdit />,
+      },
+      {
+        path: "/watch-video",
+        element: <WatchVideo />,
+      },
+      {
+        path: "/answer-quiz",
+        element: <AnswerQuiz />,
+      },
+      {
+        path: "/quest-success",
+        element: <QuestSuccess />,
       },
     ],
   },

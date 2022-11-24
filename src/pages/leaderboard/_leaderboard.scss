@@ -1,6 +1,28 @@
 .leaderboard {
   height: calc(100vh - 70px);
   .left-bar {
+    .table-wrapper {
+      &::-webkit-scrollbar {
+        width: 4px;
+      }
+      /* Track */
+      &::-webkit-scrollbar-track {
+        background: #1f7a5515;
+        border-radius: 100px;
+        overflow: hidden;
+      }
+
+      /* Handle */
+      &::-webkit-scrollbar-thumb {
+        background: #1f7a5535;
+        border-radius: 100;
+      }
+
+      /* Handle on hover */
+      &::-webkit-scrollbar-thumb:hover {
+        background: #1f7a5545;
+      }
+    }
     flex-basis: 54.4%;
     height: 100%;
     display: flex;

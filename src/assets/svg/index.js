@@ -26,8 +26,10 @@ import ActiveHomeIcon from "./ActiveHomeIcon.svg";
 import ActiveProfiletIcon from "./activeprofiletIcon.svg";
 import BannerSvg from "./bannerSvg.svg";
 import LeaderboardBadge from "./leaderboardBadge.svg";
+import QuestReportIcon from "./questReportIcon.svg";
 
 export {
+  QuestReportIcon,
   LeaderboardBadge,
   BannerSvg,
   ActiveProfiletIcon,

@@ -1,54 +1,58 @@
 table {
-  width:100%;
+  width: 100%;
 }
 
-.wallet-tr{border-color: #1F7A5515;}
+.wallet-tr {
+  border-color: #1f7a5515;
+}
 
-.wallettable{
-  .wallet-theading{
+.wallettable {
+  .wallet-theading {
     width: 100%;
-    .wallet-th2{
-      background-color: #1F7A5515;
-      border-color: #1F7A5515;
-      .serial{
+
+    .wallet-th2 {
+      background-color: #1f7a5515;
+      border-color: #1f7a5515;
+      font-size: 12px;
+      font-weight: 900;
+      .serial {
         flex-basis: 10%;
       }
-      .quest-details{
-        flex-basis:35%;
+      .quest-details {
+        flex-basis: 35%;
       }
-      .quest-category{
+      .quest-category {
         flex-basis: 20%;
       }
-      .quest-date{
+      .quest-date {
         flex-basis: 20%;
       }
-      .quest-rewards{
+      .quest-rewards {
         flex-basis: 15%;
       }
     }
   }
-  .wallet-tbody{
-    border-color: #1F7A5515;
-    .wallet-tr{
-      border-color: #1F7A5515;
-      .serial{
+  .wallet-tbody {
+    border-color: #1f7a5515;
+    font-size: 12px;
+    font-weight: 700;
+    .wallet-tr {
+      border-color: #1f7a5515;
+      .serial {
         flex-basis: 10%;
       }
-      .quest-details{
-        flex-basis:35%;
+      .quest-details {
+        flex-basis: 35%;
       }
-      .quest-category{
+      .quest-category {
         flex-basis: 20%;
       }
-      .quest-date{
+      .quest-date {
         flex-basis: 20%;
       }
-      .quest-rewards{
+      .quest-rewards {
         flex-basis: 15%;
       }
     }
   }
 }
-
-
-             

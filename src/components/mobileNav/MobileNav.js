@@ -19,7 +19,7 @@ const MobileNav = () => {
         <img className="icons active-icon" src={ActiveHomeIcon} alt="home" />
         <span>Home</span>
       </NavLink>
-      <NavLink to="/" className="tabs">
+      <NavLink to="/my-wallet" className="tabs">
         <img className="icons" src={WalletIconSvg} alt="home" />
         <img className="icons active-icon" src={ActiveWalletIcon} alt="home" />
         <span>Wallet</span>

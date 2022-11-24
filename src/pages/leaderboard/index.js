@@ -11,7 +11,7 @@ const Leaderboard = () => {
           <Banner heading="You’re on leaderboard rank #8!" />
         </div>
 
-        <div className="overflow-y-auto">
+        <div className="table-wrapper overflow-y-auto">
           <div className="badge flex items-center mb-4">
             <img src={LeaderboardBadge} alt="Badge" />
             <p className="ml-2">Leaderboard</p>

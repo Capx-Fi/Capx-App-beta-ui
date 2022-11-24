@@ -1,5 +1,5 @@
 import React from "react";
-import { GetStatedSvg } from "../../assets/svg";
+import { GetStatedSvg, QuestReportIcon } from "../../assets/svg";
 import MyWalletData from "./components/MyWalletData/MyWalletData";
 import WalletBanner from "./components/WalletBanner/WalletBanner";
 
@@ -17,7 +17,7 @@ function MyWallet() {
             <div className="wallet-inner flex flex-col gap-5 md:overflow-y-scroll pr-4 md:pr-8 ">
               <div className="wallet-title flex flex-row w-full items-center gap-5">
                 <div className="wallet-title-wrapper flex flex-row gap-3 w-3/4 items-center">
-                  <img src={"HistoryIcon"} alt="" className="w-8" />
+                  <img src={QuestReportIcon} alt="" className="w-8" />
                   <p className="font-black fs-18 text-cgreen-700 opacity-80">
                     Quests Report
                   </p>

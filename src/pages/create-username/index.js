@@ -55,7 +55,7 @@ const CreateUsername = () => {
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-3">
-                Create a username
+                Choose a username
               </h2>
 
               <form
@@ -64,8 +64,8 @@ const CreateUsername = () => {
               >
                 <div className="w-full md:mb-4 mb-8">
                   <Input
-                    placeholder="Create a catchy username"
-                    label="username"
+                    placeholder="Choose a unique and cool username"
+                    label="USERNAME"
                     type="text"
                     error={!!formik.errors.username}
                     value={formik.values.username}

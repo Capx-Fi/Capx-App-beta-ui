@@ -25,11 +25,12 @@ const Onboarding = () => {
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-2 mb-3">
-                Learn, contribute and earn rewards
+                Learn, together 
+                Earn together
               </h2>
               <p className="discription fs-16 font-bold text-slate-500 md:text-center md:mb-10 mb-8 hidden md:block">
-                Join Capx to learn & earn while contributing to the Capx
-                ecosystem. Begin your journey!
+                Welcome to the world of quests, contests & 
+                challenges. Begin your web3 journey! 
               </p>
               <p className="discription fs-16 font-bold text-slate-500 md:text-center md:mb-10 mb-8 block md:hidden">
                 Join Capx and learn to earn contribution to communities and
@@ -42,7 +43,7 @@ const Onboarding = () => {
                   <div className="flex flex-col items-start ml-4">
                     <span className="fs-15 font-medium">I’m new here</span>
                     <span className="fs-15 font-medium text-slate-500">
-                      I need to create an account and explore
+                      help me create my Capx account
                     </span>
                   </div>
                   <span className="flex-1" />
@@ -60,7 +61,7 @@ const Onboarding = () => {
                       I’m already a user
                     </span>
                     <span className="fs-15 font-medium text-slate-500">
-                      I need to complete my daily quests
+                      take me to the world of Capx quests
                     </span>
                   </div>
                   <span className="flex-1" />

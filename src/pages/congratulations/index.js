@@ -22,10 +22,10 @@ const Congratulaions = () => {
                 <img src={CongratulationSvg} alt="Congratulation" />
               </div>
               <p className="underline text-primary-800 font-black fs-30">
-                All set!
+                Congratulaions!
               </p>
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-10">
-                Let’s learn, build <br />& grow together
+                Welcome to the<br />Capx experience
               </h2>
 
               <button
@@ -36,7 +36,7 @@ const Congratulaions = () => {
                   navigate("/signin");
                 }}
               >
-                Start
+                LFG
               </button>
 
               <p className="text-gray-400 fs-15 font-bold hidden md:block absolute bottom-0 py-5">

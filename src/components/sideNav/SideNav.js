@@ -14,7 +14,7 @@ import {
 
 const SideNav = () => {
   return (
-    <div className="sidenav flex flex-col items-center min-h-screen hidden md:flex border-primary-200">
+    <div className="sidenav flex flex-col items-center max-h-screen hidden md:flex border-primary-200 sticky top-0 ">
       <img className="brand-logo" src={BrandLogoSvg} alt="Capx" />
       <NavLink
         to="/"

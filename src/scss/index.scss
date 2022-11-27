@@ -104,14 +104,18 @@
 @import "../pages/leaderboard/components/scss/table";
 @import "../pages/MyWallet/components/MyWalletData/MyWalletData";
 @import "../pages/MyWallet/components/WalletBanner/WalletBanner";
-@import "../pages/quests-pages/components/banner/banner";
-@import "../pages/quests-pages/components/action-card/actionCard";
-@import "../pages/quests-pages/watch-video/watchVideo";
-@import "../pages/quests-pages/answer-quiz/answerQuiz";
-@import "../pages/quests-pages/quest-success//questSuccess";
 
 @import "../pages/profile/profile";
-@import "../pages/profile/profile";
 
-// layouts
-@import "../pages/quests-pages/quest";
+//Task Page Left Components
+@import "../pages/quests/banner/banner";
+@import "../pages/quests/compLeft/compLeft";
+
+//Day01
+@import "../pages/quests/quest-layout/quest-layout";
+
+// Task Components
+@import "../pages/quests/compRight/dailyReward/dailyReward";
+@import "../pages/quests/compRight/watchvideo/watchvideo";
+@import "../pages/quests/compRight/singleQuiz/singleQuiz";
+

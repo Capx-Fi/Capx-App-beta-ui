@@ -1,0 +1,23 @@
+.left-side{
+    .actionsflex{
+        .actioncard{
+            background: linear-gradient(90deg, rgba(71, 197, 106, 0.2) -9.61%, rgba(211, 235, 215, 0) 92.59%), rgba(31, 122, 85, 0.1);
+            border: 1px solid rgba(31, 122, 85, 0.25);
+
+            .actionstatus{
+                background: rgba(31, 122, 85, 0.1);
+                border: 1px solid rgba(31, 122, 85, 0.25);
+                border-radius: 100px;
+                color: #1F7A55;
+            }
+
+            .actiontag{
+                background: rgba(254, 196, 109, 0.3);
+                border: 1px solid rgba(214, 176, 119, 0.7);
+                border-radius: 100px;
+                color: #9F530C;
+
+            }
+        }
+    }
+}

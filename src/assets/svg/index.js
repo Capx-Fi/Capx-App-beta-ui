@@ -36,8 +36,12 @@ import TwitterContainedIcon from "./TwitterContainedIcon.svg";
 import InstaContainedIcon from "./InstaContainedIcon.svg";
 import QuestLayoutSvg from "./QuestLayoutSvg.svg";
 import QuestSuccessSvg from "./QuestSuccessSvg.svg";
+import TwitterNegative from "./twitter-negative.svg";
+import DiscordNegative from "./discord-negative.svg";
 
 export {
+  TwitterNegative,
+  DiscordNegative,
   QuestSuccessSvg,
   QuestLayoutSvg,
   InstaContainedIcon,
@@ -76,4 +80,5 @@ export {
   InvitecodeStickerMob,
   BrandLogoSvg,
   HomeIconSvg,
+
 };

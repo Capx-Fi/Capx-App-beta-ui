@@ -1,5 +1,7 @@
 import ChipCapxSvg from "./chipCapxSvg.svg";
 import TwitterIcon from "./twitter.svg";
+import InstagramIcon from "./Instagram.svg";
+import WhatsappIcon from "./Whatsapp.svg";
 import GoogleIcon from "./google.svg";
 import DiscordIcon from "./discord.svg";
 import OnboardSvg from "./OnboardSvg.svg";
@@ -36,8 +38,14 @@ import TwitterContainedIcon from "./TwitterContainedIcon.svg";
 import InstaContainedIcon from "./InstaContainedIcon.svg";
 import QuestLayoutSvg from "./QuestLayoutSvg.svg";
 import QuestSuccessSvg from "./QuestSuccessSvg.svg";
+import TwitterNegative from "./twitter-negative.svg";
+import DiscordNegative from "./discord-negative.svg";
 
 export {
+  TwitterNegative,
+  InstagramIcon,
+  WhatsappIcon,
+  DiscordNegative,
   QuestSuccessSvg,
   QuestLayoutSvg,
   InstaContainedIcon,
@@ -76,4 +84,5 @@ export {
   InvitecodeStickerMob,
   BrandLogoSvg,
   HomeIconSvg,
+
 };

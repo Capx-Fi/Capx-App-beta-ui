@@ -1,0 +1,23 @@
+.quest-layout{
+    .quest{
+        .quest-details-1{
+
+            .social{
+                .social-icon{
+
+                }
+            }
+
+        }
+        .quest-details-2{
+            background: url('../../../assets//images/desk-lamp.png');
+            background-repeat: no-repeat;
+            background-position: 100% 150%;
+
+            @media screen and (max-width: 767.98px) {
+                background: none;
+            }
+        }
+
+    }
+}

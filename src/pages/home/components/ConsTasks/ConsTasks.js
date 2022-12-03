@@ -1,32 +1,12 @@
 import React from "react";
 import { CardCoinIcon } from "../../../../assets/svg";
-// import { goldcoin } from "../../../../assets/images/home";
+
 
 const handleDragStart = (e) => e.preventDefault();
 
-const ConsTasks = () => {
+const ConsTasks = ({quests}) => {
   const dailytaskdata = [
-    {
-      taskchip: "Daily Reward",
-      tasktitle: "Your daily sign in rewards are here",
-      taskbtntext: "Claim now",
-      taskreward: "1 xCapx",
-      taskcategory: "constant",
-    },
-    {
-      taskchip: "Daily Reward",
-      tasktitle: "Generate your referral code",
-      taskbtntext: "Claim now",
-      taskreward: "1 xCapx",
-      taskcategory: "constant",
-    },
-    {
-      taskchip: "Daily Reward",
-      tasktitle: "Generate your referral code",
-      taskbtntext: "Claim now",
-      taskreward: "1 xCapx",
-      taskcategory: "constant",
-    },
+    ...quests
   ];
 
   return (
@@ -38,6 +18,7 @@ const ConsTasks = () => {
               className={`constcards-main px-4 pb-8 pt-3 basis-1/3 border-2 w-72 rounded-3xl flex flex-col gap-32 row${
                 ind + 1
               }`}
+              key={data.key+String(ind)}
             >
               <div className="taskchip fs-14 font-black text-cgreen-600 self-end rounded-xl">
                 {data.taskchip}
@@ -49,7 +30,7 @@ const ConsTasks = () => {
                 <button className="taskbtn w-full bg-cgreen-500 py-3 px-4 rounded-xl flex flex-row font-extrabold text-cgreen-100 task items-center place-content-between">
                   <div className="reward-icon flex flex-row gap-2 items-center">
                     <img src={CardCoinIcon} className="w-5" />
-                    <p className="fs-15">{data.taskreward}</p>
+                    <p className="fs-15">{data.taskreward+ " xCapx"}</p>
                   </div>
                   <p>{data.taskbtntext}</p>
                 </button>

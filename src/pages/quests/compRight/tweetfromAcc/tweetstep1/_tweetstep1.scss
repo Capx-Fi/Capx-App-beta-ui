@@ -1,0 +1,24 @@
+.createtweet{
+    .createtweet-title{
+
+    }
+    .createtweet-wrapper{
+        border: 2px solid rgba(31, 122, 85, 0.2);
+        border-radius: 24px;
+        .copy-tweet:focus{
+            animation: copyscale 400ms ;
+        }
+
+        .copy-tweet{
+            background: rgba(31, 122, 85, 0.07);
+            border: 2px dashed rgba(31, 122, 85, 0.25);
+            border-radius: 20px;
+        }
+        
+        @keyframes copyscale {
+            0% {transform: scale(1,1);}
+            50% {transform: scale(0.95,0.95);}
+            100% {transform: scale(1,1);}
+        }
+    }
+}

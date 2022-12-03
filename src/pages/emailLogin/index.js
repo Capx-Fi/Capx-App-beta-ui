@@ -4,12 +4,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
-import { auth, db } from "../../firebase/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore";
+import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
+// import { auth, db } from "../../firebase/firebase";
+// import { signInWithEmailAndPassword } from "firebase/auth";
+// import { doc, getDoc } from "firebase/firestore";
 
 const EmailLogin = () => {
   const navigate = useNavigate();
+  const { error, isPending, signInUser } = useFireBaseLogin();
   const [showPassword, setShowPassword] = useState(false);
 
   const handleShowPassword = () => {
@@ -17,20 +19,7 @@ const EmailLogin = () => {
   };
 
   const handleFormSubmit = async (value, { resetForm }) => {
-    const data = await signInWithEmailAndPassword(
-      auth,
-      value.email,
-      value.password
-    );
-    console.log(data.user.uid);
-    const userDoc = doc(db, "users", data.user.uid);
-    const docSnap = await getDoc(userDoc);
-
-    if (docSnap.data()) {
-      navigate("/profile");
-    } else {
-      throw Error("user not exists");
-    }
+    signInUser(value.email,value.password);
     resetForm();
   };
 

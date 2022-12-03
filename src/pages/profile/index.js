@@ -1,6 +1,5 @@
-import React from "react";
+import React,{useState} from "react";
 import { useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import {
   Badge,
   Check,
@@ -13,6 +12,14 @@ import {
 } from "../../assets/images/profile";
 
 function Profile() {
+  const handleEditProfile = (e)=>{
+    e.preventDefault();
+    setIsEditEnabled((prevState)=>!prevState);
+    console.log(isEditEnabled);
+  }
+
+
+  const [isEditEnabled,setIsEditEnabled] = useState(false);
   const userData = useSelector((state) => state.user);
 
   return (
@@ -49,7 +56,7 @@ function Profile() {
             </div>
 
             {/* Wrapper for Level Progressbar -----------------------------------------------------------------------*/}
-            <div className="pfp-progress flex flex-col gap-3.5 mt-6 hidden">
+            <div className="pfp-progress flex flex-col gap-3.5 mt-6">
               <div className="pfp-progress-title flex flex-row gap-2 items-center">
                 <img src={CommProf} alt="" className="w-6" />
                 <p className="font-black fs-18 text-cgreen-700 opacity-80">
@@ -82,12 +89,17 @@ function Profile() {
 
           <div className="pfp-inner2 flex flex-col basis-1/3 items-center gap-10 pt-8">
             <div className="w-3/4 flex justify-center md:justify-start">
-              <Link
-                to="/edit-profile"
+              {!isEditEnabled?<button
+                onClick={(e)=>{handleEditProfile(e)}}
                 className="fs-14 underline font-black text-cgreen-700 opacity-60"
               >
                 Edit Profile
-              </Link>
+              </button>:<button
+                onClick={(e)=>{handleEditProfile(e)}}
+                className="fs-14 underline font-black text-cgreen-700 opacity-60"
+              >
+                Cancel Edit
+              </button>}
             </div>
 
             {/* Wrapper for Full Name Chip -------------------------------------------------------------------------*/}
@@ -100,9 +112,9 @@ function Profile() {
                 </p>
               </div>
 
-              <div className="fullname flex flex-row w-full md:w-3/4 py-3 px-4 justify-between items-center rounded-2xl">
+              {!isEditEnabled?<div className="fullname flex flex-row w-full md:w-3/4 py-3 px-4 justify-between items-center rounded-2xl">
                 {/* Target the below class for linking Fullname */}
-                <p className="fs-16 font-bold text-cgreen-700 opacity-75">
+               <p className="fs-16 font-bold text-cgreen-700 opacity-75">
                   {userData?.name}
                 </p>
                 <img
@@ -110,7 +122,14 @@ function Profile() {
                   alt=""
                   className="pfp-background rounded-full w-7"
                 />
-              </div>
+              </div>:<input
+                placeholder="Enter your Full Name"
+                label="fullname"
+                type="text"
+                name="fullname"
+                autoFocus
+                className="fullname flex flex-row  w-3/4 py-3 px-4 justify-between items-center rounded-2xl border-2"
+              />}
             </div>
 
             {/* Wrapper for Social Link Chips ------------------------------------------------------------------------*/}
@@ -124,7 +143,7 @@ function Profile() {
               </div>
 
               <div className="social-wrapper w-full md:w-3/4 gap-6 flex flex-col">
-                <div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
+                {userData?.socials.twitter_id.trim() !== "" ?<div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
                   <div className="flex flex-row gap-3">
                     <img
                       src={TwitterIcon}
@@ -143,9 +162,22 @@ function Profile() {
                     alt=""
                     className="pfp-background rounded-full w-7 hidden"
                   />
+                </div>:
+                <button className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
+                <div className="flex flex-row gap-3">
+                  <img
+                    src={TwitterIcon}
+                    alt=""
+                    className="pfp-background w-6"
+                  />
+                  {/* Target the below class for changing Twitter Handle */}
+                  <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
+                    Connect your Twitter
+                  </p>
                 </div>
+              </button>}
 
-                <div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
+                {userData?.socials.twitter_id.trim() !== ""?<div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
                   <div className="flex flex-row gap-3">
                     <img
                       src={DiscordIcon}
@@ -154,7 +186,9 @@ function Profile() {
                     />
                     {/* Target the below class for changing Twitter Handle */}
                     <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
-                      Connect your Discord
+                    {userData?.socials.google_id !== ""
+                        ? userData?.socials.google_id
+                        : "Connect your google"}
                     </p>
                   </div>
                   <img
@@ -162,14 +196,28 @@ function Profile() {
                     alt=""
                     className="pfp-background rounded-full w-7 hidden"
                   />
-                </div>
+                </div>:<button className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
+                  <div className="flex flex-row gap-3">
+                    <img
+                      src={DiscordIcon}
+                      alt=""
+                      className="pfp-background w-6"
+                    />
+                    {/* Target the below class for changing Twitter Handle */}
+                    <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
+                      Connect your Google
+                    </p>
+                  </div>
+                </button>}
 
-                <div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
+                {userData?.socials.discord_id.trim() !== ""?<div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
                   <div className="flex flex-row gap-3">
                     <img src={IGIcon} alt="" className="pfp-background w-6" />
                     {/* Target the below class for changing Twitter Handle */}
                     <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
-                      Connect your Instagram
+                    {userData?.socials.discord_id !== ""
+                        ? userData?.socials.discord_id
+                        : "Connect your Discord"}
                     </p>
                   </div>
                   <img
@@ -177,7 +225,15 @@ function Profile() {
                     alt=""
                     className="pfp-background rounded-full w-7 hidden"
                   />
-                </div>
+                </div>:<button className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
+                  <div className="flex flex-row gap-3">
+                    <img src={IGIcon} alt="" className="pfp-background w-6" />
+                    {/* Target the below class for changing Twitter Handle */}
+                    <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
+                      Connect your Discord
+                    </p>
+                  </div>
+                </button>}
               </div>
             </div>
           </div>

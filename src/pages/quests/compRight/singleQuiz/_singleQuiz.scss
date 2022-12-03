@@ -1,0 +1,26 @@
+.quiz{
+    .quiz-title{}
+
+    .quiz-box{
+        background: rgba(31, 122, 85, 0.15);
+        border-color: rgba(31, 122, 85, 0.15);
+        .quiz-question {
+
+        }
+        .quiz-answers {
+            .answer{
+                background: rgba(255, 255, 255, 0.35);
+                border: 1px solid rgba(31, 122, 85, 0.35);
+                cursor: pointer;
+
+                &:hover{
+                    background: rgba(255, 255, 255, 0.7);
+                    box-shadow: 0px 4px 20px rgba(143, 193, 117, 0.65);
+                }
+            }
+
+
+        }
+    }
+
+}

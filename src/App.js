@@ -1,19 +1,18 @@
-import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import React from "react";
+import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import { firebaseConfig } from "./firebase/firebase";
-import { useAuth } from "./firebase/firebase";
+import { useFireBaseAuth } from "./hooks/useFirebaseAuth";
+import Routes from "./routes/routes";
 
-import Routes from "./routes";
+function App() {
+  useFireBaseAuth();
+  const authStateReady = useSelector((state)=>state.auth.isAuthReady);
 
-export default function App() {
-  const currentUser = useAuth();
-  console.log(currentUser);
   return (
     <BrowserRouter>
-      {currentUser !== undefined && <Routes isloggedIn={!!currentUser} />}
-      {/* <Routes isloggedIn={!!currentUser} /> */}
+    {authStateReady && <Routes/>}
+    {/* <Routes isloggedIn={!!currentUser} /> */}
     </BrowserRouter>
   );
 }
+
+export default App;

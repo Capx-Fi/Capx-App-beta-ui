@@ -1,28 +1,48 @@
-.home{
-    .home-wrapper-1{
-        .home-wrapper-1-inner{
-            ::-webkit-scrollbar {
-                height: 12px;
-              }
-              /* Track */
-              ::-webkit-scrollbar-track {
-                background: #1F7A5515;
-                border-radius: 100px;
-                overflow: hidden;
-              }
-              
-              /* Handle */
-              ::-webkit-scrollbar-thumb {
-                background: #1F7A5535;
-                border-radius: 100;
-              }
-              
-              /* Handle on hover */
-              ::-webkit-scrollbar-thumb:hover {
-                background: #1F7A5545;
-              }
-            
-        }
-    }
-}
+.home {
+  .home-wrapper-1 {
+    .home-wrapper-1-inner {
+      ::-webkit-scrollbar {
+        height: 12px;
+      }
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #1f7a5515;
+        border-radius: 100px;
+        overflow: hidden;
+      }
 
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #1f7a5535;
+        border-radius: 100;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1f7a5545;
+      }
+    }
+    .home-tasks {
+      ::-webkit-scrollbar {
+        height: 12px;
+      }
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #1f7a5515;
+        border-radius: 100px;
+        overflow: hidden;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #1f7a5535;
+        border-radius: 100;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1f7a5545;
+      }
+    }
+  }
+}

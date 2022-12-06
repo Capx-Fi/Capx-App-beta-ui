@@ -1,6 +1,6 @@
-import Stepper from "../../components/Stepper/Stepper";
 import { useNavigate } from "react-router-dom";
 import { CongratulationSvg, OnboardSvg } from "../../assets/svg";
+import Stepper from "../../components/stepper/Stepper";
 
 const Congratulaions = () => {
   const navigate = useNavigate();
@@ -24,7 +24,9 @@ const Congratulaions = () => {
                 Congratulaions!
               </p>
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-10">
-                Welcome to the<br />Capx experience
+                Welcome to the
+                <br />
+                Capx experience
               </h2>
 
               <button

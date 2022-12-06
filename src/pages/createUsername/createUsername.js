@@ -7,24 +7,27 @@ import {
 } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
-import Stepper from "../../components/Stepper/Stepper";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { setUserName } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
+import Stepper from "../../components/stepper/Stepper";
 
 const CreateUsername = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [username,setUsername] = useState('');
-  const { isError,isPending, postData,  data } = useApi('https://capx-gateway-cnfe7xc8.uc.gateway.dev/checkIfUsernameAvailable','POST');
+  const [username, setUsername] = useState("");
+  const { isError, isPending, postData, data } = useApi(
+    "https://capx-gateway-cnfe7xc8.uc.gateway.dev/checkIfUsernameAvailable",
+    "POST"
+  );
 
   const handleFormSubmit = async (values, { resetForm }) => {
     console.log(values);
     setUsername(values.username);
-    const apiDataObject = {data:{username:values.username}}
-    postData(apiDataObject)
+    const apiDataObject = { data: { username: values.username } };
+    postData(apiDataObject);
   };
 
   const formik = useFormik({
@@ -39,14 +42,14 @@ const CreateUsername = () => {
     onSubmit: handleFormSubmit,
   });
 
-  useEffect(()=>{
-    if(data){
-        if(data.result){
-            dispatch(setUserName({username}))
-            navigate('/invite-code',{ state: { username } })
-        }
+  useEffect(() => {
+    if (data) {
+      if (data.result) {
+        dispatch(setUserName({ username }));
+        navigate("/invite-code", { state: { username } });
+      }
     }
-  },[data])
+  }, [data]);
 
   return (
     <>

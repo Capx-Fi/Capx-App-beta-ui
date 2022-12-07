@@ -40,8 +40,16 @@ import QuestLayoutSvg from "./QuestLayoutSvg.svg";
 import QuestSuccessSvg from "./QuestSuccessSvg.svg";
 import TwitterNegative from "./twitter-negative.svg";
 import DiscordNegative from "./discord-negative.svg";
+import newTaskcardSvg from "./newTaskcardSvg.svg";
+import dailyTaskCardIcon from "./dailyTaskCardIcon.svg";
+import cardAirdrop from "./cardAirdrop.svg";
+import homeInfoSVG from "./homeInfoSVG.svg";
 
 export {
+  homeInfoSVG,
+  cardAirdrop,
+  dailyTaskCardIcon,
+  newTaskcardSvg,
   TwitterNegative,
   InstagramIcon,
   WhatsappIcon,
@@ -84,5 +92,4 @@ export {
   InvitecodeStickerMob,
   BrandLogoSvg,
   HomeIconSvg,
-
 };

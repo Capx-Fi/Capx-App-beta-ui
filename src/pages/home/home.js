@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { AlertIcon, DailyQuestsIcon } from "../../assets/svg";
+import { AlertIcon, DailyQuestsIcon, homeInfoSVG } from "../../assets/svg";
 import ConsTasks from "./components/ConsTasks/ConsTasks";
 import DailyTasks from "./components/DailyTasks/DailyTasks";
 import HomeBanner from "./components/HomeBanner/HomeBanner";
@@ -22,6 +22,7 @@ const Home = () => {
   );
 
   useEffect(() => {
+    console.log(data);
     if (data && !isPending) {
       let result = [];
       console.log(user.registered_on);
@@ -48,7 +49,8 @@ const Home = () => {
         result.push(dataObject);
       });
       console.log(result);
-      let todaysDate = formatDate(new Date());
+      // let todaysDate = formatDate(new Date());
+      let todaysDate = "2022-12-06";
       console.log(todaysDate);
       dispatch(setQuestsData({ allQuests: result }));
       setDailyQuests(
@@ -76,60 +78,76 @@ const Home = () => {
     return num.toString().padStart(2, "0");
   }
 
-  return (
-    <div className="home flex flex-col md:flex-row p-8 gap-16 flex-wrap">
-      <div className="home-wrapper-1 flex flex-col gap-8 w-full ">
-        <HomeBanner />
-        <div className="home-wrapper-1-inner flex flex-col gap-5">
-          <div className="home-title flex flex-row items-center gap-2">
-            <img src={DailyQuestsIcon} className="w-8" />
-            <p className="fs-16 font-black">Daily Rewards</p>
-          </div>
-          <div className="home-tasks flex flex-row 11/12 pb-8 overflow-x-scroll">
-            <ConsTasks quests={dailyQuests} />
-          </div>
-        </div>
+  const unclaimed = true;
 
-        <div className="home-wrapper-1-inner flex flex-col gap-5">
-          <div className="home-title flex flex-row items-center gap-2">
-            <img src={DailyQuestsIcon} className="w-8" />
-            <p className="fs-16 font-black">Daily Quests</p>
+  const quests = [
+    { taskreward: 5, completed_by: 72, tasktitle: "How to earn xCapx?" },
+    { taskreward: 5, completed_by: 72, tasktitle: "Generate invite code" },
+    { taskreward: 5, completed_by: 72, tasktitle: "Tweet from your account" },
+    { taskreward: 5, completed_by: 72, tasktitle: "How to earn xCapx?" },
+  ];
+
+  return (
+    <>
+      <div className="home flex">
+        <div
+          className={`home-wrapper-1 p-8 flex flex-col gap-8 w-full ${
+            unclaimed ? "w-2/3" : ""
+          }`}
+        >
+          <HomeBanner />
+          <div
+            className={`home-wrapper-1-inner flex ${
+              unclaimed ? "flex-col" : ""
+            } gap-5`}
+          >
+            <div className={`${unclaimed ? "" : "w-1/2"} pr-5`}>
+              <div className="home-title flex flex-row items-center gap-2">
+                <img src={DailyQuestsIcon} className="w-8" alt="" />
+                <p className="fs-16 font-black">Special Quests</p>
+              </div>
+              <div className="home-tasks flex flex-row 11/12 pb-8 overflow-x-scroll">
+                <ConsTasks quests={dailyQuests} />
+              </div>
+            </div>
+            <div className={`${unclaimed ? "" : "w-1/2"} pr-5`}>
+              <div className="home-title flex flex-row items-center gap-2">
+                <img src={DailyQuestsIcon} className="w-8" alt="" />
+                <p className="fs-16 font-black">Ongoing Quests</p>
+              </div>
+              <div className="home-tasks flex flex-row 11/12 pb-8 overflow-x-scroll">
+                <ConsTasks quests={dailyQuests} />
+              </div>
+            </div>
           </div>
-          <div className="home-tasks flex flex-row 11/12 pb-8 overflow-x-scroll">
-            <DailyTasks quests={dailyQuests} />
+
+          <div className="home-wrapper-1-inner flex flex-col gap-5">
+            <div className="home-title flex flex-row items-center gap-2">
+              <img src={DailyQuestsIcon} className="w-8" alt="" />
+              <p className="fs-16 font-black">Daily Quests</p>
+            </div>
+            <div className="home-tasks flex flex-row 11/12 pb-8 overflow-x-scroll">
+              <DailyTasks quests={dailyQuests} />
+            </div>
           </div>
         </div>
+        {unclaimed && (
+          <div className="unclaimed-main flex flex-col w-1/3 border-l-2 p-8">
+            <div className="info flex items-center mb-8">
+              <img src={homeInfoSVG} alt="" />
+              <span className="ml-2">
+                Complete your profile & earn 4 xCapx{" "}
+              </span>
+            </div>
+            <div className="heading flex items-center mb-8">
+              <img src={AlertIcon} alt="" />
+              <p className="ml-2">Unclaimed 16 xCapx</p>
+            </div>
+            <OldTasks quests={quests} />
+          </div>
+        )}
       </div>
-      {/* <div className="home-wrapper-2 w-full md:w-2/5">
-        <div className="home-wrapper-1-inner flex flex-col gap-5">
-          <div className="home-title flex flex-row items-center gap-2">
-            <img src={AlertIcon} className="w-8" />
-            <p className="fs-16 font-black">
-              Unclaimed{" "}
-              {prevQuests.reduce((acc, val) => {
-                return acc + Number(val.taskreward);
-              }, 0)}
-              xCapx
-            </p>
-          </div>
-          {prevQuests && prevQuests.length > 0 && (
-            <OldTasks quests={prevQuests} />
-          )}
-        </div>
-      </div> */}
-    </div>
-    // <div className="home p-8">
-    //   <HomeBanner />
-    //   <div className="home-wrapper-1-inner flex flex-col gap-5">
-    //     <div className="home-title flex flex-row items-center gap-2">
-    //       <img src={DailyQuestsIcon} className="w-8" alt="" />
-    //       <p className="fs-16 font-black">Daily Rewards</p>
-    //     </div>
-    //     <div className="home-tasks flex flex-row 11/12 pb-8 overflow-x-scroll">
-    //       <ConsTasks quests={dailyQuests} />
-    //     </div>
-    //   </div>
-    // </div>
+    </>
   );
 };
 

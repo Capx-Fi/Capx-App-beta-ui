@@ -1,11 +1,20 @@
-.dailycards{
-    .dailycards-wrapper{
-        .dailycard-main{
-            background: #D6F1D9;
-            border-color: #8EC48950;
-            .taskbtn{
-                background: $gradient-cgreen-2;
-            }
-        }
+.dailycards {
+  .dailycards-wrapper {
+    .dailycard-main {
+      min-width: 286px;
+      min-height: 300px;
+      background: #d6f1d9;
+      border-color: #8ec48950;
+      .taskbtn {
+        background: $gradient-cgreen-2;
+      }
+      .taskchip {
+        padding: 5px 9.5px;
+        font-size: 14px;
+        background: #8ec48935;
+        width: fit-content;
+        border: 2px solid #8ec48935;
+      }
     }
+  }
 }

@@ -1,10 +1,11 @@
 .constcards {
   .constcards-wrapper {
     .constcards-main {
-      max-height: 300px;
+      min-height: 300px;
+      min-width: 286px;
       background: #d6f1d9;
       border-color: #8ec48950;
-      background-image: url(../../../../assets/images/home/thumb.png);
+      //   background-image: url(../../../../assets/images/home/thumb.png);
       background-repeat: no-repeat;
       background-size: 35%;
       .taskchip {
@@ -17,6 +18,26 @@
         background: $gradient-cgreen-2;
       }
     }
+    .end-card {
+      min-height: 300px;
+      min-width: 622px;
+      border-color: #8ec48950;
+      background: #d6f1d9;
+      background-repeat: no-repeat;
+      display: flex;
+      align-items: center;
+      background-image: url(../../../../assets/svg/cardAirdrop.svg);
+      background-repeat: no-repeat;
+      background-position: 90% center;
+      p {
+        font-size: 50px;
+        font-weight: 900;
+        line-height: 53px;
+        letter-spacing: -1.2619px;
+        color: rgba(25, 95, 86, 0.3);
+      }
+    }
+
     ::-webkit-scrollbar {
       height: 12px;
     }

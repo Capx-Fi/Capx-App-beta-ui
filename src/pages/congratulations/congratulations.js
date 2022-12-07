@@ -1,4 +1,4 @@
-import Stepper from "../../components/Stepper/Stepper";
+import Stepper from "../../components/stepper/Stepper";
 import { useNavigate } from "react-router-dom";
 import { CongratulationSvg, OnboardSvg } from "../../assets/svg";
 import { useDispatch } from "react-redux";

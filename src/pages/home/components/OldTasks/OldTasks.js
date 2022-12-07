@@ -28,11 +28,11 @@ const OldTasks = ({quests}) => {
   }
 
   useEffect(()=>{
-    if(data && data.result.status && (data.result.status === true || data.result.status.toLowerCase() === "success")){
+    if(data && data.result.success && (data.result.success === true)){
       console.log(data);
       dispatch(setQuestOrderId({questId:data.result.quest_order_id}))
       navigate('/quest')
-    }else if(data && data.result === Constants.QUEST_REGISTERED_ERROR ){
+    }else if(data && data.result.success === false && data.result.message === Constants.QUEST_REGISTERED_ERROR ){
       console.log(data.result);
       dispatch(setQuestOrderId({questId:questId+"|"+auth.uid}))
       navigate('/quest')

@@ -18,7 +18,7 @@ const Layout = () => {
   const [userDataFetch,setUserDataFetch] = useState(false);
   const [userLogout,setUserLogout] = useState(false);
   const { data,error,isPending } = useFirestoreCollection("users",["email","==",`${authUser?authUser.email:''}`]);
-  const { data:questData, error:questError , isPending:questIsPending } = useFirestoreCollection(`users/${authUser.uid}/quest-order`,["docType","==","Aggregate"]);
+  const { data:questData, error:questError , isPending:questIsPending } = useFirestoreCollection(`users/${authUser?authUser.uid:"dummy"}/quest-order`,["docType","==","Aggregate"]);
   const { signOutUser,error:logoutError,isPending:logoutPending } = useFireBaseLogout();
   console.log('i rendered')
 
@@ -41,12 +41,12 @@ const Layout = () => {
     }else if(userLogout && !logoutPending){
       console.log('i triggered');
       dispatch(logoutUser());
-      navigate('/onboarding')
+      //navigate('/onboarding')
     }
-  },[data,error])
+  },[data,error,userLogout])
 
   useEffect(()=>{
-    if(questData && questData.length>0 && questData[0].quests){
+    if(questData && questData.length>0 && questData[0].quests && !userLogout){
       const userQuestData = questData[0].quests;
       let result = [];
       Object.keys(userQuestData).forEach((key)=>{

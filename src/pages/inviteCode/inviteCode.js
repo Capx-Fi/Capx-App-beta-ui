@@ -3,7 +3,7 @@ import {
     InviteCodeSideSticker,
     InvitecodeStickerMob,
   } from "../../assets/svg";
-  import Stepper from "../../components/Stepper/Stepper";
+  import Stepper from "../../components/stepper/Stepper";
   import { useEffect, useState } from "react";
   import { useLocation, useNavigate } from "react-router-dom";
 	import OtpInput from "react-otp-input";

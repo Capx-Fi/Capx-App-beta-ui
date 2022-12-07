@@ -11,6 +11,7 @@ export const useFireBaseLogout = () => {
     const [isCancelled,setIsCancelled] = useState(false);
     const [error,setError] = useState(null);
     const [isPending,setIsPending] = useState(false);
+    const [data,setData] = useState(null);
     const dispatch = useDispatch();
     
 
@@ -29,6 +30,7 @@ export const useFireBaseLogout = () => {
            
             dispatch(resetUser());
             dispatch(resetQuestData());
+            setData(true)
            
             if(!isCancelled){
                 setIsPending(false);
@@ -46,6 +48,6 @@ export const useFireBaseLogout = () => {
     //     return () => setIsCancelled(true);
     // },[])
 
-    return { error:error, isPending:isPending, signOutUser:signOutUser }
+    return { error:error, isPending:isPending, signOutUser:signOutUser, data }
   
 }

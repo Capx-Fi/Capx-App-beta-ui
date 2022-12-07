@@ -9,7 +9,7 @@ import {
 } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
-import Stepper from "../../components/Stepper/Stepper";
+import Stepper from "../../components/stepper/Stepper";
 import { useFirebaseSignup } from "../../hooks/useFirebaseSignup";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";

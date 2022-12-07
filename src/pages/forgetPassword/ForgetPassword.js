@@ -10,7 +10,7 @@ const ForgotPassowrd = () => {
   const handleFormSubmit = async (values, { resetForm }) => {
     console.log(values.email);
     const data = await sendPasswordResetEmail(auth, values.email, {
-      url: "http://localhost:3000/signup/email",
+      url: "https://amplify-alphav1.d3gi8zcoorbmwm.amplifyapp.com/signup/email",
     });
     console.log(data);
     resetForm();

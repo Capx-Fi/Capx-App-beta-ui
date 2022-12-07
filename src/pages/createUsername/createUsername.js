@@ -7,7 +7,7 @@ import {
 } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
-import Stepper from "../../components/Stepper/Stepper";
+import Stepper from "../../components/stepper/Stepper";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
 import { useEffect,useState } from "react";

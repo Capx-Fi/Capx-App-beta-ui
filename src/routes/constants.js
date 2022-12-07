@@ -11,7 +11,8 @@ import MyWallet from "../pages/MyWallet";
 import Profile from "../pages/profile";
 import QuestLayout from "../pages/quests/quest-layout/index.js";
 import EmailLogin from "../pages/emailLogin"
-import ForgotPassowrd from "../pages/forgetPassword/forgetPassword"
+import ForgotPassowrd from "../pages/forgetPassword/ForgetPassword"
+import ResetPassword from "../pages/resetPassword/ResetPassword";
 import { Navigate } from "react-router-dom";
 
 const Redirect = ({ to }) => {
@@ -44,8 +45,12 @@ export const publicRoutes =  [
       element: <ForgotPassowrd />,
     },
     {
+      path: "/reset-password",
+      element: <ResetPassword />,
+    },
+    {
       path: "*",
-      element: <Redirect to="/onboarding" />,
+      element: <Redirect to="/" />,
     },
 ];
 
@@ -72,7 +77,14 @@ export const privateRoutes = [
       },
     ],
   },
-	{
+  {
+    path: "*",
+    element: <Redirect to="/" />,
+  },
+];
+
+export const semiProtectedRoutes = [
+  {
     path: "/create-username",
     element: <CreateUsername />,
   },
@@ -86,6 +98,6 @@ export const privateRoutes = [
   },
   {
     path: "*",
-    element: <Redirect to="/" />,
+    element: <Redirect to="/create-username" />,
   },
 ];

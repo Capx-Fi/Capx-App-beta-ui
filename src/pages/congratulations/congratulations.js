@@ -1,9 +1,20 @@
 import Stepper from "../../components/Stepper/Stepper";
 import { useNavigate } from "react-router-dom";
 import { CongratulationSvg, OnboardSvg } from "../../assets/svg";
+import { useDispatch } from "react-redux";
+import { setUserProfileComplete } from "../../store/slices/authSlice";
+
+//
 
 const Congratulaions = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  
+  const handleClick = () => {
+    dispatch(setUserProfileComplete());
+  }
+  
+  
 
   return (
     <>
@@ -31,7 +42,7 @@ const Congratulaions = () => {
                 type="submit"
                 className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 bg-gredient-2`}
                 onClick={() => {
-                  navigate("/signin");
+                  handleClick();
                 }}
               >
                 LFG

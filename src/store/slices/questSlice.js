@@ -41,27 +41,30 @@ export const questSlice = createSlice({
             state.currentAction.action_submission = action.payload.action_submission;
         },
         resetQuestData : (state,action) => {
-					state.allQuests = [];
-					state.currentQuest={
-							questId : "",
-							quest_start_time : "",
-							quest_actions : [],
-							quest_status_complete : false,
-							quest_submission : "",
-							quest_title : "",
-							quest_description : ""
-					}
-					state.currentAction = {
-							actionId : "",
-							action_start_date : "",
-							action_title : "",
-							action_option : [],
-							action_submission : ""
-					}
+            state.allQuests = [];
+            state.currentQuest={
+                    questId : "",
+                    quest_start_time : "",
+                    quest_actions : [],
+                    quest_status_complete : false,
+                    quest_submission : "",
+                    quest_title : "",
+                    quest_description : ""
+            }
+            state.currentAction = {
+                    actionId : "",
+                    action_start_date : "",
+                    action_title : "",
+                    action_option : [],
+                    action_submission : ""
+            }
+        },
+        setQuestOrderId : (state,action) => {
+            state.currentQuest.questId = action.payload.questId;
         }
     }
 })
 
-export const { setQuestsData, setCurrentQuest, setCurrentAction, resetQuestData } = questSlice.actions;
+export const { setQuestsData, setCurrentQuest, setCurrentAction, resetQuestData, setQuestOrderId } = questSlice.actions;
 
 export default questSlice.reducer; 

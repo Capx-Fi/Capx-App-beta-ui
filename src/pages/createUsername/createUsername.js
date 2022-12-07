@@ -13,18 +13,27 @@ import { useApi } from "../../hooks/useApi";
 import { useEffect,useState } from "react";
 import { setUserName } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
+import Modal from "../../components/Modal/Modal";
 
 const CreateUsername = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [username,setUsername] = useState('');
-  const { isError,isPending, postData,  data } = useApi('https://capx-gateway-cnfe7xc8.uc.gateway.dev/checkIfUsernameAvailable','POST');
+  const [usernameExists, setUsernameExists ] = useState(false);
+  const { error,isPending, postData,  data } = useApi('https://capx-gateway-cnfe7xc8.uc.gateway.dev/checkIfUsernameAvailable','POST');
+  const [showModal,setShowModal] = useState(true);
+
+  const showModalFunc = () =>{
+    setShowModal((prevState)=>{return !prevState})
+  }
 
   const handleFormSubmit = async (values, { resetForm }) => {
-    console.log(values);
+    setShowModal(true);
+    setUsernameExists(false);
     setUsername(values.username);
     const apiDataObject = {data:{username:values.username}}
     postData(apiDataObject)
+    resetForm();
   };
 
   const formik = useFormik({
@@ -41,9 +50,12 @@ const CreateUsername = () => {
 
   useEffect(()=>{
     if(data){
-        if(data.result){
+        if(data.result.success){
             dispatch(setUserName({username}))
             navigate('/invite-code',{ state: { username } })
+        }else{
+            console.log(data.result.success)
+            setUsernameExists(true);
         }
     }
   },[data])
@@ -77,7 +89,6 @@ const CreateUsername = () => {
                     onChange={formik.handleChange}
                   />
                 </div>
-
                 <button
                   type="submit"
                   className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 md:mb-4 mb-8 ${
@@ -119,6 +130,8 @@ const CreateUsername = () => {
             </div>
           </div>
         </div>
+        {isPending && <Modal/>}
+        {showModal && !isPending && usernameExists && <Modal actions={{error:"Username already taken",showModalFunc:showModalFunc}}/>}
       </main>
     </>
   );

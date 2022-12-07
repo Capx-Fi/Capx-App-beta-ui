@@ -8,18 +8,16 @@ import {
   TwitterIcon,
 } from "../../assets/svg";
 import { IoMdMail } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { useFireBaseLogin } from "../../hooks/useFirebaseLogin"
 
-import { useDispatch } from "react-redux";
-import { setUser } from "../../store/slices/userSlice";
 
 
 const Login = () => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
+  const {error, isPending, signInUserUsingSocial} = useFireBaseLogin();
 
   const handleLogin = async (method) => {
-    
+    await signInUserUsingSocial(method)
   };
   return (
     <>
@@ -50,7 +48,7 @@ const Login = () => {
               </div>
               <button
                 onClick={() => {
-                  handleLogin();
+                  handleLogin("google");
                 }}
                 className="mb-5 self-stretch"
               >
@@ -63,7 +61,7 @@ const Login = () => {
               </button>
               <button
                 onClick={() => {
-                  handleLogin();
+                  handleLogin("twitter");
                 }}
                 className="mb-5 self-stretch"
               >

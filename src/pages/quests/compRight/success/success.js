@@ -4,7 +4,7 @@ import {CoinSvg, } from "../../../../assets/svg";
 import Lottie from 'react-lottie';
 import animationData from "../../../../assets/lottie/successCheck.json";
 
-const successMsg = () => {
+const successMsg = ({errorReset}) => {
     const defaultOptions = {
         loop: true,
         autoplay: true,
@@ -22,9 +22,9 @@ const successMsg = () => {
         width={240}/>
         <div className="codestep2-congrats-1 flex flex-col items-center">
         <p className="codestep2-congratstitle fs-30 font-bold">Congratulations!</p>
-        <p className="fs-18 font-medium">You have earned 5 xCapx as rewards! </p>
+        <p className="fs-18 font-medium">You have successfully completed the task! </p>
       </div>
-        <button className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 mb-5 rounded-2xl text-white font-semibold fs-16 w-full">
+        <button onClick={errorReset} className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 mb-5 rounded-2xl text-white font-semibold fs-16 w-full">
             Next Quest
             <HiArrowRight className="text-xl ml-4" />
           </button>

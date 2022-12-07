@@ -2,7 +2,7 @@ import React from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useRef } from "react";
 
-const tweetstep1 = () => {
+const tweetstep1 = ({actionData}) => {
 
   return (
     <div className="createtweet flex-col md:ml-20 md:w-7/12 w-full px-5 md:px-0">
@@ -29,7 +29,7 @@ const tweetstep1 = () => {
                 </p>
             </div>
 
-            <button className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full">
+            <button className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full" onClick={(e)=>actionData.handleCompleteAction(e,{type:"video",value:"twitterCopy"})}>
                 Share on Twitter
                 <HiArrowRight className="text-xl ml-4" />
           </button>
@@ -37,5 +37,5 @@ const tweetstep1 = () => {
     </div>
   );
 };
-
+ 
 export default tweetstep1;

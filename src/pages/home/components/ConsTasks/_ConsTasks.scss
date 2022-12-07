@@ -1,20 +1,41 @@
-.constcards{
-    .constcards-wrapper{
-        .constcards-main{
-            background: #D6F1D9;
-            border-color: #8EC48950;
-            background-image: url(../../../../assets/images/home/thumb.png);
-            background-repeat: no-repeat;
-            background-size: 35%;
-            .taskchip{
-                padding:10px 10px 10px 10px;
-                background: #8EC48935;
-                width: fit-content;
-                border: 2px solid #8EC48935; 
-            }
-            .taskbtn{
-                background: $gradient-cgreen-2;
-            }
+.constcards {
+    .constcards-wrapper {
+      .constcards-main {
+        max-height: 300px;
+        background: #d6f1d9;
+        border-color: #8ec48950;
+        background-image: url(../../../../assets/images/home/thumb.png);
+        background-repeat: no-repeat;
+        background-size: 35%;
+        .taskchip {
+          padding: 10px 10px 10px 10px;
+          background: #8ec48935;
+          width: fit-content;
+          border: 2px solid #8ec48935;
         }
+        .taskbtn {
+          background: $gradient-cgreen-2;
+        }
+      }
+      ::-webkit-scrollbar {
+        height: 12px;
+      }
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #1f7a5515;
+        border-radius: 100px;
+        overflow: hidden;
+      }
+  
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #1f7a5535;
+        border-radius: 100;
+      }
+  
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #1f7a5545;
+      }
     }
-}
+  }

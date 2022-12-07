@@ -33,7 +33,7 @@ export const useFirestoreCollection = (_collection,queryObject={}) => {
                 setIsPending(false);
             }
         }, (error) => {
-            console.log(error)
+            //console.log(error)
             setError(error.message);
             setIsPending(false);
         })

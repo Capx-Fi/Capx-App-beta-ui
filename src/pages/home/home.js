@@ -9,6 +9,7 @@ import SpecialTasks from "./components/SpecialTasks/SpecialTasks";
 import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestsData } from "../../store/slices/questSlice";
+import Modal from "../../components/Modal/Modal";
 
 
 const Home = () => {
@@ -21,30 +22,37 @@ const Home = () => {
 
   useEffect(()=>{
     if(data && !isPending){
+      console.log(data);
+      console.log(user);
+      const questData = data[0];
       let result = []
-      console.log(user.registered_on);
       Object.keys(data[0].quests).forEach((val)=>{
         const dataObject ={
           id : val,
-          tasktitle : data[0].quests[val].title,
-          tags : data[0].quests[val].tags,
-          rewards_type : data[0].quests[val].rewards_type,
-          taskreward : data[0].quests[val].max_rewards,
-          expiry : data[0].quests[val].expiry,
-          taskbtntext : "Claim now",
+          tasktitle : questData.quests[val].title,
+          tags : questData.quests[val].tags,
+          rewards_type : questData.quests[val].rewards_type,
+          taskreward : questData.quests[val].max_rewards,
+          expiry : questData.quests[val].expiry,
+          taskbtntext : user.questData.some((obj)=> val === obj.questID) ? "Resume" :"Claim now",
           taskchip: "Daily Reward",
           taskcategory: "constant",
-          created_on : formatDate(new Date((Number(user.registered_on)+Number(data[0].quests[val].launch_day_period))*1000)),
-          completed_by: data[0].quests[val].completed_by
+          created_on : formatDate(new Date((Number(user.registered_on)+Number(questData.quests[val].launch_day_period))*1000)),
+          completed_by: questData.quests[val].completed_by,
+          status : user.questData.some((obj)=> val === obj.questID) ? user.questData.filter((obj)=>{return obj.questID === val } )[0].status : "new"
         };
         result.push(dataObject);
       })
-      console.log(result);
       let todaysDate = formatDate(new Date());
-      console.log(todaysDate)
       dispatch(setQuestsData({allQuests:result}));
       setDailyQuests(result.filter((val)=>{return val.created_on === todaysDate}));
-      setPrevQuests(result.filter((val)=>{return val.created_on !== todaysDate}))
+      setPrevQuests(result.filter((val)=>{return (val.created_on !== todaysDate && val.status !== "COMPLETED")}))
+      if(result.filter((val)=>{return val.created_on !== todaysDate}).length === 0){
+        var element = document.getElementById("home-container");
+        element.classList.add("flex-wrap");
+        var secondEle = document.getElementById("scroll-container")
+        secondEle.classList.remove("md:w-3/5")
+      }
     }
   },[data])
 
@@ -63,8 +71,8 @@ const Home = () => {
 
 
   return (
-    <div className="home flex flex-col md:flex-row p-8 gap-16">
-      <div className="home-wrapper-1 flex flex-col gap-8 w-full md:w-3/5">
+    <div className={"home flex flex-col md:flex-row p-8 gap-16"} id="home-container">
+      <div className="home-wrapper-1 flex flex-col gap-8 w-full md:w-3/5" id="scroll-container" >
         <HomeBanner />
         <div className="home-wrapper-1-inner flex flex-col gap-5">
           <div className="home-title flex flex-row items-center gap-2">
@@ -86,15 +94,16 @@ const Home = () => {
           </div>
         </div>
       </div>
-      <div className="home-wrapper-2 w-full md:w-2/5">
+      {prevQuests && prevQuests.length>0 && <div className="home-wrapper-2 w-full md:w-2/5">
         <div className="home-wrapper-1-inner flex flex-col gap-5">
           <div className="home-title flex flex-row items-center gap-2">
             <img src={AlertIcon} className="w-8" />
-            <p className="fs-16 font-black">Unclaimed {prevQuests.reduce((acc,val)=>{return acc+Number(val.taskreward)},0)}xCapx</p>
+            <p className="fs-16 font-black">Unclaimed {prevQuests.reduce((acc,val)=>{return acc+Number(val.taskreward)},0)} xCapx</p>
           </div>
-          {prevQuests && prevQuests.length>0 && <OldTasks quests={prevQuests} />}
+           <OldTasks quests={prevQuests} />
         </div>
-      </div>
+      </div>}
+      {isPending && <Modal></Modal>}
     </div>
   );
 }

@@ -13,6 +13,7 @@ import Stepper from "../../components/Stepper/Stepper";
 import { useFirebaseSignup } from "../../hooks/useFirebaseSignup";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
+import Modal from "../../components/Modal/Modal";
 
 
 const EmailSignup = () => {
@@ -23,12 +24,18 @@ const EmailSignup = () => {
 	const { _isPending , _error , signupUsingEmail , _isSuccess } = useFirebaseSignup();
   const user = useSelector((state)=>state.user)
   const authStatus = useSelector((state)=>state.auth.loggedin)
+  const [showModal,setShowModal] = useState(true);
+
+  const showModalFunc = () =>{
+    setShowModal((prevState)=>{return !prevState})
+  }
 
   const handleShowPassword = () => {
     setShowPassword((prev) => (prev ? false : true));
   };
 
   const handleFormSubmit = async (value, { resetForm }) => {
+    setShowModal(true);
     const { email, password } = value;
     signupUsingEmail(email,password);
   };
@@ -67,7 +74,8 @@ const EmailSignup = () => {
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-3">
                 Sign up with email
               </h2>
-							{_isPending && <p>Signin User Up</p>}
+							{_isPending && <Modal/>}
+              {showModal && _error && <Modal actions={{error:_error,showModalFunc:showModalFunc}}/>}
               {!_isPending && <form
                 className="w-full flex flex-col"
                 onSubmit={formik.handleSubmit}
@@ -129,7 +137,7 @@ const EmailSignup = () => {
                   Sign up
                 </button>
               </form>}
-							{_error && <div><p>{_error}</p></div>}
+							
               <p className="text-center fs-12 text-primary-900 font-medium mb-6">
                 By clicking Sign Up above, you agree to Capx’s
                 <br />

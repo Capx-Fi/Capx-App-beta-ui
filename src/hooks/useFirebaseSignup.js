@@ -21,7 +21,7 @@ export const useFirebaseSignup = () => {
                 throw new Error('Could not complete signup')
             }
             console.log(response);
-            dispatch(setLoggedInUser({user:response}));
+            dispatch(setLoggedInUser({user:response.user,isUserProfileSet:false}));
             if(!isCancelled){
                 setIsPending(false);
                 setError(null);

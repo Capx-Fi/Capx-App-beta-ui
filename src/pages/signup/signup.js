@@ -8,14 +8,14 @@ import {
   TwitterIcon,
 } from "../../assets/svg";
 import { IoMdMail } from "react-icons/io";
-import { Link, useNavigate } from "react-router-dom";
-
+import { Link } from "react-router-dom";
+import { useFireBaseLogin } from "../../hooks/useFirebaseLogin"
 
 const Signup = () => {
-  const navigate = useNavigate();
+  const {error, isPending, signInUserUsingSocial} = useFireBaseLogin();
 
   const handleLogin = async (method) => {
-    
+    await signInUserUsingSocial(method)
   };
 
   return (
@@ -47,7 +47,7 @@ const Signup = () => {
               </div>
               <button
                 onClick={() => {
-                  handleLogin();
+                  handleLogin("google");
                 }}
                 className="mb-5 self-stretch"
               >
@@ -60,7 +60,7 @@ const Signup = () => {
               </button>
               <button
                 onClick={() => {
-                  handleLogin();
+                  handleLogin("twitter");
                 }}
                 className="mb-5 self-stretch"
               >

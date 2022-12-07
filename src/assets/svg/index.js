@@ -40,6 +40,7 @@ import QuestLayoutSvg from "./QuestLayoutSvg.svg";
 import QuestSuccessSvg from "./QuestSuccessSvg.svg";
 import TwitterNegative from "./twitter-negative.svg";
 import DiscordNegative from "./discord-negative.svg";
+import Logout from "./Logout.svg"
 
 export {
   TwitterNegative,
@@ -84,5 +85,5 @@ export {
   InvitecodeStickerMob,
   BrandLogoSvg,
   HomeIconSvg,
-
+  Logout
 };

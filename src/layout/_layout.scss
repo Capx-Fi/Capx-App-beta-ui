@@ -2,10 +2,12 @@
     .main-wrapper {
       padding-top: 70px;
       max-height: 100vh;
+      width: calc(100vw - 90px);
       overflow-x: scroll;
       @media screen and (max-width: 767.98px) {
         padding-top: 64px;
         padding-bottom: 118px;
+        width: 100vw;
       }
     }
   }

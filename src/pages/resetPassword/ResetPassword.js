@@ -1,42 +1,56 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { OnboardMobBg } from "../../assets/images";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
-import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
-import Modal from "../../components/Modal/Modal";
+import { async } from "@firebase/util";
+import { confirmPasswordReset } from "firebase/auth";
+import { auth } from "../../firebase/firebase";
 
-const EmailLogin = () => {
+function useQuery() {
+  const location = useLocation();
+  return new URLSearchParams(location.search);
+}
+
+const ResetPassword = () => {
+  const query = useQuery();
   const navigate = useNavigate();
-  const { error, isPending, signInUser } = useFireBaseLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const [showModal,setShowModal] = useState(true);
 
-  const showModalFunc = () =>{
-    setShowModal((prevState)=>{return !prevState})
-  }
+  useEffect(() => {
+    if (!query.get("oobCode")) {
+      navigate("/forgot-password");
+    }
+  }, []);
 
   const handleShowPassword = () => {
     setShowPassword((prev) => (prev ? false : true));
   };
 
-  const handleFormSubmit = async (value, { resetForm }) => {
-    setShowModal(true);
-    signInUser(value.email,value.password);
+  const handleFormSubmit = async (values, { resetForm }) => {
+    try {
+      const data = await confirmPasswordReset(
+        auth,
+        query.get("oobCode"),
+        values.password
+      );
+      navigate("/signin/email");
+      console.log(data);
+    } catch (err) {
+      console.log(err);
+    }
     resetForm();
   };
 
   const formik = useFormik({
-    initialValues: { email: "", password: "" },
+    initialValues: { password: "", confirmPassword: "" },
     validationSchema: Yup.object().shape({
-      email: Yup.string()
-        .required("Email is required")
-        .matches(
-          /^[^\s@]+@([^\s@.,]+\.)+[^\s@.,]{2,}$/,
-          "Invalid email adress"
-        ),
       password: Yup.string().required("Password is required"),
+      confirmPassword: Yup.string()
+        .required("Password is required")
+        .oneOf([Yup.ref("password"), null], "Passwords must match"),
     }),
     onSubmit: handleFormSubmit,
   });
@@ -45,13 +59,13 @@ const EmailLogin = () => {
     <>
       <main className="emaillogin-page min-h-screen">
         <div className="flex min-h-screen">
-          <div className="left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start md:mt-0 mt-14 items-stretch md:items-center  min-h-screen relative">
+          <div className="left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start md:mt-0 mt-14 items-stretch md:items-center bg-white-transparent min-h-screen relative">
             <div className="left-content-box flex flex-col items-center justify-center">
               <div className="brand-chip bg-primary-100  hidden md:block border-primary-200 border-1 rounded-full mb-6 md:self-center self-start">
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-3">
-                Login with email
+                Reset Password
               </h2>
 
               <form
@@ -60,23 +74,23 @@ const EmailLogin = () => {
               >
                 <div className="w-full mb-4">
                   <Input
-                    placeholder="Enter your email"
-                    label="email"
-                    type="text"
-                    error={!!formik.errors.email}
-                    value={formik.values.email}
-                    name="email"
+                    placeholder="Create a storng password"
+                    label="enter new password"
+                    type="password"
+                    error={!!formik.errors.password}
+                    value={formik.values.password}
+                    name="password"
                     onChange={formik.handleChange}
                   />
                 </div>
                 <div className="w-full  mb-4">
                   <Input
-                    placeholder="Enter your password"
-                    label="password"
+                    placeholder="Re-enter new password"
+                    label="re-enter new password"
                     type={showPassword ? "text" : "password"}
-                    error={!!formik.errors.password}
-                    value={formik.values.password}
-                    name="password"
+                    error={!!formik.errors.confirmPassword}
+                    value={formik.values.confirmPassword}
+                    name="confirmPassword"
                     onChange={formik.handleChange}
                   />
                 </div>
@@ -97,38 +111,27 @@ const EmailLogin = () => {
                     </label>
                   </div>
                   <Link
-                    to="/signup"
+                    to="/signin/email"
                     className="text-primary-900 fs-12 font-bold underline"
                   >
-                    Not a member? Sign up
+                    Back to Login
                   </Link>
                 </div>
                 <button
                   type="submit"
-                  className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-2 ${
-                    formik.errors.email || formik.errors.password
+                  className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 ${
+                    formik.errors.confirmPassword || formik.errors.password
                       ? "disabled"
                       : "bg-gredient-2"
                   }`}
-                  disabled={!!formik.errors.email || !!formik.errors.password}
+                  disabled={
+                    !!formik.errors.confirmPassword || !!formik.errors.password
+                  }
                 >
-                  Login
+                  Reset Password
                 </button>
-                <Link
-                  to="/forgot-password"
-                  className="text-primary-900 fs-12 font-bold underline text-center md:mb-0 mb-2"
-                >
-                  Forgot Password?
-                </Link>
               </form>
-              <p className="block md:hidden text-center fs-12 text-primary-900 font-medium mb-6">
-                By clicking Sign Up above, you agree to Capx’s
-                <br />
-                <span className="font-black underline ">
-                  Terms & Conditions
-                </span>{" "}
-                and <span className="font-black underline">Privacy policy</span>
-              </p>
+
               <div className="brand-chip bg-primary-100  block md:hidden border-primary-200 border-1 rounded-full mb-6 self-center ">
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
@@ -144,11 +147,9 @@ const EmailLogin = () => {
             </div>
           </div>
         </div>
-        {isPending && <Modal />}
-        {showModal && error && <Modal actions={{error:error,showModalFunc:showModalFunc}} /> }
       </main>
     </>
   );
 };
 
-export default EmailLogin;
+export default ResetPassword;

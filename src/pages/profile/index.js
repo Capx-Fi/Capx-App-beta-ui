@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React,{useEffect, useState} from "react";
 import { useSelector } from "react-redux";
 import {
   Badge,
@@ -10,17 +10,55 @@ import {
   ConnectSo,
   FullName,
 } from "../../assets/images/profile";
+import { useApi } from "../../hooks/useApi";
+import { useFormik } from "formik";
+import * as Yup from "yup";
+import Modal from "../../components/Modal/Modal";
 
 function Profile() {
+
+  const [isEditEnabled,setIsEditEnabled] = useState(false);
+  const userData = useSelector((state) => state.user);
+  const [url,setUrl] = useState('https://capx-gateway-cnfe7xc8.uc.gateway.dev');
+  const { isError,isPending, postData,  data } = useApi(url,'POST');
+
   const handleEditProfile = (e)=>{
     e.preventDefault();
     setIsEditEnabled((prevState)=>!prevState);
     console.log(isEditEnabled);
   }
 
+  const handleFormSubmit = (value) => {
+    console.log(isEditEnabled)
+    if(value.fullName.trim().length>0 && isEditEnabled){
+      const apiDataObject = {data:{name:value.fullName}}
+		  postData(apiDataObject,'/updateUserFullName');
+    }
+    // resetForm();
+  }
 
-  const [isEditEnabled,setIsEditEnabled] = useState(false);
-  const userData = useSelector((state) => state.user);
+  const formik = useFormik({
+    initialValues: { fullName: "" },
+    validationSchema: Yup.object().shape({
+      fullName: Yup.string()
+        .required("Full name is required")
+        .matches(
+          /^[a-zA-Z ]*$/,
+          "Invalid Full Name"
+        ),
+    }),
+    onSubmit: handleFormSubmit,
+  });
+
+
+ 
+
+  useEffect(()=>{
+    if(data && data.result.success===true){
+      setIsEditEnabled(false);
+      console.log(data);
+    }
+  },[data])
 
   return (
     <div className="myProfile flex flex-row">
@@ -46,7 +84,7 @@ function Profile() {
             <div className="level-badge flex flex-row items-center justify-center gap-2 rounded-xl">
               <img src={Badge} alt="" className="w-8" />
               {/* Target the below paragraph for changing User Level */}
-              <p className="font-black fs-14">Level OO</p>
+              <p className="font-black fs-14">level {userData && userData.level}</p>
             </div>
 
             {/* Wrapper for Username Chip ----------------------------------------------------------------------------*/}
@@ -71,14 +109,14 @@ function Profile() {
 
               <div className="pfp-levels flex flex-row justify-between fs-13 font-black c-green-700">
                 <div className="pfp-levels-current flex flex-col items-center gap-1">
-                  <p className="c-green-700 opacity-70">Level 00</p>
+                  <p className="c-green-700 opacity-70">Level {userData && userData.level}</p>
                   <p className=" pfp-chip px-3 py-1.5 rounded-xl border-1">
                     0 xCapx
                   </p>
                 </div>
 
                 <div className="pfp-levels-current flex flex-col items-center gap-1">
-                  <p className="c-green-700 opacity-70">Level 01</p>
+                  <p className="c-green-700 opacity-70">Level {userData && Number(userData.level)+1}</p>
                   <p className=" pfp-chip px-3 py-1.5 rounded-xl border-1">
                     12 xCapx
                   </p>
@@ -124,10 +162,12 @@ function Profile() {
                 />
               </div>:<input
                 placeholder="Enter your Full Name"
-                label="fullname"
+                label="fullName"
                 type="text"
-                name="fullname"
+                name="fullName"
                 autoFocus
+                value={formik.values.fullName}
+                onChange={formik.handleChange}
                 className="fullname flex flex-row  w-3/4 py-3 px-4 justify-between items-center rounded-2xl border-2"
               />}
             </div>
@@ -210,12 +250,12 @@ function Profile() {
                   </div>
                 </button>}
 
-                {userData?.socials.discord_id.trim() !== ""?<div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
+                {userData.socials.discord_id && userData?.socials.discord_id.trim() !== ""?<div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
                   <div className="flex flex-row gap-3">
                     <img src={IGIcon} alt="" className="pfp-background w-6" />
                     {/* Target the below class for changing Twitter Handle */}
                     <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
-                    {userData?.socials.discord_id !== ""
+                    {userData.socials.discord_id && userData?.socials.discord_id !== ""
                         ? userData?.socials.discord_id
                         : "Connect your Discord"}
                     </p>
@@ -234,6 +274,11 @@ function Profile() {
                     </p>
                   </div>
                 </button>}
+                {isEditEnabled && <div className="submit-btn p-4 w-3/4 flex justify-center rounded-2xl">
+                  <button type="buttom" onClick={formik.handleSubmit} className="fs-14 font-bold tracking-normal text-cgreen-100">
+                    Save Profile
+                  </button>
+                </div>}
               </div>
             </div>
           </div>
@@ -243,6 +288,7 @@ function Profile() {
           <div className="pfp-inner3 flex flex-col basis-1/3 justify-center items-start h-full"></div>
         </div>
       </div>
+      {isPending && <Modal/>}
     </div>
   );
 }

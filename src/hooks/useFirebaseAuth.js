@@ -7,6 +7,10 @@ import { setUser } from "./../store/slices/userSlice"
 import {
     doc,
     getDoc,
+    getDocs,
+    collection,
+    query,
+    where
 } from "firebase/firestore";
 
 
@@ -21,15 +25,21 @@ export const useFireBaseAuth = () => {
                     const userDoc = doc(db, "users",user.uid);
                     const docSnap = await getDoc(userDoc);
                     console.log(docSnap.data());
-                    if (docSnap.exists()) {
+                    if (docSnap.data()!== undefined && docSnap.exists()) {
                         console.log('i entered here')
                         dispatch(setUser(docSnap.data()));
                     }
+                    dispatch(setAuthStatus({isAuthReady:true,user:user,isUserProfileSet:(docSnap.data() !== undefined && docSnap.data().username && docSnap.data().username.trim().length>0) ? true:false }));
+                    
                 }catch(error){
                     console.log(error);
                 }
+            }else{
+                console.log('i fired')
+                dispatch(setAuthStatus({isAuthReady:true,user:null,isUserProfileSet:false }));
             }
-            dispatch(setAuthStatus({isAuthReady:true,user:user}));
+            
+            
         })
 
         return unsub();

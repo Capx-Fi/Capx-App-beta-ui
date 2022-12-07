@@ -42,7 +42,6 @@ export const useApi = (url, method = Constants.GET)=>{
 						console.log('the fetch was aborted')
 					}else{
 						console.log('error please')
-						setData({result:true})
 						setIsPending(false);
 						setError('Error in api call');
 					}

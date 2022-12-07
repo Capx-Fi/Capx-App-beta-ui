@@ -9,6 +9,7 @@ import {
 	import OtpInput from "react-otp-input";
 	import { useApi } from "../../hooks/useApi";
 import { useSelector } from "react-redux";
+import Modal from "../../components/Modal/Modal";
   
   const InviteCode = () => {
 		
@@ -19,6 +20,11 @@ import { useSelector } from "react-redux";
     const [inviteCode, setInviteCode] = useState("");
 		const { isError,isPending, postData,  data } = useApi(url,'POST');
 		const username = useSelector((state)=>state.user.username)
+    const [showModal,setShowModal] = useState(true);
+
+  const showModalFunc = () =>{
+    setShowModal((prevState)=>{return !prevState})
+  }
   
     useEffect(() => {
 			console.log(username)
@@ -29,13 +35,13 @@ import { useSelector } from "react-redux";
 			console.log(data);
 		
 			if(data && !verifySuccess){
-				if(data.result===true){
+				if(data.result.success===true){
           console.log('iwas here')
 					setVerifySuccess(true);
 				}
 			}
 			if(data && verifySuccess){
-        if(data.result){
+        if(data.result.success === true){
             navigate('/congratulation')
         }
 			}
@@ -43,6 +49,7 @@ import { useSelector } from "react-redux";
 
 		useEffect(()=>{
 			if(inviteCode.length === 5){
+        setShowModal(true);
 				const apiDataObject = {data:{invite_code:inviteCode}}
 				postData(apiDataObject,'/checkIfInviteCodeValid');
 			}
@@ -52,6 +59,7 @@ import { useSelector } from "react-redux";
       setInviteCode(code);
     };
     const handleFormSubmit = async (e) => {
+      setShowModal(true);
       e.preventDefault();
       if(verifySuccess){
         const apiDataObject = {data:{invite_code:inviteCode,username}}
@@ -114,9 +122,9 @@ import { useSelector } from "react-redux";
                   <button
                     type="submit"
                     className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 ${
-                      inviteCode.length !== 5 ? "disabled" : "bg-gredient-2"
+                      (verifySuccess===false) ? "disabled" : "bg-gredient-2"
                     }`}
-                    disabled={inviteCode.length !== 5 && verifySuccess===false}
+                    disabled={(verifySuccess===false)}
                   >
                     Let's go
                   </button>
@@ -147,6 +155,10 @@ import { useSelector } from "react-redux";
               </div>
             </div>
           </div>
+          {isPending && <Modal />}
+          {showModal && !isPending && data && data.result.success === false  && <Modal actions={{error:"Invalid Invite Code",showModalFunc:showModalFunc}}/>}
+          {showModal && !isPending && data && data.result === "ERROR: Missing one (or) parameter from `username`, `invite_code`."  && <Modal actions={{error:"Unable to Create User",showModalFunc:showModalFunc}}/>}
+          {showModal && isError && <Modal actions={{error:isError,showModalFunc:showModalFunc}}/> }
         </main>
       </>
     );

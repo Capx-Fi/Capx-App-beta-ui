@@ -1,14 +1,18 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { useLocation } from "react-router-dom";
-import { BellIcon, CoinSvg } from "../../assets/svg";
-import { useFireBaseLogout } from "../../hooks/useFireBaseLogout";
+import { BellIcon, CoinSvg , Logout } from "../../assets/svg";
 
-const Header = () => {
+
+const Header = ({userAction}) => {
   const location = useLocation();
   const userData = useSelector((state) => state.user);
   const pathname = location.pathname.replace("/", "").replace("-", " ");
-  const { signOutUser,error,isPending } = useFireBaseLogout();
+  
+
+  const handleLogout = (e) =>{
+    userAction.handleLogout(e)
+  }
 
   return (
     <header className="header flex items-center border-primary-200 fixed top-0 w-full md:px-8 px-4">
@@ -18,8 +22,9 @@ const Header = () => {
         <img src={CoinSvg} alt="coin" />
         <span className="mx-1">{userData.earned_rewards} xCapx</span>
       </button>
-      <button className="" onClick={signOutUser}>
-        <img src={BellIcon} alt="Bell" />
+      <button className="" onClick={handleLogout}>
+        <img src={BellIcon} alt="Logout" />
+        <span className="mx-1">Logout</span>
       </button>
     </header>
   );

@@ -5,9 +5,7 @@ import { OnboardMobBg } from "../../assets/images";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
-import { async } from "@firebase/util";
-import { confirmPasswordReset } from "firebase/auth";
-import { auth } from "../../firebase/firebase";
+import useFirebaseResetPassword from "../../hooks/useFirebaseResetPassword";
 
 function useQuery() {
   const location = useLocation();
@@ -17,6 +15,7 @@ function useQuery() {
 const ResetPassword = () => {
   const query = useQuery();
   const navigate = useNavigate();
+  const { error, isPending, resetPassword } = useFirebaseResetPassword();
   const [showPassword, setShowPassword] = useState(false);
 
   useEffect(() => {
@@ -29,13 +28,9 @@ const ResetPassword = () => {
     setShowPassword((prev) => (prev ? false : true));
   };
 
-  const handleFormSubmit = async (values, { resetForm }) => {
+  const handleFormSubmit = (values, { resetForm }) => {
     try {
-      const data = await confirmPasswordReset(
-        auth,
-        query.get("oobCode"),
-        values.password
-      );
+      const data = resetPassword(query.get("oobCode"), values.password);
       navigate("/signin/email");
       console.log(data);
     } catch (err) {

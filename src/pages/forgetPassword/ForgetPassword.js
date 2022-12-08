@@ -1,18 +1,16 @@
-import { sendPasswordResetEmail } from "firebase/auth";
 import { useFormik } from "formik";
 import React from "react";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
-import { auth } from "../../firebase/firebase";
 import * as Yup from "yup";
 import Input from "../../components/Input/Input";
+import useFirebaseForgotPassword from "../../hooks/useFirebaseForgotPassword";
 
 const ForgotPassowrd = () => {
+  const { error, isPending, forgotPassword } = useFirebaseForgotPassword();
+
   const handleFormSubmit = async (values, { resetForm }) => {
-    console.log(values.email);
-    const data = await sendPasswordResetEmail(auth, values.email, {
-      url: "http://localhost:3000/signup/email",
-    });
-    console.log(data);
+    forgotPassword(values.email);
+    console.log(error, isPending);
     resetForm();
   };
 

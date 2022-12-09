@@ -1,4 +1,3 @@
-import { async } from "@firebase/util";
 import { confirmPasswordReset } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase/firebase";

@@ -5,9 +5,8 @@ import { OnboardMobBg } from "../../assets/images";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
-import { async } from "@firebase/util";
-import { confirmPasswordReset } from "firebase/auth";
-import { auth } from "../../firebase/firebase";
+import { useFirebaseResetPassword } from "../../hooks/useFirebaseResetPassword";
+import Modal from "../../components/Modal/Modal";
 
 function useQuery() {
   const location = useLocation();
@@ -17,7 +16,15 @@ function useQuery() {
 const ResetPassword = () => {
   const query = useQuery();
   const navigate = useNavigate();
+  const { error, isPending, resetPassword } = useFirebaseResetPassword();
   const [showPassword, setShowPassword] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  const showModalFunc = () => {
+    setShowModal((prevState) => {
+      return !prevState;
+    });
+  };
 
   useEffect(() => {
     if (!query.get("oobCode")) {
@@ -29,15 +36,15 @@ const ResetPassword = () => {
     setShowPassword((prev) => (prev ? false : true));
   };
 
-  const handleFormSubmit = async (values, { resetForm }) => {
+  const handleFormSubmit = (values, { resetForm }) => {
     try {
-      const data = await confirmPasswordReset(
-        auth,
-        query.get("oobCode"),
-        values.password
-      );
-      navigate("/signin/email");
-      console.log(data);
+      resetPassword(query.get("oobCode"), values.password);
+
+      if (error) {
+        setShowModal(true);
+      } else {
+        navigate("/signin/email");
+      }
     } catch (err) {
       console.log(err);
     }
@@ -148,6 +155,15 @@ const ResetPassword = () => {
           </div>
         </div>
       </main>
+      {isPending && <Modal />}
+      {showModal && error && (
+        <Modal
+          actions={{
+            error: error.message,
+            showModalFunc: showModalFunc,
+          }}
+        />
+      )}
     </>
   );
 };

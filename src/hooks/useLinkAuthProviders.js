@@ -1,52 +1,48 @@
 import {
   GoogleAuthProvider,
   linkWithPopup,
-  signInWithPopup,
   TwitterAuthProvider,
 } from "firebase/auth";
-import React from "react";
+import { useState } from "react";
 import { auth } from "../firebase/firebase";
 
-const useLinkAuthProviders = () => {
-  const twitterProvider = new TwitterAuthProvider();
-  const GoogleProvider = new GoogleAuthProvider();
+export const useLinkAuthProviders = () => {
+  const [error, setError] = useState("");
+  const [isPending, setIsPending] = useState(false);
+
   const user = auth.currentUser;
 
-  const linkTwitter = () => {
-    linkWithPopup(user, twitterProvider)
-      .then((result) => {
-        // Accounts successfully linked.
-        const credential = TwitterAuthProvider.credentialFromResult(result);
-        console.log(credential);
-        const user = result.user;
-        console.log(user);
-        // ...
-      })
-      .catch((error) => {
-        console.log(error);
-        // Handle Errors here.
-        // ...
-      });
+  const linkWithSocail = async (method) => {
+    if (method) {
+      setError(null);
+      setIsPending(true);
+
+      let provider = null;
+      switch (method.toUpperCase()) {
+        case "GOOGLE": {
+          provider = new GoogleAuthProvider();
+          break;
+        }
+        case "TWITTER": {
+          provider = new TwitterAuthProvider();
+          break;
+        }
+        default: {
+          provider = new GoogleAuthProvider();
+        }
+      }
+
+      try {
+        await linkWithPopup(user, provider);
+      } catch (error) {
+        setError(error);
+      }
+      setIsPending(false);
+    } else {
+      setError("No Social selected");
+      setIsPending(false);
+    }
   };
 
-  const linkGoogle = () => {
-    linkWithPopup(user, GoogleProvider)
-      .then((result) => {
-        // Accounts successfully linked.
-        const credential = GoogleAuthProvider.credentialFromResult(result);
-        console.log(credential);
-        const user = result.user;
-        console.log(user);
-        // ...
-      })
-      .catch((error) => {
-        console.log(error);
-        // Handle Errors here.
-        // ...
-      });
-  };
-
-  return { linkTwitter, linkGoogle };
+  return { linkWithSocail, error, isPending };
 };
-
-export default useLinkAuthProviders;

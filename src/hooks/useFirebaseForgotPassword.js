@@ -2,7 +2,7 @@ import { sendPasswordResetEmail } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase/firebase";
 
-const useFirebaseForgotPassword = () => {
+export const useFirebaseForgotPassword = () => {
   const [error, setError] = useState(null);
   const [isPending, setIsPending] = useState(false);
 
@@ -20,5 +20,3 @@ const useFirebaseForgotPassword = () => {
 
   return { error, isPending, forgotPassword };
 };
-
-export default useFirebaseForgotPassword;

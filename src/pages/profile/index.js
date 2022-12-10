@@ -14,17 +14,31 @@ import { useApi } from "../../hooks/useApi";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import Modal from "../../components/Modal/Modal";
-import useLinkAuthProviders from "../../hooks/useLinkAuthProviders";
+import { useLinkAuthProviders } from "../../hooks/useLinkAuthProviders";
 
 function Profile() {
   const [isEditEnabled, setIsEditEnabled] = useState(false);
+  const [showModel, setShowModal] = useState(true);
   const userData = useSelector((state) => state.user);
   console.log(userData);
   const [url, setUrl] = useState(
     "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
-  const { linkTwitter, linkGoogle } = useLinkAuthProviders();
+  const {
+    linkWithSocail,
+    error: linkSocalError,
+    isPending: isSOcialLinkPending,
+  } = useLinkAuthProviders();
+
+  const showModalFunc = () => {
+    setShowModal((prevState) => {
+      return !prevState;
+    });
+  };
+
+  // console.log(linkSocalError.message);
+  console.log(isSOcialLinkPending);
 
   const handleEditProfile = (e) => {
     e.preventDefault();
@@ -57,6 +71,11 @@ function Profile() {
       console.log(data);
     }
   }, [data]);
+
+  const handleSocialLink = (method) => {
+    linkWithSocail(method);
+    if (linkSocalError) showModalFunc(true);
+  };
 
   return (
     <div className="myProfile flex flex-row">
@@ -223,7 +242,9 @@ function Profile() {
                   </div>
                 ) : (
                   <button
-                    onClick={linkTwitter}
+                    onClick={() => {
+                      handleSocialLink("twitter");
+                    }}
                     className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl"
                   >
                     <div className="flex flex-row gap-3">
@@ -263,7 +284,9 @@ function Profile() {
                   </div>
                 ) : (
                   <button
-                    onClick={linkGoogle}
+                    onClick={() => {
+                      handleSocialLink("google");
+                    }}
                     className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl"
                   >
                     <div className="flex flex-row gap-3">
@@ -330,7 +353,15 @@ function Profile() {
           <div className="pfp-inner3 flex flex-col basis-1/3 justify-center items-start h-full"></div>
         </div>
       </div>
-      {isPending && <Modal />}
+      {(isPending || isSOcialLinkPending) && <Modal />}
+      {showModel && linkSocalError && (
+        <Modal
+          actions={{
+            error: linkSocalError.message,
+            showModalFunc: showModalFunc,
+          }}
+        />
+      )}
     </div>
   );
 }

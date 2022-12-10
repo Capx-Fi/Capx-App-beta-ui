@@ -52,7 +52,6 @@ export const useFireBaseLogin = () => {
   const signInUserUsingSocial = async (method) => {
     if (method) {
       let provider = null;
-      console.log(method.toUpperCase());
       switch (method.toUpperCase()) {
         case "GOOGLE": {
           provider = new GoogleAuthProvider();

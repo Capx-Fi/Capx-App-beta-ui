@@ -8,7 +8,6 @@ export const useApi = (url, method = Constants.GET) => {
   const [error, setError] = useState(null);
   const [options, setOptions] = useState(null);
   const accessToken = useSelector((state) => state.auth.accessToken);
-  console.log(accessToken);
   const [path, setPath] = useState("");
 
   const postData = (postData, path = "") => {

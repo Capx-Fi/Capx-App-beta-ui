@@ -15,10 +15,15 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Modal from "../../components/Modal/Modal";
 import { useLinkAuthProviders } from "../../hooks/useLinkAuthProviders";
+import { storage } from "../../firebase/firebase";
+import { ref } from "firebase/storage";
+import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
 
 function Profile() {
+  const { uploadImageToCloud } = useUploadProfileImage();
   const [isEditEnabled, setIsEditEnabled] = useState(false);
   const [showModel, setShowModal] = useState(true);
+  const [image, setImage] = useState();
   const userData = useSelector((state) => state.user);
   console.log(userData);
   const [url, setUrl] = useState(
@@ -77,6 +82,14 @@ function Profile() {
     if (linkSocalError) showModalFunc(true);
   };
 
+  const HhandleImageUpload = (e) => {
+    uploadImageToCloud(e.target.files[0]);
+    setImage(URL.createObjectURL(e.target.files[0]));
+    console.log(e.target.files[0], "this is image");
+
+    console.log(image);
+  };
+
   return (
     <div className="myProfile flex flex-row">
       <div className="pfp flex flex-col w-full">
@@ -84,6 +97,11 @@ function Profile() {
           <div className="pfp-inner1 flex flex-col basis-1/3 items-center">
             {/* Wrapper for Profile Image -----------------------------------------------------------------------------*/}
             <div className="pfp-bg flex flex-col justify-center items-center">
+              <input
+                className="upload-image"
+                type="file"
+                onChange={HhandleImageUpload}
+              />
               {userData?.image_url ? (
                 <img
                   src={userData?.image_url}
@@ -91,9 +109,11 @@ function Profile() {
                   className="pfp-background rounded-full"
                 />
               ) : (
-                <p className="text-white text-2xl">
-                  {userData?.username.slice(0, 1).toUpperCase()}
-                </p>
+                <>
+                  <p className="text-white text-2xl">
+                    {userData?.username.slice(0, 1).toUpperCase()}
+                  </p>
+                </>
               )}
             </div>
 

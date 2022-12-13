@@ -15,20 +15,27 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import Modal from "../../components/Modal/Modal";
 import { useLinkAuthProviders } from "../../hooks/useLinkAuthProviders";
-import { storage } from "../../firebase/firebase";
-import { ref } from "firebase/storage";
 import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
 
 function Profile() {
   const [isEditEnabled, setIsEditEnabled] = useState(false);
   const [showModel, setShowModal] = useState(true);
-  const [image, setImage] = useState();
   const userData = useSelector((state) => state.user);
-  console.log(userData);
+
   const [url, setUrl] = useState(
     "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
+
+  const {
+    error: ApiError,
+    isPending: isAPiPending,
+    postData: imageUploadPostData,
+  } = useApi(
+    "https://capx-gateway-cnfe7xc8.uc.gateway.dev/updateUserProfileImg",
+    "POST"
+  );
+
   const {
     linkWithSocail,
     error: linkSocalError,
@@ -39,6 +46,7 @@ function Profile() {
     uploadImageToCloud,
     isPending: isUploadImgPending,
     error,
+    imageUrl,
   } = useUploadProfileImage();
   console.log(isUploadImgPending);
   const showModalFunc = () => {
@@ -84,10 +92,15 @@ function Profile() {
     if (linkSocalError) showModalFunc(true);
   };
 
-  const handleImageUpload = (e) => {
-    if (e.target.files) uploadImageToCloud(e.target.files[0]);
+  const handleImageUpload = async (e) => {
+    const imageUrl = await uploadImageToCloud(e.target.files[0]);
+    if (imageUrl) {
+      const apiDataObject = { data: { image_url: imageUrl } };
+      imageUploadPostData(apiDataObject);
+    }
   };
 
+  console.log(imageUrl);
   return (
     <>
       <div className="myProfile flex flex-row">
@@ -380,7 +393,10 @@ function Profile() {
             <div className="pfp-inner3 flex flex-col basis-1/3 justify-center items-start h-full"></div>
           </div>
         </div>
-        {(isPending || isSOcialLinkPending || isUploadImgPending) && <Modal />}
+        {(isPending ||
+          isSOcialLinkPending ||
+          isAPiPending ||
+          isUploadImgPending) && <Modal />}
         {showModel && linkSocalError && (
           <Modal
             actions={{

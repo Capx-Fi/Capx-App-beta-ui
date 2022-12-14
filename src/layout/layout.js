@@ -9,6 +9,7 @@ import { useFirestoreCollection } from "../hooks/useFirestoreCollection";
 import { setUser, setUserWithQuest } from "../store/slices/userSlice";
 import { useFireBaseLogout } from "../hooks/useFireBaseLogout";
 import { logoutUser } from "../store/slices/authSlice";
+import Footer from "../components/footer/Footer";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -91,8 +92,10 @@ const Layout = () => {
               <div className="main">
                 <Outlet />
               </div>
+              <Footer />
             </main>
           </div>
+
           <MobileNav />
         </div>
       ) : (

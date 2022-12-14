@@ -1,3 +1,80 @@
-.banner{
-    background: $gradient-cgreen-2;
+.home-banner {
+  background: $gradient-home-banner;
+  .slide {
+    padding: 57px 52px 64px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right;
+    @media screen and (max-width: 767.98px) {
+      padding: 19px 17px 17px;
+      background-image: unset;
+    }
+    h2 {
+      font-weight: 900;
+      font-size: 34px;
+      line-height: 40px;
+      letter-spacing: -0.8px;
+      color: $cgreen-700;
+      @media screen and (max-width: 767.98px) {
+        font-size: 20px;
+        line-height: 24px;
+      }
+    }
+    button {
+      padding: 12px 16px 14px;
+      background: $gradient-cgreen-2;
+      border-radius: 12px;
+      min-width: 238px;
+
+      @media screen and (max-width: 767.98px) {
+        min-width: 138px;
+        font-size: 12px;
+        line-height: 14px;
+      }
+    }
+  }
+  .slider-1 {
+    background-image: url(../../../../assets/images/Slider01.png);
+    @media screen and (max-width: 767.98px) {
+      background-image: unset;
+    }
+  }
+  .slider-2 {
+    background-image: url(../../../../assets/images/Slider02.png);
+    @media screen and (max-width: 767.98px) {
+      background-image: unset;
+    }
+  }
+  .slider-3 {
+    background-image: url(../../../../assets/images/Slider03.png);
+    @media screen and (max-width: 767.98px) {
+      background-image: unset;
+    }
+  }
+  .slider-4 {
+    background-image: url(../../../../assets/images/Slider04.png);
+    @media screen and (max-width: 767.98px) {
+      background-image: unset;
+    }
+  }
+
+  .line-indicator {
+    bottom: 5px;
+    @media screen and (max-width: 767.98px) {
+      bottom: -20px;
+    }
+    li {
+      margin: 2px;
+      width: 22px;
+      height: 4px;
+      background-color: $cgreen-300;
+      border-radius: 100px;
+      overflow: hidden;
+      transition: all 0.1s;
+    }
+    .slick-active {
+      width: 74px;
+      background-color: $cgreen-400;
+    }
+  }
 }

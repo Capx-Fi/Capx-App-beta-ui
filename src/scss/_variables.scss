@@ -52,6 +52,13 @@ $gradient-cgreen-ph: linear-gradient(
   #dcf1df 105.45%
 );
 
+$gradient-home-banner: linear-gradient(
+    360deg,
+    rgba(57, 187, 93, 0.3) -4.15%,
+    rgba(226, 246, 225, 0) 106.57%
+  ),
+  #d4f1da;
+
 //colors
 $cgreen-100: #f5fff5;
 $cgreen-200: #d9edde;

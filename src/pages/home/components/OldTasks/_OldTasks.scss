@@ -1,14 +1,68 @@
-.oldtasks{
-    .oldtasks-wrapper{
-        .oldtasks-card{
-            cursor: pointer;
-            border-color: #8EC48950;
-            .oldtask-row-1{
-                .oldtask-chip{
-                    background: #8EC48915;
-                    border-color: #8EC48950;
-                }
-            }
-        }
+.oldtasks {
+  .wrapper {
+    .card-title {
+      font-weight: 900;
+      font-size: 15px;
+      line-height: 19px;
+      letter-spacing: -0.2px;
+      color: $cgreen-700;
     }
+  }
+  .oldtasks-card {
+    min-width: 230px;
+    max-width: 308px;
+
+    .wrapper {
+      border: 2px solid #fff;
+      &:hover {
+        border: 2px solid #d9f4de;
+      }
+
+      .img-box {
+        position: relative;
+        img {
+          transition: all 0.3s;
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+        .card-chip {
+          position: absolute;
+          top: 5px;
+          right: 5px;
+          padding: 8px;
+          border-radius: 10px;
+          background: rgba(255, 255, 255, 0.5);
+          span {
+            font-weight: 900;
+            font-size: 13px;
+            line-height: 15px;
+            color: $cgreen-700;
+          }
+        }
+      }
+
+      .card-title {
+        color: $cgreen-700;
+        font-weight: 900;
+        font-size: 15px;
+        line-height: 19px;
+        letter-spacing: -0.2px;
+      }
+      .card-btn {
+        padding: 8px 16px 10px;
+        background: $gradient-cgreen-2;
+        span {
+          font-weight: 900;
+          font-size: 14px;
+          line-height: 21px;
+          color: #fff;
+        }
+      }
+    }
+  }
+  .slick-track {
+    margin-right: initial;
+    margin-left: initial;
+  }
 }

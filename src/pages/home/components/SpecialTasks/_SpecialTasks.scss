@@ -1,0 +1,67 @@
+.special-quests {
+  .specialcards-main {
+    min-width: 450px;
+    max-width: 540px;
+    @media screen and (max-width: 767.98px) {
+      min-width: 284px;
+      max-width: 320px;
+    }
+    .wrapper {
+      background: $gradient-cgreen-2;
+      max-width: 540px;
+
+      .img-box {
+        position: relative;
+        .card-img {
+          transition: all 0.3s;
+          &:hover {
+            transform: scale(1.1);
+          }
+        }
+
+        .card-chip {
+          background: rgba(255, 255, 255, 0.5);
+          border: 0;
+          position: absolute;
+          top: 5px;
+          left: 5px;
+          border-radius: 10px;
+          padding: 4px 8px;
+
+          span {
+            color: $cgreen-700;
+          }
+        }
+      }
+
+      .card-title {
+        color: #fff;
+        font-weight: 900;
+        font-size: 19px;
+        line-height: 23px;
+        letter-spacing: -0.2px;
+        @media screen and (max-width: 767.98px) {
+          font-size: 14px;
+          line-height: 18px;
+        }
+      }
+
+      .card-chip {
+        background: rgba(255, 255, 255, 0.2);
+        padding: 8px;
+        border: 1px solid #ffffff;
+        border-radius: 10px;
+        span {
+          font-weight: 900;
+          font-size: 14px;
+          line-height: 15px;
+          color: #ffffff;
+        }
+      }
+    }
+  }
+  .slick-track {
+    margin-right: initial;
+    margin-left: initial;
+  }
+}

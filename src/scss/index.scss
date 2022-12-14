@@ -93,7 +93,6 @@
 @import "../pages/leaderboard/leaderboard";
 @import "../pages/MyWallet/MyWallet";
 
-
 // components
 @import "../components/Input/input";
 @import "../components/stepper/stepper";
@@ -104,11 +103,15 @@
 @import "../pages/leaderboard/components/scss/table";
 @import "../pages/MyWallet/components/MyWalletData/MyWalletData";
 @import "../pages/MyWallet/components/WalletBanner/WalletBanner";
+@import "../pages/home/components/HomeBanner/HomeBanner";
+@import "../pages/home/components/HomeBanner/HomeBanner";
+@import "../pages/home/components/ConsTasks/ConsTasks";
+@import "../pages/home/components/SpecialTasks/SpecialTasks";
+@import "../pages/home/components/OldTasks/OldTasks";
 @import "../components/Modal/modal";
-
+@import "../components/footer/footer";
 
 @import "../pages/profile/profile";
-
 
 // layouts
 

@@ -96,7 +96,7 @@ const Home = () => {
 
   return (
     <div
-      className={"home flex flex-col md:flex-row p-8 gap-8"}
+      className={"home flex flex-col md:flex-row md:p-8 p-5 gap-8"}
       id="home-container"
     >
       <div
@@ -117,30 +117,32 @@ const Home = () => {
         <div className="home-wrapper-1-inner flex flex-col gap-5">
           <div className="home-title flex flex-row items-center gap-2">
             <img src={DailyQuestsIcon} className="w-8" />
-            <p className="fs-16 font-black">Daily Quests</p>
+            <p className="fs-16 font-black">Special Quests</p>
           </div>
-          <div className="home-tasks">
+          <div className="home-tasks ">
             <SpecialTasks />
             {/* <DailyTasks quests={dailyQuests} /> */}
           </div>
         </div>
       </div>
-
-      <div className="home-wrapper-2 w-full">
-        <div className="home-wrapper-1-inner flex flex-col gap-5">
-          <div className="home-title flex flex-row items-center gap-2">
-            <img src={DailyQuestsIcon} className="w-8" alt="" />
-            <p className="fs-16 font-black">
-              Unclaimed{" "}
-              {prevQuests.reduce((acc, val) => {
-                return acc + Number(val.taskreward);
-              }, 0)}{" "}
-              xCapx
-            </p>
+      {/* prevQuests && prevQuests.length > 0 && */}
+      {
+        <div className="home-wrapper-2 w-full">
+          <div className="home-wrapper-1-inner flex flex-col gap-5">
+            <div className="home-title flex flex-row items-center gap-2">
+              <img src={DailyQuestsIcon} className="w-8" alt="quest" />
+              <p className="fs-16 font-black">
+                Unclaimed{" "}
+                {prevQuests.reduce((acc, val) => {
+                  return acc + Number(val.taskreward);
+                }, 0)}{" "}
+                xCapx
+              </p>
+            </div>
+            <OldTasks quests={prevQuests} />
           </div>
-          <OldTasks quests={prevQuests} />
         </div>
-      </div>
+      }
       {isPending && <Modal></Modal>}
     </div>
   );

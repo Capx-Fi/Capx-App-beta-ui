@@ -9,6 +9,7 @@ import { Constants } from "../../../../constants/constants";
 import Modal from "../../../../components/Modal/Modal";
 import { DailyRewardPng, InviteFriends } from "../../../../assets/images";
 import Slider from "react-slick";
+import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 
 const handleDragStart = (e) => e.preventDefault();
 
@@ -50,11 +51,12 @@ const OldTasks = ({ quests }) => {
     dots: false,
     infinite: false,
     accessibility: true,
-
     slidesToShow: 4,
     slidesToScroll: 1,
     initialSlide: 0,
     variableWidth: true,
+    prevArrow: <SliderArrow direction="left" />,
+    nextArrow: <SliderArrow direction="right" />,
     responsive: [
       {
         breakpoint: 1382,
@@ -144,18 +146,24 @@ const OldTasks = ({ quests }) => {
         })}
       </div>
       <Slider {...SliderSettings}>
-        <div className="oldtasks-card flex px-3">
-          <div className="wrapper bg-blue-600 flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
-            <div className="img-box rounded-xl overflow-hidden">
-              <img src={DailyRewardPng} alt="rewards" />
-              <div className="card-chip flex items-center">
-                <img src={CardCoinIcon} alt="coin" />
-                <span>4 xCapx</span>
+        {Array(5)
+          .fill("")
+          .map((el, ind) => {
+            return (
+              <div key={"unique" + ind} className="oldtasks-card flex pr-5">
+                <div className="wrapper bg-blue-600 flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
+                  <div className="img-box rounded-xl overflow-hidden">
+                    <img src={DailyRewardPng} alt="rewards" />
+                    <div className="card-chip flex items-center">
+                      <img src={CardCoinIcon} alt="coin" />
+                      <span>4 xCapx</span>
+                    </div>
+                  </div>
+                  <p className="card-title px-3">this is our acrd title</p>
+                </div>
               </div>
-            </div>
-            <p className="card-title px-3">this is our acrd title</p>
-          </div>
-        </div>
+            );
+          })}
       </Slider>
       {isPending && <Modal />}
     </div>

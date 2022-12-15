@@ -9,8 +9,17 @@ import Modal from "../../../../components/Modal/Modal";
 import { ImArrowRight2 } from "react-icons/im";
 import Slider from "react-slick";
 import { DailyRewardPng } from "../../../../assets/images";
+import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 
 const handleDragStart = (e) => e.preventDefault();
+
+function SamplePrevArrow(props) {
+  const { style, onClick } = props;
+
+  console.log(style);
+
+  return <div className="" style={{ ...style }} onClick={onClick}></div>;
+}
 
 const ConsTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
@@ -61,11 +70,12 @@ const ConsTasks = ({ quests }) => {
     dots: false,
     infinite: false,
     accessibility: true,
-
     slidesToShow: 4,
     slidesToScroll: 1,
     initialSlide: 0,
     variableWidth: true,
+    prevArrow: <SliderArrow direction="left" />,
+    nextArrow: <SliderArrow direction="right" />,
     responsive: [
       {
         breakpoint: 1382,

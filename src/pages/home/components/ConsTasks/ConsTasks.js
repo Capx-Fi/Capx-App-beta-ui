@@ -177,7 +177,7 @@ const ConsTasks = ({ quests }) => {
                   <p className="card-title px-3"> {data.tasktitle}</p>
                   <button
                     onClick={() => {
-                      alert(ind);
+                      navigate("/quest");
                     }}
                     className="card-btn flex justify-between items-center rounded-xl"
                   >

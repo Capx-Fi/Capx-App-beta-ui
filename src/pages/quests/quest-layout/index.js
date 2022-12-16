@@ -20,12 +20,14 @@ import BuildProfile from "../compRight/buildProfile/buildProfile"; // [Day1]-Tas
 import TweetStep1 from "../compRight/tweetfromAcc/tweetstep1/tweetstep1"; // [Day1]-Task 5
 import TweetStep2 from "../compRight/tweetfromAcc/tweetstep2/tweetstep2"; // [Day1]-Task 5
 import Affiliate from "../compRight/affiliate/affiliate"; // [Day1]-Task 6
-import SuccessMsg from "../compRight/success/success"; // Success-Message
-import FailedMsg from "../compRight/failure/failure"; // Failure-Message
+import SuccessMsg from "../compRight/success/Success"; // Success-Message
+import FailedMsg from "../compRight/failure/Failure"; // Failure-Message
 import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
+import QuestComplete from "../compRight/QuestComplete/QuestComplete";
+import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
 
 // Quest Right Component Imports End ---------------------------------------------------------
 
@@ -39,6 +41,7 @@ const AnswerQuiz = () => {
   );
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
+  const [openCongratulationModal, setOpenCongratulationModal] = useState(true);
   const { isPending, data, error } = useFirestoreCollection("quest_order", [
     "quest_order_id",
     "==",
@@ -51,6 +54,10 @@ const AnswerQuiz = () => {
     data: apiData,
   } = useApi(url, "POST");
   const [taskError, setTaskError] = useState(null);
+
+  const handleCongratulationModal = () => {
+    setOpenCongratulationModal((prev) => (prev ? !prev : prev));
+  };
 
   const renderActionComponent = () => {
     if (data && actionData && questData) {
@@ -227,24 +234,24 @@ const AnswerQuiz = () => {
   }, [apiData]);
 
   return (
-    <div className="quest-layout flex-col px-2 py-8 md:p-8 ">
+    <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">
       {/* Pass Banner Details Here --------------------------------------------------------------------- */}
-      <div className="banner-wrapper px-3">
+      <div className="banner-wrapper md:px-3">
         {questData && (
           <Banner
             data={{
-              title: questData.quest_title,
-              rewards: questData.max_rewards,
+              title: "questData.quest_title",
+              rewards: "questData.max_rewards",
             }}
           />
         )}
       </div>
 
-      <div className="quest flex flex-col-reverse gap-10 md:flex-row py-10 px-2 ">
-        <div className="quest-details-1 px-5 w-full md:w-2/5">
+      <div className="quest flex flex-col-reverse gap-10 md:gap-0 md:flex-row md:py-10 md:px-2 ">
+        <div className="quest-details-1 flex flex-col md:gap-16 gap-12 md:px-5">
           {/* Pass Description & Expiry Details Here --------------------------------------------------------- */}
 
-          {questData && (
+          {true && (
             <QuestDescription
               primarydetails={{
                 qdescription: questData.quest_description,
@@ -256,10 +263,11 @@ const AnswerQuiz = () => {
           {/* Pass Description & Expiry Details Here --------------------------------------------------------- */}
 
           {
-            <div className="qabout flex flex-col pb-5">
-              <p className="qexpiry-title font-semibold underline underline-offset-4 text-cgreen-700 fs-15 pb-1">
+            <div className="qabout flex flex-col gap-3 pb-5">
+              <p className="qexpiry-title action-heading font-semibold underline underline-offset-4 text-cgreen-700 pb-1">
                 Actions
               </p>
+
               {questData &&
                 Object.values(questData.actions)
                   .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
@@ -283,7 +291,17 @@ const AnswerQuiz = () => {
           }
         </div>
 
-        <div className="quest-details-2 flex flex-row w-full md:w-3/5 ">
+        <div className="quest-details-2 flex flex-col">
+          {/* <WatchVideo /> */}
+          {/* <QuestComplete /> */}
+          {/* <SingleQuiz /> */}
+          {/* <BuildProfile /> */}
+          {/* <GenCodeStep1 /> */}
+          {/* <GenCodeStep2 /> */}
+          <CongratulationModal
+            open={openCongratulationModal}
+            handleClose={handleCongratulationModal}
+          />
           {taskError === null && questData && renderActionComponent()}
           {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
           {taskError === true && <FailedMsg errorReset={taskErrorReset} />}
@@ -291,10 +309,6 @@ const AnswerQuiz = () => {
       </div>
 
       {apiIsPending && <Modal />}
-
-      <p className="footer px-5 fs-15 font-medium text-cgreen-700 opacity-40 text-center md:text-left">
-        © Capx 2022. All rights reserved
-      </p>
     </div>
   );
 };

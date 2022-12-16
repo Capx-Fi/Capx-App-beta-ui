@@ -1,30 +1,75 @@
-.quiz{
-    .quiz-title{}
+.quiz {
+  .quiz-title {
+  }
 
-    .quiz-box{
-        background: rgba(31, 122, 85, 0.15);
-        border-color: rgba(31, 122, 85, 0.15);
-        .quiz-question {
-
-        }
-        .quiz-answers {
-            .answer{
-                background: rgba(255, 255, 255, 0.35);
-                border: 1px solid rgba(31, 122, 85, 0.35);
-                cursor: pointer;
-
-                &:hover{
-                    background: rgba(255, 255, 255, 0.7);
-                    box-shadow: 0px 4px 20px rgba(143, 193, 117, 0.65);
-                }
-            }
-            .selected {
-                background: rgba(255, 255, 255, 0.7);
-                box-shadow: 0px 4px 20px rgba(143, 193, 117, 0.65);
-            }
-
-
-        }
+  .quiz-box {
+    padding: 16px 24px;
+    background: rgba(31, 122, 85, 0.05);
+    border: 1px solid rgba(31, 122, 85, 0.25);
+    border-radius: 16px;
+    @media screen and (max-width: 767.98px) {
+      padding: 13px 12px;
     }
+    .quiz-question {
+      font-weight: 600;
+      font-size: 16px;
+      line-height: 21px;
+      letter-spacing: -0.5px;
+      @media screen and (max-width: 767.98px) {
+        font-size: 13px;
+        line-height: 18px;
+        font-weight: 600;
+      }
+    }
+    .quiz-answers {
+      .answer {
+        font-weight: 500;
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.3px;
+        padding: 10px 16px;
+        background: rgba(255, 255, 255, 0.35);
+        border: 1px solid rgba(31, 122, 85, 0.35);
+        cursor: pointer;
+        @media screen and (max-width: 767.98px) {
+          font-weight: 500;
+          font-size: 12px;
+          line-height: 16px;
+          padding: 8px 13px;
+        }
 
+        &:hover {
+          box-shadow: 0px 0px 7px 0px rgba(143, 193, 117, 0.65);
+        }
+      }
+      .right-answer {
+        background: #d8ffcc;
+        border-color: #3ab54a;
+        &:hover {
+          box-shadow: unset;
+        }
+      }
+
+      .wrong-answer {
+        background: rgba(255, 191, 191, 0.35);
+        border-color: rgba(146, 0, 0, 0.7);
+        &:hover {
+          box-shadow: unset;
+        }
+      }
+    }
+  }
+  .action-btn {
+    font-weight: 900;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.5px;
+    color: #fff;
+    @media screen and (max-width: 767.98px) {
+      font-weight: 900;
+      font-size: 14px;
+      line-height: 22px;
+      letter-spacing: -0.5px;
+    }
+  }
 }

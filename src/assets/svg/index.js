@@ -41,8 +41,14 @@ import QuestSuccessSvg from "./QuestSuccessSvg.svg";
 import TwitterNegative from "./twitter-negative.svg";
 import DiscordNegative from "./discord-negative.svg";
 import Logout from "./Logout.svg";
+import RefreshSvg from "./refreshSvg.svg";
+import ContentCopySvg from "./ContentCopySvg.svg";
+import QuestBoySvg from "./QuestBoySvg.svg";
 
 export {
+  QuestBoySvg,
+  ContentCopySvg,
+  RefreshSvg,
   TwitterNegative,
   InstagramIcon,
   WhatsappIcon,

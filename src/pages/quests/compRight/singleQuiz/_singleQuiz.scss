@@ -57,6 +57,14 @@
           box-shadow: unset;
         }
       }
+
+      .selected {
+        background: #d8ffcc;
+        border-color: #3ab54a;
+        &:hover {
+          box-shadow: unset;
+        }
+      }
     }
   }
   .action-btn {

@@ -18,7 +18,6 @@ export const useFireBaseAuth = () => {
   useEffect(() => {
     const unsub = onAuthStateChanged(auth, async (user) => {
       //dispatch auth is ready redux change
-      console.log(await user.getIdToken());
       if (user) {
         try {
           console.log(user);

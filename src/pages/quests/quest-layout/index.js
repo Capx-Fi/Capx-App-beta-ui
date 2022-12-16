@@ -20,14 +20,14 @@ import BuildProfile from "../compRight/buildProfile/buildProfile"; // [Day1]-Tas
 import TweetStep1 from "../compRight/tweetfromAcc/tweetstep1/tweetstep1"; // [Day1]-Task 5
 import TweetStep2 from "../compRight/tweetfromAcc/tweetstep2/tweetstep2"; // [Day1]-Task 5
 import Affiliate from "../compRight/affiliate/affiliate"; // [Day1]-Task 6
-import SuccessMsg from "../compRight/success/Success"; // Success-Message
-import FailedMsg from "../compRight/failure/Failure"; // Failure-Message
 import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
 import QuestComplete from "../compRight/QuestComplete/QuestComplete";
 import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
+import SuccessMsg from "../compRight/success/success"; // Success-Message
+import FailureMsg from "../compRight/failure/Failure"; // Failure-Message
 
 // Quest Right Component Imports End ---------------------------------------------------------
 
@@ -41,7 +41,7 @@ const AnswerQuiz = () => {
   );
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
-  const [openCongratulationModal, setOpenCongratulationModal] = useState(true);
+  const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
   const { isPending, data, error } = useFirestoreCollection("quest_order", [
     "quest_order_id",
     "==",
@@ -221,17 +221,17 @@ const AnswerQuiz = () => {
     }
   }, [data, error]);
 
-  useEffect(() => {
-    if (apiData) {
-      console.log(apiData);
-      if (apiData.result.success === true) {
-        setTaskError(false);
-      } else {
-        setTaskError(true);
-      }
-    }
-    console.log(taskError);
-  }, [apiData]);
+  // useEffect(() => {
+  //   if (apiData) {
+  //     console.log(apiData);
+  //     if (apiData.result.success === true) {
+  //       setTaskError(false);
+  //     } else {
+  //       setTaskError(true);
+  //     }
+  //   }
+  //   console.log(taskError);
+  // }, [apiData]);
 
   return (
     <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">
@@ -240,8 +240,8 @@ const AnswerQuiz = () => {
         {questData && (
           <Banner
             data={{
-              title: "questData.quest_title",
-              rewards: "questData.max_rewards",
+              title: questData.quest_title,
+              rewards: questData.max_rewards,
             }}
           />
         )}
@@ -254,8 +254,8 @@ const AnswerQuiz = () => {
           {true && (
             <QuestDescription
               primarydetails={{
-                qdescription: questData.quest_description,
-                qexpiry: questData.quest_end_date,
+                qdescription: questData?.quest_description,
+                qexpiry: questData?.quest_end_date,
               }}
             />
           )}
@@ -303,8 +303,8 @@ const AnswerQuiz = () => {
             handleClose={handleCongratulationModal}
           />
           {taskError === null && questData && renderActionComponent()}
-          {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
-          {taskError === true && <FailedMsg errorReset={taskErrorReset} />}
+          {/* {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
+          {taskError === true && <FailureMsg errorReset={taskErrorReset} />} */}
         </div>
       </div>
 

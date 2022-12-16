@@ -11,7 +11,7 @@ const Banner = ({ data }) => {
       </div>
       <div className="capx-chip flex flex-row self-start">
         <img src={CoinSvg} alt="coin" className="" />
-        <p className=" ml-2 md:ml-4">{1 + " xCapx"}</p>
+        <p className=" ml-2 md:ml-4">{data.rewards + " xCapx"}</p>
       </div>
     </div>
   );

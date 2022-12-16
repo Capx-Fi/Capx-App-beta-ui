@@ -5,23 +5,22 @@ import { MdOutlineFlag } from "react-icons/md";
 
 const questLeft = ({ data }) => {
   const ActionStatus = () => {
-    const status = data.completed?.toLowerCase();
-    switch (status) {
-      case "completed":
+    switch (data.completed) {
+      case "COMPLETED":
         return (
           <div className="actionstatus capitalize flex items-center justify-center">
             Completed
             <MdDone className="text-xl ml-1" />
           </div>
         );
-      case "pending":
+      case "PENDING":
         return (
           <div className="actionstatus action-pending capitalize flex items-center justify-center">
             start
             <MdOutlineFlag className="ml-1" />
           </div>
         );
-      case "ongoing":
+      case "ONGOING":
         return (
           <div className="actionstatus capitalize flex items-center justify-center">
             ongoing

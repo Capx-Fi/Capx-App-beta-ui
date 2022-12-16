@@ -28,6 +28,7 @@ import QuestComplete from "../compRight/QuestComplete/QuestComplete";
 import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
 import SuccessMsg from "../compRight/success/success"; // Success-Message
 import FailureMsg from "../compRight/failure/Failure"; // Failure-Message
+import ErrorModal from "../compRight/errorModal/ErrorModal";
 
 // Quest Right Component Imports End ---------------------------------------------------------
 
@@ -42,6 +43,7 @@ const AnswerQuiz = () => {
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
   const { isPending, data, error } = useFirestoreCollection("quest_order", [
     "quest_order_id",
     "==",
@@ -57,6 +59,10 @@ const AnswerQuiz = () => {
 
   const handleCongratulationModal = () => {
     setOpenCongratulationModal((prev) => (prev ? !prev : prev));
+  };
+
+  const handleErrornModal = () => {
+    setOpenErrorModal((prev) => (prev ? !prev : prev));
   };
 
   const renderActionComponent = () => {
@@ -292,19 +298,15 @@ const AnswerQuiz = () => {
         </div>
 
         <div className="quest-details-2 flex flex-col">
-          {/* <WatchVideo /> */}
-          {/* <QuestComplete /> */}
-          {/* <SingleQuiz /> */}
-          {/* <BuildProfile /> */}
-          {/* <GenCodeStep1 /> */}
-          {/* <GenCodeStep2 /> */}
+          {taskError === null && questData && renderActionComponent()}
+          {/* {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
+          {taskError === true && <FailureMsg errorReset={taskErrorReset} />} */}
+
           <CongratulationModal
             open={openCongratulationModal}
             handleClose={handleCongratulationModal}
           />
-          {taskError === null && questData && renderActionComponent()}
-          {/* {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
-          {taskError === true && <FailureMsg errorReset={taskErrorReset} />} */}
+          <ErrorModal open={openErrorModal} handleClose={handleErrornModal} />
         </div>
       </div>
 

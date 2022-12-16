@@ -79,8 +79,6 @@ const SingleQuiz = ({ actionData }) => {
                   id={index + 1}
                 >
                   {option}
-                  Capx enables community to build long lasting bonds by learning
-                  & solving problems together
                 </button>
               );
             })}

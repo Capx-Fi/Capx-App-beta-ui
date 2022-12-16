@@ -171,10 +171,10 @@ const ConsTasks = ({ quests }) => {
                     <img src={DailyRewardPng} alt="rewards" />
                     <div className="card-chip flex items-center">
                       <img src={CardCoinIcon} alt="coin" />
-                      <span>4 xCapx</span>
+                      <span>{data.taskreward + " xCapx"}</span>
                     </div>
                   </div>
-                  <p className="card-title px-3"> {data.tasktitle}</p>
+                  <p className="card-title px-3">{data.tasktitle}</p>
                   <button
                     onClick={(e) => {
                       handleClick(e, data.id);

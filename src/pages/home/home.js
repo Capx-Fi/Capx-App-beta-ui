@@ -120,13 +120,13 @@ const Home = () => {
             <p className="fs-16 font-black">Special Quests</p>
           </div>
           <div className="home-tasks ">
-            <SpecialTasks />
+            <SpecialTasks quests={dailyQuests} />
             {/* <DailyTasks quests={dailyQuests} /> */}
           </div>
         </div>
       </div>
-      {/* prevQuests && prevQuests.length > 0 && */}
-      {
+
+      {prevQuests && prevQuests.length > 0 && (
         <div className="home-wrapper-2 w-full">
           <div className="home-wrapper-1-inner flex flex-col gap-5">
             <div className="home-title flex flex-row items-center gap-2">
@@ -142,7 +142,7 @@ const Home = () => {
             <OldTasks quests={prevQuests} />
           </div>
         </div>
-      }
+      )}
       {isPending && <Modal></Modal>}
     </div>
   );

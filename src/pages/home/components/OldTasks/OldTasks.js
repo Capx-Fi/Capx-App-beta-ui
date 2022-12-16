@@ -116,55 +116,58 @@ const OldTasks = ({ quests }) => {
 
   return (
     <div className="oldtasks">
-      <div className="oldtasks-wrapper flex flex-col gap-12 pr-8 md:flex-col">
+      <Slider {...SliderSettings}>
         {quests.map((data, ind) => {
           return (
             <div
-              className={`oldtasks-card text-cgreen-600 border-x-2 border-t-2 border-b-8 rounded-2xl fs-14 font-semibold w-full p-5 flex flex-col gap-4 row${
-                ind + 1
-              }`}
               key={ind}
               style={{ cursor: "pointer" }}
               onClick={(e) => {
                 handleClick(e, data.id);
               }}
+              className="oldtasks-card flex pr-5"
             >
-              <div className="oldtask-row-1 flex flex-col gap-3 md:flex-row w-full justify-between">
-                <div className="oldtask-chip flex flex-row py-1 px-2 gap-1 items-center rounded-xl border-2">
-                  <img src={CardCoinIcon} className="w-5"></img>
-                  <p className="fs-13">{data.taskreward + " xCapx"}</p>
+              <div className="wrapper bg-blue-600 flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
+                <div className="img-box rounded-xl overflow-hidden">
+                  <img src={DailyRewardPng} alt="rewards" />
+                  <div className="card-chip flex items-center">
+                    <img src={CardCoinIcon} alt="coin" />
+                    <span>{data.taskreward + " xCapx"}</span>
+                  </div>
                 </div>
-
-                <div className="oldtask-chip flex flex-row p-2 gap-1 items-center rounded-xl border-2">
-                  <p className="fs-13">Completed by {data.completed_by}</p>
-                  <img src={PeopleIcon} className="w-5"></img>
-                </div>
+                <p className="card-title px-3">{data.tasktitle}</p>
               </div>
-              <p className="oldtask-title fs-21 px-2 pt-4">{data.tasktitle}</p>
             </div>
           );
         })}
-      </div>
-      <Slider {...SliderSettings}>
+      </Slider>
+      {/* <Slider {...SliderSettings}>
         {Array(5)
           .fill("")
           .map((el, ind) => {
             return (
-              <div key={"unique" + ind} className="oldtasks-card flex pr-5">
+              <div
+                key={ind}
+                style={{ cursor: "pointer" }}
+                onClick={(e) => {
+                  handleClick(e, data.id);
+                }}
+                className="oldtasks-card flex pr-5"
+              >
                 <div className="wrapper bg-blue-600 flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
                   <div className="img-box rounded-xl overflow-hidden">
                     <img src={DailyRewardPng} alt="rewards" />
                     <div className="card-chip flex items-center">
                       <img src={CardCoinIcon} alt="coin" />
-                      <span>4 xCapx</span>
+                      <span>{data.taskreward + " xCapx"}</span>
                     </div>
                   </div>
-                  <p className="card-title px-3">this is our acrd title</p>
+                  <p className="card-title px-3">{data.tasktitle}</p>
                 </div>
               </div>
             );
           })}
-      </Slider>
+      </Slider> */}
       {isPending && <Modal />}
     </div>
   );

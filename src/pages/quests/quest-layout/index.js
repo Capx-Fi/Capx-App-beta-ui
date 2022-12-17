@@ -16,7 +16,7 @@ import WatchVideo from "../compRight/watchvideo/watchvideo"; // [Day1]-Task 1 & 
 import SingleQuiz from "../compRight/singleQuiz/singleQuiz"; // [Day1]-Task 1 & Task 2
 import GenCodeStep1 from "../compRight/inviteCode/CodeStep1/CodeStep1"; // [Day1]-Task 3
 import GenCodeStep2 from "../compRight/inviteCode/CodeStep2/CodeStep2"; // [Day1]-Task 3
-import BuildProfile from "../compRight/buildProfile/buildProfile"; // [Day1]-Task 4
+import CreateName from "../compRight/buildProfile/createName/CreateName"; // [Day1]-Task 4
 import TweetStep1 from "../compRight/tweetfromAcc/tweetstep1/tweetstep1"; // [Day1]-Task 5
 import TweetStep2 from "../compRight/tweetfromAcc/tweetstep2/tweetstep2"; // [Day1]-Task 5
 import Affiliate from "../compRight/affiliate/affiliate"; // [Day1]-Task 6
@@ -29,6 +29,10 @@ import CongratulationModal from "../compRight/CongratulationModal/Congratulation
 import SuccessMsg from "../compRight/success/success"; // Success-Message
 import FailureMsg from "../compRight/failure/Failure"; // Failure-Message
 import ErrorModal from "../compRight/errorModal/ErrorModal";
+import ActionCompleteModal from "../compRight/actionConpleteModal/ActionCompleteModal";
+import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
+import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
+import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture";
 
 // Quest Right Component Imports End ---------------------------------------------------------
 
@@ -67,6 +71,7 @@ const AnswerQuiz = () => {
 
   const renderActionComponent = () => {
     if (data && actionData && questData) {
+      console.log(actionData.action_order_type);
       switch (actionData.action_order_type) {
         case "Video":
           return (
@@ -96,7 +101,7 @@ const AnswerQuiz = () => {
           );
         case "CheckProfile":
           return (
-            <BuildProfile
+            <CreateName
               actionData={{ handleCompleteAction: handleCompleteAction }}
             />
           );
@@ -227,17 +232,17 @@ const AnswerQuiz = () => {
     }
   }, [data, error]);
 
-  // useEffect(() => {
-  //   if (apiData) {
-  //     console.log(apiData);
-  //     if (apiData.result.success === true) {
-  //       setTaskError(false);
-  //     } else {
-  //       setTaskError(true);
-  //     }
-  //   }
-  //   console.log(taskError);
-  // }, [apiData]);
+  useEffect(() => {
+    if (apiData) {
+      console.log(apiData);
+      if (apiData.result.success === true) {
+        setTaskError(false);
+      } else {
+        setTaskError(true);
+      }
+    }
+    console.log(taskError);
+  }, [apiData]);
 
   return (
     <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">
@@ -306,7 +311,11 @@ const AnswerQuiz = () => {
             open={openCongratulationModal}
             handleClose={handleCongratulationModal}
           />
-          <ErrorModal open={openErrorModal} handleClose={handleErrornModal} />
+
+          <ErrorModal
+            open={taskError === true ? true : false}
+            handleClose={taskErrorReset}
+          />
         </div>
       </div>
 

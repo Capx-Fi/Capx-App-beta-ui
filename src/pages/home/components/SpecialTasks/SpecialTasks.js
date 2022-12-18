@@ -99,6 +99,8 @@ const SpecialTasks = ({ quests }) => {
     ],
   };
 
+  console.log(quests);
+
   return (
     <div className="special-quests bg-green-12">
       <div className="wrapper ">
@@ -133,7 +135,7 @@ const SpecialTasks = ({ quests }) => {
                   </div>
                 </div>
               </div>
-            );
+            )
           })}
         </Slider>
       </div>

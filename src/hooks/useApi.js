@@ -23,6 +23,19 @@ export const useApi = (url, method = Constants.GET) => {
     setPath(path);
   };
 
+  const getData = (getData, path="") =>{
+    setOptions({
+      method: Constants.GET,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + accessToken,
+        "Access-Control-Allow-Headers": "*",
+      },
+    });
+    let urlPath = path + '?' + ( new URLSearchParams( getData ) ).toString();
+    setPath(urlPath);
+  }
+
   useEffect(() => {
     const controller = new AbortController();
     const apiCall = async (options) => {
@@ -51,8 +64,8 @@ export const useApi = (url, method = Constants.GET) => {
       }
     };
 
-    if (method === Constants.GET) {
-      apiCall();
+    if (method === Constants.GET && options) {
+      apiCall(options);
     } else if (method === Constants.POST && options) {
       apiCall(options);
     }
@@ -62,5 +75,5 @@ export const useApi = (url, method = Constants.GET) => {
     };
   }, [url, method, options]);
 
-  return { data: data, isPending: isPending, error: error, postData: postData };
+  return { data: data, isPending: isPending, error: error, postData: postData, getData:getData };
 };

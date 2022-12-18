@@ -20,7 +20,7 @@ const CreateUsername = () => {
   const dispatch = useDispatch();
   const [username,setUsername] = useState('');
   const [usernameExists, setUsernameExists ] = useState(false);
-  const { error,isPending, postData,  data } = useApi('https://capx-gateway-cnfe7xc8.uc.gateway.dev/checkIfUsernameAvailable','POST');
+  const { error,isPending, getData,  data } = useApi('https://us-central1-capx-x-web3auth.cloudfunctions.net/v1','GET');
   const [showModal,setShowModal] = useState(true);
 
   const showModalFunc = () =>{
@@ -31,8 +31,8 @@ const CreateUsername = () => {
     setShowModal(true);
     setUsernameExists(false);
     setUsername(values.username);
-    const apiDataObject = {data:{username:values.username}}
-    postData(apiDataObject)
+    const apiDataObject = {username:values.username.split('@')[1]}
+    getData(apiDataObject,'/checkIfUsernameAvailable')
     resetForm();
   };
 
@@ -50,13 +50,15 @@ const CreateUsername = () => {
 
   useEffect(()=>{
     if(data){
-        if(data.result.success){
-            dispatch(setUserName({username}))
-            navigate('/invite-code',{ state: { username } })
-        }else{
-            console.log(data.result.success)
-            setUsernameExists(true);
-        }
+      console.log(data.result);
+      //to-do: change the typo to success , only used to test
+      if(data.result.succcess){
+          dispatch(setUserName({username}))
+          navigate('/invite-code',{ state: { username } })
+      }else{
+          console.log(data.result.success)
+          setUsernameExists(true);
+      }
     }
   },[data])
 

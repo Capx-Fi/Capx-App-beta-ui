@@ -31,6 +31,8 @@ const OldTasks = ({ quests }) => {
     postData(apiDataObject, "/registerUserForQuest");
   };
 
+  console.log(quests);
+
   useEffect(() => {
     if (data && data.result.success && data.result.success === true) {
       console.log(data);
@@ -132,42 +134,15 @@ const OldTasks = ({ quests }) => {
                   <img src={DailyRewardPng} alt="rewards" />
                   <div className="card-chip flex items-center">
                     <img src={CardCoinIcon} alt="coin" />
-                    <span>{data.taskreward + " xCapx"}</span>
+                    <span>{data.taskreward} xCapx</span>
                   </div>
                 </div>
                 <p className="card-title px-3">{data.tasktitle}</p>
               </div>
             </div>
-          );
+          ) 
         })}
       </Slider>
-      {/* <Slider {...SliderSettings}>
-        {Array(5)
-          .fill("")
-          .map((el, ind) => {
-            return (
-              <div
-                key={ind}
-                style={{ cursor: "pointer" }}
-                onClick={(e) => {
-                  handleClick(e, data.id);
-                }}
-                className="oldtasks-card flex pr-5"
-              >
-                <div className="wrapper bg-blue-600 flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
-                  <div className="img-box rounded-xl overflow-hidden">
-                    <img src={DailyRewardPng} alt="rewards" />
-                    <div className="card-chip flex items-center">
-                      <img src={CardCoinIcon} alt="coin" />
-                      <span>{data.taskreward + " xCapx"}</span>
-                    </div>
-                  </div>
-                  <p className="card-title px-3">{data.tasktitle}</p>
-                </div>
-              </div>
-            );
-          })}
-      </Slider> */}
       {isPending && <Modal />}
     </div>
   );

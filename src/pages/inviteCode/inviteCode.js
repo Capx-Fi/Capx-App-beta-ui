@@ -15,11 +15,11 @@ const InviteCode = () => {
   const navigate = useNavigate();
   const routeData = useLocation();
   const [url, setUrl] = useState(
-    "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
+    'https://us-central1-capx-x-web3auth.cloudfunctions.net/v1'
   );
   const [verifySuccess, setVerifySuccess] = useState(false);
   const [inviteCode, setInviteCode] = useState("");
-  const { isError, isPending, postData, data } = useApi(url, "POST");
+  const { isError, isPending, getData,postData, data } = useApi(url, "GET");
   const username = useSelector((state) => state.user.username);
   const [showModal, setShowModal] = useState(true);
 
@@ -38,13 +38,13 @@ const InviteCode = () => {
     console.log(data);
 
     if (data && !verifySuccess) {
-      if (data.result.success === true) {
+      if (data.result.succcess === true) {
         console.log("iwas here");
         setVerifySuccess(true);
       }
     }
     if (data && verifySuccess) {
-      if (data.result.success === true) {
+      if (data.result.succcess === true) {
         navigate("/congratulation");
       }
     }
@@ -53,8 +53,8 @@ const InviteCode = () => {
   useEffect(() => {
     if (inviteCode.length === 5) {
       setShowModal(true);
-      const apiDataObject = { data: { invite_code: inviteCode } };
-      postData(apiDataObject, "/checkIfInviteCodeValid");
+      const apiDataObject = { invite_code: inviteCode } ;
+      getData(apiDataObject, "/checkInviteCode");
     }
   }, [inviteCode]);
 
@@ -66,7 +66,7 @@ const InviteCode = () => {
     e.preventDefault();
     if (verifySuccess) {
       const apiDataObject = { data: { invite_code: inviteCode, username } };
-      postData(apiDataObject, "/createUserProfile");
+      postData(apiDataObject, "/createUser");
     }
   };
 

@@ -1,32 +1,68 @@
 import React from "react";
 import { MdDone } from "react-icons/md";
+import { RefreshSvg } from "../../../assets/svg";
+import { MdOutlineFlag } from "react-icons/md";
 
-const questLeft = ({data})=> {
+const questLeft = ({ data }) => {
+  const ActionStatus = () => {
+    switch (data.completed) {
+      case "COMPLETED":
+        return (
+          <div className="actionstatus capitalize flex items-center justify-center">
+            Completed
+            <MdDone className="text-xl ml-1" />
+          </div>
+        );
+      case "PENDING":
+        return (
+          <div className="actionstatus action-pending capitalize flex items-center justify-center">
+            start
+            <MdOutlineFlag className="ml-1" />
+          </div>
+        );
+      case "ONGOING":
+        return (
+          <div className="actionstatus capitalize flex items-center justify-center">
+            ongoing
+            <img className="ml-1" src={RefreshSvg} alt="refresh" />
+          </div>
+        );
+      default:
+        return (
+          <div className="actionstatus action-pending capitalize flex items-center justify-center">
+            start
+            <MdOutlineFlag className="ml-1" />
+          </div>
+        );
+    }
+  };
+
   return (
-   
     <div className="left-side flex flex-col w-full">
       <div className="actionsflex flex flex-col">
-        <div className="actioncard rounded-2xl flex flex-col items-start my-2 p-4 bg-slate-50">
-          <div className="action-row-1 flex flex-row items-center justify-between	w-full">
-              <h5 className="actionheading flex flex-row ">
-                <span className="ml-2 cgreen-700 font-medium fs-15 ">{data.actionnum}</span>
-                <span className="ml-2 cgreen-700 font-medium fs-15">{data.title}</span>
-              </h5>
-              <div className="flex-grow" />
-                {data.completed ? (
-                  <p className="actionstatus flex bg-slate-200 py-1 px-4 rounded-full items-center fs-13 font-semibold">Completed<MdDone className="text-xl ml-1" /></p>
-                  ) : ( 
-                  <button className="bg-gredient-2 py-1 px-4 rounded-full text-white capitalize fs-13 font-semibold">{data.actionBtn}</button>
-                )}
-            </div>
+        <div className="actioncard flex flex-row items-center justify-between">
+          <div className="action-row-1 flex flex-col items-start gap-2 justify-between">
+            <h5 className="actionheading flex flex-row ">
+              <span className="ml-2 cgreen-700 font-medium  ">
+                #{data.actionnum}
+              </span>
+              <span className="ml-2 capitalize cgreen-700 font-medium ">
+                {data.title}
+              </span>
+            </h5>
+            <p
+              className={`actiontag ${data.actiontag.toLowerCase()} capitalize`}
+            >
+              {data.actiontag}
+            </p>
+          </div>
           <div className="action-row-2 flex flex-row items-center">
-          <p className={`actiontag py-0.1 px-4 mt-1 fs-13 font-medium  ${data.actiontag} capitalize`}>{data.actiontag}</p>
-            </div>
+            {ActionStatus()}
+          </div>
         </div>
       </div>
     </div>
-
-  )
-}
+  );
+};
 
 export default questLeft;

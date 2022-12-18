@@ -92,6 +92,7 @@
 @import "../pages/congratulations/congratulations";
 @import "../pages/leaderboard/leaderboard";
 @import "../pages/MyWallet/MyWallet";
+@import "../pages/quest/quest";
 
 // components
 @import "../components/Input/input";
@@ -108,9 +109,11 @@
 @import "../pages/home/components/ConsTasks/ConsTasks";
 @import "../pages/home/components/SpecialTasks/SpecialTasks";
 @import "../pages/home/components/OldTasks/OldTasks";
+@import "../pages/quest/components/banner/banner";
+@import "../pages/quest/components/actionCard/actionCard";
 @import "../components/Modal/modal";
 @import "../components/footer/footer";
-@import "../components//SliderArrow/sliderArrow";
+@import "../components/SliderArrow/sliderArrow";
 
 @import "../pages/profile/profile";
 
@@ -119,6 +122,7 @@
 //Task Page Left Components
 @import "../pages/quests/banner/banner";
 @import "../pages/quests/compLeft/compLeft";
+@import "../pages/quests/compLeft/description/description";
 
 //Day01
 @import "../pages/quests/quest-layout/quest-layout";
@@ -133,3 +137,11 @@
 @import "../pages/quests/compRight/inviteCode/CodeStep2/CodeStep2";
 @import "../pages/quests/compRight/success/success";
 @import "../pages/quests/compRight/failure/failure";
+@import "../pages/quests/compRight/QuestComplete/questComplete";
+@import "../pages/quests/compRight/buildProfile/createName/createName.scss";
+@import "../pages/quests/compRight/CongratulationModal/CongratulationModal";
+@import "../pages/quests/compRight/errorModal/errorModal";
+@import "../pages/quests/compRight/actionConpleteModal/actionCompleteModal";
+@import "../pages/quests/compRight/buildProfile/connectTwitter/connectTwitter";
+@import "../pages/quests/compRight/buildProfile/connectDiscord/connectDiscoed";
+@import "../pages/quests/compRight/buildProfile/uploadPicture/uploadPicture";

@@ -16,16 +16,23 @@ import WatchVideo from "../compRight/watchvideo/watchvideo"; // [Day1]-Task 1 & 
 import SingleQuiz from "../compRight/singleQuiz/singleQuiz"; // [Day1]-Task 1 & Task 2
 import GenCodeStep1 from "../compRight/inviteCode/CodeStep1/CodeStep1"; // [Day1]-Task 3
 import GenCodeStep2 from "../compRight/inviteCode/CodeStep2/CodeStep2"; // [Day1]-Task 3
-import BuildProfile from "../compRight/buildProfile/buildProfile"; // [Day1]-Task 4
+import CreateName from "../compRight/buildProfile/createName/CreateName"; // [Day1]-Task 4
 import TweetStep1 from "../compRight/tweetfromAcc/tweetstep1/tweetstep1"; // [Day1]-Task 5
 import TweetStep2 from "../compRight/tweetfromAcc/tweetstep2/tweetstep2"; // [Day1]-Task 5
 import Affiliate from "../compRight/affiliate/affiliate"; // [Day1]-Task 6
-import SuccessMsg from "../compRight/success/success"; // Success-Message
-import FailedMsg from "../compRight/failure/failure"; // Failure-Message
 import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
+import QuestComplete from "../compRight/QuestComplete/QuestComplete";
+import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
+import SuccessMsg from "../compRight/success/success"; // Success-Message
+import FailureMsg from "../compRight/failure/Failure"; // Failure-Message
+import ErrorModal from "../compRight/errorModal/ErrorModal";
+import ActionCompleteModal from "../compRight/actionConpleteModal/ActionCompleteModal";
+import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
+import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
+import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture";
 
 // Quest Right Component Imports End ---------------------------------------------------------
 
@@ -39,6 +46,8 @@ const AnswerQuiz = () => {
   );
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
+  const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
   const { isPending, data, error } = useFirestoreCollection("quest_order", [
     "quest_order_id",
     "==",
@@ -52,8 +61,17 @@ const AnswerQuiz = () => {
   } = useApi(url, "POST");
   const [taskError, setTaskError] = useState(null);
 
+  const handleCongratulationModal = () => {
+    setOpenCongratulationModal((prev) => (prev ? !prev : prev));
+  };
+
+  const handleErrornModal = () => {
+    setOpenErrorModal((prev) => (prev ? !prev : prev));
+  };
+
   const renderActionComponent = () => {
     if (data && actionData && questData) {
+      console.log(actionData.action_order_type);
       switch (actionData.action_order_type) {
         case "Video":
           return (
@@ -83,7 +101,7 @@ const AnswerQuiz = () => {
           );
         case "CheckProfile":
           return (
-            <BuildProfile
+            <CreateName
               actionData={{ handleCompleteAction: handleCompleteAction }}
             />
           );
@@ -227,9 +245,9 @@ const AnswerQuiz = () => {
   }, [apiData]);
 
   return (
-    <div className="quest-layout flex-col px-2 py-8 md:p-8 ">
+    <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">
       {/* Pass Banner Details Here --------------------------------------------------------------------- */}
-      <div className="banner-wrapper px-3">
+      <div className="banner-wrapper md:px-3">
         {questData && (
           <Banner
             data={{
@@ -240,15 +258,15 @@ const AnswerQuiz = () => {
         )}
       </div>
 
-      <div className="quest flex flex-col-reverse gap-10 md:flex-row py-10 px-2 ">
-        <div className="quest-details-1 px-5 w-full md:w-2/5">
+      <div className="quest flex flex-col-reverse gap-10 md:gap-0 md:flex-row md:py-10 md:px-2 ">
+        <div className="quest-details-1 flex flex-col md:gap-16 gap-12 md:px-5">
           {/* Pass Description & Expiry Details Here --------------------------------------------------------- */}
 
-          {questData && (
+          {true && (
             <QuestDescription
               primarydetails={{
-                qdescription: questData.quest_description,
-                qexpiry: questData.quest_end_date,
+                qdescription: questData?.quest_description,
+                qexpiry: questData?.quest_end_date,
               }}
             />
           )}
@@ -256,10 +274,11 @@ const AnswerQuiz = () => {
           {/* Pass Description & Expiry Details Here --------------------------------------------------------- */}
 
           {
-            <div className="qabout flex flex-col pb-5">
-              <p className="qexpiry-title font-semibold underline underline-offset-4 text-cgreen-700 fs-15 pb-1">
+            <div className="qabout flex flex-col gap-3 pb-5">
+              <p className="qexpiry-title action-heading font-semibold underline underline-offset-4 text-cgreen-700 pb-1">
                 Actions
               </p>
+
               {questData &&
                 Object.values(questData.actions)
                   .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
@@ -283,18 +302,24 @@ const AnswerQuiz = () => {
           }
         </div>
 
-        <div className="quest-details-2 flex flex-row w-full md:w-3/5 ">
+        <div className="quest-details-2 flex flex-col">
           {taskError === null && questData && renderActionComponent()}
-          {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
-          {taskError === true && <FailedMsg errorReset={taskErrorReset} />}
+          {/* {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
+          {taskError === true && <FailureMsg errorReset={taskErrorReset} />} */}
+
+          <CongratulationModal
+            open={openCongratulationModal}
+            handleClose={handleCongratulationModal}
+          />
+
+          <ErrorModal
+            open={taskError === true ? true : false}
+            handleClose={taskErrorReset}
+          />
         </div>
       </div>
 
       {apiIsPending && <Modal />}
-
-      <p className="footer px-5 fs-15 font-medium text-cgreen-700 opacity-40 text-center md:text-left">
-        © Capx 2022. All rights reserved
-      </p>
     </div>
   );
 };

@@ -15,10 +15,10 @@ const Home = () => {
   const dispatch = useDispatch();
   const [dailyQuests, setDailyQuests] = useState([]);
   const [prevQuests, setPrevQuests] = useState([]);
+  const [specialQuests,setSpecialQuests] = useState([]);
   const user = useSelector((state) => state.user);
-  //const { data,error,isPending } = useFirestoreCollection("orgs");
   const { data, error, isPending } = useFirestoreCollection(
-    "orgs/f7ILwJaAwQ+2n4D8euNpQ0lVuFJJAYLvw9O2niisDZM=/quests",
+    "xorgs/f7ILwJaAwQ+2n4D8euNpQ0lVuFJJAYLvw9O2niisDZM=/quests",
     ["docType", "==", "Aggregate"]
   );
 
@@ -40,7 +40,7 @@ const Home = () => {
             ? "Resume"
             : "Claim now",
           taskchip: "Daily Reward",
-          taskcategory: "constant",
+          taskCategory: questData.quests[val].quest_type,
           created_on: formatDate(
             new Date(
               (Number(user.registered_on) +
@@ -61,23 +61,24 @@ const Home = () => {
       dispatch(setQuestsData({ allQuests: result }));
       setDailyQuests(
         result.filter((val) => {
-          return val.created_on === todaysDate;
+          return (val.taskCategory.toLowerCase() === 'dailyreward' || (val.created_on === todaysDate && val.taskCategory.toLowerCase() !== 'special'));
+        })
+      );
+      setSpecialQuests(
+        result.filter((val) => {
+          return val.taskCategory.toLowerCase() === 'special';
         })
       );
       setPrevQuests(
         result.filter((val) => {
-          return val.created_on !== todaysDate && val.status !== "COMPLETED";
+          return val.created_on !== todaysDate && val.status !== "COMPLETED" && val.taskCategory.toLowerCase() === 'normal' ;
         })
       );
-      if (
-        result.filter((val) => {
-          return val.created_on !== todaysDate;
-        }).length === 0
-      ) {
+      if(result.filter((val)=>{return val.created_on !== todaysDate && val.status !== "COMPLETED"}).length !== 0){
         var element = document.getElementById("home-container");
         element.classList.add("flex-wrap");
-        var secondEle = document.getElementById("scroll-container");
-        secondEle.classList.remove("md:w-3/5");
+        var secondEle = document.getElementById("scroll-container")
+        secondEle.classList.remove("md:w-3/5")
       }
     }
   }, [data]);
@@ -107,7 +108,7 @@ const Home = () => {
         <div className="home-wrapper-1-inner flex flex-col gap-5">
           <div className="home-title flex flex-row items-center gap-2">
             <img src={DailyQuestsIcon} className="w-8" alt="quest" />
-            <p className="fs-16 font-black">Daily Rewards</p>
+            <p className="fs-16 font-black">Daily Quests</p>
           </div>
           <div className="home-tasks flex flex-row 11/12">
             <ConsTasks quests={dailyQuests} />
@@ -119,8 +120,9 @@ const Home = () => {
             <img src={DailyQuestsIcon} className="w-8" />
             <p className="fs-16 font-black">Special Quests</p>
           </div>
-          <div className="home-tasks ">
-            <SpecialTasks />
+
+          <div className="home-tasks">
+            <SpecialTasks quests={specialQuests} />
             {/* <DailyTasks quests={dailyQuests} /> */}
           </div>
         </div>

@@ -109,7 +109,7 @@ export const useFireBaseLogin = () => {
     if (userDetails) {
       try {
         console.log(userDetails);
-        const userDoc = doc(db, "users", userDetails.uid);
+        const userDoc = doc(db, "xusers", userDetails.uid);
         const docSnap = await getDoc(userDoc);
         console.log(docSnap.data());
         if (docSnap.exists()) {

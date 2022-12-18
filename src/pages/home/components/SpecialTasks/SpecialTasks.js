@@ -5,7 +5,7 @@ import { InviteFriends } from "../../../../assets/images";
 import { CardCoinIcon } from "../../../../assets/svg";
 import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 
-const SpecialTasks = () => {
+const SpecialTasks = ({quests}) => {
   const SliderSettings = {
     dots: false,
     infinite: false,
@@ -59,41 +59,38 @@ const SpecialTasks = () => {
     ],
   };
 
+  console.log(quests);
+
   return (
     <div className="special-quests bg-green-12">
       <div className="wrapper">
         <Slider {...SliderSettings}>
-          {Array(5)
-            .fill("")
-            .map((el, ind) => {
-              return (
-                <div
-                  key={"unique" + ind}
-                  className="specialcards-main flex pr-5"
-                >
-                  <div className="wrapper flex flex-col items-stretch rounded-xl p-3 gap-3">
-                    <div className="img-box rounded-xl overflow-hidden">
-                      <img
-                        className="w-full h-fit card-img"
-                        src={InviteFriends}
-                        alt="invite"
-                      />
-                      <div className="card-chip md:hidden flex items-center">
-                        <img src={CardCoinIcon} alt="coin" />
-                        <span>4 xCapx</span>
-                      </div>
+          {quests.map((data,index)=>{
+            return (
+              <div className="specialcards-main flex px-3" key={data.id}>
+                <div className="wrapper flex flex-col items-stretch rounded-xl p-3 gap-3">
+                  <div className="img-box rounded-xl overflow-hidden">
+                    <img
+                      className="w-full h-fit card-img"
+                      src={InviteFriends}
+                      alt="invite"
+                    />
+                    <div className="card-chip md:hidden flex items-center">
+                      <img src={CardCoinIcon} alt="coin" />
+                      <span>{data.taskreward} xCapx</span>
                     </div>
-                    <div className="flex items-center justify-between">
-                      <p className="card-title">Generate Invite Code</p>
-                      <div className="card-chip md:flex hidden items-center ml-10">
-                        <img src={CardCoinIcon} alt="coin" />
-                        <span className="ml-1">4 xCapx</span>
-                      </div>
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p className="card-title">{data.tasktitle}</p>
+                    <div className="card-chip md:flex hidden items-center ml-10">
+                      <img src={CardCoinIcon} alt="coin" />
+                      <span className="ml-1">{data.taskreward} xCapx</span>
                     </div>
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            )
+          })}
         </Slider>
       </div>
     </div>

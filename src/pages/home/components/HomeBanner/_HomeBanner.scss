@@ -7,7 +7,6 @@
     background-position: right;
     @media screen and (max-width: 767.98px) {
       padding: 19px 17px 17px;
-      background-image: unset;
     }
     h2 {
       font-weight: 900;
@@ -36,25 +35,25 @@
   .slider-1 {
     background-image: url(../../../../assets/images/Slider01.png);
     @media screen and (max-width: 767.98px) {
-      background-image: unset;
+      background-image: url(../../../../assets/images/PhoneSlide01.png);
     }
   }
   .slider-2 {
     background-image: url(../../../../assets/images/Slider02.png);
     @media screen and (max-width: 767.98px) {
-      background-image: unset;
+      background-image: url(../../../../assets/images/PhoneSlide02.png);
     }
   }
   .slider-3 {
     background-image: url(../../../../assets/images/Slider03.png);
     @media screen and (max-width: 767.98px) {
-      background-image: unset;
+      background-image: url(../../../../assets/images/PhoneSlide03.png);
     }
   }
   .slider-4 {
     background-image: url(../../../../assets/images/Slider04.png);
     @media screen and (max-width: 767.98px) {
-      background-image: unset;
+      background-image: url(../../../../assets/images/PhoneSlide04.png);
     }
   }
 
@@ -70,11 +69,12 @@
       background-color: $cgreen-300;
       border-radius: 100px;
       overflow: hidden;
-      transition: all 0.1s;
+      transition: all 0.13s;
     }
     .slick-active {
       width: 74px;
       background-color: $cgreen-400;
+      transition: all 0.1s;
     }
   }
 }

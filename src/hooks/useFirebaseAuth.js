@@ -1,18 +1,17 @@
-import { onAuthStateChanged } from "firebase/auth"
-import { auth,db } from "../firebase/firebase"
-import { useEffect } from "react"
+import { onAuthStateChanged } from "firebase/auth";
+import { auth, db } from "../firebase/firebase";
+import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAuthStatus } from "./../store/slices/authSlice";
-import { setUser } from "./../store/slices/userSlice"
+import { setUser } from "./../store/slices/userSlice";
 import {
-    doc,
-    getDoc,
-    getDocs,
-    collection,
-    query,
-    where
+  doc,
+  getDoc,
+  getDocs,
+  collection,
+  query,
+  where,
 } from "firebase/firestore";
-
 
 export const useFireBaseAuth = () => {
     const dispatch = useDispatch();
@@ -37,11 +36,8 @@ export const useFireBaseAuth = () => {
             }else{
                 console.log('i fired')
                 dispatch(setAuthStatus({isAuthReady:true,user:null,isUserProfileSet:false }));
-            }
-            
-            
-        })
-
-        return unsub();
-    },[])
-}
+            } 
+        });
+    return unsub();
+  }, []);
+};

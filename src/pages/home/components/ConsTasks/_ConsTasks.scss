@@ -7,15 +7,18 @@
         border: 2px solid #fff;
         &:hover {
           border: 2px solid #d9f4de;
+          .img-box {
+            img {
+              transition: all 0.3s;
+              transform: scale(1.1);
+            }
+          }
         }
 
         .img-box {
           position: relative;
           img {
             transition: all 0.3s;
-            &:hover {
-              transform: scale(1.1);
-            }
           }
           .card-chip {
             position: absolute;

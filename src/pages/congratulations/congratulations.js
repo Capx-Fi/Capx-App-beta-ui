@@ -3,18 +3,24 @@ import { useNavigate } from "react-router-dom";
 import { CongratulationSvg, OnboardSvg } from "../../assets/svg";
 import { useDispatch } from "react-redux";
 import { setUserProfileComplete } from "../../store/slices/authSlice";
-
-//
+import TrophyAnimation from "../../assets/lottie/TrophyOnboarding.json";
+import Lottie from "react-lottie";
 
 const Congratulaions = () => {
+  const lottieOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: TrophyAnimation,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  
+
   const handleClick = () => {
     dispatch(setUserProfileComplete());
-  }
-  
-  
+  };
 
   return (
     <>
@@ -29,13 +35,14 @@ const Congratulaions = () => {
                 className="hidden md:block"
               />
               <div>
-                <img src={CongratulationSvg} alt="Congratulation" />
+                {/* <img src={CongratulationSvg} alt="Congratulation" /> */}
+                <Lottie options={lottieOptions} height={240} width={240} />
               </div>
               <p className="underline text-primary-800 font-black fs-30">
-                Congratulaions!
+                All set!
               </p>
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-10">
-                Welcome to the<br />Capx experience
+                Let’s learn, build <br /> & grow together
               </h2>
 
               <button
@@ -45,7 +52,7 @@ const Congratulaions = () => {
                   handleClick();
                 }}
               >
-                LFG
+                Start
               </button>
 
               <p className="text-gray-400 fs-15 font-bold hidden md:block absolute bottom-0 py-5">

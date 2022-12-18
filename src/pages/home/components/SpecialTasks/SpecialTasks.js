@@ -3,6 +3,7 @@ import { ImArrowRight2 } from "react-icons/im";
 import Slider from "react-slick";
 import { InviteFriends } from "../../../../assets/images";
 import { CardCoinIcon } from "../../../../assets/svg";
+import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 
 const SpecialTasks = ({quests}) => {
   const SliderSettings = {
@@ -12,6 +13,8 @@ const SpecialTasks = ({quests}) => {
     variableWidth: true,
     slidesToShow: 2,
     slidesToScroll: 1,
+    prevArrow: <SliderArrow direction="left" />,
+    nextArrow: <SliderArrow direction="right" />,
     responsive: [
       {
         breakpoint: 1280,

@@ -9,6 +9,7 @@ import { Constants } from "../../../../constants/constants";
 import Modal from "../../../../components/Modal/Modal";
 import { DailyRewardPng, InviteFriends } from "../../../../assets/images";
 import Slider from "react-slick";
+import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 
 const handleDragStart = (e) => e.preventDefault();
 
@@ -52,11 +53,12 @@ const OldTasks = ({ quests }) => {
     dots: false,
     infinite: false,
     accessibility: true,
-
     slidesToShow: 4,
     slidesToScroll: 1,
     initialSlide: 0,
     variableWidth: true,
+    prevArrow: <SliderArrow direction="left" />,
+    nextArrow: <SliderArrow direction="right" />,
     responsive: [
       {
         breakpoint: 1382,

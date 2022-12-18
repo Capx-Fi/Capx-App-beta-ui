@@ -22,7 +22,7 @@ export const useFireBaseAuth = () => {
             if(user){
                 try{
                     console.log(user);
-                    const userDoc = doc(db, "users",user.uid);
+                    const userDoc = doc(db, "xusers",user.uid);
                     const docSnap = await getDoc(userDoc);
                     console.log(docSnap.data());
                     if (docSnap.data()!== undefined && docSnap.exists()) {

@@ -47,16 +47,7 @@ const ConsTasks = ({ quests }) => {
       navigate("/quest");
     }
   }, [data]);
-  // const SliderSettings = {
-  //   dots: false,
-  //   infinite: false,
-  //   accessibility: true,
-  //   variableWidth: true,
-  //   slidesToShow: 1,
-  //   slidesToScroll: 1,
-  //   initialSlide: 1,
-  // };
-
+ 
   const SliderSettings = {
     dots: false,
     infinite: false,
@@ -126,42 +117,16 @@ const ConsTasks = ({ quests }) => {
   return (
     <div className="constcards w-full">
       <div className="constcards-wrapper w-full">
-        {/* {dailytaskdata.map((data, ind) => {
-          return (
-            <div
-              className={`constcards-main justify-between px-4 pb-8 pt-3 basis-1/3 border-2 w-72 rounded-3xl flex flex-col gap-32 row${
-                ind + 1
-              }`}
-              key={data.key+String(ind)}
-            >
-              <div className="taskchip fs-14 font-black text-cgreen-600 self-end rounded-xl">
-                {data.taskchip}
-              </div>
-              <div className="">
-                <div className="tasktitle fs-22 font-black text-cgreen-600 user text-start">
-                  {data.tasktitle}
-                </div>
-                <button className="taskbtn w-full bg-cgreen-500 py-3 px-4 rounded-xl flex flex-row font-extrabold text-cgreen-100 task items-center place-content-between"  onClick={(e)=>{handleClick(e,data.id)}}>
-                {data && data.status !== "COMPLETED" && <div className="reward-icon flex flex-row gap-2 items-center">
-                    <img src={CardCoinIcon} className="w-5" />
-                    <p className="fs-15">{data.taskreward+ " xCapx"}</p>
-                  </div>}
-                  {data && data.status !== "COMPLETED" ?<p>{data.taskbtntext}</p>:<p>Details</p>}
-                </button>
-              </div>
-            </div>
-          );
-        })} */}
         <Slider {...SliderSettings}>
           {dailytaskdata.map((data, ind) => {
             return (
-              <div className="constcards-main flex pr-5">
+              <div className="constcards-main flex pr-5" key={data.id}>
                 <div className="wrapper bg-blue-600 flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
                   <div className="img-box rounded-xl overflow-hidden">
                     <img src={DailyRewardPng} alt="rewards" />
                     <div className="card-chip flex items-center">
                       <img src={CardCoinIcon} alt="coin" />
-                      <span>4 xCapx</span>
+                      <span>{data.taskreward} xCapx</span>
                     </div>
                   </div>
                   <p className="card-title px-3"> {data.tasktitle}</p>

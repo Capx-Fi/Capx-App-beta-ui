@@ -18,7 +18,7 @@ const Layout = () => {
   const authUser = useSelector((state) => state.auth.user);
   const [userDataFetch, setUserDataFetch] = useState(false);
   const [userLogout, setUserLogout] = useState(false);
-  const { data, error, isPending } = useFirestoreCollection("users", [
+  const { data, error, isPending } = useFirestoreCollection("xusers", [
     "email",
     "==",
     `${authUser ? authUser.email : ""}`,

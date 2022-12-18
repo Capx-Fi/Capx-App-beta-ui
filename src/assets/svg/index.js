@@ -41,8 +41,24 @@ import QuestSuccessSvg from "./QuestSuccessSvg.svg";
 import TwitterNegative from "./twitter-negative.svg";
 import DiscordNegative from "./discord-negative.svg";
 import Logout from "./Logout.svg";
+import RefreshSvg from "./refreshSvg.svg";
+import ContentCopySvg from "./ContentCopySvg.svg";
+import QuestBoySvg from "./QuestBoySvg.svg";
+import InputCheckSvg from "./InputCheck.svg";
+import TwitterContainedwhiteSvg from "./TwitterContainedwhite.svg";
+import GrayTwitterIconSvg from "./GrayTwitterIcon.svg";
+import DiscordContainedSvg from "./DiscordContainedSvg.svg";
+import ProfileoutlineIconSvg from "./ProfileIconSvg.svg";
 
 export {
+  ProfileoutlineIconSvg,
+  DiscordContainedSvg,
+  GrayTwitterIconSvg,
+  TwitterContainedwhiteSvg,
+  InputCheckSvg,
+  QuestBoySvg,
+  ContentCopySvg,
+  RefreshSvg,
   TwitterNegative,
   InstagramIcon,
   WhatsappIcon,

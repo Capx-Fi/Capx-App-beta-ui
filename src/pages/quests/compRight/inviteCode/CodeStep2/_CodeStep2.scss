@@ -1,23 +1,53 @@
-.codestep2{
-    .codestep2-title{}
-
-    .codestep2-wrapper{
-        border: 2px solid rgba(31, 122, 85, 0.2);
-        .codestep2-placeholder{
-            background: rgba(31, 122, 85, 0.1);
-            border: 0px solid rgba(31, 122, 85, 0.3);
-            }
-        }
-            .codestep2-congrats{
-                .codestep2-congrats-1{
-                    .codestep2-congratstitle{
-                        background: linear-gradient(180deg, #8FC175 0%, #3A906C 100%);
-                        -webkit-background-clip: text;
-                        -webkit-text-fill-color: transparent;
-                        background-clip: text;
-                        text-fill-color: transparent;
-
-                    }
-                }
+.codestep2 {
+    .codestep2-title {
     }
-}
+  
+    .codestep2-wrapper {
+      .codestep2-placeholder {
+        background: rgba(31, 122, 85, 0.1);
+        border: 2px solid rgba(31, 122, 85, 0.2);
+  
+        span {
+          font-weight: 900;
+          font-size: 28px;
+          line-height: 42px;
+          letter-spacing: 5px;
+        }
+        button {
+          border-radius: 25px;
+          width: 40px;
+          height: 40px;
+          transition: all 0.3s;
+          &:hover {
+            background-color: rgba(31, 122, 85, 0.05);
+          }
+          &:focus {
+            background-color: rgba(31, 122, 85, 0.2);
+          }
+        }
+      }
+    }
+    .codestep2-congrats {
+      .codestep2-congrats-1 {
+        .social-icons {
+          button {
+            padding: 12px 14px;
+            background: rgba(31, 122, 85, 0.1);
+            border: 2px solid rgba(31, 122, 85, 0.2);
+          }
+        }
+      }
+    }
+    .action-btn {
+      font-weight: 900;
+      font-size: 17px;
+      line-height: 22px;
+      letter-spacing: -0.5px;
+      color: #fff;
+      @media screen and (max-width: 767.98px) {
+        font-weight: 900;
+        font-size: 14px;
+        line-height: 22px;
+      }
+    }
+  }

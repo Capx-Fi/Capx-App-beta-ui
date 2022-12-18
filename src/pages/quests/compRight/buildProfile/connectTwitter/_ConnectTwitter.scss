@@ -1,0 +1,40 @@
+.connect-twitter-action {
+    .action-heading {
+    }
+  
+    .twitter-box {
+      background-color: #03a9f4;
+      padding: 16px;
+      border-radius: 16px;
+      @media screen and (max-width: 767.98px) {
+        padding: 8px 16px;
+        background: $gredient-green-2;
+        img {
+          width: 17px;
+        }
+      }
+      span {
+        font-weight: 900;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.5px;
+        color: #fff;
+  
+        @media screen and (max-width: 767.98px) {
+          font-weight: 900;
+          font-size: 14px;
+          line-height: 22px;
+        }
+      }
+    }
+  
+    .disable {
+      @media screen and (max-width: 767.98px) {
+        background: #dcdcdc;
+  
+        span {
+          color: #949494;
+        }
+      }
+    }
+  }

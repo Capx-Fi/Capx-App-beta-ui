@@ -6,7 +6,7 @@ import {
 } from "../../../assets/svg";
 import Banner from "../banner";
 import QuestLeft from "../compLeft";
-import QuestDescription from "../compLeft/description/description.js";
+import QuestDescription from "../compLeft/description/Description.js";
 import Modal from "../../../components/Modal/Modal";
 
 // Day 01 Quest Imports ---------------------------------------------------------
@@ -16,12 +16,25 @@ import WatchVideo from "../compRight/watchvideo/watchvideo"; // [Day1]-Task 1 & 
 import SingleQuiz from "../compRight/singleQuiz/singleQuiz"; // [Day1]-Task 1 & Task 2
 import GenCodeStep1 from "../compRight/inviteCode/CodeStep1/CodeStep1"; // [Day1]-Task 3
 import GenCodeStep2 from "../compRight/inviteCode/CodeStep2/CodeStep2"; // [Day1]-Task 3
-import BuildProfile from "../compRight/buildProfile/buildProfile"; // [Day1]-Task 4
+//import BuildProfile from "../compRight/buildProfile/buildProfile"; // [Day1]-Task 4
 import TweetStep1 from "../compRight/tweetfromAcc/tweetstep1/tweetstep1"; // [Day1]-Task 5
 import TweetStep2 from "../compRight/tweetfromAcc/tweetstep2/tweetstep2"; // [Day1]-Task 5
 import Affiliate from "../compRight/affiliate/affiliate"; // [Day1]-Task 6
+import QuestComplete from "../compRight/questComplete/QuestComplete";
+import CongratulationModal from "../compRight/congratulationModal/CongratulationModal";
+import ErrorModal from "../compRight/errorModal/ErrorModal";
+import ActionCompleteModal from "../compRight/actionCompleteModal/ActionCompleteModal";
+import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
+import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
+import UpdateProfileImage from "../compRight/buildProfile/updateProfileImage/UpdateProfileImage";
+
+
 import SuccessMsg from "../compRight/success/success"; // Success-Message
 import FailedMsg from "../compRight/failure/failure"; // Failure-Message
+
+
+
+
 import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
@@ -39,6 +52,8 @@ const AnswerQuiz = () => {
   );
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
+  const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
   const { isPending, data, error } = useFirestoreCollection("quest_order", [
     "quest_order_id",
     "==",
@@ -51,6 +66,15 @@ const AnswerQuiz = () => {
     data: apiData,
   } = useApi(url, "POST");
   const [taskError, setTaskError] = useState(null);
+
+  const handleCongratulationModal = () => {
+    setOpenCongratulationModal((prev) => (prev ? !prev : prev));
+  };
+
+  const handleErrornModal = () => {
+    setOpenErrorModal((prev) => (prev ? !prev : prev));
+  };
+
 
   const renderActionComponent = () => {
     if (data && actionData && questData) {
@@ -81,12 +105,12 @@ const AnswerQuiz = () => {
               actionData={{ handleCompleteAction: handleCompleteAction }}
             />
           );
-        case "CheckProfile":
-          return (
-            <BuildProfile
-              actionData={{ handleCompleteAction: handleCompleteAction }}
-            />
-          );
+        // case "CheckProfile":
+        //   return (
+        //     <BuildProfile
+        //       actionData={{ handleCompleteAction: handleCompleteAction }}
+        //     />
+        //   );
         case "Social_Twitter":
           return (
             <TweetStep1
@@ -285,8 +309,15 @@ const AnswerQuiz = () => {
 
         <div className="quest-details-2 flex flex-row w-full md:w-3/5 ">
           {taskError === null && questData && renderActionComponent()}
-          {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
-          {taskError === true && <FailedMsg errorReset={taskErrorReset} />}
+          <CongratulationModal
+            open={openCongratulationModal}
+            handleClose={handleCongratulationModal}
+          />
+
+          <ErrorModal
+            open={taskError === true ? true : false}
+            handleClose={taskErrorReset}
+          />
         </div>
       </div>
 

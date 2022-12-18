@@ -2,6 +2,7 @@
   .specialcards-main {
     min-width: 450px;
     max-width: 540px;
+    cursor: pointer;
     @media screen and (max-width: 767.98px) {
       min-width: 284px;
       max-width: 320px;

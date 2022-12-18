@@ -1,36 +1,35 @@
 .header {
-    min-height: 70px;
-    background-color: #f8fdf9;
-    border-bottom: 1px solid;
-    width: calc(100% - 90px);
-    z-index: 100;
+  min-height: 70px;
+  background-color: #f8fdf9;
+  border-bottom: 1px solid;
+  width: calc(100% - 90px);
+  z-index: 10;
+  @media screen and (max-width: 767.98px) {
+    min-height: 64px;
+    width: 100%;
+  }
+  .page-name {
+    color: #153945;
+    font-size: 21px;
+    font-weight: 900;
+    margin-top: 12px;
+    margin-left: 8px;
+    letter-spacing: -0.5px;
     @media screen and (max-width: 767.98px) {
-      min-height: 64px;
-      width: 100%;
-    }
-    .page-name {
-      color: #153945;
-      font-size: 21px;
-      font-weight: 900;
-      margin-top: 12px;
-      margin-left: 8px;
-      letter-spacing: -0.5px;
-      @media screen and (max-width: 767.98px) {
-        font-size: 18px;
-      }
-    }
-    button {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 12px;
-      font-weight: 900;
-      border: 1px solid;
-      border-color: $green-200;
-      height: 35px;
-      padding: 0 6px;
-      border-radius: 13px;
-      margin-left: 10px;
+      font-size: 18px;
     }
   }
-  
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 900;
+    border: 1px solid;
+    border-color: $green-200;
+    height: 35px;
+    padding: 0 6px;
+    border-radius: 13px;
+    margin-left: 10px;
+  }
+}

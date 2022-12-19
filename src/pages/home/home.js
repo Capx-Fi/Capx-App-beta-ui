@@ -97,7 +97,7 @@ const Home = () => {
 
   return (
     <div
-      className={"home flex flex-col md:flex-row md:p-8 p-5 gap-8"}
+      className={"home flex flex-col flex-wrap md:flex-row md:p-8 p-5 gap-8"}
       id="home-container"
     >
       <div

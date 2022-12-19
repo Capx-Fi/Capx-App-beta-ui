@@ -33,6 +33,7 @@ import ActionCompleteModal from "../compRight/actionConpleteModal/ActionComplete
 import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
 import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
 import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture";
+import Profile from "../compRight/buildProfile/profile/Profile";
 
 // Quest Right Component Imports End ---------------------------------------------------------
 

@@ -92,7 +92,6 @@
 @import "../pages/congratulations/congratulations";
 @import "../pages/leaderboard/leaderboard";
 @import "../pages/MyWallet/MyWallet";
-@import "../pages/quest/quest";
 
 // components
 @import "../components/Input/input";
@@ -109,8 +108,6 @@
 @import "../pages/home/components/ConsTasks/ConsTasks";
 @import "../pages/home/components/SpecialTasks/SpecialTasks";
 @import "../pages/home/components/OldTasks/OldTasks";
-@import "../pages/quest/components/banner/banner";
-@import "../pages/quest/components/actionCard/actionCard";
 @import "../components/Modal/modal";
 @import "../components/footer/footer";
 @import "../components/SliderArrow/sliderArrow";
@@ -145,3 +142,4 @@
 @import "../pages/quests/compRight/buildProfile/connectTwitter/connectTwitter";
 @import "../pages/quests/compRight/buildProfile/connectDiscord/connectDiscoed";
 @import "../pages/quests/compRight/buildProfile/uploadPicture/uploadPicture";
+@import "../pages/quests/compRight/buildProfile/profile/profile";

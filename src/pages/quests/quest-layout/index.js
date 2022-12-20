@@ -19,6 +19,12 @@ import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
 import Profile from "../compRight/buildProfile/profile/Profile";
+
+
+
+// Quest Right Component Imports End ---------------------------------------------------------
+
+
 import QuestComplete from "../compRight/QuestComplete/QuestComplete";
 import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
 import ErrorModal from "../compRight/errorModal/ErrorModal";
@@ -26,9 +32,6 @@ import ActionCompleteModal from "../compRight/actionConpleteModal/ActionComplete
 import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
 import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
 import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture";
-
-
-// Quest Right Component Imports End ---------------------------------------------------------
 
 const AnswerQuiz = () => {
   const auth = useSelector((state) => state.auth.user);

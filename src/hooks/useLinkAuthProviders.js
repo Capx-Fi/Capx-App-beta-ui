@@ -9,7 +9,7 @@ import { auth } from "../firebase/firebase";
 export const useLinkAuthProviders = () => {
   const [error, setError] = useState("");
   const [isPending, setIsPending] = useState(false);
-
+  const [linkDone,setLinkDone] = useState(false);
   const user = auth.currentUser;
 
   const linkWithSocail = async (method) => {
@@ -33,11 +33,11 @@ export const useLinkAuthProviders = () => {
       }
 
       try {
-        const response = await linkWithPopup(user, provider);
-        console.log(response);
+        await linkWithPopup(user, provider);
       } catch (error) {
         setError(error);
       }
+      setLinkDone(true);
       setIsPending(false);
     } else {
       setError("No Social selected");
@@ -45,5 +45,5 @@ export const useLinkAuthProviders = () => {
     }
   };
 
-  return { linkWithSocail, error, isPending };
+  return { linkWithSocail, error, isPending, linkDone };
 };

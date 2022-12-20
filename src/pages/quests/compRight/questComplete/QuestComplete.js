@@ -2,7 +2,8 @@ import React from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { QuestBoySvg } from "../../../../assets/svg";
 
-const QuestComplete = ({ modalAction }) => {
+
+const QuestCompleteScreen = ({modalAction}) => {
   return (
     <div className="quest-complete flex flex-col items-center gap-3">
       <img className="box-img mb-3" src={QuestBoySvg} alt="complete" />
@@ -21,4 +22,4 @@ const QuestComplete = ({ modalAction }) => {
   );
 };
 
-export default QuestComplete;
+export default QuestCompleteScreen;

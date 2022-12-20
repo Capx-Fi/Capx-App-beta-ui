@@ -16,7 +16,7 @@ export const authSlice = createSlice({
         setAuthStatus : (state,action) => {
             state.isAuthReady = action.payload.isAuthReady;
             state.user = action.payload.user;
-            state.accessToken =  action.payload.user?action.payload.user.accessToken:null;
+            state.accessToken =  action.payload.user?action.payload.user.stsTokenManager.accessToken:null;
             state.isLoggedIn = action.payload.user && action.payload.user.uid?true:false;
             state.isUserProfileSet = action.payload.isUserProfileSet;
         },

@@ -18,14 +18,15 @@ import Affiliate from "../compRight/affiliate/affiliate"; // [Day1]-Task 6
 import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
+import Profile from "../compRight/buildProfile/profile/Profile";
+import QuestComplete from "../compRight/QuestComplete/QuestComplete";
 import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
 import ErrorModal from "../compRight/errorModal/ErrorModal";
 import ActionCompleteModal from "../compRight/actionConpleteModal/ActionCompleteModal";
 import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
 import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
 import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture";
-import Profile from "../compRight/buildProfile/profile/Profile";
-import QuestComplete from "../compRight/QuestComplete/QuestComplete";
+
 
 // Quest Right Component Imports End ---------------------------------------------------------
 

@@ -25,9 +25,9 @@ import Profile from "../compRight/buildProfile/profile/Profile";
 // Quest Right Component Imports End ---------------------------------------------------------
 
 
-import QuestCompleteScreen from "../compRight/QuestComplete/QuestComplete";
-import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
-import ErrorModal from "../compRight/errorModal/ErrorModal";
+import QuestCompleteScreen from "../compRight/questComplete/QuestComplete";
+import CongratulationModal from "../compRight/congratulationModal/CongratulationModal";
+import ErrorModal from "../compRight/errorModal/errorModal";
 import ActionCompleteModal from "../compRight/actionConpleteModal/ActionCompleteModal";
 import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
 import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";

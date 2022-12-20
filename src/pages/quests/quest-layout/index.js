@@ -19,14 +19,13 @@ import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
 import Profile from "../compRight/buildProfile/profile/Profile";
-import QuestComplete from "../compRight/QuestComplete/QuestComplete";
-import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
+import CongratulationModal from "../compRight/congratulationModal/CongratulationModal";
+import QuestComplete from "../compRight/questComplete/QuestComplete";
 import ErrorModal from "../compRight/errorModal/ErrorModal";
 import ActionCompleteModal from "../compRight/actionConpleteModal/ActionCompleteModal";
 import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
 import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
 import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture";
-
 
 // Quest Right Component Imports End ---------------------------------------------------------
 
@@ -34,15 +33,15 @@ const AnswerQuiz = () => {
   const auth = useSelector((state) => state.auth.user);
   const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
   const [url, setUrl] = useState(
-    'https://capx-gateway-cnfe7xc8.uc.gateway.dev/'
+    "https://capx-gateway-cnfe7xc8.uc.gateway.dev/"
   );
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
   const [openActionCompleteModal, setOpenActionCompleteModel] = useState(false);
-  const [isClaimQuest,setIsClaimQuest] = useState(false);
-  const [showClaimScreen,setShowClaimScreen] = useState(false);
-  const [showActionClaim,setShowActionClaim] = useState(false);
+  const [isClaimQuest, setIsClaimQuest] = useState(false);
+  const [showClaimScreen, setShowClaimScreen] = useState(false);
+  const [showActionClaim, setShowActionClaim] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const { isPending, data, error } = useFirestoreCollection("xquest_order", [
     "quest_order_id",
@@ -68,7 +67,7 @@ const AnswerQuiz = () => {
   const handleActionCompleteDialog = () => {
     setOpenActionCompleteModel((prev) => (prev ? !prev : prev));
     setShowActionClaim((prev) => (prev ? !prev : prev));
-  }
+  };
 
   const renderActionComponent = () => {
     if (data && actionData && questData) {
@@ -102,25 +101,45 @@ const AnswerQuiz = () => {
         case "updateFullName":
           return (
             <CreateName
-              actionData={{ ...actionData,questID: questData.quest_id + "|" + auth.uid,handleCompleteAction: handleCompleteAction, claimRewardHandler:claimRewardHandler }}
+              actionData={{
+                ...actionData,
+                questID: questData.quest_id + "|" + auth.uid,
+                handleCompleteAction: handleCompleteAction,
+                claimRewardHandler: claimRewardHandler,
+              }}
             />
           );
         case "updateProfileImage":
           return (
             <UploadPicture
-              actionData={{ ...actionData,questID: questData.quest_id + "|" + auth.uid,handleCompleteAction: handleCompleteAction, claimRewardHandler:claimRewardHandler }}
+              actionData={{
+                ...actionData,
+                questID: questData.quest_id + "|" + auth.uid,
+                handleCompleteAction: handleCompleteAction,
+                claimRewardHandler: claimRewardHandler,
+              }}
             />
           );
         case "linkTwitter":
           return (
             <ConnectTwitter
-              actionData={{ ...actionData,questID: questData.quest_id + "|" + auth.uid,handleCompleteAction: handleCompleteAction, claimRewardHandler:claimRewardHandler }}
+              actionData={{
+                ...actionData,
+                questID: questData.quest_id + "|" + auth.uid,
+                handleCompleteAction: handleCompleteAction,
+                claimRewardHandler: claimRewardHandler,
+              }}
             />
           );
         case "linkDiscord":
           return (
             <ConnectDiscord
-              actionData={{ ...actionData,questID: questData.quest_id + "|" + auth.uid,handleCompleteAction: handleCompleteAction, claimRewardHandler:claimRewardHandler }}
+              actionData={{
+                ...actionData,
+                questID: questData.quest_id + "|" + auth.uid,
+                handleCompleteAction: handleCompleteAction,
+                claimRewardHandler: claimRewardHandler,
+              }}
             />
           );
         case "Social_Twitter":
@@ -144,11 +163,22 @@ const AnswerQuiz = () => {
         case "Share_Invite_Code":
           return (
             <GenCodeStep2
-              actionData={{ ...actionData,handleCompleteAction: handleCompleteAction }}
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+              }}
             />
           );
         case "Daily_Reward":
-          return <DailyReward actionData={{...actionData,handleCompleteAction: handleCompleteAction,questID:questOrderId}}/>;
+          return (
+            <DailyReward
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: questOrderId,
+              }}
+            />
+          );
         default:
           return <p>No data</p>;
       }
@@ -157,19 +187,19 @@ const AnswerQuiz = () => {
 
   const claimRewardHandler = () => {
     console.log(questData?.quest_category);
-    if(questData?.quest_category !== 'Build_Profile'){
+    if (questData?.quest_category !== "Build_Profile") {
       let apiDataObject = {
         data: { quest_order_id: questOrderId },
       };
       postData(apiDataObject, "/claimReward");
-    }else if(questData?.quest_category === 'Build_Profile'){
+    } else if (questData?.quest_category === "Build_Profile") {
       let apiDataObject = {
         data: { action_order_id: actionData.action_order_id },
       };
       setShowActionClaim(true);
       postData(apiDataObject, "/claimReward");
-    } 
-  }
+    }
+  };
 
   const handleCompleteAction = (e, input) => {
     if (e !== null) {
@@ -245,7 +275,7 @@ const AnswerQuiz = () => {
         apiDataObject = {
           data: {
             action_order_id: actionData.action_order_id,
-            name:input.value
+            name: input.value,
           },
         };
         break;
@@ -254,7 +284,7 @@ const AnswerQuiz = () => {
         apiDataObject = {
           data: {
             action_order_id: actionData.action_order_id,
-            image_url:input.value
+            image_url: input.value,
           },
         };
         break;
@@ -275,38 +305,39 @@ const AnswerQuiz = () => {
   useEffect(() => {
     if (data) {
       setQuestData(data[0]);
-      let actionData = []
-      if(data[0].quest_category === "Daily_Reward"){
-        actionData = Object.values(data[0].actions)
-        .filter((val) => {
-          return (val.action_order_status !== 'COMPLETED');
-        })
-      }else{
-        actionData = Object.values(data[0].actions)
-        .filter((val) => {
-          return (val.is_claimed !== true);
-        })
+      let actionData = [];
+      if (data[0].quest_category === "Daily_Reward") {
+        actionData = Object.values(data[0].actions).filter((val) => {
+          return val.action_order_status !== "COMPLETED";
+        });
+      } else {
+        actionData = Object.values(data[0].actions).filter((val) => {
+          return val.is_claimed !== true;
+        });
       }
 
-     
-
-      if(actionData.length === 0){
-        console.log('All actions completed')
-        if(isClaimQuest){
-          console.log('show claim')
+      if (actionData.length === 0) {
+        console.log("All actions completed");
+        if (isClaimQuest) {
+          console.log("show claim");
           setActionData([]);
-          
-        }else if(data[0].quest_type.toLowerCase() === 'special' && data[0].status.toLowerCase() === 'completed' ){
+        } else if (
+          data[0].quest_type.toLowerCase() === "special" &&
+          data[0].status.toLowerCase() === "completed"
+        ) {
           setActionData({
-            ...Object.values(data[0].actions).filter((val) => {
-              return (val.action_order_status === 'COMPLETED');
-            }).sort((a, b) => (a.action_id > b.action_id ? 1 : -1)).reverse()[0],
+            ...Object.values(data[0].actions)
+              .filter((val) => {
+                return val.action_order_status === "COMPLETED";
+              })
+              .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
+              .reverse()[0],
           });
-        }else{
-          console.log('show congrats');
+        } else {
+          console.log("show congrats");
           setOpenCongratulationModal(true);
         }
-      }else{
+      } else {
         setActionData({
           ...actionData.sort((a, b) => (a.action_id > b.action_id ? 1 : -1))[0],
         });
@@ -317,35 +348,34 @@ const AnswerQuiz = () => {
   }, [data, error]);
 
   useEffect(() => {
-    if (apiData && !showClaimScreen && !showActionClaim ) {
+    if (apiData && !showClaimScreen && !showActionClaim) {
       console.log(apiData);
       //to-do:change succcess to success
       if (apiData.result.success === true) {
-        if(actionData.length === 0){
-          if(questData.quest_category === "Daily_Reward"){
+        if (actionData.length === 0) {
+          if (questData.quest_category === "Daily_Reward") {
             setOpenCongratulationModal(true);
-          }else{
+          } else {
             setShowClaimScreen(true);
             setTaskError(false);
           }
-        }else{
+        } else {
           setTaskError(null);
         }
-        
       } else {
         setTaskError(true);
       }
-    }else if(apiData && showClaimScreen && !isPending){
+    } else if (apiData && showClaimScreen && !isPending) {
       if (apiData.result.success === true) {
         setOpenCongratulationModal(true);
       } else {
         setTaskError(true);
       }
-    }else if(apiData && showActionClaim && !isPending){
-      console.log(' claim result for action ');
-      if(apiData.result.success === true) {
+    } else if (apiData && showActionClaim && !isPending) {
+      console.log(" claim result for action ");
+      if (apiData.result.success === true) {
         setOpenActionCompleteModel(true);
-      }else{
+      } else {
         setTaskError(true);
       }
     }
@@ -393,7 +423,7 @@ const AnswerQuiz = () => {
                     return (
                       <QuestLeft
                         data={{
-                          id : details3.action_order_id,
+                          id: details3.action_order_id,
                           title: details3.action_title,
                           actionnum: details3.action_id,
                           actiontag: details3.action_order_type,
@@ -402,7 +432,7 @@ const AnswerQuiz = () => {
                               ? true
                               : false,
                           actionBtn: details3.action_order_status,
-                          currentActionId : actionData.action_order_id
+                          currentActionId: actionData.action_order_id,
                         }}
                         key={details3.action_order_id}
                       />
@@ -413,15 +443,20 @@ const AnswerQuiz = () => {
         </div>
 
         <div className="quest-details-2 flex flex-col">
-          {taskError === null && !showClaimScreen && questData && renderActionComponent()}
-          {showClaimScreen && actionData.length === 0 && <QuestComplete modalAction={{claimReward:claimRewardHandler}}/>}
+          {taskError === null &&
+            !showClaimScreen &&
+            questData &&
+            renderActionComponent()}
+          {showClaimScreen && actionData.length === 0 && (
+            <QuestComplete modalAction={{ claimReward: claimRewardHandler }} />
+          )}
           {/* {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
           {taskError === true && <FailureMsg errorReset={taskErrorReset} />} */}
 
           <CongratulationModal
             open={openCongratulationModal}
             handleClose={handleCongratulationModal}
-            rewards = {questData?.max_rewards}
+            rewards={questData?.max_rewards}
           />
 
           <ActionCompleteModal

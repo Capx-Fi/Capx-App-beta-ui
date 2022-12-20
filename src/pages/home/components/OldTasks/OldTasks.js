@@ -9,9 +9,23 @@ import { Constants } from "../../../../constants/constants";
 import Modal from "../../../../components/Modal/Modal";
 import { DailyRewardPng, InviteFriends } from "../../../../assets/images";
 import Slider from "react-slick";
-import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
+import { ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
+// import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 
 const handleDragStart = (e) => e.preventDefault();
+
+const SliderArrow = ({ style, onClick, direction }) => {
+  return (
+    <button
+      onClick={onClick}
+      style={style}
+      className={`slider-cust-arrow ${direction}-arrow`}
+    >
+      {direction === "right" && <ImArrowRight2 />}
+      {direction === "left" && <ImArrowLeft2 />}
+    </button>
+  );
+};
 
 const OldTasks = ({ quests }) => {
   const dispatch = useDispatch();
@@ -19,7 +33,7 @@ const OldTasks = ({ quests }) => {
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
   const [url, setUrl] = useState(
-    'https://us-central1-capx-x-web3auth.cloudfunctions.net/v1'
+    "https://us-central1-capx-x-web3auth.cloudfunctions.net/v1"
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
@@ -39,7 +53,8 @@ const OldTasks = ({ quests }) => {
     } else if (
       data &&
       data.result.success === false &&
-      (data.result.quest_status === 'REGISTERED' || data.result.quest_status === 'IN_PROGRESS' )
+      (data.result.quest_status === "REGISTERED" ||
+        data.result.quest_status === "IN_PROGRESS")
     ) {
       console.log(data.result);
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
@@ -119,15 +134,8 @@ const OldTasks = ({ quests }) => {
       <Slider {...SliderSettings}>
         {quests.map((data, ind) => {
           return (
-            <div
-              key={ind}
-              style={{ cursor: "pointer !important" }}
-              onClick={(e) => {
-                handleClick(e, data.id);
-              }}
-              className="oldtasks-card flex pr-5"
-            >
-              <div className="wrapper bg-blue-600 flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
+            <div key={ind} className="oldtasks-card flex pr-5">
+              <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
                 <div className="img-box rounded-xl overflow-hidden">
                   <img src={DailyRewardPng} alt="rewards" />
                   <div className="card-chip flex items-center">
@@ -136,6 +144,15 @@ const OldTasks = ({ quests }) => {
                   </div>
                 </div>
                 <p className="card-title px-3">{data.tasktitle}</p>
+                <button
+                  onClick={(e) => {
+                    handleClick(e, data.id);
+                  }}
+                  className="card-btn flex justify-between items-center rounded-xl"
+                >
+                  <span>Start task</span>
+                  <ImArrowRight2 className="text-white" />
+                </button>
               </div>
             </div>
           );

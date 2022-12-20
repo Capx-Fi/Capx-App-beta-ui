@@ -17,7 +17,7 @@ const SideNav = () => {
     <div className="sidenav flex flex-col items-center min-h-screen hidden md:flex border-primary-200">
       <img className="brand-logo" src={BrandLogoSvg} alt="Capx" />
       <NavLink
-        to="/refresh"
+        to="/"
         className="tabs flex flex-col items-center justify-center mt-14 mb-4"
       >
         <img className="icons" src={HomeIconSvg} alt="home" />
@@ -45,7 +45,7 @@ const SideNav = () => {
         />
         <span>Leaderboard</span>
       </NavLink>
-      <div className="flex-grow" />
+      {/* <div className="flex-grow" />
       <NavLink
         to="/profile"
         className="tabs flex flex-col items-center justify-center"
@@ -57,7 +57,7 @@ const SideNav = () => {
           alt="home"
         />
         <span>Profile</span>
-      </NavLink>
+      </NavLink> */}
     </div>
   );
 };

@@ -11,7 +11,6 @@ import Slider from "react-slick";
 import { DailyRewardPng } from "../../../../assets/images";
 import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 
-
 const ConsTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
   console.log(dailytaskdata);
@@ -20,7 +19,7 @@ const ConsTasks = ({ quests }) => {
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
   const [url, setUrl] = useState(
-    'https://capx-gateway-cnfe7xc8.uc.gateway.dev'
+    "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
@@ -41,7 +40,7 @@ const ConsTasks = ({ quests }) => {
     } else if (
       data &&
       data.result.success === false &&
-      data.result.quest_status === 'REGISTERED'
+      data.result.quest_status === "REGISTERED"
     ) {
       console.log(data.result);
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
@@ -123,7 +122,7 @@ const ConsTasks = ({ quests }) => {
           {dailytaskdata.map((data, ind) => {
             return (
               <div className="constcards-main flex pr-5">
-                <div className="wrapper bg-blue-600 flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
+                <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
                   <div className="img-box rounded-xl overflow-hidden">
                     <img src={DailyRewardPng} alt="rewards" />
                     <div className="card-chip flex items-center">

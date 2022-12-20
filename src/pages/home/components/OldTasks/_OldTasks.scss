@@ -11,7 +11,7 @@
   .oldtasks-card {
     min-width: 230px;
     max-width: 308px;
-    cursor:pointer !important;
+    cursor: pointer !important;
     .wrapper {
       border: 2px solid #fff;
       &:hover {
@@ -50,6 +50,7 @@
         font-size: 15px;
         line-height: 19px;
         letter-spacing: -0.2px;
+        height: 38px;
       }
       .card-btn {
         padding: 8px 16px 10px;
@@ -63,6 +64,11 @@
       }
     }
   }
+
+  .slider-cust-arrow {
+    border-radius: 6px;
+  }
+
   .slick-track {
     margin-right: initial;
     margin-left: initial;

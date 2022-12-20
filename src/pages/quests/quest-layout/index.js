@@ -27,7 +27,7 @@ import Profile from "../compRight/buildProfile/profile/Profile";
 
 import QuestCompleteScreen from "../compRight/questComplete/QuestComplete";
 import CongratulationModal from "../compRight/congratulationModal/CongratulationModal";
-import ErrorModal from "../compRight/errorModal/errorModal";
+import ErrorModal from "../compRight/errorModal/ErrorModal";
 import ActionCompleteModal from "../compRight/actionConpleteModal/ActionCompleteModal";
 import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
 import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";

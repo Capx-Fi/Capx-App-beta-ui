@@ -25,7 +25,7 @@ import Profile from "../compRight/buildProfile/profile/Profile";
 // Quest Right Component Imports End ---------------------------------------------------------
 
 
-import QuestComplete from "../compRight/QuestComplete/QuestComplete";
+import QuestCompleteScreen from "../compRight/QuestComplete/QuestComplete";
 import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
 import ErrorModal from "../compRight/errorModal/ErrorModal";
 import ActionCompleteModal from "../compRight/actionConpleteModal/ActionCompleteModal";
@@ -417,7 +417,7 @@ const AnswerQuiz = () => {
 
         <div className="quest-details-2 flex flex-col">
           {taskError === null && !showClaimScreen && questData && renderActionComponent()}
-          {showClaimScreen && actionData.length === 0 && <QuestComplete modalAction={{claimReward:claimRewardHandler}}/>}
+          {showClaimScreen && actionData.length === 0 && <QuestCompleteScreen modalAction={{claimReward:claimRewardHandler}}/>}
           {/* {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
           {taskError === true && <FailureMsg errorReset={taskErrorReset} />} */}
 

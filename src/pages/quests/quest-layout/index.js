@@ -18,16 +18,14 @@ import Affiliate from "../compRight/affiliate/affiliate"; // [Day1]-Task 6
 import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
-import QuestComplete from "../compRight/QuestComplete/QuestComplete";
 import CongratulationModal from "../compRight/CongratulationModal/CongratulationModal";
-import SuccessMsg from "../compRight/success/success"; // Success-Message
-import FailureMsg from "../compRight/failure/Failure"; // Failure-Message
 import ErrorModal from "../compRight/errorModal/ErrorModal";
 import ActionCompleteModal from "../compRight/actionConpleteModal/ActionCompleteModal";
 import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
 import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
 import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture";
 import Profile from "../compRight/buildProfile/profile/Profile";
+import QuestComplete from "../compRight/QuestComplete/QuestComplete";
 
 // Quest Right Component Imports End ---------------------------------------------------------
 
@@ -35,7 +33,7 @@ const AnswerQuiz = () => {
   const auth = useSelector((state) => state.auth.user);
   const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
   const [url, setUrl] = useState(
-    "https://us-central1-capx-x-web3auth.cloudfunctions.net/v1"
+    'https://capx-gateway-cnfe7xc8.uc.gateway.dev/'
   );
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);

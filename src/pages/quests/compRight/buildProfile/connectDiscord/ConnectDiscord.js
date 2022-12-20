@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { DiscordContainedSvg } from "../../../../../assets/svg";
 import { HiArrowRight } from "react-icons/hi";
-import ActionCompleteModal from "../../actionCompleteModal/ActionCompleteModal";
+import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
 
 const ConnectDiscord = () => {
   const [showClaimBtn, setShowClaimBtn] = useState(false);

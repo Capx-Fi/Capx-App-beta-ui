@@ -40,7 +40,11 @@ const tweetstep1 = ({ actionData }) => {
         </div>
 
         <div className="btns flex justify-between">
-          <button className="btn-outlined">Copy</button>
+          <button onClick={() => {
+              navigator.clipboard.writeText(
+                "Excited to be part of Capx App Private Beta, and you can become an early member too! 🫶 #CapxApp #CapxFi @CapxFi. To get your special invite code apply on - app.capx.fi"
+              );
+            }} className="btn-outlined">Copy</button>
           <button
             className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl"
             onClick={(e) =>

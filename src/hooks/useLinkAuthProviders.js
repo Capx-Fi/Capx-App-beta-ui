@@ -33,7 +33,8 @@ export const useLinkAuthProviders = () => {
       }
 
       try {
-        await linkWithPopup(user, provider);
+        const response = await linkWithPopup(user, provider);
+        console.log(response);
       } catch (error) {
         setError(error);
       }

@@ -1,5 +1,6 @@
 import React from "react";
 import { HiArrowRight } from "react-icons/hi";
+import { TwitterNegative } from "../../../../assets/svg";
 import Input from "../../../../components/Input/Input";
 import * as Yup from "yup";
 import { useFormik } from "formik";

@@ -1,23 +1,23 @@
 .codestep {
-    .codestep-title {
-    }
-    .codestep-wrapper {
-      .codestep-placeholder {
-        border: 2px solid rgba(31, 122, 85, 0.2);
-        background: rgba(31, 122, 85, 0.1);
-        color: rgba(31, 122, 85, 0.3);
-      }
-    }
-    .action-btn {
-      font-weight: 900;
-      font-size: 17px;
-      line-height: 22px;
-      letter-spacing: -0.5px;
-      @media screen and (max-width: 767.98px) {
-        font-weight: 900;
-        font-size: 12px;
-        line-height: 19px;
-        letter-spacing: -0.2px;
-      }
+  .codestep-title {
+  }
+  .codestep-wrapper {
+    .codestep-placeholder {
+      border: 2px solid rgba(31, 122, 85, 0.2);
+      background: rgba(31, 122, 85, 0.1);
+      color: rgba(31, 122, 85, 0.3);
     }
   }
+  .action-btn {
+    font-weight: 900;
+    font-size: 17px;
+    line-height: 22px;
+    letter-spacing: -0.5px;
+    @media screen and (max-width: 767.98px) {
+      font-weight: 900;
+      font-size: 12px;
+      line-height: 19px;
+      letter-spacing: -0.2px;
+    }
+  }
+}

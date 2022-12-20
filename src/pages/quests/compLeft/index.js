@@ -5,35 +5,27 @@ import { MdOutlineFlag } from "react-icons/md";
 
 const questLeft = ({ data }) => {
   const ActionStatus = () => {
-    switch (data.completed) {
-      case "COMPLETED":
-        return (
-          <div className="actionstatus capitalize flex items-center justify-center">
-            Completed
-            <MdDone className="text-xl ml-1" />
-          </div>
-        );
-      case "PENDING":
-        return (
-          <div className="actionstatus action-pending capitalize flex items-center justify-center">
-            start
-            <MdOutlineFlag className="ml-1" />
-          </div>
-        );
-      case "ONGOING":
-        return (
-          <div className="actionstatus capitalize flex items-center justify-center">
-            ongoing
-            <img className="ml-1" src={RefreshSvg} alt="refresh" />
-          </div>
-        );
-      default:
-        return (
-          <div className="actionstatus action-pending capitalize flex items-center justify-center">
-            start
-            <MdOutlineFlag className="ml-1" />
-          </div>
-        );
+    if(data.completed === true){
+      return (
+        <div className="actionstatus capitalize flex items-center justify-center">
+          Completed
+          <MdDone className="text-xl ml-1" />
+        </div>
+      );
+    }else if(data.completed === false && data.id === data.currentActionId ){
+      return (
+        <div className="actionstatus capitalize flex items-center justify-center">
+          ongoing
+          <img className="ml-1" src={RefreshSvg} alt="refresh" />
+        </div>
+      );
+    }else{
+      return (
+        <div className="actionstatus action-pending capitalize flex items-center justify-center">
+          start
+          <MdOutlineFlag className="ml-1" />
+        </div>
+      );
     }
   };
 

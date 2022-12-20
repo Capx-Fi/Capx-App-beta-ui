@@ -15,11 +15,11 @@ const InviteCode = () => {
   const navigate = useNavigate();
   const routeData = useLocation();
   const [url, setUrl] = useState(
-    'https://us-central1-capx-x-web3auth.cloudfunctions.net/v1'
+    'https://capx-gateway-cnfe7xc8.uc.gateway.dev'
   );
   const [verifySuccess, setVerifySuccess] = useState(false);
   const [inviteCode, setInviteCode] = useState("");
-  const { isError, isPending, getData,postData, data } = useApi(url, "GET");
+  const { isError, isPending, postData, data, getData } = useApi(url, "GET");
   const username = useSelector((state) => state.user.username);
   const [showModal, setShowModal] = useState(true);
 
@@ -38,13 +38,13 @@ const InviteCode = () => {
     console.log(data);
 
     if (data && !verifySuccess) {
-      if (data.result.succcess === true) {
+      if (data.result.success === true) {
         console.log("iwas here");
         setVerifySuccess(true);
       }
     }
     if (data && verifySuccess) {
-      if (data.result.succcess === true) {
+      if (data.result.success === true) {
         navigate("/congratulation");
       }
     }

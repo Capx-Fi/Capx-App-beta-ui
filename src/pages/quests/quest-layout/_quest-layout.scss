@@ -3,6 +3,7 @@
     background: url("../../../assets//images/desk-lamp.png");
     background-repeat: no-repeat;
     background-position: 100% 150%;
+    min-height: 370px;
     @media screen and (max-width: 767.98px) {
       background: unset;
     }

@@ -1,51 +1,51 @@
 .quest-complete {
-    padding: 32px;
-    background: rgba(212, 241, 218, 0.2);
-    border: 2px solid #c7ebce;
-    border-radius: 32px;
+  padding: 32px;
+  background: rgba(212, 241, 218, 0.2);
+  border: 2px solid #c7ebce;
+  border-radius: 32px;
+  @media screen and (max-width: 767.98px) {
+    padding: 23px;
+  }
+
+  .box-img {
+    width: 106px;
+  }
+
+  .heading {
+    font-weight: 900;
+    font-size: 56px;
+    line-height: 72px;
+    text-align: center;
+    letter-spacing: -0.5px;
+    background: linear-gradient(
+        180deg,
+        rgba(143, 193, 117, 0.9) 0%,
+        rgba(58, 144, 108, 0.9) 100%
+      ),
+      #153945;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
     @media screen and (max-width: 767.98px) {
-      padding: 23px;
-    }
-  
-    .box-img {
-      width: 106px;
-    }
-  
-    .heading {
       font-weight: 900;
-      font-size: 56px;
-      line-height: 72px;
-      text-align: center;
-      letter-spacing: -0.5px;
-      background: linear-gradient(
-          180deg,
-          rgba(143, 193, 117, 0.9) 0%,
-          rgba(58, 144, 108, 0.9) 100%
-        ),
-        #153945;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      @media screen and (max-width: 767.98px) {
-        font-weight: 900;
-        font-size: 40px;
-        line-height: 53px;
-        letter-spacing: -0.3px;
-      }
-    }
-  
-    .text {
-      font-weight: 500;
-      font-size: 18px;
-      line-height: 21px;
-      text-align: center;
+      font-size: 40px;
+      line-height: 53px;
       letter-spacing: -0.3px;
-      color: $cgreen-700;
-      @media screen and (max-width: 767.98px) {
-        font-weight: 500;
-        font-size: 14px;
-        line-height: 20px;
-        letter-spacing: -0.2px;
-      }
     }
   }
+
+  .text {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 21px;
+    text-align: center;
+    letter-spacing: -0.3px;
+    color: $cgreen-700;
+    @media screen and (max-width: 767.98px) {
+      font-weight: 500;
+      font-size: 14px;
+      line-height: 20px;
+      letter-spacing: -0.2px;
+    }
+  }
+}

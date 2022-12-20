@@ -9,6 +9,7 @@ import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 import { useApi } from "../../../../hooks/useApi";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
 import { Constants } from "../../../../constants/constants";
+import Modal from "../../../../components/Modal/Modal";
 
 const SpecialTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
@@ -18,7 +19,7 @@ const SpecialTasks = ({ quests }) => {
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
   const [url, setUrl] = useState(
-    "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
+    'https://us-central1-capx-x-web3auth.cloudfunctions.net/v1'
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
@@ -27,7 +28,7 @@ const SpecialTasks = ({ quests }) => {
     console.log(questId);
     setQuestId(questId);
     const apiDataObject = { data: { questId: questId } };
-    postData(apiDataObject, "/registerUserForQuest");
+    postData(apiDataObject, "/registerForQuest");
   };
 
   useEffect(() => {
@@ -38,10 +39,10 @@ const SpecialTasks = ({ quests }) => {
     } else if (
       data &&
       data.result.success === false &&
-      data.result.message === Constants.QUEST_REGISTERED_ERROR
+      (data.result.quest_status === 'REGISTERED' || data.result.quest_status === 'IN_PROGRESS' || data.result.quest_status === 'COMPLETED' )
     ) {
       console.log(data.result);
-      dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
+      dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate("/quest");
     }
   }, [data]);
@@ -111,6 +112,7 @@ const SpecialTasks = ({ quests }) => {
                 }}
                 key={"unique" + ind}
                 className="specialcards-main flex pr-5"
+                style={{cursor:'pointer'}}
               >
                 <div className="wrapper flex flex-col items-stretch rounded-xl p-3 gap-3">
                   <div className="img-box rounded-xl overflow-hidden">
@@ -137,6 +139,7 @@ const SpecialTasks = ({ quests }) => {
           })}
         </Slider>
       </div>
+      {isPending && <Modal />}
     </div>
   );
 };

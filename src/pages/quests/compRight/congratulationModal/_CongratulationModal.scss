@@ -1,79 +1,79 @@
 .congratulation-dialog {
-    background: rgba(232, 248, 231, 0.6);
-    backdrop-filter: blur(3px);
-  
-    .background-lottie {
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+  background: rgba(232, 248, 231, 0.6);
+  backdrop-filter: blur(3px);
+
+  .background-lottie {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .dialog-box {
+    padding: 32px;
+    border-radius: 32px;
+    border: 2px solid #c7ebce;
+    max-width: 464px;
+    background: linear-gradient(
+      180deg,
+      #f8fdf8 22.02%,
+      #e2f6e1 82.31%,
+      #b6edcf 144.59%,
+      #dcf1df 144.59%
+    );
+    @media screen and (max-width: 767.98px) {
+      padding: 22px;
     }
-  
-    .dialog-box {
-      padding: 32px;
-      border-radius: 32px;
-      border: 2px solid #c7ebce;
-      max-width: 464px;
-      background: linear-gradient(
-        180deg,
-        #f8fdf8 22.02%,
-        #e2f6e1 82.31%,
-        #b6edcf 144.59%,
-        #dcf1df 144.59%
-      );
+
+    .coin-lottie {
+      max-height: 160px;
+    }
+
+    .dialog-heading {
+      font-weight: 900;
+      font-size: 48px;
+      line-height: 60px;
+      letter-spacing: -0.5px;
+      text-align: center;
       @media screen and (max-width: 767.98px) {
-        padding: 22px;
-      }
-  
-      .coin-lottie {
-        max-height: 160px;
-      }
-  
-      .dialog-heading {
         font-weight: 900;
-        font-size: 48px;
-        line-height: 60px;
+        font-size: 34px;
+        line-height: 43px;
+      }
+    }
+
+    .dialog-text {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 24px;
+      letter-spacing: -0.3px;
+      color: #153945;
+      text-align: center;
+    }
+
+    .dialog-buttons {
+      button {
+        height: 50px;
+        padding: 0 20px;
+        font-weight: 600;
+        font-size: 17px;
+        line-height: 22px;
         letter-spacing: -0.5px;
-        text-align: center;
+        border-radius: 16px;
         @media screen and (max-width: 767.98px) {
           font-weight: 900;
-          font-size: 34px;
-          line-height: 43px;
+          font-size: 12px;
+          line-height: 16px;
+          letter-spacing: -0.3px;
         }
       }
-  
-      .dialog-text {
-        font-weight: 500;
-        font-size: 18px;
-        line-height: 24px;
-        letter-spacing: -0.3px;
-        color: #153945;
-        text-align: center;
+      .btn-contained {
+        color: #fff;
       }
-  
-      .dialog-buttons {
-        button {
-          height: 50px;
-          padding: 0 20px;
-          font-weight: 600;
-          font-size: 17px;
-          line-height: 22px;
-          letter-spacing: -0.5px;
-          border-radius: 16px;
-          @media screen and (max-width: 767.98px) {
-            font-weight: 900;
-            font-size: 12px;
-            line-height: 16px;
-            letter-spacing: -0.3px;
-          }
-        }
-        .btn-contained {
-          color: #fff;
-        }
-  
-        .btn-outline {
-          color: $cgreen-500;
-          border: 2px solid $cgreen-500;
-        }
+
+      .btn-outline {
+        color: $cgreen-500;
+        border: 2px solid $cgreen-500;
       }
     }
   }
+}

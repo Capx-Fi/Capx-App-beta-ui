@@ -75,5 +75,5 @@ export const useApi = (url, method = Constants.GET) => {
     };
   }, [url, method, options]);
 
-  return { data: data, isPending: isPending, error: error, postData: postData, getData:getData };
+  return { data: data, isPending: isPending, error: error, postData: postData ,getData:getData };
 };

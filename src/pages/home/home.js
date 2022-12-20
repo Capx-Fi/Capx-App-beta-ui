@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { AlertIcon, DailyQuestsIcon } from "../../assets/svg";
 import ConsTasks from "./components/ConsTasks/ConsTasks";
-import DailyTasks from "./components/DailyTasks/DailyTasks";
 import HomeBanner from "./components/HomeBanner/HomeBanner";
 import OldTasks from "./components/OldTasks/OldTasks";
 import SpecialTasks from "./components/SpecialTasks/SpecialTasks";
@@ -17,6 +16,7 @@ const Home = () => {
   const [prevQuests, setPrevQuests] = useState([]);
   const [specialQuests,setSpecialQuests] = useState([]);
   const user = useSelector((state) => state.user);
+  //const { data,error,isPending } = useFirestoreCollection("orgs");
   const { data, error, isPending } = useFirestoreCollection(
     "xorgs/f7ILwJaAwQ+2n4D8euNpQ0lVuFJJAYLvw9O2niisDZM=/quests",
     ["docType", "==", "Aggregate"]
@@ -61,7 +61,7 @@ const Home = () => {
       dispatch(setQuestsData({ allQuests: result }));
       setDailyQuests(
         result.filter((val) => {
-          return (val.taskCategory.toLowerCase() === 'dailyreward' || (val.created_on === todaysDate && val.taskCategory.toLowerCase() !== 'special'));
+          return (val.taskCategory.toLowerCase() === 'dailyreward' || (val.created_on === todaysDate && val.taskCategory.toLowerCase() !== 'special' && val.status === 'new'));
         })
       );
       setSpecialQuests(
@@ -71,7 +71,7 @@ const Home = () => {
       );
       setPrevQuests(
         result.filter((val) => {
-          return val.created_on !== todaysDate && val.status !== "COMPLETED" && val.taskCategory.toLowerCase() === 'normal' ;
+          return ((val.created_on !== todaysDate || val.status === "IN_PROGRESS" || val.status==="REGISTERED") && val.taskCategory.toLowerCase() === 'normal');
         })
       );
       if(result.filter((val)=>{return val.created_on !== todaysDate && val.status !== "COMPLETED"}).length !== 0){
@@ -97,7 +97,7 @@ const Home = () => {
 
   return (
     <div
-      className={"home flex flex-col md:flex-row md:p-8 p-5 gap-8"}
+      className={"home flex flex-col flex-wrap md:flex-row md:p-8 p-5 gap-8"}
       id="home-container"
     >
       <div
@@ -108,7 +108,7 @@ const Home = () => {
         <div className="home-wrapper-1-inner flex flex-col gap-5">
           <div className="home-title flex flex-row items-center gap-2">
             <img src={DailyQuestsIcon} className="w-8" alt="quest" />
-            <p className="fs-16 font-black">Daily Quests</p>
+            <p className="fs-16 font-black">Daily Rewards</p>
           </div>
           <div className="home-tasks flex flex-row 11/12">
             <ConsTasks quests={dailyQuests} />
@@ -120,15 +120,14 @@ const Home = () => {
             <img src={DailyQuestsIcon} className="w-8" />
             <p className="fs-16 font-black">Special Quests</p>
           </div>
-
-          <div className="home-tasks">
+          <div className="home-tasks ">
             <SpecialTasks quests={specialQuests} />
             {/* <DailyTasks quests={dailyQuests} /> */}
           </div>
         </div>
       </div>
-      {/* prevQuests && prevQuests.length > 0 && */}
-      { prevQuests && prevQuests.length > 0 &&
+
+      {prevQuests && prevQuests.length > 0 && (
         <div className="home-wrapper-2 w-full">
           <div className="home-wrapper-1-inner flex flex-col gap-5">
             <div className="home-title flex flex-row items-center gap-2">
@@ -144,7 +143,7 @@ const Home = () => {
             <OldTasks quests={prevQuests} />
           </div>
         </div>
-      }
+      )}
       {isPending && <Modal></Modal>}
     </div>
   );

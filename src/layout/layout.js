@@ -28,7 +28,7 @@ const Layout = () => {
     error: questError,
     isPending: questIsPending,
   } = useFirestoreCollection(
-    `users/${authUser ? authUser.uid : "dummy"}/quest-order`,
+    `xusers/${authUser ? authUser.uid : "dummy"}/quest-order`,
     ["docType", "==", "Aggregate"]
   );
   const {

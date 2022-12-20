@@ -1,9 +1,28 @@
 import React from "react";
+import { useEffect } from "react";
+import { useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { TwitterNegative } from "../../../../../assets/svg";
 import Input from "../../../../../components/Input/Input";
 
-const tweetstep2 = () => {
+const Tweetstep2 = ({ actionData }) => {
+  const [tweetUrl,setTweetUrl] = useState('');
+  const [enableVerify,setEnableVerify] = useState(false)
+  var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
+  var regex = new RegExp(expression);
+  const handleInputChange = (e) => {
+    if(e.target.value && e.target.value.length>0 &&  e.target.value.trim().match(regex)){
+        setTweetUrl(e.target.value)
+    }
+  }
+  useEffect(()=>{
+    if(tweetUrl && tweetUrl.trim().length>9){
+      setEnableVerify(true)
+    }else{
+      setEnableVerify(false);
+    }
+  },[tweetUrl])
+
   return (
     <div className="createtweet flex flex-col gap-3">
       <p className="createtweet-title action-heading ">
@@ -32,9 +51,18 @@ const tweetstep2 = () => {
         <input
           className="createtweet-2 flex flex-col gap-1 fs-15"
           placeholder="https://twitter.com/xyz/post"
+          onChange={(e)=>handleInputChange(e)}
         />
 
-        <button className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl">
+        <button className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl"
+          onClick={(e) =>
+            actionData.handleCompleteAction(e, {
+              type: "twitterVerify",
+              value: tweetUrl,
+            })
+          }
+          disabled={!enableVerify}
+        >
           Verify
           <HiArrowRight className="text-xl ml-4" />
         </button>
@@ -43,4 +71,4 @@ const tweetstep2 = () => {
   );
 };
 
-export default tweetstep2;
+export default Tweetstep2;

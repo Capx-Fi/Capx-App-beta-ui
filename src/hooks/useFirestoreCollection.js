@@ -12,16 +12,13 @@ export const useFirestoreCollection = (_collection, queryObject = {}) => {
   useEffect(() => {
     setIsPending(true);
     let ref = collection(db, _collection);
-    console.log(q);
     if (q) {
       ref = query(ref, where(...q));
     }
-    console.log("i executed");
     console.log(_collection, queryObject);
     const unsub = onSnapshot(
       ref,
       (snapshot) => {
-        console.log(snapshot);
         if (snapshot.empty) {
           setError("No data to Load");
           setIsPending(false);

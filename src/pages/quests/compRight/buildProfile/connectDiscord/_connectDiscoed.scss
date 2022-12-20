@@ -1,14 +1,14 @@
-.connect-twitter-action {
+.connect-discord-action {
   .action-heading {
   }
 
   .twitter-box {
-    background-color: #03a9f4;
+    background-color: #7289da;
     padding: 16px;
     border-radius: 16px;
     @media screen and (max-width: 767.98px) {
       padding: 8px 16px;
-      background: $gredient-green-2;
+
       img {
         width: 17px;
       }
@@ -24,16 +24,6 @@
         font-weight: 900;
         font-size: 14px;
         line-height: 22px;
-      }
-    }
-  }
-
-  .disable {
-    @media screen and (max-width: 767.98px) {
-      background: #dcdcdc;
-
-      span {
-        color: #949494;
       }
     }
   }

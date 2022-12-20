@@ -4,9 +4,11 @@ import SuccessCoinLottie from "../../../../assets/lottie/SuccessCoinsAnimation.j
 import BgCongLottie from "../../../../assets/lottie/ConfettiAnimation.json";
 import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
+import { useNavigate } from "react-router-dom";
 
-const CongratulationModal = ({ open, handleClose }) => {
+const CongratulationModal = ({ open, handleClose,rewards }) => {
   const cancelButtonRef = useRef(null);
+  const navigate = useNavigate();
 
   const defaultOptions = {
     loop: true,
@@ -68,7 +70,7 @@ const CongratulationModal = ({ open, handleClose }) => {
                   Congratulations!
                 </h3>
                 <p className="dialog-text mb-3">
-                  You have earned 2 xCapx tokens as reward for successfully
+                  You have earned {rewards} xCapx tokens as reward for successfully
                   completing the quest
                 </p>
                 <div className="dialog-buttons flex justify-between">
@@ -77,7 +79,7 @@ const CongratulationModal = ({ open, handleClose }) => {
                     <HiArrowRight className="text-xl ml-3" />
                   </button>
                   <button
-                    onClick={handleClose}
+                    onClick={(e)=>{e.preventDefault();navigate('/')}}
                     className="btn-contained bg-gredient-2 flex items-center"
                   >
                     <span>Go To Home</span>

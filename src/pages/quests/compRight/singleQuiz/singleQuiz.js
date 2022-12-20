@@ -8,7 +8,7 @@ const SingleQuiz = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
   const [selectedOption, setSelectedOption] = useState({ id: "", value: "" });
   const { isPending, data, error } = useFirestoreCollection(
-    "quest_order/" + actionData.questID + "/action_order/",
+    "xquest_order/" + actionData.questID + "/action_order/",
     [
       "action_order_id",
       "==",

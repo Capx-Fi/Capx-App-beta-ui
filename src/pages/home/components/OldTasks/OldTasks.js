@@ -19,29 +19,27 @@ const OldTasks = ({ quests }) => {
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
   const [url, setUrl] = useState(
-    "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
+    'https://us-central1-capx-x-web3auth.cloudfunctions.net/v1'
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
   const handleClick = (e, questId) => {
     e.preventDefault();
-    console.log(questId);
     setQuestId(questId);
     const apiDataObject = { data: { questId: questId } };
-    postData(apiDataObject, "/registerUserForQuest");
+    postData(apiDataObject, "/registerForQuest");
   };
 
-  console.log(quests);
-
   useEffect(() => {
-    if (data && data.result.success && data.result.success === true) {
+    //to-do:change succcess to success
+    if (data && data.result.succcess && data.result.success === true) {
       console.log(data);
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate("/quest");
     } else if (
       data &&
       data.result.success === false &&
-      data.result.message === Constants.QUEST_REGISTERED_ERROR
+      (data.result.quest_status === 'REGISTERED' || data.result.quest_status === 'IN_PROGRESS' )
     ) {
       console.log(data.result);
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
@@ -119,21 +117,28 @@ const OldTasks = ({ quests }) => {
   return (
     <div className="oldtasks">
       <Slider {...SliderSettings}>
-        {quests.map((data,ind) => {
-          return(
-            <div className="oldtasks-card flex px-3" key={data.id}>
+        {quests.map((data, ind) => {
+          return (
+            <div
+              key={ind}
+              style={{ cursor: "pointer !important" }}
+              onClick={(e) => {
+                handleClick(e, data.id);
+              }}
+              className="oldtasks-card flex pr-5"
+            >
               <div className="wrapper bg-blue-600 flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
                 <div className="img-box rounded-xl overflow-hidden">
                   <img src={DailyRewardPng} alt="rewards" />
                   <div className="card-chip flex items-center">
                     <img src={CardCoinIcon} alt="coin" />
-                    <span>{data.taskreward} xCapx</span>
+                    <span>{data.taskreward + " xCapx"}</span>
                   </div>
                 </div>
                 <p className="card-title px-3">{data.tasktitle}</p>
               </div>
             </div>
-          ) 
+          );
         })}
       </Slider>
       {isPending && <Modal />}

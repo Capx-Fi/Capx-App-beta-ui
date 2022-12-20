@@ -1,38 +1,63 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import {
   InputCheckSvg,
-  ProfileIconSvg,
   ProfileoutlineIconSvg,
 } from "../../../../../assets/svg";
-import ActionCompleteModal from "../../actionCompleteModal/ActionCompleteModal";
+import { useUploadProfileImage } from "../../../../../hooks/useUploadProfileImage";
 
-const UpdateProfileImage = ({ actionData }) => {
+const UploadPicture = ({ actionData }) => {
   const inputRef = useRef();
   const [imageFile, setImageFile] = useState(null);
-  const [showClaimBtn, setShowClaimBtn] = useState(false);
-  const [showActionCompleteDialog, setShowActionCompleteDialog] =
-    useState(false);
+  const [imgUrl,setImgUrl] = useState(null);
+  
 
-  const handleShowClaimBtn = () => {
-    setShowClaimBtn((prev) => (prev ? false : true));
-  };
-
-  const handleActionCompleteDialog = () => {
-    setShowActionCompleteDialog((prev) => (prev ? false : true));
-  };
+  const {
+    uploadImageToCloud,
+    isPending: isUploadImgPending,
+    error
+  } = useUploadProfileImage();
 
   const handleDragover = (event) => {
     event.preventDefault();
+    console.log('drop');
   };
 
   const handleDrop = (event) => {
+    console.log('fileUploaded')
     event.preventDefault();
     setImageFile(event.dataTransfer.files);
   };
-  if (imageFile) {
-    console.log(imageFile[0].name);
+
+  const handleImageUpdate = (e)=>{
+    let image = e.target.files[0];
+    console.log(e.target.files[0])
+    if((image.type === 'image/png' || image.type === 'image/jpeg') && image.size<=100000){
+      console.log(image);
+      setImageFile(image);
+    }
   }
+
+  const handleActionSubmit = (e)=>{
+    let input = {
+      type: 'profileImage',
+      value: imgUrl
+    }
+    actionData.handleCompleteAction(e,input);
+  }
+
+  const uploadImge = async() => {
+    const imageUrl = await uploadImageToCloud(imageFile);
+    setImgUrl(imageUrl);
+    console.log(imageUrl);
+  }
+
+  useEffect(()=>{
+    if(imageFile && imageFile.name.trim().length>0){
+      uploadImge()
+    } 
+  },[imageFile])
+  
   return (
     <>
       <div className="upload-picture-action flex flex-col gap-3">
@@ -51,38 +76,39 @@ const UpdateProfileImage = ({ actionData }) => {
               className="dropzone flex flex-col items-center gap-3"
             >
               <img
-                src={imageFile ? InputCheckSvg : ProfileoutlineIconSvg}
+                src={actionData.action_order_status === 'COMPLETED' ? InputCheckSvg : ProfileoutlineIconSvg}
                 alt="profile"
               />
               <p className="text hidden md:block">
-                {imageFile ? imageFile[0].name : "Upload a file or Drag & Drop"}
+                {imageFile ? imageFile.name : "Upload a file or Drag & Drop"}
               </p>
               <p className="text block md:hidden">
-                {imageFile ? imageFile[0].name : "Upload a file or Drag & Drop"}
+                {imageFile ? imageFile.name : "Upload a file or Drag & Drop"}
               </p>
               <input
                 type="file"
-                onChange={(e) => setImageFile(e.target.files)}
+                onChange={(e) => handleImageUpdate(e)}
                 hidden
                 ref={inputRef}
               />
             </div>
           </div>
 
-          {!showClaimBtn && (
+          {actionData.action_order_status !== 'COMPLETED' && (
             <button
-              onClick={handleShowClaimBtn}
+              onClick={handleActionSubmit}
               className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+              disabled={!(imgUrl)}
             >
               Submit <HiArrowRight className="text-xl " />
             </button>
           )}
 
-          {showClaimBtn && (
+          {actionData.action_order_status === 'COMPLETED'  && (
             <button
               onClick={(e) =>
                 // actionData.handleCompleteAction(e, { type: "profile", value: "" })
-                handleActionCompleteDialog()
+                actionData?.claimRewardHandler()
               }
               className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
             >
@@ -91,12 +117,8 @@ const UpdateProfileImage = ({ actionData }) => {
           )}
         </div>
       </div>
-      <ActionCompleteModal
-        open={showActionCompleteDialog}
-        handleClose={handleActionCompleteDialog}
-      />
     </>
   );
 };
 
-export default UpdateProfileImage;
+export default UploadPicture;

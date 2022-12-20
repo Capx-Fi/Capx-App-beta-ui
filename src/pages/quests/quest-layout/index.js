@@ -203,6 +203,7 @@ const AnswerQuiz = () => {
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
         };
+        setIsClaimQuest(true);
         break;
       }
       case "affiliate": {
@@ -262,6 +263,14 @@ const AnswerQuiz = () => {
         };
         break;
       }
+      case "connectTwitter": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
+          },
+        };
+        break;
+      }
       default:
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
@@ -299,7 +308,7 @@ const AnswerQuiz = () => {
           console.log('show claim')
           setActionData([]);
           
-        }else if(data[0].quest_type.toLowerCase() === 'special' && data[0].status.toLowerCase() === 'completed' ){
+        }else if(data[0].quest_type.toLowerCase() === 'special' && data[0].status.toLowerCase() === 'claimed' ){
           setActionData({
             ...Object.values(data[0].actions).filter((val) => {
               return (val.action_order_status === 'COMPLETED');

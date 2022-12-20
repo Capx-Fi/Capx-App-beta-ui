@@ -6,14 +6,17 @@ import {
 import { HiArrowRight } from "react-icons/hi";
 import { useLinkAuthProviders } from "../../../../../hooks/useLinkAuthProviders";
 import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
+import { useEffect } from "react";
 
 const ConnectTwitter = ({ actionData }) => {
   const [showActionCompleteDialog, setShowActionCompleteDialog] =
     useState(false);
+  const [showClaimBtn,setShowClaimBtn] = useState(false);
   const {
     linkWithSocail,
     error: linkSocalError,
     isPending: isSOcialLinkPending,
+    linkDone : linkDone
   } = useLinkAuthProviders();
 
   const handleActionCompleteDialog = () => {
@@ -24,6 +27,24 @@ const ConnectTwitter = ({ actionData }) => {
     linkWithSocail(method);
     //if (linkSocalError) showModalFunc(true);
   };
+
+  const handleActionSubmit = (e) => {
+    if(linkDone === true && showClaimBtn){
+      let input = {
+        type: 'connectTwitter'
+      }
+      actionData.handleCompleteAction(e,input)
+    }
+  }
+
+  useEffect(()=>{
+    if(linkDone === true){
+      let input = {
+        type: 'connectTwitter'
+      }
+      actionData.handleCompleteAction(null,input)
+    }
+  },[linkDone])
 
   return (
     <>
@@ -46,7 +67,7 @@ const ConnectTwitter = ({ actionData }) => {
             />
           </button>
         )}
-        {actionData?.action_order_status === 'COMPLETED' && (
+        { actionData?.action_order_status === 'COMPLETED' && (
           <>
             <div className="twitter-box disable flex items-center justify-center">
               <img
@@ -59,10 +80,13 @@ const ConnectTwitter = ({ actionData }) => {
                 src={GrayTwitterIconSvg}
                 alt="twitter"
               />
-              <span>Connected : @johndoe88</span>
+              <span>Twitter Connected</span>
             </div>
             <button
-              onClick={handleActionCompleteDialog}
+              onClick={(e) =>{
+                // actionData.handleCompleteAction(e, { type: "profile", value: "" })
+                actionData?.claimRewardHandler()
+              }}
               className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
             >
               Claim 1 xCapx

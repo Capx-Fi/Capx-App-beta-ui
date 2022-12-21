@@ -334,7 +334,7 @@ function Profile() {
                     </button>
                   )}
                   {isEditEnabled && (
-                    <div className="submit-btn p-4 w-3/4 flex justify-center rounded-2xl">
+                    <div className="submit-btn p-4 bg-gredient-2 flex justify-center rounded-2xl">
                       <button
                         type="buttom"
                         onClick={formik.handleSubmit}

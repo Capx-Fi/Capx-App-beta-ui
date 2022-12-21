@@ -13,7 +13,7 @@ import {
 
 const MobileNav = () => {
   return (
-    <div className="mobile-nav flex justify-evenly px-3 pb-3 md:hidden block fixed bottom-0">
+    <div className="mobile-nav flex justify-evenly px-3  md:hidden block fixed bottom-0">
       <NavLink to="/" className="tabs">
         <img className="icons" src={HomeIconSvg} alt="home" />
         <img className="icons active-icon" src={ActiveHomeIcon} alt="home" />

@@ -1,4 +1,4 @@
-.wallet-banner {
+.leaderboard-banner {
   background: linear-gradient(
       360deg,
       rgba(57, 187, 93, 0.3) -4.15%,
@@ -6,13 +6,13 @@
     ),
     #d4f1da;
   padding: 57px 52px 64px;
-  background-image: url(../../../../assets/images/WalletBanner.png);
+  background-image: url(../../../../assets/images/LeaderboardBanner.png);
   background-repeat: no-repeat;
   background-size: contain;
   background-position: right bottom;
   @media screen and (max-width: 767.98px) {
-    padding: 19px 17px 25px;
-
+    padding: 19px 17px 38px;
+    background-image: url(../../../../assets/images/LeaderboardBannerPhone.png);
     background-size: 45%;
   }
 

@@ -1,13 +1,13 @@
 import React from "react";
 import { ImArrowRight2 } from "react-icons/im";
 
-const WalletBanner = () => {
+const Banner = () => {
   return (
-    <div className="wallet-banner rounded-2xl w-full md:rounded-3xl">
+    <div className="leaderboard-banner rounded-2xl w-full md:rounded-3xl">
       <div className="flex flex-col items-start  gap-6">
         <h2>
-          Congratulations, You have <br className="md:hidden block" /> earned
-          <br className="md:block hidden" /> 32 xCapx so far!
+          Welcome to the leaderboard! <br /> Keep learning,
+          <br className="md:hidden block" /> Keep earning
         </h2>
         <button className="flex items-center text-white justify-between ">
           <span className="fs-16 font-black mr-3">Explore Quests</span>
@@ -18,4 +18,4 @@ const WalletBanner = () => {
   );
 };
 
-export default WalletBanner;
+export default Banner;

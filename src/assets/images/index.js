@@ -7,8 +7,13 @@ import GetstartImg2 from "./getstartImg2.png";
 import InviteFriends from "./InviteFriends.png";
 import DailyRewardPng from "./DailyReward.png";
 import BannerSlider01 from "./Slider01.png";
+import LeaderboardSplash from "./LeaderboardSplash.png";
+import WalletSplash from "./WalletSplash.png";
 
 export {
+  WalletSplash,
+  LeaderboardSplash,
+  BannerSlider01,
   DailyRewardPng,
   InviteFriends,
   OnboardImg,

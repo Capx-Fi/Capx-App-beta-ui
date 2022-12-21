@@ -2,78 +2,80 @@
   .pfp {
     .pfp-inner {
       .pfp-inner1 {
+        padding: 64px 48px;
+        flex-basis: 28.35%;
+        border: 2px solid #d9f4de;
+        border-radius: 32px;
+        background: #f5fff5;
         color: $cgreen-700;
 
-        .pfp-bg {
-          background: $gradient-cgreen-2;
-          height: 200px;
-          width: 200px;
+        @media screen and (max-width: 760px) {
+          width: 100% !important;
+          padding: 24px 48px;
+        }
+
+        .img-box {
+          width: 100%;
+          padding: 10px;
+          background-color: $cgreen-400;
           border-radius: 50%;
           overflow: hidden;
-          position: relative;
-          img {
+
+          .img-wrapper {
             width: 100%;
-            height: 100%;
-          }
-          p {
-            font-weight: 900;
-            font-size: 50px;
-          }
-          .upload-image {
-            width: 100%;
-            height: 100%;
+            padding-top: 100%;
             border-radius: 50%;
             overflow: hidden;
-            position: absolute;
-            opacity: 0;
-          }
-          .pfp-background {
-          }
-        }
-        .level-badge {
-          display: flex;
-          margin-top: -12px;
-          background: linear-gradient(
-              360deg,
-              rgba(255, 226, 89, 0.5) -2.63%,
-              rgba(237, 231, 218, 0.5) 100%
-            ),
-            #daeddb;
-          padding: 0.5rem 1.25rem 4px 1.25rem;
-          color: #451515;
-          img {
-            filter: drop-shadow(0px 4px 4px rgba(162, 125, 91, 0.36));
-          }
-        }
-        .pfp-username {
-          background: #1f7a5514;
-        }
-        .pfp-progress {
-          width: 80%;
-          .pfp-progressbar {
-            border-radius: 100px;
-            overflow: hidden;
-            background-color: #1f7a5526;
-            .pfp-progressbar-inner {
-              border-radius: 100px;
-              width: 5%;
-              background: linear-gradient(
-                90deg,
-                #746fec -21.71%,
-                #b0adf8 96.61%
-              );
+
+            .profile-img {
+              width: 100%;
+              height: 100%;
+            }
+
+            .img-text {
+              font-size: 60px;
+              font-weight: 900;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
             }
           }
-          .pfp-chip {
-            background-color: #1f7a5526;
-            border-color: $cgreen-border;
-          }
+        }
+
+        .pfp-username {
+          font-weight: 900;
+          font-size: 21px;
+          line-height: 32px;
+          letter-spacing: -0.5px;
+          padding: 8px 16px;
+          border-radius: 16px;
+          background: $cgreen-200;
         }
       }
       .pfp-inner2 {
+        flex-basis: 33.4%;
         .fullname {
           background-color: #1f7a5515;
           border-color: $cgreen-border;
+          padding: 12px 20px;
+          align-items: center;
+          p {
+            color: $cgreen-600;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 21px;
+            letter-spacing: -0.25px;
+            @media screen and (max-width: 760px) {
+              font-size: 14px;
+              line-height: 18px;
+            }
+          }
+        }
+
+        button {
+          font-weight: 900;
+          font-size: 14px;
+          line-height: 16px;
         }
       }
 
@@ -85,14 +87,5 @@
         background-position: 50% 100%;
       }
     }
-  }
-}
-
-@media screen and (max-width: 760px) {
-  .pfp-inner1 {
-    width: 100% !important;
-  }
-  .pfp-inner2 {
-    width: 80% !important;
   }
 }

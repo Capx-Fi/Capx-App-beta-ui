@@ -18,7 +18,7 @@ const SideNav = () => {
       <img className="brand-logo" src={BrandLogoSvg} alt="Capx" />
       <NavLink
         to="/"
-        className="tabs flex flex-col items-center justify-center mt-14 mb-4"
+        className="tabs flex flex-col items-center justify-center mt-10 mb-3"
       >
         <img className="icons" src={HomeIconSvg} alt="home" />
         <img className="icons active-icon" src={ActiveHomeIcon} alt="home" />
@@ -27,7 +27,7 @@ const SideNav = () => {
       </NavLink>
       <NavLink
         to="/my-wallet"
-        className="tabs flex flex-col items-center justify-center mb-4"
+        className="tabs flex flex-col items-center justify-center mb-3"
       >
         <img className="icons" src={WalletIconSvg} alt="home" />
         <img className="icons  active-icon" src={ActiveWalletIcon} alt="home" />
@@ -35,7 +35,7 @@ const SideNav = () => {
       </NavLink>
       <NavLink
         to="/leaderboard"
-        className="tabs flex flex-col items-center justify-center mb-4"
+        className="tabs flex flex-col items-center justify-center mb-3"
       >
         <img className="icons" src={LeaderboardIconSvg} alt="home" />
         <img

@@ -6,15 +6,42 @@ import {
   TopUser2,
   TopUser3,
 } from "../../../../assets/svg";
+import Top1Bagde from "../../../../assets/lottie/Rank_01.json";
+import Top2Bagde from "../../../../assets/lottie/Rank_02.json";
+import Top3Bagde from "../../../../assets/lottie/Rank_03.json";
+import Lottie from "react-lottie";
 
 const TopUserCard = ({ users }) => {
-  console.log(users);
-  const userMedal = (ind) => {
-    if (ind === 1) return TopUser1;
-    if (ind === 2) return TopUser2;
-    if (ind === 3) return TopUser3;
+  const top1Options = {
+    loop: true,
+    autoplay: true,
+    animationData: Top1Bagde,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
-
+  const top2Options = {
+    loop: true,
+    autoplay: true,
+    animationData: Top2Bagde,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  const top3Options = {
+    loop: true,
+    autoplay: true,
+    animationData: Top3Bagde,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  const userMedal = (ind) => {
+    console.log(ind);
+    if (ind === 1) return top1Options;
+    if (ind === 2) return top2Options;
+    if (ind === 3) return top3Options;
+  };
   return (
     <div className="top-user-card flex  gap-6 grow">
       <div className="grow hidden md:block" />
@@ -33,7 +60,7 @@ const TopUserCard = ({ users }) => {
                   </div> */}
         </div>
         <div className="badge absolute flex flex-col justify-center items-center">
-          <img src={userMedal(users.rank)} alt="1" />
+          <Lottie options={userMedal(users.rank)} />
         </div>
       </div>
       <div className="text-box flex flex-col gap-3 justify-center">
@@ -48,12 +75,12 @@ const TopUserCard = ({ users }) => {
             <span className="text ml-1">{users.tasks} Tasks</span>
           </div>
           <div className="tasks-box flex items-center md:hidden">
-            <img className="box-icon" src={userMedal(users.rank)} alt="tasks" />
+            <Lottie options={userMedal(users.rank)} height={18} width={18} />
             <span className="text ml-1">Rank #{users.rank}</span>
           </div>
         </div>
         <div className="rank-box md:flex items-center hidden ">
-          <img className="box-icon" src={userMedal(users.rank)} alt="rank" />
+          <Lottie options={userMedal(users.rank)} height={18} width={18} />
           <span className="text ml-1">Rank #{users.rank}</span>
         </div>
       </div>

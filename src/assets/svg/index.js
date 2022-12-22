@@ -49,8 +49,18 @@ import TwitterContainedwhiteSvg from "./TwitterContainedwhite.svg";
 import GrayTwitterIconSvg from "./GrayTwitterIcon.svg";
 import DiscordContainedSvg from "./DiscordContainedSvg.svg";
 import ProfileoutlineIconSvg from "./ProfileIconSvg.svg";
+import EditIconSvg from "./EditIconSvg.svg";
+import TopUser1 from "./TopUser1.svg";
+import TopUser2 from "./TopUser2.svg";
+import TopUser3 from "./TopUser3.svg";
+import TaskListIcon from "./TaskListIcon.svg";
 
 export {
+  TaskListIcon,
+  TopUser1,
+  TopUser2,
+  TopUser3,
+  EditIconSvg,
   ProfileoutlineIconSvg,
   DiscordContainedSvg,
   GrayTwitterIconSvg,

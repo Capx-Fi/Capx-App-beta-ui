@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Badge,
@@ -16,11 +16,14 @@ import * as Yup from "yup";
 import Modal from "../../components/Modal/Modal";
 import { useLinkAuthProviders } from "../../hooks/useLinkAuthProviders";
 import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
+import { EditIconSvg } from "../../assets/svg";
 
 function Profile() {
   const [isEditEnabled, setIsEditEnabled] = useState(false);
   const [showModel, setShowModal] = useState(true);
   const userData = useSelector((state) => state.user);
+
+  const inputRef = useRef();
 
   const [url, setUrl] = useState(
     "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
@@ -103,85 +106,48 @@ function Profile() {
   console.log(imageUrl);
   return (
     <>
-      <div className="myProfile flex flex-row">
+      <div className="myProfile flex pp-4 md:p-8">
         <div className="pfp flex flex-col w-full">
-          <div className="pfp-inner flex flex-col md:flex-row items-center md:items-start pt-16 pb-40">
-            <div className="pfp-inner1 flex flex-col basis-1/3 items-center">
+          <div className="pfp-inner flex flex-col md:flex-row md:items-start pt-8 px-8 md:px-5 pb-14 md:pb-40 gap-20">
+            <div className="pfp-inner1 flex flex-col gap-8">
               {/* Wrapper for Profile Image -----------------------------------------------------------------------------*/}
-              <div className="pfp-bg flex flex-col justify-center items-center">
+              <div
+                onClick={(e) => inputRef.current.click()}
+                className="img-box relative bg-gredient-2"
+              >
                 <input
-                  className="upload-image"
+                  ref={inputRef}
+                  className="hidden"
                   type="file"
                   onChange={handleImageUpload}
                 />
-                {userData?.image_url ? (
-                  <img
-                    src={userData?.image_url}
-                    alt=""
-                    className="pfp-background rounded-full"
-                  />
-                ) : (
-                  <>
-                    <p className="text-white text-2xl">
+                <div className="img-wrapper relative">
+                  {userData?.image_url ? (
+                    <img
+                      src={userData?.image_url}
+                      alt=""
+                      className="profile-img absolute inset-0"
+                    />
+                  ) : (
+                    <h2 className="img-text absolute text-white">
                       {userData?.username.slice(0, 1).toUpperCase()}
-                    </p>
-                  </>
-                )}
-              </div>
-
-              {/* Wrapper for Level Chip --------------------------------------------------------------------------------*/}
-              <div className="level-badge flex flex-row items-center justify-center gap-2 rounded-xl">
-                <img src={Badge} alt="" className="w-8" />
-                {/* Target the below paragraph for changing User Level */}
-                <p className="font-black fs-14">
-                  level {userData && userData.level}
-                </p>
+                    </h2>
+                  )}
+                </div>
               </div>
 
               {/* Wrapper for Username Chip ----------------------------------------------------------------------------*/}
-              <div className="pfp-username py-3 px-6 rounded-xl my-5">
+              <div className="pfp-username flex justify-between capitalize">
                 {/* Target the below paragraph for changing Username */}
-                <p className="fs-18 font-black">{userData?.username}</p>
-              </div>
-
-              {/* Wrapper for Level Progressbar -----------------------------------------------------------------------*/}
-              <div className="pfp-progress flex flex-col gap-3.5 mt-6">
-                <div className="pfp-progress-title flex flex-row gap-2 items-center">
-                  <img src={CommProf} alt="" className="w-6" />
-                  <p className="font-black fs-18 text-cgreen-700 opacity-80">
-                    Community Status
-                  </p>
-                </div>
-
-                <div className="pfp-progressbar w-full h-5">
-                  {/* Target the below class for changing Progressbar fill */}
-                  <div className="pfp-progressbar-inner h-5"></div>
-                </div>
-
-                <div className="pfp-levels flex flex-row justify-between fs-13 font-black c-green-700">
-                  <div className="pfp-levels-current flex flex-col items-center gap-1">
-                    <p className="c-green-700 opacity-70">
-                      Level {userData && userData.level}
-                    </p>
-                    <p className=" pfp-chip px-3 py-1.5 rounded-xl border-1">
-                      0 xCapx
-                    </p>
-                  </div>
-
-                  <div className="pfp-levels-current flex flex-col items-center gap-1">
-                    <p className="c-green-700 opacity-70">
-                      Level {userData && Number(userData.level) + 1}
-                    </p>
-                    <p className=" pfp-chip px-3 py-1.5 rounded-xl border-1">
-                      12 xCapx
-                    </p>
-                  </div>
-                </div>
+                <p className="grow text-center">{userData?.username}</p>
+                <button>
+                  <img src={EditIconSvg} alt="edit" />
+                </button>
               </div>
             </div>
 
-            <div className="pfp-inner2 flex flex-col basis-1/3 items-center gap-10 pt-8">
-              <div className="w-3/4 flex justify-center md:justify-start">
+            <div className="pfp-inner2 flex flex-col gap-10 pt-3">
+              <div className="flex justify-center md:justify-start">
                 {!isEditEnabled ? (
                   <button
                     onClick={(e) => {
@@ -205,8 +171,8 @@ function Profile() {
 
               {/* Wrapper for Full Name Chip -------------------------------------------------------------------------*/}
 
-              <div className="social-title flex flex-col w-full items-center gap-5">
-                <div className="pfp-progress-title flex flex-row gap-3 w-full md:w-3/4 items-center">
+              <div className="social-title flex flex-col w-full  gap-5">
+                <div className="pfp-progress-title flex flex-row gap-3 items-center">
                   <img src={FullName} alt="" className="w-6" />
                   <p className="font-black fs-18 text-cgreen-700 opacity-80">
                     Full Name
@@ -214,9 +180,9 @@ function Profile() {
                 </div>
 
                 {!isEditEnabled ? (
-                  <div className="fullname flex flex-row w-full md:w-3/4 py-3 px-4 justify-between items-center rounded-2xl">
+                  <div className="fullname flex flex-row justify-between items-center rounded-2xl">
                     {/* Target the below class for linking Fullname */}
-                    <p className="fs-16 font-bold text-cgreen-700 opacity-75">
+                    <p className="fs-16 font-bold text-cgreen-700 opacity-7 capitalize">
                       {userData?.name}
                     </p>
                     <img
@@ -234,25 +200,25 @@ function Profile() {
                     autoFocus
                     value={formik.values.fullName}
                     onChange={formik.handleChange}
-                    className="fullname flex flex-row  w-3/4 py-3 px-4 justify-between items-center rounded-2xl border-2"
+                    className="fullname flex flex-row py-3 px-4 justify-between items-center rounded-2xl border-2"
                   />
                 )}
               </div>
 
               {/* Wrapper for Social Link Chips ------------------------------------------------------------------------*/}
 
-              <div className="social-title flex flex-col w-full items-start md:items-center gap-5">
-                <div className="pfp-progress-title flex flex-row gap-3 w-full md:w-3/4 items-center">
+              <div className="social-title flex flex-col w-full  gap-5">
+                <div className="pfp-progress-title flex flex-row gap-3 items-center self-start">
                   <img src={ConnectSo} alt="" className="w-8" />
                   <p className="font-black fs-18 text-cgreen-700 opacity-80">
                     Social
                   </p>
                 </div>
 
-                <div className="social-wrapper w-full md:w-3/4 gap-6 flex flex-col">
+                <div className="social-wrapper gap-6 flex flex-col">
                   {userData?.socials.twitter_id.trim() !== "" ? (
-                    <div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
-                      <div className="flex flex-row gap-3">
+                    <div className="fullname flex flex-row justify-between items-center rounded-2xl">
+                      <div className="flex items-center flex-row gap-3">
                         <img
                           src={TwitterIcon}
                           alt=""
@@ -260,7 +226,7 @@ function Profile() {
                         />
 
                         {/* Target the below class for changing Twitter Handle */}
-                        <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
+                        <p className="">
                           {userData?.socials.twitter_id !== ""
                             ? userData?.socials.twitter_username
                             : "Connect your Twitter"}
@@ -269,7 +235,7 @@ function Profile() {
                       <img
                         src={Check}
                         alt=""
-                        className="pfp-background rounded-full w-7 hidden"
+                        className="pfp-background rounded-full w-7"
                       />
                     </div>
                   ) : (
@@ -277,32 +243,30 @@ function Profile() {
                       onClick={() => {
                         handleSocialLink("twitter");
                       }}
-                      className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl"
+                      className="fullname flex flex-row justify-between items-center rounded-2xl"
                     >
-                      <div className="flex flex-row gap-3">
+                      <div className="flex items-center flex-row gap-3">
                         <img
                           src={TwitterIcon}
                           alt=""
                           className="pfp-background w-6"
                         />
                         {/* Target the below class for changing Twitter Handle */}
-                        <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
-                          Connect your Twitter
-                        </p>
+                        <p className="">Connect your Twitter</p>
                       </div>
                     </button>
                   )}
 
                   {userData?.socials.twitter_id.trim() !== "" ? (
-                    <div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
-                      <div className="flex flex-row gap-3">
+                    <div className="fullname flex flex-row justify-between items-center rounded-2xl">
+                      <div className="flex  items-center flex-row gap-3">
                         <img
                           src={DiscordIcon}
                           alt=""
                           className="pfp-background w-6"
                         />
                         {/* Target the below class for changing Twitter Handle */}
-                        <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
+                        <p className="">
                           {userData?.socials.google_id !== ""
                             ? userData?.socials.google_id
                             : "Connect your google"}
@@ -319,33 +283,31 @@ function Profile() {
                       onClick={() => {
                         handleSocialLink("google");
                       }}
-                      className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl"
+                      className="fullname flex flex-row justify-between items-center rounded-2xl"
                     >
-                      <div className="flex flex-row gap-3">
+                      <div className="flex  items-center flex-row gap-3">
                         <img
                           src={DiscordIcon}
                           alt=""
                           className="pfp-background w-6"
                         />
                         {/* Target the below class for changing Twitter Handle */}
-                        <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
-                          Connect your Google
-                        </p>
+                        <p className="">Connect your Google</p>
                       </div>
                     </button>
                   )}
 
                   {userData.socials.discord_id &&
                   userData?.socials.discord_id.trim() !== "" ? (
-                    <div className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
-                      <div className="flex flex-row gap-3">
+                    <div className="fullname flex flex-row justify-between items-center rounded-2xl">
+                      <div className="flex  items-center flex-row gap-3">
                         <img
                           src={IGIcon}
                           alt=""
                           className="pfp-background w-6"
                         />
                         {/* Target the below class for changing Twitter Handle */}
-                        <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
+                        <p className="">
                           {userData.socials.discord_id &&
                           userData?.socials.discord_id !== ""
                             ? userData?.socials.discord_id
@@ -359,22 +321,20 @@ function Profile() {
                       />
                     </div>
                   ) : (
-                    <button className="fullname flex flex-row py-3 px-5 justify-between items-center rounded-2xl">
-                      <div className="flex flex-row gap-3">
+                    <button className="fullname flex flex-row justify-between items-center rounded-2xl">
+                      <div className="flex  items-center flex-row gap-3">
                         <img
                           src={IGIcon}
                           alt=""
                           className="pfp-background w-6"
                         />
                         {/* Target the below class for changing Twitter Handle */}
-                        <p className="fs-16 font-bold text-cgreen-700 pt-0.5 opacity-75">
-                          Connect your Discord
-                        </p>
+                        <p className="">Connect your Discord</p>
                       </div>
                     </button>
                   )}
                   {isEditEnabled && (
-                    <div className="submit-btn p-4 w-3/4 flex justify-center rounded-2xl">
+                    <div className="submit-btn p-4 bg-gredient-2 flex justify-center rounded-2xl">
                       <button
                         type="buttom"
                         onClick={formik.handleSubmit}
@@ -390,22 +350,22 @@ function Profile() {
 
             {/* Wrapper for Background Image ---------------------------------------------------------------*/}
 
-            <div className="pfp-inner3 flex flex-col basis-1/3 justify-center items-start h-full"></div>
+            <div className="pfp-inner3 flex flex-col grow justify-center items-start h-full"></div>
           </div>
         </div>
-        {(isPending ||
-          isSOcialLinkPending ||
-          isAPiPending ||
-          isUploadImgPending) && <Modal />}
-        {showModel && linkSocalError && (
-          <Modal
-            actions={{
-              error: linkSocalError.message,
-              showModalFunc: showModalFunc,
-            }}
-          />
-        )}
       </div>
+      {(isPending ||
+        isSOcialLinkPending ||
+        isAPiPending ||
+        isUploadImgPending) && <Modal />}
+      {showModel && linkSocalError && (
+        <Modal
+          actions={{
+            error: linkSocalError.message,
+            showModalFunc: showModalFunc,
+          }}
+        />
+      )}
     </>
   );
 }

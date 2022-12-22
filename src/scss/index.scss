@@ -90,7 +90,6 @@
 @import "../pages/createUsername/createUsername";
 @import "../pages/inviteCode/inviteCode";
 @import "../pages/congratulations/congratulations";
-@import "../pages/leaderboard/leaderboard";
 @import "../pages/MyWallet/MyWallet";
 
 // components
@@ -100,8 +99,7 @@
 @import "../components/header/header";
 @import "../components/mobileNav/mobileNav";
 @import "../components/banner/banner";
-@import "../pages/leaderboard/components/scss/table";
-@import "../pages/MyWallet/components/MyWalletData/MyWalletData";
+@import "../pages/MyWallet/components/questTable/questTable";
 @import "../pages/MyWallet/components/WalletBanner/WalletBanner";
 @import "../pages/home/components/HomeBanner/HomeBanner";
 @import "../pages/home/components/HomeBanner/HomeBanner";
@@ -111,6 +109,7 @@
 @import "../components/Modal/modal";
 @import "../components/footer/footer";
 @import "../components/SliderArrow/sliderArrow";
+@import "../components/alertModal/alertModal";
 
 @import "../pages/profile/profile";
 
@@ -143,3 +142,9 @@
 @import "../pages/quests/compRight/buildProfile/connectDiscord/connectDiscoed";
 @import "../pages/quests/compRight/buildProfile/uploadPicture/uploadPicture";
 @import "../pages/quests/compRight/buildProfile/profile/profile";
+
+// leaderBoard page
+@import "../pages/leaderboard/leaderboard";
+@import "../pages/leaderboard/components/banner/banner";
+@import "../pages/leaderboard/components/topUserCard/topUserCard";
+@import "../pages/leaderboard/components/topUsersTable/topUsersTable";

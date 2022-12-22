@@ -1,39 +1,49 @@
-import React from "react";
-import { GetStatedSvg, QuestReportIcon } from "../../assets/svg";
-import MyWalletData from "./components/MyWalletData/MyWalletData";
+import React, { useState } from "react";
+import { WalletSplash } from "../../assets/images";
+import { GetStatedSvg, QuestReportIcon, TaskListIcon } from "../../assets/svg";
+import AlertModal from "../../components/alertModal/AlertModal";
+import QuestTable from "./components/questTable/QuestTable";
+import MyWalletData from "./components/questTable/QuestTable";
 import WalletBanner from "./components/WalletBanner/WalletBanner";
 
 function MyWallet() {
+  const [openAlertModal, setOpenAlertModal] = useState(true);
+
+  const handleAlertModalClose = () => {
+    setOpenAlertModal((prev) => (prev ? false : true));
+  };
+
+  const dummyQuestData = [
+    { date: "10 Dec 2022", name: "What is Capx App ?", earnings: 2 },
+    { date: "11 Dec 2022", name: "How to earn xCapx ?", earnings: 2 },
+    {
+      date: "12 Dec 2022",
+      name: "Register for Capx Affiliate Program",
+      earnings: 2,
+    },
+    { date: "13 Dec 2022", name: "Daily Sign-in Reward", earnings: 2 },
+    { date: "14 Dec 2022", name: "Generate Invite Code", earnings: 2 },
+    { date: "15 Dec 2022", name: "Tweet from your account", earnings: 2 },
+    { date: "16 Dec 2022", name: "Build your profile", earnings: 2 },
+  ];
+
   return (
-    <div className="wallet-main flex flex-row">
-      <div className="wallet-content flex flex-col">
-        <div className="wallet-wrapper flex flex-col md:flex-row p-5 md:p-10 h-full overflow-y-hidden">
-          <div className="wallet-1 flex flex-col h-full gap-8	">
-            {/* Import for Banner -----------------------------------------------------------------------------*/}
-
-            <WalletBanner />
-
-            {/* Wrapper for Table -----------------------------------------------------------------------------*/}
-            <div className="wallet-inner flex flex-col gap-5 md:overflow-y-scroll pr-4 md:pr-8 ">
-              <div className="wallet-title flex flex-row w-full items-center gap-5">
-                <div className="wallet-title-wrapper flex flex-row gap-3 w-3/4 items-center">
-                  <img src={QuestReportIcon} alt="" className="w-8" />
-                  <p className="font-black fs-18 text-cgreen-700 opacity-80">
-                    Quests Report
-                  </p>
-                </div>
-              </div>
-              <MyWalletData />
-            </div>
-          </div>
-
-          {/* Wrapper for Right Image -----------------------------------------------------------------------------*/}
-          <div className="wallet-2 flex-column ml-8 items-end h-full hidden md:flex">
-            <img src={GetStatedSvg} alt="LadyonRight" />
+    <>
+      <div className="my-wallet md:px-10 p-6 md:py-11 flex flex-col gap-6">
+        <WalletBanner />
+        <div className="heading flex items-center pb-3">
+          <img src={TaskListIcon} alt="Leaderboard" />
+          <h3 className="ml-3">Quests Report</h3>
+        </div>
+        <div className="flex">
+          <QuestTable quests={dummyQuestData} />
+          <div className="splash-img grow md:flex justify-center items-center hidden ">
+            <img src={WalletSplash} alt="Trophy" />
           </div>
         </div>
       </div>
-    </div>
+      {/* <AlertModal open={openAlertModal} handleClose={handleAlertModalClose} /> */}
+    </>
   );
 }
 

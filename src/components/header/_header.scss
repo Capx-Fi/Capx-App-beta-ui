@@ -1,19 +1,18 @@
 .header {
-  min-height: 70px;
+  min-height: 61px;
   background-color: #f8fdf9;
   border-bottom: 1px solid;
   width: calc(100% - 90px);
   z-index: 10;
   @media screen and (max-width: 767.98px) {
-    min-height: 64px;
+    min-height: 55px;
     width: 100%;
   }
   .page-name {
     color: #153945;
-    font-size: 21px;
     font-weight: 900;
-    margin-top: 12px;
-    margin-left: 8px;
+    font-size: 16px;
+    line-height: 21px;
     letter-spacing: -0.5px;
     @media screen and (max-width: 767.98px) {
       font-size: 18px;

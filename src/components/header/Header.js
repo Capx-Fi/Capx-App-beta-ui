@@ -27,7 +27,7 @@ const Header = ({ userAction }) => {
   };
 
   return (
-    <header className="header flex items-center border-primary-200 fixed top-0 w-full md:px-8 px-4">
+    <header className="header flex items-center border-primary-200 fixed top-0 w-full md:px-7 px-4">
       <h3 className="page-name capitalize">{pathname ? pathname : "Home"}</h3>
       <div className="flex-grow" />
       <button className="btn">

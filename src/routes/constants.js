@@ -15,6 +15,7 @@ import ForgotPassowrd from "../pages/forgetPassword/ForgetPassword";
 import ResetPassword from "../pages/resetPassword/ResetPassword";
 import { Navigate } from "react-router-dom";
 import AnswerQuiz from "../pages/quests/quest-layout/index.js";
+import Leaderboard from "../pages/leaderboard";
 
 const Redirect = ({ to }) => {
   return <Navigate to={to} />;
@@ -75,6 +76,10 @@ export const privateRoutes = [
       {
         path: "/quest",
         element: <AnswerQuiz />,
+      },
+      {
+        path: "/leaderboard",
+        element: <Leaderboard />,
       },
     ],
   },

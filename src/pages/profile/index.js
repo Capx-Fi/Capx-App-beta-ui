@@ -17,13 +17,19 @@ import Modal from "../../components/Modal/Modal";
 import { useLinkAuthProviders } from "../../hooks/useLinkAuthProviders";
 import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
 import { EditIconSvg } from "../../assets/svg";
+import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 
 function Profile() {
+  const inputRef = useRef();
   const [isEditEnabled, setIsEditEnabled] = useState(false);
   const [showModel, setShowModal] = useState(true);
   const userData = useSelector((state) => state.user);
+  const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
+  const [ModalHeading, setModalHeading] = useState("");
 
-  const inputRef = useRef();
+  const handleErrorModal = () => {
+    SetIsOpenErrorModal(false);
+  };
 
   const [url, setUrl] = useState(
     "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
@@ -90,16 +96,34 @@ function Profile() {
     }
   }, [data]);
 
+  useEffect(() => {
+    formik.setFieldValue("fullName", userData?.name);
+  }, [userData]);
+
   const handleSocialLink = (method) => {
     linkWithSocail(method);
     if (linkSocalError) showModalFunc(true);
   };
 
   const handleImageUpload = async (e) => {
-    const imageUrl = await uploadImageToCloud(e.target.files[0]);
-    if (imageUrl) {
+    // const imageUrl = await uploadImageToCloud(e.target.files[0]);
+    // if (imageUrl) {
+    //   const apiDataObject = { data: { image_url: imageUrl } };
+    //   imageUploadPostData(apiDataObject);
+    // }
+    let image = e.target.files[0];
+    console.log(e.target.files[0]);
+    if (
+      (image.type === "image/png" || image.type === "image/jpeg") &&
+      image.size <= 100000
+    ) {
+      console.log(image);
+      const imageUrl = await uploadImageToCloud(image);
       const apiDataObject = { data: { image_url: imageUrl } };
       imageUploadPostData(apiDataObject);
+    } else {
+      setModalHeading("File type/size not allowed");
+      SetIsOpenErrorModal(true);
     }
   };
 
@@ -112,7 +136,9 @@ function Profile() {
             <div className="pfp-inner1 flex flex-col gap-8">
               {/* Wrapper for Profile Image -----------------------------------------------------------------------------*/}
               <div
-                onClick={(e) => inputRef.current.click()}
+                onClick={(e) => {
+                  if (isEditEnabled) inputRef.current.click();
+                }}
                 className="img-box relative bg-gredient-2"
               >
                 <input
@@ -120,6 +146,7 @@ function Profile() {
                   className="hidden"
                   type="file"
                   onChange={handleImageUpload}
+                  accept="image/png,image/jpeg"
                 />
                 <div className="img-wrapper relative">
                   {userData?.image_url ? (
@@ -148,25 +175,14 @@ function Profile() {
 
             <div className="pfp-inner2 flex flex-col gap-10 pt-3">
               <div className="flex justify-center md:justify-start">
-                {!isEditEnabled ? (
-                  <button
-                    onClick={(e) => {
-                      handleEditProfile(e);
-                    }}
-                    className="fs-14 underline font-black text-cgreen-700 opacity-60"
-                  >
-                    Edit Profile
-                  </button>
-                ) : (
-                  <button
-                    onClick={(e) => {
-                      handleEditProfile(e);
-                    }}
-                    className="fs-14 underline font-black text-cgreen-700 opacity-60"
-                  >
-                    Cancel Edit
-                  </button>
-                )}
+                <button
+                  onClick={(e) => {
+                    handleEditProfile(e);
+                  }}
+                  className="fs-14 underline font-black text-cgreen-700 opacity-60"
+                >
+                  {!isEditEnabled ? "  Edit Profile" : " Cancel Edit"}
+                </button>
               </div>
 
               {/* Wrapper for Full Name Chip -------------------------------------------------------------------------*/}
@@ -185,11 +201,11 @@ function Profile() {
                     <p className="fs-16 font-bold text-cgreen-700 opacity-7 capitalize">
                       {userData?.name}
                     </p>
-                    <img
+                    {/* <img
                       src={Check}
                       alt=""
                       className="pfp-background rounded-full w-7"
-                    />
+                    /> */}
                   </div>
                 ) : (
                   <input
@@ -267,9 +283,9 @@ function Profile() {
                         />
                         {/* Target the below class for changing Twitter Handle */}
                         <p className="">
-                          {userData?.socials.google_id !== ""
-                            ? userData?.socials.google_id
-                            : "Connect your google"}
+                          {userData?.socials.discord_id !== ""
+                            ? userData?.socials.discord_id
+                            : "Connect your Discord"}
                         </p>
                       </div>
                       <img
@@ -292,13 +308,13 @@ function Profile() {
                           className="pfp-background w-6"
                         />
                         {/* Target the below class for changing Twitter Handle */}
-                        <p className="">Connect your Google</p>
+                        <p className="">Connect your Discord</p>
                       </div>
                     </button>
                   )}
 
-                  {userData.socials.discord_id &&
-                  userData?.socials.discord_id.trim() !== "" ? (
+                  {userData.socials.instagram_id &&
+                  userData?.socials.instagram_id.trim() !== "" ? (
                     <div className="fullname flex flex-row justify-between items-center rounded-2xl">
                       <div className="flex  items-center flex-row gap-3">
                         <img
@@ -308,10 +324,10 @@ function Profile() {
                         />
                         {/* Target the below class for changing Twitter Handle */}
                         <p className="">
-                          {userData.socials.discord_id &&
-                          userData?.socials.discord_id !== ""
-                            ? userData?.socials.discord_id
-                            : "Connect your Discord"}
+                          {userData.socials.instagram_id &&
+                          userData?.socials.instagram_id !== ""
+                            ? userData?.socials.instagram_id
+                            : "Connect your Instagram"}
                         </p>
                       </div>
                       <img
@@ -329,7 +345,7 @@ function Profile() {
                           className="pfp-background w-6"
                         />
                         {/* Target the below class for changing Twitter Handle */}
-                        <p className="">Connect your Discord</p>
+                        <p className="">Connect your Instagram</p>
                       </div>
                     </button>
                   )}
@@ -366,6 +382,11 @@ function Profile() {
           }}
         />
       )}
+      <ErrorModal
+        heading={ModalHeading}
+        open={isOpenErrorModal}
+        handleClose={handleErrorModal}
+      />
     </>
   );
 }

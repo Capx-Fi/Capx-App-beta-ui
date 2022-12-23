@@ -1,11 +1,12 @@
 import React from "react";
+import { QuestsIcon } from "../../../assets/images";
 import { BannerPlayIcon, CoinSvg } from "../../../assets/svg";
 
 const Banner = ({ data }) => {
   return (
     <div className="quest-banner flex flex-col md:flex-row md:place-content-between w-full gap-4 sticky top-0">
       <div className="banner-wrapper flex flex-row self-start items-center">
-        <img src={BannerPlayIcon} alt="banner" />
+        <img src={QuestsIcon} alt="banner" />
         <h2 className="banner-heading ml-2 capitalize">{data.title}</h2>
       </div>
       <div className="capx-chip flex flex-row self-start">

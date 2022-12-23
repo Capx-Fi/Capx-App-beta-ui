@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { WalletSplash } from "../../assets/images";
 import { GetStatedSvg, QuestReportIcon, TaskListIcon } from "../../assets/svg";
 import AlertModal from "../../components/alertModal/AlertModal";
@@ -8,9 +9,11 @@ import WalletBanner from "./components/WalletBanner/WalletBanner";
 
 function MyWallet() {
   const [openAlertModal, setOpenAlertModal] = useState(true);
+  const navigate = useNavigate();
 
   const handleAlertModalClose = () => {
     setOpenAlertModal((prev) => (prev ? false : true));
+    navigate("/");
   };
 
   const dummyQuestData = [

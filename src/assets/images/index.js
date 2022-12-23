@@ -9,8 +9,12 @@ import DailyRewardPng from "./DailyReward.png";
 import BannerSlider01 from "./Slider01.png";
 import LeaderboardSplash from "./LeaderboardSplash.png";
 import WalletSplash from "./WalletSplash.png";
+import SpecialCardImage from "./SpecialCardImage.png";
+import QuestsIcon from "./QuestsIcon.png";
 
 export {
+  QuestsIcon,
+  SpecialCardImage,
   WalletSplash,
   LeaderboardSplash,
   BannerSlider01,

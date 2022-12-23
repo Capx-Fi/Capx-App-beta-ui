@@ -133,11 +133,13 @@ const ConsTasks = ({ quests }) => {
                   <p className="card-title px-3">{data.tasktitle}</p>
                   <button
                     onClick={(e) => {
-                      handleClick(e, data.id);
+                      if (data.status !== "CLAIMED") handleClick(e, data.id);
                     }}
                     className="card-btn flex justify-between items-center rounded-xl"
                   >
-                    <span>Start task</span>
+                    <span>
+                      {data.status === "CLAIMED" ? "Completed" : "Start task"}
+                    </span>
                     <ImArrowRight2 className="text-white" />
                   </button>
                 </div>

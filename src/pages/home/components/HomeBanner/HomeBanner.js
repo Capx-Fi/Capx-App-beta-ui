@@ -1,13 +1,15 @@
 import React from "react";
 import Slider from "react-slick";
-import { BannerSvg } from "../../../../assets/svg";
 import { ImArrowRight2 } from "react-icons/im";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { useSelector } from "react-redux";
 
 const handleDragStart = (e) => e.preventDefault();
 
 function HomeBanner() {
+  const userData = useSelector((state) => state.user);
+
   const sliderSettings = {
     dots: true,
     dotsClass: "slick-dots line-indicator",
@@ -45,7 +47,8 @@ function HomeBanner() {
                 Greate going,
                 <br className="md:hidden block" /> You have earned
                 <br className="md:hidden block" />
-                <br className="md:block hidden" /> 5 xCapx today!
+                <br className="md:block hidden" /> {userData.earned_rewards}{" "}
+                xCapx today!
               </h2>
               <button className="flex items-center justify-between ">
                 <span className="fs-16 font-black mr-3">

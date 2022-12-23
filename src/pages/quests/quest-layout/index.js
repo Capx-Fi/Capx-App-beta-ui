@@ -20,12 +20,7 @@ import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
 import Profile from "../compRight/buildProfile/profile/Profile";
 
-
-
-
-
 // Quest Right Component Imports End ---------------------------------------------------------
-
 
 import QuestCompleteScreen from "../compRight/questComplete/QuestComplete";
 import CongratulationModal from "../compRight/congratulationModal/CongratulationModal";
@@ -336,7 +331,10 @@ const AnswerQuiz = () => {
         if (isClaimQuest) {
           console.log("show claim");
           setActionData([]);
-        }else if(data[0].quest_type.toLowerCase() === 'special' && data[0].status.toLowerCase() === 'claimed' ){
+        } else if (
+          data[0].quest_type.toLowerCase() === "special" &&
+          data[0].status.toLowerCase() === "claimed"
+        ) {
           setActionData({
             ...Object.values(data[0].actions)
               .filter((val) => {
@@ -455,9 +453,15 @@ const AnswerQuiz = () => {
         </div>
 
         <div className="quest-details-2 flex flex-col">
-
-          {taskError === null && !showClaimScreen && questData && renderActionComponent()}
-          {showClaimScreen && actionData.length === 0 && <QuestCompleteScreen modalAction={{claimReward:claimRewardHandler}}/>}
+          {taskError === null &&
+            !showClaimScreen &&
+            questData &&
+            renderActionComponent()}
+          {showClaimScreen && actionData.length === 0 && (
+            <QuestCompleteScreen
+              modalAction={{ claimReward: claimRewardHandler }}
+            />
+          )}
           {/* {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
           {taskError === true && <FailureMsg errorReset={taskErrorReset} />} */}
 

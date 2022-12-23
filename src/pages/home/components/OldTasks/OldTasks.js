@@ -28,6 +28,7 @@ const SliderArrow = ({ style, onClick, direction }) => {
 };
 
 const OldTasks = ({ quests }) => {
+  console.log(quests);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [questId, setQuestId] = useState(null);
@@ -150,7 +151,9 @@ const OldTasks = ({ quests }) => {
                   }}
                   className="card-btn flex justify-between items-center rounded-xl"
                 >
-                  <span>Start task</span>
+                  <span>
+                    {data.status === "IN_PROGRESS" ? "Resume" : "Start task"}
+                  </span>
                   <ImArrowRight2 className="text-white" />
                 </button>
               </div>

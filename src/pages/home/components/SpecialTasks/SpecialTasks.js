@@ -3,7 +3,7 @@ import { ImArrowRight2 } from "react-icons/im";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Slider from "react-slick";
-import { InviteFriends } from "../../../../assets/images";
+import { SpecialCardImage } from "../../../../assets/images";
 import { CardCoinIcon } from "../../../../assets/svg";
 import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 import { useApi } from "../../../../hooks/useApi";
@@ -19,7 +19,7 @@ const SpecialTasks = ({ quests }) => {
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
   const [url, setUrl] = useState(
-    'https://us-central1-capx-x-web3auth.cloudfunctions.net/v1'
+    "https://us-central1-capx-x-web3auth.cloudfunctions.net/v1"
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
@@ -39,7 +39,9 @@ const SpecialTasks = ({ quests }) => {
     } else if (
       data &&
       data.result.success === false &&
-      (data.result.quest_status === 'REGISTERED' || data.result.quest_status === 'IN_PROGRESS' || data.result.quest_status === 'CLAIMED' )
+      (data.result.quest_status === "REGISTERED" ||
+        data.result.quest_status === "IN_PROGRESS" ||
+        data.result.quest_status === "CLAIMED")
     ) {
       console.log(data.result);
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
@@ -112,13 +114,13 @@ const SpecialTasks = ({ quests }) => {
                 }}
                 key={"unique" + ind}
                 className="specialcards-main flex pr-5"
-                style={{cursor:'pointer'}}
+                style={{ cursor: "pointer" }}
               >
                 <div className="wrapper flex flex-col items-stretch rounded-xl p-3 gap-3">
                   <div className="img-box rounded-xl overflow-hidden">
                     <img
                       className="w-full h-fit card-img"
-                      src={InviteFriends}
+                      src={SpecialCardImage}
                       alt="invite"
                     />
                     <div className="card-chip md:hidden flex items-center">

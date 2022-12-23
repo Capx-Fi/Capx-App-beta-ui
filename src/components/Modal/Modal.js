@@ -4,6 +4,8 @@ import Lottie from "react-lottie";
 import animationData from "../../assets/lottie/loader.json";
 import failureData from "../../assets/lottie/failedCross.json";
 import { HiArrowRight } from "react-icons/hi";
+import { LoaderGit } from "../../assets/gif";
+
 const Modal = ({ actions }) => {
   console.log(actions);
   const defaultOptions = {
@@ -26,10 +28,14 @@ const Modal = ({ actions }) => {
     <div className="modal-backdrop">
       <div className="modal">
         {!(actions && actions.error) ? (
-          <Lottie options={defaultOptions} height={240} width={240} />
+          <>
+            {/* <Lottie options={defaultOptions} height={240} width={240} /> */}{" "}
+            <img src={LoaderGit} alt="Panda" />
+          </>
         ) : (
           <div className="flex flex-col px-10 py-5 gap-5 h-fit">
             <Lottie options={defaultOptionsFailure} height={240} width={240} />
+
             <div className="codestep2-congrats-1 flex flex-col items-center">
               <p className="codestep2-congratstitle fs-30 font-bold">Uh oh!</p>
               <p className="fs-18 font-medium">

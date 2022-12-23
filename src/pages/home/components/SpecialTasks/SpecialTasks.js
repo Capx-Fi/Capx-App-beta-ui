@@ -106,7 +106,7 @@ const SpecialTasks = ({ quests }) => {
     <div className="special-quests bg-green-12">
       <div className="wrapper ">
         <Slider {...SliderSettings}>
-          {dailytaskdata.map((data, ind) => {
+          {dailytaskdata&& dailytaskdata.length>0 && dailytaskdata.map((data, ind) => {
             return (
               <div
                 onClick={(e) => {
@@ -120,7 +120,7 @@ const SpecialTasks = ({ quests }) => {
                   <div className="img-box rounded-xl overflow-hidden">
                     <img
                       className="w-full h-fit card-img"
-                      src={SpecialCardImage}
+                      src={data.image_url.trim().length>0 ? data.image_url :SpecialCardImage}
                       alt="invite"
                     />
                     <div className="card-chip md:hidden flex items-center">

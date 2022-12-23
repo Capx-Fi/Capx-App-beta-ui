@@ -16,7 +16,6 @@ const Home = () => {
   const [prevQuests, setPrevQuests] = useState([]);
   const [specialQuests,setSpecialQuests] = useState([]);
   const user = useSelector((state) => state.user);
-  //const { data,error,isPending } = useFirestoreCollection("orgs");
   const { data, error, isPending } = useFirestoreCollection(
     "xorgs/f7ILwJaAwQ+2n4D8euNpQ0lVuFJJAYLvw9O2niisDZM=/quests",
     ["docType", "==", "Aggregate"]
@@ -30,12 +29,14 @@ const Home = () => {
       let result = [];
       Object.keys(data[0].quests).forEach((val) => {
         const dataObject = {
+          task_no: val.split('=')[1].split('_')[1],
           id: val,
           tasktitle: questData.quests[val].title,
           tags: questData.quests[val].tags,
           rewards_type: questData.quests[val].rewards_type,
           taskreward: questData.quests[val].max_rewards,
           expiry: questData.quests[val].expiry,
+          image_url:questData.quests[val].image_url,
           taskbtntext: user.questData.some((obj) => val === obj.questID)
             ? "Resume"
             : "Claim now",
@@ -62,17 +63,17 @@ const Home = () => {
       setDailyQuests(
         result.filter((val) => {
           return (val.taskCategory.toLowerCase() === 'dailyreward' || (val.created_on === todaysDate && val.taskCategory.toLowerCase() !== 'special' && val.status === 'new'));
-        })
+        }).sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       setSpecialQuests(
         result.filter((val) => {
           return val.taskCategory.toLowerCase() === 'special';
-        })
+        }).sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       setPrevQuests(
         result.filter((val) => {
           return ((val.created_on !== todaysDate || val.status === "IN_PROGRESS" || val.status==="REGISTERED") && val.taskCategory.toLowerCase() === 'normal');
-        })
+        }).sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       if(result.filter((val)=>{return val.created_on !== todaysDate && val.status !== "COMPLETED"}).length !== 0){
         var element = document.getElementById("home-container");
@@ -122,7 +123,6 @@ const Home = () => {
           </div>
           <div className="home-tasks ">
             <SpecialTasks quests={specialQuests} />
-            {/* <DailyTasks quests={dailyQuests} /> */}
           </div>
         </div>
       </div>

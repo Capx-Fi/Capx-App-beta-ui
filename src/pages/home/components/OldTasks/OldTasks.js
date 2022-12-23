@@ -133,12 +133,12 @@ const OldTasks = ({ quests }) => {
   return (
     <div className="oldtasks">
       <Slider {...SliderSettings}>
-        {quests.map((data, ind) => {
+        {quests&& quests.lenght>0 && quests.map((data, ind) => {
           return (
             <div key={ind} className="oldtasks-card flex pr-5">
               <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
                 <div className="img-box rounded-xl overflow-hidden">
-                  <img src={DailyRewardPng} alt="rewards" />
+                  <img src={data.image_url.trim().length>0 ? data.image_url :DailyRewardPng} alt="rewards" />
                   <div className="card-chip flex items-center">
                     <img src={CardCoinIcon} alt="coin" />
                     <span>{data.taskreward + " xCapx"}</span>

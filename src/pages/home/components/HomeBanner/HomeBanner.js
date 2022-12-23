@@ -28,62 +28,46 @@ function HomeBanner() {
         <Slider {...sliderSettings}>
           <div className="slide slider-1 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
             <div className="flex flex-col items-start  gap-6">
-              <h2>
-                Daily Rewards,
-                <br className="md:hidden block" /> Gamified{" "}
-                <br className="md:block hidden" />
-                Quests, <br className="md:hidden block" />
-                and more Benefits!
+              <h2 className="gredient-text-2">
+                Explore the World of Web3
+                <br /> with Quests, Challenges
+                <br className="block md:hidden" /> &{" "}
+                <br className="hidden md:block" />
+                Weekly Contests
               </h2>
-              <button className="flex items-center justify-between ">
-                <span className="fs-16 font-black mr-3">Claim now</span>
-                <ImArrowRight2 />
-              </button>
             </div>
           </div>
           <div className="slide slider-2 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
             <div className="flex flex-col items-start  gap-6">
-              <h2>
-                Greate going,
-                <br className="md:hidden block" /> You have earned
-                <br className="md:hidden block" />
-                <br className="md:block hidden" /> {userData.earned_rewards}{" "}
-                xCapx today!
+              <h2 className="gredient-text-2">
+                Earn Unlimited
+                <br className="block md:hidden" /> Rewards &{" "}
+                <br className="hidden md:block" />
+                Build
+                <br className="block md:hidden" /> your On-chain
+                <br className="block md:hidden" /> Reputation
               </h2>
-              <button className="flex items-center justify-between ">
-                <span className="fs-16 font-black mr-3">
-                  Complete more quests
-                </span>
-                <ImArrowRight2 />
-              </button>
             </div>
           </div>
           <div className="slide slider-3 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
             <div className="flex flex-col items-start  gap-6">
-              <h2>
-                Reminder! Your <br className="md:hidden block" />
-                unclaimed xCapx <br className="md:block hidden" /> rewards
-                <br className="md:hidden block" /> are expiring soon
+              <h2 className="gredient-text-2">
+                Capx Meme Contest
+                <br /> Earn upto 100xCapx
+                <br /> Coming Soon!
               </h2>
-              <button className="flex items-center justify-between ">
-                <span className="fs-16 font-black mr-3">Claim now</span>
-                <ImArrowRight2 />
-              </button>
             </div>
           </div>
           <div className="slide slider-4 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
             <div className="flex flex-col items-start  gap-6">
-              <h2>
-                Join the Capx
-                <br className="md:hidden block" /> Meme Contest
-                <br className="md:block hidden" /> and{" "}
-                <br className="md:hidden block" />
-                earn upto 100 xCapx!
+              <h2 className="gredient-text-2">
+                Reminder! Your
+                <br className="block md:hidden" /> Unclaimed
+                <br className="hidden md:block" />
+                xCapx
+                <br className="block md:hidden" /> Tokens will expire
+                <br className="block md:hidden" /> soon
               </h2>
-              <button className="flex items-center justify-between ">
-                <span className="fs-16 font-black mr-3">Register now</span>
-                <ImArrowRight2 />
-              </button>
             </div>
           </div>
         </Slider>

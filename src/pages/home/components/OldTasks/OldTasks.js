@@ -152,7 +152,10 @@ const OldTasks = ({ quests }) => {
                   className="card-btn flex justify-between items-center rounded-xl"
                 >
                   <span>
-                    {data.status === "IN_PROGRESS" ? "Resume" : "Start task"}
+                    {data.status === "IN_PROGRESS" ||
+                    data.status === "REGISTERED"
+                      ? "Resume"
+                      : "Start task"}
                   </span>
                   <ImArrowRight2 className="text-white" />
                 </button>

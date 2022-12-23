@@ -17,6 +17,7 @@ import Modal from "../../components/Modal/Modal";
 import { useLinkAuthProviders } from "../../hooks/useLinkAuthProviders";
 import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
 import { EditIconSvg } from "../../assets/svg";
+import { app, auth } from "../../firebase/firebase";
 
 function Profile() {
   const [isEditEnabled, setIsEditEnabled] = useState(false);
@@ -51,7 +52,7 @@ function Profile() {
     error,
     imageUrl,
   } = useUploadProfileImage();
-  console.log(isUploadImgPending);
+
   const showModalFunc = () => {
     setShowModal((prevState) => {
       return !prevState;
@@ -102,6 +103,73 @@ function Profile() {
       imageUploadPostData(apiDataObject);
     }
   };
+
+  const handleDiscordConnect = async () => {
+    function getURLParameter(name) {
+      return (
+        decodeURIComponent(
+          (new RegExp("[?|&]" + name + "=" + "([^&;]+?)(&|#|;|$)").exec(
+            // eslint-disable-next-line no-restricted-globals
+            location.search
+          ) || [null, ""])[1].replace(/\+/g, "%20")
+        ) || null
+      );
+    }
+
+    function getFirebaseProjectId() {
+      return app.options.authDomain.split(".")[0];
+    }
+
+    function tokenReceived(data) {
+      if (data.token) {
+        auth.signInWithCustomToken(data.token).then(async function () {
+          const token = await auth.currentUser.getIdToken();
+          console.log("JWT Token", token);
+          window.close();
+        });
+      } else {
+        console.error(data);
+        document.body.innerText = "Error in the token Function: " + data.error;
+      }
+    }
+
+    var code = getURLParameter("code");
+    var state = getURLParameter("state");
+    var error = getURLParameter("error");
+
+    if (error) {
+      document.body.innerText =
+        "Error back from the Spotify auth page: " + error;
+    } else if (!code) {
+      // Start the auth flow.
+      window.location.href =
+        "https://us-central1-" +
+        getFirebaseProjectId() +
+        ".cloudfunctions.net/discord/link";
+    } else {
+      const token = await auth.currentUser.getIdToken();
+      console.log("Code Found", token);
+      // // Use JSONP to load the 'token' Firebase Function to exchange the auth code against a Firebase custom token.
+      const script = document.createElement("script");
+      script.type = "text/javascript";
+      // // This is the URL to the HTTP triggered 'token' Firebase Function.
+      // // See https://firebase.google.com/docs/functions.
+      var tokenFunctionURL =
+        "https://us-central1-" +
+        getFirebaseProjectId() +
+        ".cloudfunctions.net/discord/link-auth";
+      script.src =
+        tokenFunctionURL +
+        "?code=" +
+        encodeURIComponent(code) +
+        `&auth_token=` +
+        encodeURIComponent(token) +
+        "&callback=" +
+        tokenReceived.name;
+      document.head.appendChild(script);
+    }
+  };
+  useEffect(() => {}, []);
 
   console.log(imageUrl);
   return (
@@ -321,7 +389,10 @@ function Profile() {
                       />
                     </div>
                   ) : (
-                    <button className="fullname flex flex-row justify-between items-center rounded-2xl">
+                    <button
+                      onClick={handleDiscordConnect}
+                      className="fullname flex flex-row justify-between items-center rounded-2xl"
+                    >
                       <div className="flex  items-center flex-row gap-3">
                         <img
                           src={IGIcon}

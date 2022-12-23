@@ -57,7 +57,7 @@ const Layout = () => {
     } else if (userLogout && !logoutPending) {
       console.log("i triggered");
       dispatch(logoutUser());
-      //navigate('/onboarding')
+      navigate("/onboarding");
     }
   }, [data, error, userLogout]);
 

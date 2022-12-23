@@ -46,8 +46,7 @@ const OldTasks = ({ quests }) => {
   };
 
   useEffect(() => {
-    //to-do:change succcess to success
-    if (data && data.result.succcess && data.result.success === true) {
+    if (data && data.result.success && data.result.success === true) {
       console.log(data);
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate("/quest");
@@ -133,7 +132,7 @@ const OldTasks = ({ quests }) => {
   return (
     <div className="oldtasks">
       <Slider {...SliderSettings}>
-        {quests&& quests.lenght>0 && quests.map((data, ind) => {
+        {quests&& quests.length>0 && quests.map((data, ind) => {
           return (
             <div key={ind} className="oldtasks-card flex pr-5">
               <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">

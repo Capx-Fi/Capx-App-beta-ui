@@ -11,12 +11,13 @@ import ErrorModal from "../../errorModal/ErrorModal";
 const UploadPicture = ({ actionData }) => {
   const inputRef = useRef();
   const [imageFile, setImageFile] = useState(null);
-  const [imgUrl, setImgUrl] = useState(null);
+  const [imgUrl, setImgUrl] = useState(false);
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const [ModalHeadning, setModalHeadning] = useState("");
 
   const handleErrorModal = () => {
     SetIsOpenErrorModal(false);
+    setImageFile(null);
   };
 
   const {
@@ -37,48 +38,40 @@ const UploadPicture = ({ actionData }) => {
   };
 
   const handleImageUpdate = (e) => {
+    setImgUrl(false);
     let image = e.target.files[0];
-    console.log(e.target.files[0]);
     if (
       (image.type === "image/png" || image.type === "image/jpeg") &&
       image.size <= 100000
     ) {
       console.log(image);
       setImageFile(image);
+      setImgUrl(true)
     } else {
       setModalHeadning("File type/size not allowed");
       SetIsOpenErrorModal(true);
+      e.target.value = ''
     }
   };
 
-  const handleActionSubmit = (e) => {
+  const handleActionSubmit = async(e) => {
+    if (imageFile && imageFile.name.trim().length > 0) {
+    const imageUrl = await uploadImageToCloud(imageFile);
     let input = {
       type: "profileImage",
-      value: imgUrl,
+      value: imageUrl,
     };
-    actionData.handleCompleteAction(e, input);
+    actionData.handleCompleteAction(e, input);}
   };
-
-  const uploadImge = async () => {
-    const imageUrl = await uploadImageToCloud(imageFile);
-    setImgUrl(imageUrl);
-    console.log(imageUrl);
-  };
-
-  useEffect(() => {
-    if (imageFile && imageFile.name.trim().length > 0) {
-      uploadImge();
-    }
-  }, [imageFile]);
 
   return (
     <>
       <div className="upload-picture-action flex flex-col gap-3">
         <p className="reward-title action-heading">
-          Action #2 : Update your Profile Picture to earn 1 xCapx
+        {actionData?.action_title}
         </p>
         <div className="upload-picture-wrapper flex flex-col gap-1">
-          <label className="label" for="picture">
+          <label className="label" htmlFor="picture">
             UPLOAD YOUR PROFILE PICTURE*
           </label>
           <div className="input-wrapper flex flex-col  mb-4 relative">
@@ -116,7 +109,7 @@ const UploadPicture = ({ actionData }) => {
           {actionData.action_order_status !== "COMPLETED" && (
             <button
               onClick={handleActionSubmit}
-              className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+              className={`action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl ${!imgUrl?"disabled":"bg-gredient-2"}`}
               disabled={!imgUrl}
             >
               Submit <HiArrowRight className="text-xl " />

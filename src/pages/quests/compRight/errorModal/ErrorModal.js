@@ -4,7 +4,7 @@ import ErrorLottie from "../../../../assets/lottie/ErrorAnimation.json";
 import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
 
-const ErrorModal = ({ open, handleClose, heading }) => {
+const ErrorModal = ({ open, handleClose, heading , message}) => {
   const cancelButtonRef = useRef(null);
 
   const defaultOptions = {
@@ -55,6 +55,7 @@ const ErrorModal = ({ open, handleClose, heading }) => {
                   {heading ? heading : "Something went wrong"}
                 </h3>
                 <p className="dialog-text mb-3">Please try again</p>
+                <p className="dialog-text mb-3">{message}</p>
                 <div className="dialog-buttons flex flex-col">
                   <button
                     onClick={handleClose}

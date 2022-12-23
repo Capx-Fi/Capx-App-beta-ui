@@ -2,26 +2,53 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
-import { TwitterNegative } from "../../../../../assets/svg";
-import Input from "../../../../../components/Input/Input";
+import { useSelector } from "react-redux";
+import ErrorModal from "../../errorModal/ErrorModal";
+
 
 const Tweetstep2 = ({ actionData }) => {
   const [tweetUrl,setTweetUrl] = useState('');
-  const [enableVerify,setEnableVerify] = useState(false)
+  const [enableVerify,setEnableVerify] = useState(false);
+  const userData = useSelector((state) => state.user);
+  const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
+  const [ModalHeadning, setModalHeadning] = useState("");
+
   var expression = /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
   var regex = new RegExp(expression);
   const handleInputChange = (e) => {
-    if(e.target.value && e.target.value.length>0 &&  e.target.value.trim().match(regex)){
+    if(e.target.value && e.target.value.length>=0){
         setTweetUrl(e.target.value)
     }
   }
   useEffect(()=>{
-    if(tweetUrl && tweetUrl.trim().length>9){
+    if(tweetUrl && tweetUrl.trim().length>=0){
       setEnableVerify(true)
     }else{
       setEnableVerify(false);
     }
   },[tweetUrl])
+
+  const handleErrorModal = () => {
+    SetIsOpenErrorModal(false);
+  };
+
+  const handleActionComplete = (e) =>{
+    console.log(userData);
+    if(tweetUrl.trim().match(regex)){
+      if(userData && userData.socials && userData.socials.twitter_id.trim().length>0 && userData.socials.twitter_username.trim().length>0){
+        actionData.handleCompleteAction(e, {
+          type: "twitterVerify",
+          value: tweetUrl,
+        })
+      }else{
+        setModalHeadning("Please connect your twitter account before continuing");
+        SetIsOpenErrorModal(true);
+      }
+    }else{
+      setModalHeadning("Please enter a valid tweet link");
+      SetIsOpenErrorModal(true);
+    }
+  }
 
   return (
     <div className="createtweet flex flex-col gap-3">
@@ -54,19 +81,19 @@ const Tweetstep2 = ({ actionData }) => {
           onChange={(e)=>handleInputChange(e)}
         />
 
-        <button className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl"
-          onClick={(e) =>
-            actionData.handleCompleteAction(e, {
-              type: "twitterVerify",
-              value: tweetUrl,
-            })
-          }
+        <button className={`${!enableVerify?"disabled":"bg-gredient-2"} action-btn self-stretch flex justify-center items-center p-3 rounded-2xl`}
+          onClick={handleActionComplete}
           disabled={!enableVerify}
         >
           Verify
           <HiArrowRight className="text-xl ml-4" />
         </button>
       </div>
+      <ErrorModal
+        heading={ModalHeadning}
+        open={isOpenErrorModal}
+        handleClose={handleErrorModal}
+      />
     </div>
   );
 };

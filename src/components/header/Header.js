@@ -30,10 +30,10 @@ const Header = ({ userAction }) => {
     <header className="header flex items-center border-primary-200 fixed top-0 w-full md:px-7 px-4">
       <h3 className="page-name capitalize">{pathname ? pathname : "Home"}</h3>
       <div className="flex-grow" />
-      <button className="btn">
+      <div className="btn">
         <img src={CoinSvg} alt="coin" />
         <span className="ml-2">{userData.earned_rewards} xCapx</span>
-      </button>
+      </div>
 
       <button className="btn logout-btn md:hidden" onClick={handleLogout}>
         <MdOutlineLogout className="fs-22" />

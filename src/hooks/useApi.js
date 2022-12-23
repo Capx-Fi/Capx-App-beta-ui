@@ -37,6 +37,9 @@ export const useApi = (url, method = Constants.GET) => {
   }
 
   useEffect(() => {
+    setData(null);
+    setError(null);
+    setIsPending(false);
     const controller = new AbortController();
     const apiCall = async (options) => {
       setIsPending(true);
@@ -46,6 +49,9 @@ export const useApi = (url, method = Constants.GET) => {
           signal: controller.signal,
         });
         if (!res.ok) {
+          console.log(res);
+          const errorResponse = await res.json()
+          setData(errorResponse)
           throw new Error(res.statusText);
         }
         const response = await res.json();
@@ -53,13 +59,16 @@ export const useApi = (url, method = Constants.GET) => {
         setIsPending(false);
         setData(response);
       } catch (error) {
-        if (error.name === Constants.ABORT_ERROR) {
+        console.log(error.toString());
+        if (error?.name === Constants.ABORT_ERROR) {
           console.log("the fetch was aborted");
-        } else {
-          console.log("error please");
-          setData({ result: true });
+        }else if(error.toString()==='TypeError: Failed to fetch'){
+          console.log('some error');
+          setError("unexpected_error");
           setIsPending(false);
+        }else {
           setError("Error in api call");
+          setIsPending(false);
         }
       }
     };

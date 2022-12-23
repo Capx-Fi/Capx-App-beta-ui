@@ -29,12 +29,13 @@ import ActionCompleteModal from "../compRight/actionConpleteModal/ActionComplete
 import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwitter";
 import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
 import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture";
+import { useNavigate } from "react-router-dom";
 
 const AnswerQuiz = () => {
   const auth = useSelector((state) => state.auth.user);
   const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
   const [url, setUrl] = useState(
-    "https://capx-gateway-cnfe7xc8.uc.gateway.dev/"
+    "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
   );
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
@@ -44,13 +45,15 @@ const AnswerQuiz = () => {
   const [showClaimScreen, setShowClaimScreen] = useState(false);
   const [showActionClaim, setShowActionClaim] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const navigate = useNavigate()
   const { isPending, data, error } = useFirestoreCollection("xquest_order", [
     "quest_order_id",
     "==",
     questOrderId,
   ]);
   const {
-    isError,
+    error:isError,
     isPending: apiIsPending,
     postData,
     data: apiData,
@@ -206,9 +209,7 @@ const AnswerQuiz = () => {
     if (e !== null) {
       e.preventDefault();
     }
-    let apiDataObject = {
-      data: { action_order_id: actionData.action_order_id },
-    };
+    let apiDataObject;
     console.log(input);
     switch (input.type) {
       case "singleQuiz": {
@@ -277,7 +278,7 @@ const AnswerQuiz = () => {
         apiDataObject = {
           data: {
             action_order_id: actionData.action_order_id,
-            name: input.value,
+            name: input.value
           },
         };
         break;
@@ -310,6 +311,7 @@ const AnswerQuiz = () => {
   const taskErrorReset = () => {
     console.log("error reset");
     setTaskError(null);
+    setErrorMessage(null);
   };
 
   useEffect(() => {
@@ -358,38 +360,42 @@ const AnswerQuiz = () => {
   }, [data, error]);
 
   useEffect(() => {
-    if (apiData && !showClaimScreen && !showActionClaim) {
-      console.log(apiData);
-      //to-do:change succcess to success
-      if (apiData.result.success === true) {
-        if (actionData.length === 0) {
-          if (questData.quest_category === "Daily_Reward") {
-            setOpenCongratulationModal(true);
-          } else {
-            setShowClaimScreen(true);
-            setTaskError(false);
+    if(!apiIsPending){
+      //console.log('i came here', apiData,apiIsPending,isError)
+      if(apiData && !isError){
+        if(!showClaimScreen && !showActionClaim){
+          if(apiData.result.success === true) {
+            if (actionData.length === 0) {
+              if (questData.quest_category === "Daily_Reward") {
+                setOpenCongratulationModal(true);
+              } else {
+                setShowClaimScreen(true);
+              }
+            } 
           }
-        } else {
-          setTaskError(null);
+        }else if(showClaimScreen && !isPending){
+          if (apiData.result.success === true) {
+            setOpenCongratulationModal(true);
+          }
+        }else if(showActionClaim && !isPending){
+          if (apiData.result.success === true) {
+            setOpenActionCompleteModel(true);
+          } 
         }
-      } else {
+      }else if(apiData && isError){
+        if(apiData.result.success === false){
+          setErrorMessage(apiData.result?.message)
+        }
         setTaskError(true);
-      }
-    } else if (apiData && showClaimScreen && !isPending) {
-      if (apiData.result.success === true) {
-        setOpenCongratulationModal(true);
-      } else {
-        setTaskError(true);
-      }
-    } else if (apiData && showActionClaim && !isPending) {
-      console.log(" claim result for action ");
-      if (apiData.result.success === true) {
-        setOpenActionCompleteModel(true);
-      } else {
+      }else if(isError){
+        console.log(isError);
+        if(isError === 'unexpected_error'){
+          navigate('/')
+        }
         setTaskError(true);
       }
     }
-  }, [apiData]);
+  }, [apiData,apiIsPending,isError]);
 
   return (
     <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">
@@ -462,8 +468,6 @@ const AnswerQuiz = () => {
               modalAction={{ claimReward: claimRewardHandler }}
             />
           )}
-          {/* {taskError === false && <SuccessMsg errorReset={taskErrorReset} />}
-          {taskError === true && <FailureMsg errorReset={taskErrorReset} />} */}
 
           <CongratulationModal
             open={openCongratulationModal}
@@ -478,7 +482,9 @@ const AnswerQuiz = () => {
 
           <ErrorModal
             open={taskError === true ? true : false}
+            heading={errorMessage}
             handleClose={taskErrorReset}
+
           />
         </div>
       </div>

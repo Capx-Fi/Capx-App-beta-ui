@@ -16,7 +16,7 @@ const Codestep2 = ({ actionData }) => {
   return (
     <div className="codestep2 flex flex-col gap-3">
       <p className="codestep2-title action-heading   ">
-        Action #1 : Generate Invite Code
+        Action #1 : Share Invite Code
       </p>
       <div className="codestep2-wrapper mb-3">
         <div className="codestep2-placeholder px-5 py-4 rounded-2xl text-cgreen-700 flex justify-between">

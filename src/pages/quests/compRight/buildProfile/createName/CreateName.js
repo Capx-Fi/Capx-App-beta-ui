@@ -5,11 +5,9 @@ import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
 import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
 
 const CreateName = ({ actionData }) => {
-  console.log(actionData);
   const [showClaimBtn, setShowClaimBtn] = useState(false);
   const [varified, setVarified] = useState(false);
   const [profileNameInput, setProfileNameInput] = useState("");
-  const [showActionCompleteDialog, setShowActionCompleteDialog] = useState(false);
 
   const [actionDetails, setActionDetails] = useState(null);
 
@@ -25,10 +23,12 @@ const CreateName = ({ actionData }) => {
   const [ regex , setRegex ] = useState(new RegExp(/^[a-zA-Z ]*$/));
 
   useEffect(() => {
+    setShowClaimBtn(false);
+    setVarified(false);
     if (data) {
       console.log(data[0]);
       setActionDetails(data[0]);
-      if(data[0].action_order_status === 'COMPLETED'){
+      if(data[0].action_order_status.toLowerCase() === 'completed'){
         setShowClaimBtn(true);
         setVarified(true);
       }
@@ -37,31 +37,20 @@ const CreateName = ({ actionData }) => {
     }
   }, [data, error]);
 
-  const handleShowClaimBtn = () => {
-    setShowClaimBtn((prev) => (prev ? false : true));
-    setVarified(true);
-  };
-
   const handleInputChange = (e) => {
-    if(e.target.value.trim().length > 0 && e.target.value.trim().match(regex) ){
+    if(e.target.value.trim().length >= 0 ){
       setProfileNameInput(e.target.value);
-      console.log(e.target.value)
     }
-    setVarified(false);
-    setShowClaimBtn(false);
-    
-  };
-
-  const handleActionCompleteDialog = () => {
-    setShowActionCompleteDialog((prev) => (prev ? false : true));
   };
 
   const handleSubmit = (e) => {
-    let input = {
-      type: 'buildProfileName',
-      value: profileNameInput.trim()
+    if(profileNameInput.length > 0 && profileNameInput.trim().match(regex) ){
+      let input = {
+        type: 'buildProfileName',
+        value: profileNameInput.trim()
+      }
+      actionData.handleCompleteAction(e,input)
     }
-    actionData.handleCompleteAction(e,input)
   }
 
 
@@ -83,7 +72,7 @@ const CreateName = ({ actionData }) => {
               type="text"
               name="name"
               id="name"
-              disabled = {(actionDetails?.action_order_status === 'COMPLETED')}
+              disabled = {(actionDetails?.action_order_status.toLowerCase() === 'completed')}
             />
             {varified && (
               <img
@@ -98,7 +87,9 @@ const CreateName = ({ actionData }) => {
             <button
               onClick={handleSubmit}
               disabled={profileNameInput.trim().length===0}
-              className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+              className={`action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl ${
+                profileNameInput.trim().length===0 ? "disabled" : "bg-gredient-2"
+              }`}
             >
               Submit <HiArrowRight className="text-xl " />
             </button>

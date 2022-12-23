@@ -50,16 +50,7 @@ function HomeBanner() {
             </div>
           </div>
           <div className="slide slider-3 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
-            <div className="flex flex-col items-start  gap-6">
-              <h2 className="gredient-text-2">
-                Capx Meme Contest
-                <br /> Earn upto 100xCapx
-                <br /> Coming Soon!
-              </h2>
-            </div>
-          </div>
-          <div className="slide slider-4 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
-            <div className="flex flex-col items-start  gap-6">
+          <div className="flex flex-col items-start  gap-6">
               <h2 className="gredient-text-2">
                 Reminder! Your
                 <br className="block md:hidden" /> Unclaimed
@@ -67,6 +58,15 @@ function HomeBanner() {
                 xCapx
                 <br className="block md:hidden" /> Tokens will expire
                 <br className="block md:hidden" /> soon
+              </h2>
+            </div>
+          </div>
+          <div className="slide slider-4 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
+            <div className="flex flex-col items-start  gap-6">
+              <h2 className="gredient-text-2">
+                Capx Meme Contest
+                <br /> Earn upto 100xCapx
+                <br /> Coming Soon!
               </h2>
             </div>
           </div>

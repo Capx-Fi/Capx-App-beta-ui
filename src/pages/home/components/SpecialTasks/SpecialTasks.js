@@ -120,7 +120,7 @@ const SpecialTasks = ({ quests }) => {
                 <div className="wrapper flex flex-col items-stretch rounded-xl p-3 gap-3">
                   <div className="img-box rounded-xl overflow-hidden">
                     <img
-                      className="w-full h-fit card-img"
+                      className="w-full card-img"
                       src={data.image_url.trim().length>0 ? data.image_url :SpecialCardImage}
                       alt="invite"
                     />

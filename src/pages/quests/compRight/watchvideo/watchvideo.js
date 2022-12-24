@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useFirestoreCollection } from "../../../../hooks/useFirestoreCollection";
 import { config } from "../../../../config";
@@ -14,15 +14,23 @@ const WatchVideo = ({ actionData }) => {
       String(actionData.questID + "-" + actionData.action_id),
     ]
   );
+  useEffect(() => {
+    if (data) {
+      console.log(data[0])
+      setActionDetails(data[0]);
+    } else if (error) {
+      console.log(error);
+    }
+  }, [data, error]);
   return (
     <div className="watch-video flex flex-col gap-3">
       <p className="action-title action-heading font-bold underline underline-offset-4 text-cgreen-700 fs-15">
-        Action #1 : What is Capx App?
+        {actionDetails && actionDetails.action_order_title}
       </p>
       <div className="video-wrapper p-2 pb-5 bg-slate-50 w-full rounded-3xl border-2 mb-10">
         <div className="responsive-iframe">
           <iframe
-            src="https://www.youtube.com/embed/GvhWAIFosF8"
+            src={actionDetails ? actionDetails.action_order_details.media_link:""}
             frameBorder="0"
             allow="autoplay; encrypted-media"
             allowFullScreen

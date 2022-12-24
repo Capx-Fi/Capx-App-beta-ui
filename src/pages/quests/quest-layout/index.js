@@ -18,6 +18,7 @@ import Affiliate from "../compRight/affiliate/affiliate"; // [Day1]-Task 6
 import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
+import { useLinkAuthProviders } from "../../../hooks/useLinkAuthProviders";
 import Profile from "../compRight/buildProfile/profile/Profile";
 
 // Quest Right Component Imports End ---------------------------------------------------------
@@ -64,6 +65,13 @@ const AnswerQuiz = () => {
     postData,
     data: apiData,
   } = useApi(url, "POST");
+
+  const {
+    unlinkWithSocail,
+    error: linkSocalError,
+    isPending: isSOcialLinkPending,
+    linkDone : linkDone
+  } = useLinkAuthProviders();
   const [taskError, setTaskError] = useState(null);
 
   const handleCongratulationModal = () => {
@@ -423,6 +431,9 @@ const AnswerQuiz = () => {
       }else if(apiData && isError){
         if(apiData.result.success === false){
           setErrorMessage(apiData.result?.message)
+          if(apiData.result?.message === "ERROR: Twitter already linked to different user"){
+            unlinkWithSocail("twitter")
+          }
         }
         setTaskError(true);
       }else if(isError){

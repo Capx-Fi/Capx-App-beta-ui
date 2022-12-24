@@ -499,10 +499,11 @@ const AnswerQuiz = () => {
                     return (
                       <QuestLeft
                         data={{
+                          actiondata:details3,
                           id: details3.action_order_id,
-                          title: details3.action_title,
+                          title: details3.action_order_left_title,
                           actionnum: details3.action_id,
-                          actiontag: details3.action_order_type,
+                          actiontag: details3.action_tag,
                           completed:
                             details3.action_order_status === "COMPLETED"
                               ? true

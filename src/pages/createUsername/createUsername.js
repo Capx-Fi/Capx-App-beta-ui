@@ -37,6 +37,10 @@ const CreateUsername = () => {
     resetForm();
   };
 
+  const handleUserNameChange = async (values) =>{
+    console.log(values.username)
+  }
+
   const formik = useFormik({
     initialValues: { username: "@" },
     validationSchema: Yup.object().shape({
@@ -44,7 +48,7 @@ const CreateUsername = () => {
         .required("Password is required")
         .min(6, "6 letters required"),
     }),
-    validateOnChange: false,
+    validateOnChange: true,
     validateOnBlur: true,
     onSubmit: handleFormSubmit,
   });

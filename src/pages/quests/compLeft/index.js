@@ -12,7 +12,7 @@ const questLeft = ({ data }) => {
           <MdDone className="text-xl ml-1" />
         </div>
       );
-    }else if(data.completed === false && data.id === data.currentActionId ){
+    }else if(data.completed === false && data.id === data?.currentActionId ){
       return (
         <div className="actionstatus capitalize flex items-center justify-center">
           ongoing
@@ -35,9 +35,6 @@ const questLeft = ({ data }) => {
         <div className="actioncard flex flex-row items-center justify-between">
           <div className="action-row-1 flex flex-col items-start gap-2 justify-between">
             <h5 className="actionheading flex flex-row ">
-              <span className="ml-2 cgreen-700 font-medium  ">
-                #{data.actionnum}
-              </span>
               <span className="ml-2 capitalize cgreen-700 font-medium ">
                 {data.title}
               </span>

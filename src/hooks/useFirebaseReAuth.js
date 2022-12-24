@@ -15,15 +15,13 @@ export default function useFirebaseReAuth(fetchUpdatedData) {
 		const unsub = onAuthStateChanged(auth, async (user) => {
       //dispatch auth is ready redux change
       if (user) {
-				//console.log(user);
-        console.log('refreshed user',user.accessToken)
-				setIsPending(false)
-				setAccessToken(user.accessToken);
+		setAccessToken(user.accessToken);
+		setIsPending(false)
       } else {
         setIsPending(false)
       }
     });
-		unsub();
+	unsub();
   }, [fetchUpdatedData]);
 
 	return { accessToken: accessToken, isPending: isPending};

@@ -50,6 +50,7 @@ const AnswerQuiz = () => {
   const [showClaimScreen, setShowClaimScreen] = useState(false);
   const [showActionClaim, setShowActionClaim] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [showProfilePage,setShowProfilePage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [reFetchInProgress, setReFetchInProgress] = useState(false);
   const navigate = useNavigate();
@@ -372,14 +373,16 @@ const AnswerQuiz = () => {
           data[0].quest_type.toLowerCase() === "special" &&
           data[0].status.toLowerCase() === "claimed"
         ) {
-          setActionData({
-            ...Object.values(data[0].actions)
-              .filter((val) => {
-                return val.action_order_status === "COMPLETED";
-              })
-              .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
-              .reverse()[0],
-          });
+          
+            setActionData({
+              ...Object.values(data[0].actions)
+                .filter((val) => {
+                  return val.action_order_status === "COMPLETED";
+                })
+                .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
+                .reverse()[0],
+            });
+          
         } else {
           setOpenCongratulationModal(true);
         }
@@ -517,6 +520,8 @@ const AnswerQuiz = () => {
               modalAction={{ claimReward: claimRewardHandler }}
             />
           )}
+
+          {showProfilePage && actionData.length === 0 && <Profile/>}
 
           <CongratulationModal
             open={openCongratulationModal}

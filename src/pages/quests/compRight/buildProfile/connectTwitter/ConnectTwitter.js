@@ -8,9 +8,10 @@ import { useLinkAuthProviders } from "../../../../../hooks/useLinkAuthProviders"
 import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
 import { useEffect } from "react";
 import useFirebaseReAuth from "../../../../../hooks/useFirebaseReAuth"
+import { useNavigate } from "react-router-dom";
 
 const ConnectTwitter = ({ actionData }) => {
-  
+  const navigate = useNavigate()
   const [showActionCompleteDialog, setShowActionCompleteDialog] =
     useState(false);
   const [fetchUpdatedToken,setFetchUpdatedToken] = useState(false);
@@ -47,7 +48,7 @@ const ConnectTwitter = ({ actionData }) => {
     <>
       <div className="connect-twitter-action flex flex-col gap-3">
         <p className="action-heading">
-          {actionData?.action_title}
+          {actionData?.is_claimed === false ? actionData?.action_title:"ALL TASKS COMPLETE"}
         </p>
         {actionData?.action_order_status !== 'COMPLETED' && (
           <button
@@ -64,7 +65,7 @@ const ConnectTwitter = ({ actionData }) => {
             />
           </button>
         )}
-        { actionData?.action_order_status === 'COMPLETED' && (
+        { actionData?.action_order_status === 'COMPLETED' && actionData.is_claimed === false && (
           <>
             <div className="twitter-box disable flex items-center justify-center">
               <img
@@ -90,6 +91,18 @@ const ConnectTwitter = ({ actionData }) => {
               <HiArrowRight className="text-xl " />
             </button>
           </>
+        )}
+        {actionData.action_order_status === 'COMPLETED' && actionData.is_claimed === true && (
+          <button
+          onClick={(e) =>{
+            // actionData.handleCompleteAction(e, { type: "profile", value: "" })
+            navigate('/')
+          }}
+          className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+        >
+          Go to Home Page
+          <HiArrowRight className="text-xl " />
+        </button>
         )}
       </div>
       <ActionCompleteModal

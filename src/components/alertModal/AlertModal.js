@@ -5,7 +5,7 @@ import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
 
-const AlertModal = ({ open, handleClose }) => {
+const AlertModal = ({ open, page ,handleClose }) => {
   const cancelButtonRef = useRef(null);
   const location = useLocation();
   const pagename = location.pathname.replace("/", "").replace("-", " ");
@@ -57,7 +57,7 @@ const AlertModal = ({ open, handleClose }) => {
                 <p className="gredient-text  mb-3">
                   <span className="dialog-heading ">
                     Complete Quests and earn 21 xCapx tokens or more to unlock
-                    the Leaderboard Screen
+                    the {pagename} Screen
                   </span>
                   <span className="dialog-text ">
                     {" "}

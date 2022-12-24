@@ -18,6 +18,7 @@ import { useLinkAuthProviders } from "../../hooks/useLinkAuthProviders";
 import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
 import { EditIconSvg } from "../../assets/svg";
 import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
+import { config } from "../../config";
 
 function Profile() {
   const inputRef = useRef();
@@ -32,7 +33,7 @@ function Profile() {
   };
 
   const [url, setUrl] = useState(
-    "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
+    config.API_URL
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
 

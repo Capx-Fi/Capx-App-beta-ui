@@ -1,10 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { config } from "./config";
+import { config } from "../config.js";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
 
 //initialize firebase config
+console.log(config)
 const firebaseConfig = {
   apiKey: config.APIKey,
   authDomain: config.AuthDomain,

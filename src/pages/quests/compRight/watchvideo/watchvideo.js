@@ -1,18 +1,19 @@
 import React, { useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useFirestoreCollection } from "../../../../hooks/useFirestoreCollection";
+import { config } from "../../../../config";
 
 const WatchVideo = ({ actionData }) => {
   console.log(actionData);
   const [actionDetails, setActionDetails] = useState(null);
-  // const { isPending, data, error } = useFirestoreCollection(
-  //   "quest_order/" + actionData.questID + "/action_order/",
-  //   [
-  //     "action_order_id",
-  //     "==",
-  //     String(actionData.questID + "-" + actionData.action_id),
-  //   ]
-  // );
+  const { isPending, data, error } = useFirestoreCollection(
+    `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
+    [
+      "action_order_id",
+      "==",
+      String(actionData.questID + "-" + actionData.action_id),
+    ]
+  );
   return (
     <div className="watch-video flex flex-col gap-3">
       <p className="action-title action-heading font-bold underline underline-offset-4 text-cgreen-700 fs-15">

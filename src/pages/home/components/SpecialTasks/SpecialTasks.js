@@ -10,6 +10,7 @@ import { useApi } from "../../../../hooks/useApi";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
 import { Constants } from "../../../../constants/constants";
 import Modal from "../../../../components/Modal/Modal";
+import { config } from "../../../../config";
 
 const SpecialTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
@@ -19,7 +20,7 @@ const SpecialTasks = ({ quests }) => {
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
   const [url, setUrl] = useState(
-    "https://us-central1-capx-x-web3auth.cloudfunctions.net/v1"
+    config.API_URL
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
 

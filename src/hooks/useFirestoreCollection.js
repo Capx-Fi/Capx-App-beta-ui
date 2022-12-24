@@ -9,7 +9,6 @@ export const useFirestoreCollection = (_collection, queryObject = {}) => {
   const [reFetchState, setReFetchState] = useState(null);
 
   const q = useRef(queryObject).current;
-  console.log(q);
 
   const reFetchData = (refetch)=>{
     if(refetch.status === true && refetch.data.length>0){
@@ -27,7 +26,6 @@ export const useFirestoreCollection = (_collection, queryObject = {}) => {
         ref = query(ref, where(...q));
       }
     }
-    console.log(_collection, queryObject);
     const unsub = onSnapshot(
       ref,
       (snapshot) => {
@@ -39,13 +37,11 @@ export const useFirestoreCollection = (_collection, queryObject = {}) => {
           snapshot.docs.forEach((doc) => {
             results.push({ ...doc.data(), id: doc.id });
           });
-          console.log(results);
           setData(results);
           setIsPending(false);
         }
       },
       (error) => {
-        console.log(error);
         setError(error.message);
         setIsPending(false);
       }

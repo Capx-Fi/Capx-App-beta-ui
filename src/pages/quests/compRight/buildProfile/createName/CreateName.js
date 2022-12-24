@@ -3,6 +3,7 @@ import { HiArrowRight } from "react-icons/hi";
 import { InputCheckSvg } from "../../../../../assets/svg";
 import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
 import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
+import { config } from "../../../../../config";
 
 const CreateName = ({ actionData }) => {
   const [showClaimBtn, setShowClaimBtn] = useState(false);
@@ -12,7 +13,7 @@ const CreateName = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
 
   const { isPending, data, error } = useFirestoreCollection(
-    "xquest_order/" + actionData.questID + "/action_order/",
+    `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
     [
       "action_order_id",
       "==",

@@ -5,6 +5,7 @@ import { useApi } from "../../../../hooks/useApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
 import { Constants } from "../../../../constants/constants";
+import { config } from "../../../../config";
 import Modal from "../../../../components/Modal/Modal";
 import { DailyRewardPng, InviteFriends } from "../../../../assets/images";
 import Slider from "react-slick";
@@ -33,7 +34,7 @@ const OldTasks = ({ quests }) => {
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
   const [url, setUrl] = useState(
-    "https://us-central1-capx-x-web3auth.cloudfunctions.net/v1"
+    config.API_URL
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
 

@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAuthStatus } from "./../store/slices/authSlice";
 import { setUser } from "./../store/slices/userSlice";
+import { config } from "../config"
 import {
   doc,
   getDoc,
@@ -25,7 +26,7 @@ export const useFireBaseAuth = () => {
           const docSnap = await getDoc(userDoc);
           console.log(docSnap.data());
           if (docSnap.data() !== undefined && docSnap.exists()) {
-            const userQuestCollection = collection(db, `xusers/${user.uid}/quest-order`);
+            const userQuestCollection = collection(db, `${config.USER_COLLECTION}/${user.uid}/quest-order`);
             const questDataQuery = query(userQuestCollection,where("docType", "==", "Aggregate"));
             let quests = [];
             let result = []

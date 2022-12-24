@@ -32,13 +32,14 @@ import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setQuestOrderId } from "../../../store/slices/questSlice";
+import { config } from "../../../config";
 
 const AnswerQuiz = () => {
   const auth = useSelector((state) => state.auth.user);
   const allQuestData = useSelector((state)=> state.quest.allQuests);
   const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
   const [url, setUrl] = useState(
-    "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
+    config.API_URL
   );
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
@@ -52,7 +53,7 @@ const AnswerQuiz = () => {
   const [reFetchInProgress, setReFetchInProgress] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isPending, data, error, reFetchData } = useFirestoreCollection("xquest_order", [
+  const { isPending, data, error, reFetchData } = useFirestoreCollection(config.QUEST_ORDER_COLLECTION, [
     "quest_order_id",
     "==",
     questOrderId,

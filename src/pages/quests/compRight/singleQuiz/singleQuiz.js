@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useFirestoreCollection } from "../../../../hooks/useFirestoreCollection";
 import { useEffect } from "react";
+import { config } from "../../../../config";
 
 const SingleQuiz = ({ actionData }) => {
   console.log(actionData);
   const [actionDetails, setActionDetails] = useState(null);
   const [selectedOption, setSelectedOption] = useState({ id: "", value: "" });
   const { isPending, data, error } = useFirestoreCollection(
-    "xquest_order/" + actionData.questID + "/action_order/",
+    `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
     [
       "action_order_id",
       "==",

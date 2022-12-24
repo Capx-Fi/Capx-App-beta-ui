@@ -10,11 +10,12 @@ import OtpInput from "react-otp-input";
 import { useApi } from "../../hooks/useApi";
 import { useSelector } from "react-redux";
 import Modal from "../../components/Modal/Modal";
+import { config } from "../../config"
 
 const InviteCode = () => {
   const navigate = useNavigate();
   const [url, setUrl] = useState(
-    'https://capx-gateway-cnfe7xc8.uc.gateway.dev'
+    config.API_URL
   );
   const [inviteCode, setInviteCode] = useState("");
   const { isError, isPending, postData, data } = useApi(url, "GET");

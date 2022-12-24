@@ -6,6 +6,7 @@ import {
   GoogleAuthProvider,
   TwitterAuthProvider,
 } from "firebase/auth";
+import { config } from "../config";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../store/slices/authSlice";
 import { setUser } from "../store/slices/userSlice";
@@ -106,7 +107,7 @@ export const useFireBaseLogin = () => {
     if (userDetails) {
       try {
         console.log(userDetails);
-        const userDoc = doc(db, "xusers", userDetails.uid);
+        const userDoc = doc(db, config.USER_COLLECTION, userDetails.uid);
         const docSnap = await getDoc(userDoc);
         console.log(docSnap.data());
         if (docSnap.exists()) {
@@ -124,7 +125,7 @@ export const useFireBaseLogin = () => {
   };
 
   const getUserQuestData = async ( userId ) => {
-    const userQuestCollection = collection(db, `xusers/${userId}/quest-order`);
+    const userQuestCollection = collection(db, `${config.USER_COLLECTION}/${userId}/quest-order`);
     const questDataQuery = query(userQuestCollection,where("docType", "==", "Aggregate"));
     let quests = [];
     try{

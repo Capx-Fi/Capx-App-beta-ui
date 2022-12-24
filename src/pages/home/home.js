@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import { AlertIcon, DailyQuestsIcon } from "../../assets/svg";
+import {  DailyQuestsIcon } from "../../assets/svg";
 import ConsTasks from "./components/ConsTasks/ConsTasks";
 import HomeBanner from "./components/HomeBanner/HomeBanner";
 import OldTasks from "./components/OldTasks/OldTasks";
@@ -9,6 +8,7 @@ import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestsData } from "../../store/slices/questSlice";
 import Modal from "../../components/Modal/Modal";
+import { config } from "../../config"
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Home = () => {
   const [specialQuests,setSpecialQuests] = useState([]);
   const user = useSelector((state) => state.user);
   const { data, error, isPending } = useFirestoreCollection(
-    "xorgs/f7ILwJaAwQ+2n4D8euNpQ0lVuFJJAYLvw9O2niisDZM=/quests",
+    `${config.ORG_COLLECTION}/${config.ORG_ID}/${config.ORG_QUEST_COLLECTION}`,
     ["docType", "==", "Aggregate"]
   );
 

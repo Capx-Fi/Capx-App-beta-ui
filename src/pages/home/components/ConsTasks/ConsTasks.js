@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { CardCoinIcon } from "../../../../assets/svg";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useApi } from "../../../../hooks/useApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
 import { Constants } from "../../../../constants/constants";
+import { config } from "../../../../config";
 import Modal from "../../../../components/Modal/Modal";
 import { ImArrowRight2 } from "react-icons/im";
 import Slider from "react-slick";
@@ -19,7 +20,7 @@ const ConsTasks = ({ quests }) => {
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
   const [url, setUrl] = useState(
-    "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
+    config.API_URL
   );
   const { isError, isPending, postData, data } = useApi(url, "POST");
 

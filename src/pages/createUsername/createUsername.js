@@ -14,13 +14,14 @@ import { useEffect,useState } from "react";
 import { setUserName } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import Modal from "../../components/Modal/Modal";
+import { config } from "../../config";
 
 const CreateUsername = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [username,setUsername] = useState('');
   const [usernameExists, setUsernameExists ] = useState(false);
-  const { error,isPending, getData,  data } = useApi('https://capx-gateway-cnfe7xc8.uc.gateway.dev','GET');
+  const { error,isPending, getData,  data } = useApi(config.API_URL,'GET');
   const [showModal,setShowModal] = useState(true);
 
   const showModalFunc = () =>{

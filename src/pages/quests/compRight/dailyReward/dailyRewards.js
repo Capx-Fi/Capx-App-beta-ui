@@ -2,11 +2,12 @@ import React, {useState,useEffect} from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { CoinSvg } from "../../../../assets/svg";
 import { useFirestoreCollection } from "../../../../hooks/useFirestoreCollection";
+import { config } from "../../../../config";
 
 const DailyRewards = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
   const { isPending, data, error } = useFirestoreCollection(
-    "xquest_order/" + actionData.questID + "/action_order/",
+    `${config.QUEST_ORDER_ACTION_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
     [
       "action_order_id",
       "==",

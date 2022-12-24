@@ -37,9 +37,7 @@ const CreateUsername = () => {
     resetForm();
   };
 
-  const handleUserNameChange = async (values) =>{
-    console.log(values.username)
-  }
+  
 
   const formik = useFormik({
     initialValues: { username: "@" },
@@ -59,7 +57,7 @@ const CreateUsername = () => {
             dispatch(setUserName({username}))
             navigate('/invite-code',{ state: { username } })
         }else{
-            console.log(data.result.success)
+          
             setUsernameExists(true);
         }
     }

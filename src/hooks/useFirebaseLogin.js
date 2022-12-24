@@ -106,10 +106,10 @@ export const useFireBaseLogin = () => {
     let userprofile = null;
     if (userDetails) {
       try {
-        console.log(userDetails);
+        
         const userDoc = doc(db, config.USER_COLLECTION, userDetails.uid);
         const docSnap = await getDoc(userDoc);
-        console.log(docSnap.data());
+        ;
         if (docSnap.exists()) {
           const userQuest = await getUserQuestData(userDetails.uid);
           dispatch(setUser({...docSnap.data(),userQuest:userQuest}));

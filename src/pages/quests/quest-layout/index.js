@@ -91,7 +91,6 @@ const AnswerQuiz = () => {
   const nextQuestSetup = () => {
     const newQuestData = allQuestData.filter((val)=>{return val.status === 'new' && val.id !== questData.quest_id});
     if(newQuestData.length>0){
-      console.log(newQuestData);
       setReFetchInProgress(true);
       setOpenCongratulationModal(false);
       setShowClaimScreen(false);
@@ -368,7 +367,6 @@ const AnswerQuiz = () => {
 
       if (actionsData.length === 0) {
         console.log("All actions completed");
-        console.log(data[0])
         if (isClaimQuest) {
           setActionData([]);
         } else if (
@@ -386,7 +384,6 @@ const AnswerQuiz = () => {
             });
           
         } else if(data[0].quest_type.toLowerCase() !== "special" && data[0].status.toLowerCase() === "completed") {
-          console.log(' i came here');
           setShowClaimScreen(true);
           setActionData([]);
         }else if(data[0].quest_type.toLowerCase() === "special" && data[0].status.toLowerCase() === "completed"){
@@ -401,7 +398,6 @@ const AnswerQuiz = () => {
         });
       }
       if(reFetchInProgress===true){
-        console.log(actionsData)
         setReFetchInProgress(false);
       } 
     } else if (error) {

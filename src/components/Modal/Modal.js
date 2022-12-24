@@ -7,7 +7,7 @@ import { HiArrowRight } from "react-icons/hi";
 import { LoaderGit } from "../../assets/gif";
 
 const Modal = ({ actions }) => {
-  console.log(actions);
+  
   const cancelButtonRef = useRef(null);
   const defaultOptionsFailure = {
     loop: true,

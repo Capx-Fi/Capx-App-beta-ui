@@ -28,7 +28,6 @@ const SliderArrow = ({ style, onClick, direction }) => {
 };
 
 const OldTasks = ({ quests }) => {
-  console.log(quests);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [questId, setQuestId] = useState(null);
@@ -47,7 +46,6 @@ const OldTasks = ({ quests }) => {
 
   useEffect(() => {
     if (data && data.result.success && data.result.success === true) {
-      console.log(data);
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate("/quest");
     } else if (
@@ -56,7 +54,6 @@ const OldTasks = ({ quests }) => {
       (data.result.quest_status === "REGISTERED" ||
         data.result.quest_status === "IN_PROGRESS" || data.result.quest_status === "COMPLETED" )
     ) {
-      console.log(data.result);
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
       navigate("/quest");
     }

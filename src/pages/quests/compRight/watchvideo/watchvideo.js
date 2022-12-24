@@ -4,7 +4,6 @@ import { useFirestoreCollection } from "../../../../hooks/useFirestoreCollection
 import { config } from "../../../../config";
 
 const WatchVideo = ({ actionData }) => {
-  console.log(actionData);
   const [actionDetails, setActionDetails] = useState(null);
   const { isPending, data, error } = useFirestoreCollection(
     `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
@@ -16,7 +15,6 @@ const WatchVideo = ({ actionData }) => {
   );
   useEffect(() => {
     if (data) {
-      console.log(data[0])
       setActionDetails(data[0]);
     } else if (error) {
       console.log(error);

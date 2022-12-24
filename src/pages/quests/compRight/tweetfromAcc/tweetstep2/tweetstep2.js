@@ -33,7 +33,6 @@ const Tweetstep2 = ({ actionData }) => {
   };
 
   const handleActionComplete = (e) =>{
-    console.log(userData);
     if(tweetUrl.trim().match(regex)){
       if(userData && userData.socials && userData.socials.twitter_id.trim().length>0 && userData.socials.twitter_username.trim().length>0){
         actionData.handleCompleteAction(e, {

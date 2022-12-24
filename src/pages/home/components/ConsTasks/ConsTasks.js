@@ -14,7 +14,6 @@ import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 
 const ConsTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
-  console.log(dailytaskdata);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [questId, setQuestId] = useState(null);
@@ -26,7 +25,6 @@ const ConsTasks = ({ quests }) => {
 
   const handleClick = (e, questId) => {
     e.preventDefault();
-    console.log(questId);
     setQuestId(questId);
     const apiDataObject = { data: { questId: questId } };
     postData(apiDataObject, "/registerForQuest");
@@ -35,7 +33,6 @@ const ConsTasks = ({ quests }) => {
   useEffect(() => {
     //to-do:change succcess to success
     if (data && data.result.success && data.result.success === true) {
-      console.log(data);
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate("/quest");
     } else if (
@@ -43,7 +40,6 @@ const ConsTasks = ({ quests }) => {
       data.result.success === false &&
       data.result.quest_status === "REGISTERED"
     ) {
-      console.log(data.result);
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
       navigate("/quest");
     }

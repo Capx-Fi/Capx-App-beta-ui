@@ -45,7 +45,7 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    console.log(data,userQuests);
+    
     if (data && !logoutPending && !userLogout && userQuests) {
       if (data[0].username && data[0].username !== "") {
         dispatch(setUser({...data[0],userQuest:userQuests}));
@@ -59,7 +59,7 @@ const Layout = () => {
   }, [data, error, userLogout,userQuests]);
 
   useEffect(() => {
-    console.log(!questIsPending,questError);
+    
     let result = [];
     if (
       questData &&

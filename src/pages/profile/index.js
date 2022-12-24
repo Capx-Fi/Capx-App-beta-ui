@@ -58,7 +58,6 @@ function Profile() {
     error,
     imageUrl,
   } = useUploadProfileImage();
-  console.log(isUploadImgPending);
   const showModalFunc = () => {
     setShowModal((prevState) => {
       return !prevState;
@@ -68,11 +67,11 @@ function Profile() {
   const handleEditProfile = (e) => {
     e.preventDefault();
     setIsEditEnabled((prevState) => !prevState);
-    console.log(isEditEnabled);
+    
   };
 
   const handleFormSubmit = (value) => {
-    console.log(isEditEnabled);
+   
     if (value.fullName.trim().length > 0 && isEditEnabled) {
       const apiDataObject = { data: { name: value.fullName } };
       postData(apiDataObject, "/updateUserFullName");

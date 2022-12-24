@@ -16,7 +16,6 @@ const DailyRewards = ({ actionData }) => {
   );
   useEffect(() => {
     if (data) {
-      console.log(data[0]);
       setActionDetails(data[0]);
     } else if (error) {
       console.log(error);

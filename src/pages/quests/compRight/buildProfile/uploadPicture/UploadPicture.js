@@ -44,7 +44,6 @@ const UploadPicture = ({ actionData }) => {
       (image.type === "image/png" || image.type === "image/jpeg") &&
       image.size <= 5242880
     ) {
-      console.log(image);
       setImageFile(image);
       setImgUrl(true)
     } else {

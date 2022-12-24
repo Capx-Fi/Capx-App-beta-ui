@@ -10,7 +10,7 @@ const combinedReducer = combineReducers({
 });
 
 const rootReducer = (state, action) => {
-  console.log(action);
+  
   // if (action.type === 'auth/resetAuth' || action.type === 'user/resetUser') {
   //   state = undefined;
   // }

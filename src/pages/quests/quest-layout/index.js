@@ -96,6 +96,7 @@ const AnswerQuiz = () => {
       setOpenCongratulationModal(false);
       setShowClaimScreen(false);
       setShowActionClaim(false);
+      setIsClaimQuest(false);
       const apiDataObject = { data: { questId: newQuestData[0].id } };
       postData(apiDataObject, "/registerForQuest");
     }else{

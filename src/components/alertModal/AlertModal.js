@@ -1,6 +1,6 @@
 import { Fragment, useRef, useState } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import LightningAnimation from "../../assets/lottie/LightningAnimation.json";
+import badgeGold from "../../assets/lottie/badge_gold.json";
 import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
 import { useLocation } from "react-router-dom";
@@ -13,7 +13,7 @@ const AlertModal = ({ open, handleClose }) => {
   const defaultOptions = {
     loop: true,
     autoplay: true,
-    animationData: LightningAnimation,
+    animationData: badgeGold,
     rendererSettings: {
       preserveAspectRatio: "xMidYMid slice",
     },

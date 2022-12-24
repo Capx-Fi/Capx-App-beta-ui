@@ -13,7 +13,12 @@ const Leaderboard = () => {
 
   const handleAlertModalClose = () => {
     setOenAlertModal((prev) => (prev ? false : true));
+    navigate('/')
   };
+
+  useEffect(()=>{
+    setOenAlertModal(true)
+  },[])
 
   const topTen = [
     { name: "@tylerhill", earned: "32", tasks: "12", rank: 1 },

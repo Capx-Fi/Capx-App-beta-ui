@@ -20,7 +20,7 @@ const CreateUsername = () => {
   const dispatch = useDispatch();
   const [username,setUsername] = useState('');
   const [usernameExists, setUsernameExists ] = useState(false);
-  const { error,isPending, getData,  data } = useApi('https://capx-gateway-cnfe7xc8.uc.gateway.dev/','GET');
+  const { error,isPending, getData,  data } = useApi('https://capx-gateway-cnfe7xc8.uc.gateway.dev','GET');
   const [showModal,setShowModal] = useState(true);
 
   const showModalFunc = () =>{

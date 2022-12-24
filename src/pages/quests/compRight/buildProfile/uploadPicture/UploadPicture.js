@@ -42,7 +42,7 @@ const UploadPicture = ({ actionData }) => {
     let image = e.target.files[0];
     if (
       (image.type === "image/png" || image.type === "image/jpeg") &&
-      image.size <= 100000
+      image.size <= 5242880
     ) {
       console.log(image);
       setImageFile(image);

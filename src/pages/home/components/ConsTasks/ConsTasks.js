@@ -139,7 +139,7 @@ const ConsTasks = ({ quests }) => {
                     className="card-btn flex justify-between items-center rounded-xl"
                   >
                     <span>
-                      {data.status === "CLAIMED" ? "Completed" : "Start task"}
+                      {data.status === "CLAIMED" ? "Completed" : "Begin Quest"}
                     </span>
                     <ImArrowRight2 className="text-white" />
                   </button>

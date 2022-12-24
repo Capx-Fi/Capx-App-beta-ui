@@ -54,7 +54,7 @@ const OldTasks = ({ quests }) => {
       data &&
       data.result.success === false &&
       (data.result.quest_status === "REGISTERED" ||
-        data.result.quest_status === "IN_PROGRESS")
+        data.result.quest_status === "IN_PROGRESS" || data.result.quest_status === "COMPLETED" )
     ) {
       console.log(data.result);
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
@@ -150,12 +150,12 @@ const OldTasks = ({ quests }) => {
                   }}
                   className="card-btn flex justify-between items-center rounded-xl"
                 >
-                  <span>
+                  {data.status === 'COMPLETED'? <span>{"Claim"}</span> : <span>
                     {data.status === "IN_PROGRESS" ||
                     data.status === "REGISTERED"
                       ? "Resume"
-                      : "Start task"}
-                  </span>
+                      : "Begin Quest"}
+                  </span>}
                   <ImArrowRight2 className="text-white" />
                 </button>
               </div>

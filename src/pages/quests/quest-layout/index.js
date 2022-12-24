@@ -367,6 +367,7 @@ const AnswerQuiz = () => {
 
       if (actionsData.length === 0) {
         console.log("All actions completed");
+        console.log(data[0])
         if (isClaimQuest) {
           setActionData([]);
         } else if (
@@ -383,7 +384,14 @@ const AnswerQuiz = () => {
                 .reverse()[0],
             });
           
-        } else {
+        } else if(data[0].quest_type.toLowerCase() !== "special" && data[0].status.toLowerCase() === "completed") {
+          console.log(' i came here');
+          setShowClaimScreen(true);
+          setActionData([]);
+        }else if(data[0].quest_type.toLowerCase() === "special" && data[0].status.toLowerCase() === "completed"){
+          setShowClaimScreen(true);
+          setActionData([]);
+        }else{
           setOpenCongratulationModal(true);
         }
       } else {
@@ -500,7 +508,7 @@ const AnswerQuiz = () => {
                               ? true
                               : false,
                           actionBtn: details3.action_order_status,
-                          currentActionId: actionData.action_order_id,
+                          currentActionId: actionData?.action_order_id,
                         }}
                         key={details3.action_order_id}
                       />

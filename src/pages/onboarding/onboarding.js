@@ -25,15 +25,15 @@ const Onboarding = () => {
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-2 pb-3">
-                Learn, together Earn together
+                Learn together Earn together
               </h2>
               <p className="discription fs-16 font-bold text-slate-500 md:text-center md:mb-10 mb-8 hidden md:block">
                 Welcome to the world of quests, contests & challenges. Begin
                 your web3 journey!
               </p>
               <p className="discription fs-16 font-bold text-slate-500 md:text-center md:mb-10 mb-8 block md:hidden">
-                Join Capx and learn to earn contribution to communities and
-                projects. Begin your journey.
+              Welcome to the world of quests, contests & challenges. Begin
+                your web3 journey!
               </p>
               <div className="md:hidden block devider self-stretch h-1 mb-2 bg-primary-200 mb-9"></div>
               <Link to="/signup" className="mb-6 self-stretch">

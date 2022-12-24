@@ -47,6 +47,7 @@ const Home = () => {
                 1000
             )
           ),
+
           completed_by: questData.quests[val].completed_by,
           status: user.questData.some((obj) => val === obj.questID)
             ? user.questData.filter((obj) => {
@@ -70,7 +71,7 @@ const Home = () => {
       );
       setPrevQuests(
         result.filter((val) => {
-          return ((val.created_on !== todaysDate || val.status === "IN_PROGRESS" || val.status==="REGISTERED") && val.taskCategory.toLowerCase() === 'normal');
+          return ((val.created_on !== todaysDate || val.status === "IN_PROGRESS" || val.status==="REGISTERED" || val.status === 'COMPLETED') && val.taskCategory.toLowerCase() === 'normal');
         }).sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       if(result.filter((val)=>{return val.created_on !== todaysDate && val.status !== "COMPLETED"}).length !== 0){

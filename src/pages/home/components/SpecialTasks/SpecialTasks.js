@@ -42,7 +42,7 @@ const SpecialTasks = ({ quests }) => {
       data.result.success === false &&
       (data.result.quest_status === "REGISTERED" ||
         data.result.quest_status === "IN_PROGRESS" ||
-        data.result.quest_status === "CLAIMED")
+        data.result.quest_status === "CLAIMED" || data.result.quest_status === "COMPLETED")
     ) {
       console.log(data.result);
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));

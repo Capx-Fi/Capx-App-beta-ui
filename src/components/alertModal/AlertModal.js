@@ -57,11 +57,7 @@ const AlertModal = ({ open, page ,handleClose }) => {
                 <p className="gredient-text  mb-3">
                   <span className="dialog-heading ">
                     Complete Quests and earn 21 xCapx tokens or more to unlock
-                    the {pagename} Screen
-                  </span>
-                  <span className="dialog-text ">
-                    {" "}
-                    tokens or more to unlock the {pagename} Screen
+                    the {page} Screen
                   </span>
                 </p>
 

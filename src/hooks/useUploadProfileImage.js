@@ -16,7 +16,7 @@ export const useUploadProfileImage = () => {
       setIsPending(true);
 
       try {
-        const storageRef = ref(storage, `images/${Uid}`);
+        const storageRef = ref(storage, `images/profileImage/${Uid}`);
         const uploadTask = await uploadBytesResumable(storageRef, image);
         const downloadURL = await getDownloadURL(uploadTask.ref);
         imageUrl = downloadURL;

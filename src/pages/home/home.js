@@ -18,7 +18,7 @@ const Home = () => {
   const user = useSelector((state) => state.user);
   const { data, error, isPending } = useFirestoreCollection(
     `${config.ORG_COLLECTION}/${config.ORG_ID}/${config.ORG_QUEST_COLLECTION}`,
-    ["docType", "==", "Aggregate"]
+    ["__name__", "==", "quest_agg_1"]
   );
 
   useEffect(() => {

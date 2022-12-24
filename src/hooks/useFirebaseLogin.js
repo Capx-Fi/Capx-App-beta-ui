@@ -132,13 +132,15 @@ export const useFireBaseLogin = () => {
       let result = []
       const userQuestData = await getDocs(questDataQuery);
       userQuestData.forEach((doc)=>{result.push(doc.data())})
-      Object.keys(result[0].quests).forEach((key) => {
-        quests.push({
-          ...result[0].quests[key],
-          questID: key.split("|")[0],
-          quest_order_id: key,
+      if(result.length>0){
+        Object.keys(result[0].quests).forEach((key) => {
+          quests.push({
+            ...result[0].quests[key],
+            questID: key.split("|")[0],
+            quest_order_id: key,
+          });
         });
-      });
+      }
     }catch(err){
       console.log(err)
     }

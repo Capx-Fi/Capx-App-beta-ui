@@ -55,7 +55,7 @@ const AnswerQuiz = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isPending, data, error, reFetchData } = useFirestoreCollection(config.QUEST_ORDER_COLLECTION, [
-    "quest_order_id",
+    "__name__",
     "==",
     questOrderId,
   ]);
@@ -422,7 +422,7 @@ const AnswerQuiz = () => {
           if(apiData.result.success === true){
             dispatch(setQuestOrderId({ questId: apiData.result.quest_order_id }));
             reFetchData({status:true,data:[
-              "quest_order_id",
+              "__name__",
               "==",
               apiData.result.quest_order_id,
             ]})

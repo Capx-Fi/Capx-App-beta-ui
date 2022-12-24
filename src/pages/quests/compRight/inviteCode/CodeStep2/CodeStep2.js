@@ -21,6 +21,11 @@ const Codestep2 = ({ actionData }) => {
     navigator.clipboard.writeText(userInviteCode);
   };
 
+  const handleSocialShareButton = (platform) => {
+    setShareingPlatform(platform);
+    setOpenShareModal(true);
+  };
+
   return (
     <>
       <div className="codestep2 flex flex-col gap-3">
@@ -59,8 +64,7 @@ const Codestep2 = ({ actionData }) => {
               <div className="social-icons flex flex-col gap-3 w-full">
                 <button
                   onClick={() => {
-                    setShareingPlatform("Twitter");
-                    setOpenShareModal(true);
+                    handleSocialShareButton("Twitter");
                   }}
                   className=" flex w-full rounded-xl border-2 border-primary-200"
                 >
@@ -71,8 +75,7 @@ const Codestep2 = ({ actionData }) => {
                 </button>
                 <button
                   onClick={() => {
-                    setShareingPlatform("Instagram");
-                    setOpenShareModal(true);
+                    handleSocialShareButton("Instagram");
                   }}
                   className=" flex w-full rounded-xl border-2 border-primary-200"
                 >
@@ -83,8 +86,7 @@ const Codestep2 = ({ actionData }) => {
                 </button>
                 <button
                   onClick={() => {
-                    setShareingPlatform("Whatsapp");
-                    setOpenShareModal(true);
+                    handleSocialShareButton("Whatsapp");
                   }}
                   className=" flex w-full rounded-xl border-2 border-primary-200"
                 >
@@ -110,19 +112,34 @@ const Codestep2 = ({ actionData }) => {
           <div className="codestep2-congrats w-full flex flex-col gap-6">
             <div className="codestep2-congrats-1 flex flex-col gap-4">
               <div className="social-icons flex flex-col gap-3 w-full">
-                <button className=" flex w-full rounded-xl border-2 border-primary-200">
+                <button
+                  onClick={() => {
+                    handleSocialShareButton("Twitter");
+                  }}
+                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                >
                   <img src={TwitterIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
                     Share on Twitter
                   </span>
                 </button>
-                <button className=" flex w-full rounded-xl border-2 border-primary-200">
+                <button
+                  onClick={() => {
+                    handleSocialShareButton("Instagram");
+                  }}
+                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                >
                   <img src={InstagramIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
                     Share on Instagram
                   </span>
                 </button>
-                <button className=" flex w-full rounded-xl border-2 border-primary-200">
+                <button
+                  onClick={() => {
+                    handleSocialShareButton("Whatsapp");
+                  }}
+                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                >
                   <img src={WhatsappIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
                     Share on Whatsapp

@@ -43,11 +43,18 @@
 
     .dialog-text {
       font-weight: 500;
-      font-size: 18px;
+      font-size: 16px;
       line-height: 24px;
-      letter-spacing: -0.3px;
-      color: #153945;
-      text-align: center;
+      letter-spacing: -0.5px;
+      background: rgba(31, 122, 85, 0.07);
+      border: 2px dashed rgba(31, 122, 85, 0.25);
+      border-radius: 20px;
+      @media screen and (max-width: 767.98px) {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+        letter-spacing: -0.3px;
+      }
     }
 
     .dialog-buttons {

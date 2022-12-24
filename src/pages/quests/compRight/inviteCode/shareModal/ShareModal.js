@@ -52,8 +52,8 @@ const ShareModal = ({ open, platform, handleClose, inviteCode }) => {
                   Share on {platform}
                 </h3>
 
-                <p className="dialog-text mb-3">
-                  Join tha Capx app closed alpha - app.capx-fi with my $code -{" "}
+                <p className="dialog-text mb-3 p-4">
+                  Join the Capx app closed alpha - app.capx-fi with my code -{" "}
                   {inviteCode}
                 </p>
                 <div className="dialog-buttons flex flex-col">

@@ -7,10 +7,14 @@ import { HiArrowRight } from "react-icons/hi";
 import { useLinkAuthProviders } from "../../../../../hooks/useLinkAuthProviders";
 import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
 import { useEffect } from "react";
+import useFirebaseReAuth from "../../../../../hooks/useFirebaseReAuth"
 
 const ConnectTwitter = ({ actionData }) => {
+  
   const [showActionCompleteDialog, setShowActionCompleteDialog] =
     useState(false);
+  const [fetchUpdatedToken,setFetchUpdatedToken] = useState(false);
+  const {isPending,accessToken} = useFirebaseReAuth(fetchUpdatedToken);
   const [showClaimBtn,setShowClaimBtn] = useState(false);
   const {
     linkWithSocail,
@@ -25,26 +29,19 @@ const ConnectTwitter = ({ actionData }) => {
 
   const handleSocialLink = async (method) => {
     linkWithSocail(method);
-    //if (linkSocalError) showModalFunc(true);
   };
 
-  const handleActionSubmit = (e) => {
-    if(linkDone === true && showClaimBtn){
-      let input = {
-        type: 'connectTwitter'
-      }
-      actionData.handleCompleteAction(e,input)
-    }
-  }
-
   useEffect(()=>{
-    if(linkDone === true){
+    if(linkDone === true && !fetchUpdatedToken){
+      setFetchUpdatedToken(true);
+    }else if(linkDone === true && fetchUpdatedToken && !isPending){
       let input = {
-        type: 'connectTwitter'
+        type: 'connectTwitter',
+        accessToken : accessToken
       }
       actionData.handleCompleteAction(null,input)
     }
-  },[linkDone])
+  },[linkDone,isPending])
 
   return (
     <>

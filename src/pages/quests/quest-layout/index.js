@@ -329,7 +329,12 @@ const AnswerQuiz = () => {
           data: { action_order_id: actionData.action_order_id },
         };
     }
-    postData(apiDataObject, "/completeAction");
+    if(input.accessToken && input.accessToken.length>0){
+      postData(apiDataObject, "/completeAction",input.accessToken);
+    }else{  
+      postData(apiDataObject, "/completeAction");
+    } 
+    
   };
 
   const taskErrorReset = () => {

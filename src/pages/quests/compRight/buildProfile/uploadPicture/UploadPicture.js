@@ -56,6 +56,7 @@ const UploadPicture = ({ actionData }) => {
 
   const handleActionSubmit = async(e) => {
     if (imageFile && imageFile.name.trim().length > 0) {
+    setImgUrl(false)
     const imageUrl = await uploadImageToCloud(imageFile);
     let input = {
       type: "profileImage",

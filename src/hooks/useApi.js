@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Constants } from "../constants/constants";
+import { auth } from "../firebase/firebase";
 
 export const useApi = (url, method = Constants.GET) => {
   const [data, setData] = useState(null);
@@ -10,12 +11,13 @@ export const useApi = (url, method = Constants.GET) => {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const [path, setPath] = useState("");
 
-  const postData = (postData, path = "") => {
+  const postData = (postData, path = "",accessTokenRefreshed="") => {
+
     setOptions({
       method: Constants.POST,
       headers: {
         "Content-Type": "application/json",
-        Authorization: "Bearer " + accessToken,
+        Authorization: `Bearer ${(accessTokenRefreshed.trim().length>0 ? accessTokenRefreshed :accessToken)}`,
         "Access-Control-Allow-Headers": "*",
       },
       body: JSON.stringify(postData),

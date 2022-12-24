@@ -80,7 +80,6 @@ const AnswerQuiz = () => {
   };
 
   const nextQuestSetup = () => {
-    console.log('currentQuestData',questData)
     const newQuestData = allQuestData.filter((val)=>{return val.status === 'new' && val.id !== questData.quest_id});
     if(newQuestData.length>0){
       console.log(newQuestData);

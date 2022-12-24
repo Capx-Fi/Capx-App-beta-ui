@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef, useState,useEffect } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import SuccessCoinLottie from "../../../../assets/lottie/SuccessCoinsAnimation.json";
 import BgCongLottie from "../../../../assets/lottie/ConfettiAnimation.json";
@@ -6,10 +6,11 @@ import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
-const CongratulationModal = ({ open, handleClose,rewards }) => {
+
+const CongratulationModal = ({ open, handleClose,rewards,nextQuestFunc }) => {
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
-
+  
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -74,7 +75,7 @@ const CongratulationModal = ({ open, handleClose,rewards }) => {
                   completing the quest
                 </p>
                 <div className="dialog-buttons flex justify-between">
-                  <button className="btn-outline flex items-center">
+                  <button className="btn-outline flex items-center" onClick={nextQuestFunc}>
                     <span> Next Quest</span>
                     <HiArrowRight className="text-xl ml-3" />
                   </button>

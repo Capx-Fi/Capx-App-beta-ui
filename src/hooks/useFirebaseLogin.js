@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { auth, db } from "../firebase/firebase";
 import {
   signInWithEmailAndPassword,
@@ -10,7 +10,6 @@ import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../store/slices/authSlice";
 import { setUser } from "../store/slices/userSlice";
 import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
-import { Result } from "postcss";
 
 export const useFireBaseLogin = () => {
   const dispatch = useDispatch();
@@ -77,9 +76,6 @@ export const useFireBaseLogin = () => {
           throw new Error("Could not complete signin");
         }
         if (userDetails) {
-          const idtoken = await userDetails.getIdToken();
-          console.log(idtoken);
-          console.log(userDetails.uid);
           const isProfileSet = await setUerDetails(userDetails);
           dispatch(
             setLoggedInUser({

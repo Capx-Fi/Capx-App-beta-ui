@@ -49,7 +49,6 @@ export const useApi = (url, method = Constants.GET) => {
           signal: controller.signal,
         });
         if (!res.ok) {
-          console.log(res);
           const errorResponse = await res.json()
           setData(errorResponse)
           throw new Error(res.statusText);
@@ -63,7 +62,6 @@ export const useApi = (url, method = Constants.GET) => {
         if (error?.name === Constants.ABORT_ERROR) {
           console.log("the fetch was aborted");
         }else if(error.toString()==='TypeError: Failed to fetch'){
-          console.log('some error');
           setError("unexpected_error");
           setIsPending(false);
         }else {

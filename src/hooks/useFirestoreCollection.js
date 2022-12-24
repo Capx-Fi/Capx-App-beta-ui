@@ -6,14 +6,26 @@ export const useFirestoreCollection = (_collection, queryObject = {}) => {
   const [data, setData] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
+  const [reFetchState, setReFetchState] = useState(null);
 
   const q = useRef(queryObject).current;
+  console.log(q);
+
+  const reFetchData = (refetch)=>{
+    if(refetch.status === true && refetch.data.length>0){
+      setReFetchState(refetch.data)
+    }
+  }
 
   useEffect(() => {
     setIsPending(true);
     let ref = collection(db, _collection);
-    if (q) {
-      ref = query(ref, where(...q));
+    if(reFetchState && reFetchState.length>0){
+      ref = query(ref, where(...reFetchState));
+    }else{
+      if (q) {
+        ref = query(ref, where(...q));
+      }
     }
     console.log(_collection, queryObject);
     const unsub = onSnapshot(
@@ -40,7 +52,7 @@ export const useFirestoreCollection = (_collection, queryObject = {}) => {
     );
 
     return () => unsub();
-  }, [_collection, q]);
+  }, [_collection, q,reFetchState]);
 
-  return { data: data, isPending: isPending, error: error };
+  return { data: data, isPending: isPending, error: error ,reFetchData:reFetchData};
 };

@@ -23,8 +23,6 @@ const Home = () => {
 
   useEffect(() => {
     if (data && !isPending) {
-      console.log(data);
-      console.log(user);
       const questData = data[0];
       let result = [];
       Object.keys(data[0].quests).forEach((val) => {

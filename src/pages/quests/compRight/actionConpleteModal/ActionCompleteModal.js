@@ -62,7 +62,7 @@ const ActionCompleteModal = ({ open, handleClose }) => {
                     onClick={handleClose}
                     className="btn-contained bg-gredient-2 flex justify-center items-center"
                   >
-                    <span>Next Quest</span>
+                    <span>Next Action</span>
                     <HiArrowRight className="text-xl ml-3" />
                   </button>
                 </div>

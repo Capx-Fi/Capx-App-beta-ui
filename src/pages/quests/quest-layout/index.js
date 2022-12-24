@@ -30,9 +30,12 @@ import ConnectTwitter from "../compRight/buildProfile/connectTwitter/ConnectTwit
 import ConnectDiscord from "../compRight/buildProfile/connectDiscord/ConnectDiscord";
 import UploadPicture from "../compRight/buildProfile/uploadPicture/UploadPicture";
 import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setQuestOrderId } from "../../../store/slices/questSlice";
 
 const AnswerQuiz = () => {
   const auth = useSelector((state) => state.auth.user);
+  const allQuestData = useSelector((state)=> state.quest.allQuests);
   const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
   const [url, setUrl] = useState(
     "https://capx-gateway-cnfe7xc8.uc.gateway.dev"
@@ -46,8 +49,10 @@ const AnswerQuiz = () => {
   const [showActionClaim, setShowActionClaim] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
-  const navigate = useNavigate()
-  const { isPending, data, error } = useFirestoreCollection("xquest_order", [
+  const [reFetchInProgress, setReFetchInProgress] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { isPending, data, error, reFetchData } = useFirestoreCollection("xquest_order", [
     "quest_order_id",
     "==",
     questOrderId,
@@ -73,8 +78,25 @@ const AnswerQuiz = () => {
     setShowActionClaim((prev) => (prev ? !prev : prev));
   };
 
+  const nextQuestSetup = () => {
+    console.log('currentQuestData',questData)
+    const newQuestData = allQuestData.filter((val)=>{return val.status === 'new' && val.id !== questData.quest_id});
+    if(newQuestData.length>0){
+      console.log(newQuestData);
+      setReFetchInProgress(true);
+      setOpenCongratulationModal(false);
+      setShowClaimScreen(false);
+      setShowActionClaim(false);
+      const apiDataObject = { data: { questId: newQuestData[0].id } };
+      postData(apiDataObject, "/registerForQuest");
+    }else{
+      console.log('all quests registered or complete');
+    }
+    
+  }
+
   const renderActionComponent = () => {
-    if (data && actionData && questData) {
+    if (actionData && questData) {
       switch (actionData.action_order_type) {
         case "Video":
           return (
@@ -189,8 +211,11 @@ const AnswerQuiz = () => {
     }
   };
 
+  useEffect(()=>{
+    renderActionComponent()
+  },[actionData])
+
   const claimRewardHandler = () => {
-    console.log(questData?.quest_category);
     if (questData?.quest_category !== "Build_Profile") {
       let apiDataObject = {
         data: { quest_order_id: questOrderId },
@@ -210,7 +235,6 @@ const AnswerQuiz = () => {
       e.preventDefault();
     }
     let apiDataObject;
-    console.log(input);
     switch (input.type) {
       case "singleQuiz": {
         apiDataObject = {
@@ -309,7 +333,6 @@ const AnswerQuiz = () => {
   };
 
   const taskErrorReset = () => {
-    console.log("error reset");
     setTaskError(null);
     setErrorMessage(null);
   };
@@ -317,21 +340,20 @@ const AnswerQuiz = () => {
   useEffect(() => {
     if (data) {
       setQuestData(data[0]);
-      let actionData = [];
+      let actionsData = [];
       if (data[0].quest_category === "Daily_Reward") {
-        actionData = Object.values(data[0].actions).filter((val) => {
+        actionsData = Object.values(data[0].actions).filter((val) => {
           return val.action_order_status !== "COMPLETED";
         });
       } else {
-        actionData = Object.values(data[0].actions).filter((val) => {
+        actionsData = Object.values(data[0].actions).filter((val) => {
           return val.is_claimed !== true;
         });
       }
 
-      if (actionData.length === 0) {
+      if (actionsData.length === 0) {
         console.log("All actions completed");
         if (isClaimQuest) {
-          console.log("show claim");
           setActionData([]);
         } else if (
           data[0].quest_type.toLowerCase() === "special" &&
@@ -346,14 +368,17 @@ const AnswerQuiz = () => {
               .reverse()[0],
           });
         } else {
-          console.log("show congrats");
           setOpenCongratulationModal(true);
         }
       } else {
         setActionData({
-          ...actionData.sort((a, b) => (a.action_id > b.action_id ? 1 : -1))[0],
+          ...actionsData.sort((a, b) => (a.action_id > b.action_id ? 1 : -1))[0],
         });
       }
+      if(reFetchInProgress===true){
+        console.log(actionsData)
+        setReFetchInProgress(false);
+      } 
     } else if (error) {
       console.log(error);
     }
@@ -361,9 +386,8 @@ const AnswerQuiz = () => {
 
   useEffect(() => {
     if(!apiIsPending){
-      //console.log('i came here', apiData,apiIsPending,isError)
       if(apiData && !isError){
-        if(!showClaimScreen && !showActionClaim){
+        if(!showClaimScreen && !showActionClaim && !reFetchInProgress){
           if(apiData.result.success === true) {
             if (actionData.length === 0) {
               if (questData.quest_category === "Daily_Reward") {
@@ -373,14 +397,23 @@ const AnswerQuiz = () => {
               }
             } 
           }
-        }else if(showClaimScreen && !isPending){
+        }else if(showClaimScreen && !isPending && !reFetchInProgress){
           if (apiData.result.success === true) {
             setOpenCongratulationModal(true);
           }
-        }else if(showActionClaim && !isPending){
+        }else if(showActionClaim && !isPending && !reFetchInProgress){
           if (apiData.result.success === true) {
             setOpenActionCompleteModel(true);
           } 
+        }else if(reFetchInProgress){
+          if(apiData.result.success === true){
+            dispatch(setQuestOrderId({ questId: apiData.result.quest_order_id }));
+            reFetchData({status:true,data:[
+              "quest_order_id",
+              "==",
+              apiData.result.quest_order_id,
+            ]})
+          }
         }
       }else if(apiData && isError){
         if(apiData.result.success === false){
@@ -461,7 +494,7 @@ const AnswerQuiz = () => {
         <div className="quest-details-2 flex flex-col">
           {taskError === null &&
             !showClaimScreen &&
-            questData &&
+            questData && actionData && 
             renderActionComponent()}
           {showClaimScreen && actionData.length === 0 && (
             <QuestCompleteScreen
@@ -473,6 +506,7 @@ const AnswerQuiz = () => {
             open={openCongratulationModal}
             handleClose={handleCongratulationModal}
             rewards={questData?.max_rewards}
+            nextQuestFunc={nextQuestSetup}
           />
 
           <ActionCompleteModal

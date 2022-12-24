@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, Outlet, useNavigate } from "react-router-dom";
+import {  Outlet } from "react-router-dom";
 import Header from "../components/header/Header";
 import MobileNav from "../components/mobileNav/MobileNav";
 import SideNav from "../components/sideNav/SideNav";
 import Modal from "../components/Modal/Modal";
 import { useFirestoreCollection } from "../hooks/useFirestoreCollection";
-import { setUser, setUserWithQuest } from "../store/slices/userSlice";
+import { setUser } from "../store/slices/userSlice";
 import { useFireBaseLogout } from "../hooks/useFireBaseLogout";
 import { logoutUser } from "../store/slices/authSlice";
 import Footer from "../components/footer/Footer";
@@ -17,6 +17,7 @@ const Layout = () => {
   const authUser = useSelector((state) => state.auth.user);
   const [userDataFetch, setUserDataFetch] = useState(false);
   const [userLogout, setUserLogout] = useState(false);
+  const [userQuests,setUserQuests] = useState(null);
   const { data, error, isPending } = useFirestoreCollection("xusers", [
     "email",
     "==",
@@ -35,7 +36,6 @@ const Layout = () => {
     error: logoutError,
     isPending: logoutPending,
   } = useFireBaseLogout();
-  console.log("i rendered");
 
   const handleLogout = async (e) => {
     e.preventDefault();
@@ -44,21 +44,22 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    if (data && !logoutPending && !userLogout) {
-      console.log("new User Data fetch");
-      console.log(authUser);
+    console.log(data,userQuests);
+    if (data && !logoutPending && !userLogout && userQuests) {
       if (data[0].username && data[0].username !== "") {
-        dispatch(setUser(data[0]));
+        dispatch(setUser({...data[0],userQuest:userQuests}));
       }
+      setUserDataFetch(true);
     } else if (error && error === -1) {
       console.log("user Data update error");
     } else if (userLogout && !logoutPending) {
-      console.log("i triggered");
       dispatch(logoutUser());
     }
-  }, [data, error, userLogout]);
+  }, [data, error, userLogout,userQuests]);
 
   useEffect(() => {
+    console.log(!questIsPending,questError);
+    let result = [];
     if (
       questData &&
       questData.length > 0 &&
@@ -67,7 +68,6 @@ const Layout = () => {
       !questIsPending
     ) {
       const userQuestData = questData[0].quests;
-      let result = [];
       Object.keys(userQuestData).forEach((key) => {
         result.push({
           ...userQuestData[key],
@@ -75,13 +75,12 @@ const Layout = () => {
           quest_order_id: key,
         });
       });
-      dispatch(setUserWithQuest({ quest_data: result }));
-      setUserDataFetch(true);
+      setUserQuests(result);
     }else if(!questIsPending && !userLogout && questError ){
-      setUserDataFetch(true);
+      setUserQuests(result)
     }
     
-  }, [questData]);
+  }, [questData,questError]);
 
   return (
     <>

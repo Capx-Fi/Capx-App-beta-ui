@@ -17,8 +17,6 @@ import Modal from "../../components/Modal/Modal";
 
 
 const EmailSignup = () => {
-  console.log('i render');
-
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
 	const { _isPending , _error , signupUsingEmail , _isSuccess } = useFirebaseSignup();
@@ -56,7 +54,6 @@ const EmailSignup = () => {
 
   useEffect(()=>{
     if(authStatus && user && user.username === ''){
-      console.log(user)
       navigate('/create-username');
     }
   },[user,authStatus])

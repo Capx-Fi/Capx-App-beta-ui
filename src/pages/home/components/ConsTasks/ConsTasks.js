@@ -121,7 +121,7 @@ const ConsTasks = ({ quests }) => {
         <Slider {...SliderSettings}>
           {dailytaskdata && dailytaskdata.length>0 && dailytaskdata.map((data, ind) => {
             return (
-              <div className="constcards-main flex pr-5">
+              <div className="constcards-main flex pr-5" key={data.id}>
                 <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
                   <div className="img-box rounded-xl overflow-hidden">
                     <img src={data.image_url.trim().length>0?data.image_url:DailyRewardPng} alt="rewards" />

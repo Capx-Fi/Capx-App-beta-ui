@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState } from "react";
 import { auth } from "../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth"
 import { useDispatch } from "react-redux";
@@ -20,7 +20,6 @@ export const useFirebaseSignup = () => {
             if(!response){
                 throw new Error('Could not complete signup')
             }
-            console.log(response);
             dispatch(setLoggedInUser({user:response.user,isUserProfileSet:false}));
             if(!isCancelled){
                 setIsPending(false);
@@ -28,20 +27,16 @@ export const useFirebaseSignup = () => {
                 setIsSuccess(true);
             }
         }catch(err){
-            //console.log(error.message);
             if(!isCancelled){
-                //console.log(error.message);
                 setError(err.message);
                 setIsPending(false);
                 setIsSuccess(false);
             }
-            //console.log(error,isPending)
         }
     }
     //cleanup function to abort the request
     // useEffect(()=>{
     //     return () => setIsCancelled(true);
     // },[])
-    //console.log(error,isPending)
     return { _error:error, _isPending:isPending, signupUsingEmail:signupUsingEmail, _isSuccess:isSuccess }
 }

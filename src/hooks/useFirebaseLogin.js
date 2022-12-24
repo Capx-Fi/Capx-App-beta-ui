@@ -9,7 +9,8 @@ import {
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../store/slices/authSlice";
 import { setUser } from "../store/slices/userSlice";
-import { doc, getDoc } from "firebase/firestore";
+import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import { Result } from "postcss";
 
 export const useFireBaseLogin = () => {
   const dispatch = useDispatch();
@@ -113,8 +114,8 @@ export const useFireBaseLogin = () => {
         const docSnap = await getDoc(userDoc);
         console.log(docSnap.data());
         if (docSnap.exists()) {
-          console.log("i entered here");
-          dispatch(setUser(docSnap.data()));
+          const userQuest = await getUserQuestData(userDetails.uid);
+          dispatch(setUser({...docSnap.data(),userQuest:userQuest}));
           userprofile = true;
         } else {
           userprofile = false;
@@ -125,6 +126,27 @@ export const useFireBaseLogin = () => {
     }
     return userprofile;
   };
+
+  const getUserQuestData = async ( userId ) => {
+    const userQuestCollection = collection(db, `xusers/${userId}/quest-order`);
+    const questDataQuery = query(userQuestCollection,where("docType", "==", "Aggregate"));
+    let quests = [];
+    try{
+      let result = []
+      const userQuestData = await getDocs(questDataQuery);
+      userQuestData.forEach((doc)=>{result.push(doc.data())})
+      Object.keys(result[0].quests).forEach((key) => {
+        quests.push({
+          ...result[0].quests[key],
+          questID: key.split("|")[0],
+          quest_order_id: key,
+        });
+      });
+    }catch(err){
+      console.log(err)
+    }
+    return quests;
+  }
   //cleanup function to abort the request
   // useEffect(()=>{
   //     return () => setIsCancelled(true);

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { CardCoinIcon, PeopleIcon } from "../../../../assets/svg";
-// import { goldcoin, peopleicon } from "../../../../assets/images/home";
-import { useNavigate, useLocation } from "react-router-dom";
+import { CardCoinIcon } from "../../../../assets/svg";
+import { useNavigate } from "react-router-dom";
 import { useApi } from "../../../../hooks/useApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
@@ -10,7 +9,7 @@ import Modal from "../../../../components/Modal/Modal";
 import { DailyRewardPng, InviteFriends } from "../../../../assets/images";
 import Slider from "react-slick";
 import { ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
-// import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
+
 
 const handleDragStart = (e) => e.preventDefault();
 

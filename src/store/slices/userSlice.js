@@ -49,7 +49,7 @@ export const userSlice = createSlice({
       state.username = action.payload.username;
       state.wallets = action.payload.wallets;
       state.registered_on = action.payload.registered_on;
-      state.questData = [];
+      state.questData = action.payload.userQuest?action.payload.userQuest:[];
     },
     setUserWithQuest: (state,action) => {
       state.questData = action.payload.quest_data;

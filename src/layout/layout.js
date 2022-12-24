@@ -13,7 +13,6 @@ import Footer from "../components/footer/Footer";
 
 const Layout = () => {
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const user = useSelector((state) => state.user);
   const authUser = useSelector((state) => state.auth.user);
   const [userDataFetch, setUserDataFetch] = useState(false);
@@ -49,7 +48,6 @@ const Layout = () => {
       console.log("new User Data fetch");
       console.log(authUser);
       if (data[0].username && data[0].username !== "") {
-        setUserDataFetch(true);
         dispatch(setUser(data[0]));
       }
     } else if (error && error === -1) {
@@ -57,7 +55,6 @@ const Layout = () => {
     } else if (userLogout && !logoutPending) {
       console.log("i triggered");
       dispatch(logoutUser());
-      //navigate('/onboarding')
     }
   }, [data, error, userLogout]);
 
@@ -66,7 +63,8 @@ const Layout = () => {
       questData &&
       questData.length > 0 &&
       questData[0].quests &&
-      !userLogout
+      !userLogout &&
+      !questIsPending
     ) {
       const userQuestData = questData[0].quests;
       let result = [];
@@ -78,12 +76,16 @@ const Layout = () => {
         });
       });
       dispatch(setUserWithQuest({ quest_data: result }));
+      setUserDataFetch(true);
+    }else if(!questIsPending && !userLogout && questError ){
+      setUserDataFetch(true);
     }
+    
   }, [questData]);
 
   return (
     <>
-      {userDataFetch && user.username && user.username.trim().length > 0 ? (
+      {userDataFetch && !userLogout &&user.username && user.username.trim().length > 0 ? (
         <div className="layout flex">
           <SideNav />
           <div className="flex-grow flex flex-col min-h-screen">

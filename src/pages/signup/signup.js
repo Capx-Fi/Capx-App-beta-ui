@@ -71,14 +71,14 @@ const Signup = () => {
                   </span>
                 </div>
               </button>
-              <button className="mb-5  self-stretch">
+              {/* <button className="mb-5  self-stretch">
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={DiscordIcon} alt="google" />
                   <span className="text-primary-800 font-medium fs-15 ml-4">
                     Continue with Discord
                   </span>
                 </div>
-              </button>
+              </button> */}
               <Link
                 to="/signin"
                 className="fs-15 font-bold text-primary-900 underline mb-6"

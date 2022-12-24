@@ -5,7 +5,7 @@ import {
 } from "../../assets/svg";
 import Stepper from "../../components/stepper/Stepper";
 import { useEffect, useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import OtpInput from "react-otp-input";
 import { useApi } from "../../hooks/useApi";
 import { useSelector } from "react-redux";
@@ -13,13 +13,11 @@ import Modal from "../../components/Modal/Modal";
 
 const InviteCode = () => {
   const navigate = useNavigate();
-  const routeData = useLocation();
   const [url, setUrl] = useState(
     'https://capx-gateway-cnfe7xc8.uc.gateway.dev'
   );
-  const [verifySuccess, setVerifySuccess] = useState(false);
   const [inviteCode, setInviteCode] = useState("");
-  const { isError, isPending, postData, data, getData } = useApi(url, "GET");
+  const { isError, isPending, postData, data } = useApi(url, "GET");
   const username = useSelector((state) => state.user.username);
   const [showModal, setShowModal] = useState(true);
 
@@ -30,33 +28,15 @@ const InviteCode = () => {
   };
 
   useEffect(() => {
-    console.log(username);
-    if (!data && username === "" && !verifySuccess) {
-      console.log(routeData);
+    if (!data && username === "" ) {
       navigate("/");
     }
-    console.log(data);
-
-    if (data && !verifySuccess) {
-      if (data.result.success === true) {
-        console.log("iwas here");
-        setVerifySuccess(true);
-      }
-    }
-    if (data && verifySuccess) {
+    if (data) {
       if (data.result.success === true) {
         navigate("/congratulation");
       }
     }
   }, [data]);
-
-  useEffect(() => {
-    if (inviteCode.length === 5) {
-      setShowModal(true);
-      const apiDataObject = { invite_code: inviteCode } ;
-      getData(apiDataObject, "/checkInviteCode");
-    }
-  }, [inviteCode]);
 
   const handleCodeChange = (code) => {
     setInviteCode(code);
@@ -64,10 +44,10 @@ const InviteCode = () => {
   const handleFormSubmit = async (e) => {
     setShowModal(true);
     e.preventDefault();
-    if (verifySuccess) {
-      const apiDataObject = { data: { invite_code: inviteCode, username } };
-      postData(apiDataObject, "/createUser");
-    }
+   
+    const apiDataObject = { data: { invite_code: inviteCode, username } };
+    postData(apiDataObject, "/createUser");
+    
   };
 
   return (
@@ -125,9 +105,9 @@ const InviteCode = () => {
                 <button
                   type="submit"
                   className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 ${
-                    verifySuccess === false ? "disabled" : "bg-gredient-2"
+                    inviteCode.length !==5  ? "disabled" : "bg-gredient-2"
                   }`}
-                  disabled={verifySuccess === false}
+                  disabled={inviteCode.length !==5}
                 >
                   Let's go
                 </button>

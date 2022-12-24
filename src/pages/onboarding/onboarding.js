@@ -10,7 +10,6 @@ import {
 } from "../../assets/images";
 
 const Onboarding = () => {
-  console.log("i render onboarding");
   return (
     <>
       <main className="onboarding-page min-h-screen">

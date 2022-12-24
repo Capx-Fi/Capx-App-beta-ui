@@ -13,7 +13,6 @@ import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 
 function classNames(...classes) {
-  console.log(classes);
   return classes.filter(Boolean).join(" ");
 }
 

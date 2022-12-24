@@ -25,8 +25,20 @@ export const useFireBaseAuth = () => {
           const docSnap = await getDoc(userDoc);
           console.log(docSnap.data());
           if (docSnap.data() !== undefined && docSnap.exists()) {
-            console.log("i entered here");
-            dispatch(setUser(docSnap.data()));
+            const userQuestCollection = collection(db, `xusers/${user.uid}/quest-order`);
+            const questDataQuery = query(userQuestCollection,where("docType", "==", "Aggregate"));
+            let quests = [];
+            let result = []
+            const userQuestData = await getDocs(questDataQuery);
+            userQuestData.forEach((doc)=>{result.push(doc.data())})
+            Object.keys(result[0].quests).forEach((key) => {
+              quests.push({
+                ...result[0].quests[key],
+                questID: key.split("|")[0],
+                quest_order_id: key,
+              });
+            });
+            dispatch(setUser({...docSnap.data(),userQuest:quests}));
           }
           dispatch(
             setAuthStatus({

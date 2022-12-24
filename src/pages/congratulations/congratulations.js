@@ -1,6 +1,5 @@
 import Stepper from "../../components/stepper/Stepper";
-import { useNavigate } from "react-router-dom";
-import { CongratulationSvg, OnboardSvg } from "../../assets/svg";
+import { OnboardSvg } from "../../assets/svg";
 import { useDispatch } from "react-redux";
 import { setUserProfileComplete } from "../../store/slices/authSlice";
 import TrophyAnimation from "../../assets/lottie/TrophyOnboarding.json";
@@ -15,7 +14,6 @@ const Congratulaions = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-  const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const handleClick = () => {

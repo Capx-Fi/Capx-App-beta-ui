@@ -19,9 +19,7 @@ const SpecialTasks = ({ quests }) => {
   const navigate = useNavigate();
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
-  const [url, setUrl] = useState(
-    config.API_URL
-  );
+  const [url, setUrl] = useState(config.API_URL);
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
   const handleClick = (e, questId) => {
@@ -107,39 +105,47 @@ const SpecialTasks = ({ quests }) => {
     <div className="special-quests bg-green-12">
       <div className="wrapper ">
         <Slider {...SliderSettings}>
-          {dailytaskdata&& dailytaskdata.length>0 && dailytaskdata.map((data, ind) => {
-            return (
-              <div
-                onClick={(e) => {
-                  handleClick(e, data.id);
-                }}
-                key={"unique" + ind}
-                className="specialcards-main flex pr-5"
-                style={{ cursor: "pointer" }}
-              >
-                <div className="wrapper flex flex-col items-stretch rounded-xl p-3 gap-3">
-                  <div className="img-box rounded-xl overflow-hidden">
-                    <img
-                      className="w-full h-fit card-img"
-                      src={data.image_url.trim().length>0 ? data.image_url :SpecialCardImage}
-                      alt="invite"
-                    />
-                    <div className="card-chip md:hidden flex items-center">
-                      <img src={CardCoinIcon} alt="coin" />
-                      <span>{data.taskreward + " xCapx"}</span>
+          {dailytaskdata &&
+            dailytaskdata.length > 0 &&
+            dailytaskdata.map((data, ind) => {
+              return (
+                <div
+                  onClick={(e) => {
+                    handleClick(e, data.id);
+                  }}
+                  key={"unique" + ind}
+                  className="specialcards-main flex pr-5"
+                  style={{ cursor: "pointer" }}
+                >
+                  <div className="wrapper flex flex-col items-stretch rounded-xl p-3 gap-3">
+                    <div className="img-box rounded-xl overflow-hidden">
+                      <img
+                        className="w-full card-img"
+                        src={
+                          data.image_url.trim().length > 0
+                            ? data.image_url
+                            : SpecialCardImage
+                        }
+                        alt="invite"
+                      />
+                      <div className="card-chip md:hidden flex items-center">
+                        <img src={CardCoinIcon} alt="coin" />
+                        <span>{data.taskreward + " xCapx"}</span>
+                      </div>
                     </div>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <p className="card-title">{data.tasktitle}</p>
-                    <div className="card-chip md:flex hidden items-center ml-10">
-                      <img src={CardCoinIcon} alt="coin" />
-                      <span className="ml-1">{data.taskreward + " xCapx"}</span>
+                    <div className="flex items-center justify-between">
+                      <p className="card-title">{data.tasktitle}</p>
+                      <div className="card-chip md:flex hidden items-center ml-10">
+                        <img src={CardCoinIcon} alt="coin" />
+                        <span className="ml-1">
+                          {data.taskreward + " xCapx"}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
         </Slider>
       </div>
       {isPending && <Modal />}

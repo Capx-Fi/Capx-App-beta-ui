@@ -37,11 +37,9 @@ import { config } from "../../../config";
 
 const AnswerQuiz = () => {
   const auth = useSelector((state) => state.auth.user);
-  const allQuestData = useSelector((state)=> state.quest.allQuests);
+  const allQuestData = useSelector((state) => state.quest.allQuests);
   const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
-  const [url, setUrl] = useState(
-    config.API_URL
-  );
+  const [url, setUrl] = useState(config.API_URL);
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
@@ -50,18 +48,17 @@ const AnswerQuiz = () => {
   const [showClaimScreen, setShowClaimScreen] = useState(false);
   const [showActionClaim, setShowActionClaim] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
-  const [showProfilePage,setShowProfilePage] = useState(false);
+  const [showProfilePage, setShowProfilePage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [reFetchInProgress, setReFetchInProgress] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { isPending, data, error, reFetchData } = useFirestoreCollection(config.QUEST_ORDER_COLLECTION, [
-    "__name__",
-    "==",
-    questOrderId,
-  ]);
+  const { isPending, data, error, reFetchData } = useFirestoreCollection(
+    config.QUEST_ORDER_COLLECTION,
+    ["__name__", "==", questOrderId]
+  );
   const {
-    error:isError,
+    error: isError,
     isPending: apiIsPending,
     postData,
     data: apiData,
@@ -71,7 +68,7 @@ const AnswerQuiz = () => {
     unlinkWithSocail,
     error: linkSocalError,
     isPending: isSOcialLinkPending,
-    linkDone : linkDone
+    linkDone: linkDone,
   } = useLinkAuthProviders();
   const [taskError, setTaskError] = useState(null);
 
@@ -89,8 +86,10 @@ const AnswerQuiz = () => {
   };
 
   const nextQuestSetup = () => {
-    const newQuestData = allQuestData.filter((val)=>{return val.status === 'new' && val.id !== questData.quest_id});
-    if(newQuestData.length>0){
+    const newQuestData = allQuestData.filter((val) => {
+      return val.status === "new" && val.id !== questData.quest_id;
+    });
+    if (newQuestData.length > 0) {
       setReFetchInProgress(true);
       setOpenCongratulationModal(false);
       setShowClaimScreen(false);
@@ -98,11 +97,10 @@ const AnswerQuiz = () => {
       setIsClaimQuest(false);
       const apiDataObject = { data: { questId: newQuestData[0].id } };
       postData(apiDataObject, "/registerForQuest");
-    }else{
-      console.log('all quests registered or complete');
+    } else {
+      console.log("all quests registered or complete");
     }
-    
-  }
+  };
 
   const renderActionComponent = () => {
     if (actionData && questData) {
@@ -220,9 +218,9 @@ const AnswerQuiz = () => {
     }
   };
 
-  useEffect(()=>{
-    renderActionComponent()
-  },[actionData])
+  useEffect(() => {
+    renderActionComponent();
+  }, [actionData]);
 
   const claimRewardHandler = () => {
     if (questData?.quest_category !== "Build_Profile") {
@@ -311,7 +309,7 @@ const AnswerQuiz = () => {
         apiDataObject = {
           data: {
             action_order_id: actionData.action_order_id,
-            name: input.value
+            name: input.value,
           },
         };
         break;
@@ -338,12 +336,11 @@ const AnswerQuiz = () => {
           data: { action_order_id: actionData.action_order_id },
         };
     }
-    if(input.accessToken && input.accessToken.length>0){
-      postData(apiDataObject, "/completeAction",input.accessToken);
-    }else{  
+    if (input.accessToken && input.accessToken.length > 0) {
+      postData(apiDataObject, "/completeAction", input.accessToken);
+    } else {
       postData(apiDataObject, "/completeAction");
-    } 
-    
+    }
   };
 
   const taskErrorReset = () => {
@@ -373,86 +370,96 @@ const AnswerQuiz = () => {
           data[0].quest_type.toLowerCase() === "special" &&
           data[0].status.toLowerCase() === "claimed"
         ) {
-          
-            setActionData({
-              ...Object.values(data[0].actions)
-                .filter((val) => {
-                  return val.action_order_status === "COMPLETED";
-                })
-                .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
-                .reverse()[0],
-            });
-          
-        } else if(data[0].quest_type.toLowerCase() !== "special" && data[0].status.toLowerCase() === "completed") {
+          setActionData({
+            ...Object.values(data[0].actions)
+              .filter((val) => {
+                return val.action_order_status === "COMPLETED";
+              })
+              .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
+              .reverse()[0],
+          });
+        } else if (
+          data[0].quest_type.toLowerCase() !== "special" &&
+          data[0].status.toLowerCase() === "completed"
+        ) {
           setShowClaimScreen(true);
           setActionData([]);
-        }else if(data[0].quest_type.toLowerCase() === "special" && data[0].status.toLowerCase() === "completed"){
+        } else if (
+          data[0].quest_type.toLowerCase() === "special" &&
+          data[0].status.toLowerCase() === "completed"
+        ) {
           setShowClaimScreen(true);
           setActionData([]);
-        }else{
+        } else {
           setOpenCongratulationModal(true);
         }
       } else {
         setActionData({
-          ...actionsData.sort((a, b) => (a.action_id > b.action_id ? 1 : -1))[0],
+          ...actionsData.sort((a, b) =>
+            a.action_id > b.action_id ? 1 : -1
+          )[0],
         });
       }
-      if(reFetchInProgress===true){
+      if (reFetchInProgress === true) {
         setReFetchInProgress(false);
-      } 
+      }
     } else if (error) {
       console.log(error);
     }
   }, [data, error]);
 
   useEffect(() => {
-    if(!apiIsPending){
-      if(apiData && !isError){
-        if(!showClaimScreen && !showActionClaim && !reFetchInProgress){
-          if(apiData.result.success === true) {
+    if (!apiIsPending) {
+      if (apiData && !isError) {
+        if (!showClaimScreen && !showActionClaim && !reFetchInProgress) {
+          if (apiData.result.success === true) {
             if (actionData.length === 0) {
               if (questData.quest_category === "Daily_Reward") {
                 setOpenCongratulationModal(true);
               } else {
                 setShowClaimScreen(true);
               }
-            } 
+            }
           }
-        }else if(showClaimScreen && !isPending && !reFetchInProgress){
+        } else if (showClaimScreen && !isPending && !reFetchInProgress) {
           if (apiData.result.success === true) {
             setOpenCongratulationModal(true);
           }
-        }else if(showActionClaim && !isPending && !reFetchInProgress){
+        } else if (showActionClaim && !isPending && !reFetchInProgress) {
           if (apiData.result.success === true) {
             setOpenActionCompleteModel(true);
-          } 
-        }else if(reFetchInProgress){
-          if(apiData.result.success === true){
-            dispatch(setQuestOrderId({ questId: apiData.result.quest_order_id }));
-            reFetchData({status:true,data:[
-              "__name__",
-              "==",
-              apiData.result.quest_order_id,
-            ]})
+          }
+        } else if (reFetchInProgress) {
+          if (apiData.result.success === true) {
+            dispatch(
+              setQuestOrderId({ questId: apiData.result.quest_order_id })
+            );
+            reFetchData({
+              status: true,
+              data: ["__name__", "==", apiData.result.quest_order_id],
+            });
           }
         }
-      }else if(apiData && isError){
-        if(apiData.result.success === false){
-          setErrorMessage(apiData.result?.message)
-          if(apiData.result?.message === "ERROR: Twitter already linked to different user"){
-            unlinkWithSocail("twitter")
+      } else if (apiData && isError) {
+        if (apiData.result.success === false) {
+          setErrorMessage(apiData.result?.message);
+          if (
+            apiData.result?.message ===
+            "ERROR: Twitter already linked to different user"
+          ) {
+            unlinkWithSocail("twitter");
           }
         }
         setTaskError(true);
-      }else if(isError){
+      } else if (isError) {
         console.log(isError);
-        if(isError === 'unexpected_error'){
-          navigate('/')
+        if (isError === "unexpected_error") {
+          navigate("/");
         }
         setTaskError(true);
       }
     }
-  }, [apiData,apiIsPending,isError]);
+  }, [apiData, apiIsPending, isError]);
 
   return (
     <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">
@@ -496,7 +503,7 @@ const AnswerQuiz = () => {
                     return (
                       <QuestLeft
                         data={{
-                          actiondata:details3,
+                          actiondata: details3,
                           id: details3.action_order_id,
                           title: details3.action_order_left_title,
                           actionnum: details3.action_id,
@@ -517,17 +524,18 @@ const AnswerQuiz = () => {
         </div>
 
         <div className="quest-details-2 flex flex-col">
-          {taskError === null &&
+          <Profile />
+          {/* {taskError === null &&
             !showClaimScreen &&
             questData && actionData && 
-            renderActionComponent()}
+            renderActionComponent()} */}
           {showClaimScreen && actionData.length === 0 && (
             <QuestCompleteScreen
               modalAction={{ claimReward: claimRewardHandler }}
             />
           )}
 
-          {showProfilePage && actionData.length === 0 && <Profile/>}
+          {showProfilePage && actionData.length === 0 && <Profile />}
 
           <CongratulationModal
             open={openCongratulationModal}
@@ -545,7 +553,6 @@ const AnswerQuiz = () => {
             open={taskError === true ? true : false}
             heading={errorMessage}
             handleClose={taskErrorReset}
-
           />
         </div>
       </div>

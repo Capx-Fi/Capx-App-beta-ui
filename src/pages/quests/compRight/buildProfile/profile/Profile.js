@@ -2,27 +2,31 @@ import React from "react";
 import { FullName } from "../../../../../assets/images/profile";
 import {
   DailyQuestsIcon,
+  DiscordIcon,
   InputCheckSvg,
   ProfileoutlineIconSvg,
+  TwitterContainedIcon,
 } from "../../../../../assets/svg";
 
 const Profile = () => {
   return (
-    <div className="comp-profile flex flex-col">
-      <div className="img-box md:self-start rounded-full ">
-        <img
+    <div className="comp-profile flex flex-col gap-8">
+      <div className="img-box md:self-start self-center rounded-full ">
+        {/* uncomment this image tag put profile image data here  */}
+        {/* <img
           className="rounded-full object-contain w-full"
-          src={ProfileoutlineIconSvg}
+          src={}
           alt="Profile"
-        />
+        /> */}
       </div>
 
-      <div className="name ">
+      <div className="name flex flex-col gap-3">
         <div className="heading flex items-center">
           <img src={FullName} alt="" />
           <span className="ml-3">Full Name</span>
         </div>
         <div className="field-box flex jutify-between">
+          <span className="grow">Dummy data</span>
           <img src={InputCheckSvg} alt="check" />
         </div>
       </div>
@@ -33,9 +37,13 @@ const Profile = () => {
           <span className="ml-3">Socials</span>
         </div>
         <div className="field-box flex jutify-between">
+          <img src={TwitterContainedIcon} alt="twitter" />
+          <span className="grow ml-2">Dummy data</span>
           <img src={InputCheckSvg} alt="check" />
         </div>
         <div className="field-box flex jutify-between">
+          <img src={DiscordIcon} alt="twitter" />
+          <span className="grow ml-2">Dummy data</span>
           <img src={InputCheckSvg} alt="check" />
         </div>
       </div>

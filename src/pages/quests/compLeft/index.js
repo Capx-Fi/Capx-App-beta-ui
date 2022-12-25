@@ -5,21 +5,21 @@ import { MdOutlineFlag } from "react-icons/md";
 
 const questLeft = ({ data }) => {
   const ActionStatus = () => {
-    if(data.completed === true){
+    if (data.completed === true) {
       return (
         <div className="actionstatus capitalize flex items-center justify-center">
           Completed
           <MdDone className="text-xl ml-1" />
         </div>
       );
-    }else if(data.completed === false && data.id === data?.currentActionId ){
+    } else if (data.completed === false && data.id === data?.currentActionId) {
       return (
         <div className="actionstatus capitalize flex items-center justify-center">
           ongoing
           <img className="ml-1" src={RefreshSvg} alt="refresh" />
         </div>
       );
-    }else{
+    } else {
       return (
         <div className="actionstatus action-pending capitalize flex items-center justify-center">
           start
@@ -40,7 +40,7 @@ const questLeft = ({ data }) => {
               </span>
             </h5>
             <p
-              className={`actiontag ${data.actiontag.toLowerCase()} capitalize`}
+              className={`actiontag ${data.actiontag?.toLowerCase()} capitalize`}
             >
               {data.actiontag}
             </p>

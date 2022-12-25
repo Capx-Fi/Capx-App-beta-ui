@@ -1,0 +1,19 @@
+* {
+  letter-spacing: -0.1px;
+}
+
+body {
+  background: linear-gradient(
+      180deg,
+      #f8fdf8 22.02%,
+      #e2f6e1 82.31%,
+      #b6edcf 144.59%,
+      #dcf1df 144.59%
+    ),
+    #ffffff;
+  min-height: 100vh;
+  font-family: Satoshi;
+  @media screen and (max-width: 767.98px) {
+    background: $mob-bg-gredient;
+  }
+}

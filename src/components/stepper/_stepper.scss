@@ -1,0 +1,112 @@
+.stepper {
+    top: 55px;
+    min-width: 65%;
+    @media screen and (max-width: 767.98px) {
+      top: 50px;
+      min-width: 90%;
+    }
+    .step {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  
+      span {
+        width: 22px;
+        height: 22px;
+        font-size: 12px;
+        font-weight: 700;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+      }
+      p {
+        font-size: 15px;
+        font-weight: 700;
+        margin-left: 5px;
+      }
+    }
+  
+    .active-step {
+      img {
+        display: none;
+      }
+      span {
+        background-color: #5a6064;
+        color: white;
+      }
+      p {
+        color: #5a6064;
+      }
+      @media screen and (max-width: 767.98px) {
+        height: 4px;
+        border-radius: 100px;
+        margin-left: 12px;
+        background-color: rgba(45, 45, 45, 0.5);
+        img,
+        span,
+        p {
+          display: none;
+        }
+      }
+    }
+  
+    .checked-step {
+      span {
+        display: none;
+      }
+      p {
+        background: linear-gradient(180deg, #94bf7e 0%, #479b77 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+      @media screen and (max-width: 767.98px) {
+        height: 4px;
+        border-radius: 100px;
+        background: $green-800;
+        margin-left: 12px;
+        img,
+        span,
+        p {
+          display: none;
+        }
+      }
+    }
+  
+    .disable-step {
+      img {
+        display: none;
+      }
+      span {
+        background-color: #5a6064;
+        opacity: 0.5;
+      }
+      p {
+        color: #5a6064;
+        opacity: 0.5;
+      }
+      @media screen and (max-width: 767.98px) {
+        height: 4px;
+        border-radius: 100px;
+        margin-left: 12px;
+        background-color: rgba(201, 201, 201, 0.5);
+        img,
+        span,
+        p {
+          display: none;
+        }
+      }
+    }
+  
+    .right-arrow {
+      fill: #5a6064;
+      opacity: 0.5;
+    }
+  
+    .back-arrow {
+      margin-right: 3%;
+    }
+  }
+  

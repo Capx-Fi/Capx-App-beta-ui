@@ -1,0 +1,78 @@
+//gredients
+$gredient-green-1: linear-gradient(
+    180deg,
+    #f4f8ec 0%,
+    #e2f6e1 47.47%,
+    #b6edcf 104.26%,
+    #dcf1df 104.26%
+  ),
+  #ffffff;
+$gredient-green-2: linear-gradient(180deg, #94bf7e 0%, #479b77 100%);
+
+$action-card-gredient: linear-gradient(
+    90deg,
+    rgba(71, 197, 106, 0.2) -9.61%,
+    rgba(211, 235, 215, 0) 92.59%
+  ),
+  rgba(31, 122, 85, 0.1);
+
+$mob-bg-gredient: linear-gradient(
+  180deg,
+  #f8fdf8 0%,
+  #e2f6e1 51.87%,
+  #b6edcf 105.45%,
+  #dcf1df 105.45%
+);
+
+//colors
+$green-100: #8ec48926;
+$green-200: #8ec48966;
+$green-800: #1f7a55;
+$green-900: #375a56b3;
+
+$disabled-btn-bg: #5a606459;
+
+//gradients
+$gradient-cgreen-1: linear-gradient(
+    180deg,
+    #f4f8ec 0%,
+    #e2f6e1 47.47%,
+    #b6edcf 104.26%,
+    #dcf1df 104.26%
+  ),
+  #ffffff;
+
+$gradient-cgreen-2: linear-gradient(180deg, #94bf7e 0%, #479b77 100%);
+
+$gradient-cgreen-3: linear-gradient(
+    90deg,
+    rgba(71, 197, 106, 0.2) -9.61%,
+    rgba(211, 235, 215, 0) 92.59%
+  ),
+  rgba(31, 122, 85, 0.1);
+
+$gradient-cgreen-ph: linear-gradient(
+  180deg,
+  #f8fdf8 0%,
+  #e2f6e1 51.87%,
+  #b6edcf 105.45%,
+  #dcf1df 105.45%
+);
+
+$gradient-home-banner: linear-gradient(
+    360deg,
+    rgba(57, 187, 93, 0.3) -4.15%,
+    rgba(226, 246, 225, 0) 106.57%
+  ),
+  #d4f1da;
+
+//colors
+$cgreen-100: #f5fff5;
+$cgreen-200: #d9edde;
+$cgreen-300: #8fc175;
+$cgreen-400: #3a906c;
+$cgreen-500: #1f7a55;
+$cgreen-600: #195f56;
+$cgreen-700: #153945;
+$cgreen-border: #8ec4894d;
+$disabled-btn-bg: #5a606459;

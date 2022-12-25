@@ -1,0 +1,43 @@
+.wallet-banner {
+  background: linear-gradient(
+      360deg,
+      rgba(57, 187, 93, 0.3) -4.15%,
+      rgba(226, 246, 225, 0) 106.57%
+    ),
+    #d4f1da;
+  padding: 57px 52px 64px;
+  background-image: url(../../../../assets/images/WalletBanner.png);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: right bottom;
+  @media screen and (max-width: 767.98px) {
+    padding: 19px 17px 25px;
+
+    background-size: 45%;
+  }
+
+  h2 {
+    font-weight: 900;
+    font-size: 34px;
+    line-height: 40px;
+    letter-spacing: -0.8px;
+    color: $cgreen-700;
+    @media screen and (max-width: 767.98px) {
+      font-size: 20px;
+      line-height: 24px;
+    }
+  }
+
+  button {
+    padding: 12px 16px 14px;
+    background: $gradient-cgreen-2;
+    border-radius: 12px;
+    min-width: 238px;
+
+    @media screen and (max-width: 767.98px) {
+      min-width: 138px;
+      font-size: 12px;
+      line-height: 14px;
+    }
+  }
+}

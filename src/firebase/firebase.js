@@ -1,25 +1,29 @@
 import { initializeApp } from "firebase/app";
-import {
-  FacebookAuthProvider,
-  getAuth,
-  GoogleAuthProvider,
-  TwitterAuthProvider,
-} from "firebase/auth";
+import { config } from "../config.js";
 import { getFirestore } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getStorage } from "firebase/storage";
 
+//initialize firebase config
 const firebaseConfig = {
-  apiKey: "AIzaSyCw6h_oHvYbIAuJ76PtjvctKm1e8vqnUao",
-  authDomain: "firestore-app-f637c.firebaseapp.com",
-  projectId: "firestore-app-f637c",
-  storageBucket: "firestore-app-f637c.appspot.com",
-  messagingSenderId: "448546221885",
-  appId: "1:448546221885:web:2d7e8e4a1c1d5d61351f54",
+  apiKey: config.APIKey,
+  authDomain: config.AuthDomain,
+  storageBucket: config.storageBucket,
+  projectId: config.ProjectId,
+  messagingSenderId: config.MessagingSenderId,
+  appId: config.AppId,
+  measurementId: config.MeasurementId,
 };
 
-const app = initializeApp(firebaseConfig);
+//init firebase
+initializeApp(firebaseConfig);
 
-export const auth = getAuth(app);
-export const db = getFirestore(app);
-export const googleLoginProvider = new GoogleAuthProvider(auth);
-export const twitterLoginProvider = new TwitterAuthProvider(auth);
-export const facebookLoginProvider = new FacebookAuthProvider(auth);
+//init firestore
+const db = getFirestore();
+
+const storage = getStorage();
+
+//init auth
+const auth = getAuth();
+
+export { db, auth, storage };

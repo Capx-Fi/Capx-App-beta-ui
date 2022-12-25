@@ -1,0 +1,18 @@
+.my-wallet {
+  .heading {
+    border-bottom: 2px solid #c3ebcc;
+    h3 {
+      color: $cgreen-700;
+      font-weight: 900;
+      font-size: 15px;
+      line-height: 21px;
+      letter-spacing: -0.25px;
+    }
+  }
+
+  .splash-img {
+    img {
+      width: 55%;
+    }
+  }
+}

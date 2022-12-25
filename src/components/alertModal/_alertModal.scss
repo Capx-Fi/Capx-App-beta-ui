@@ -1,0 +1,82 @@
+.alert-dialog {
+  background: rgba(232, 248, 231, 0.6);
+  backdrop-filter: blur(3px);
+
+  .dialog-box {
+    padding: 32px;
+    border-radius: 32px;
+    border: 2px solid #c7ebce;
+    max-width: 464px;
+    background: linear-gradient(
+      180deg,
+      #f8fdf8 22.02%,
+      #e2f6e1 82.31%,
+      #b6edcf 144.59%,
+      #dcf1df 144.59%
+    );
+    @media screen and (max-width: 767.98px) {
+      padding: 22px;
+    }
+
+    .coin-lottie {
+      div {
+        height: 100%;
+      }
+    }
+    p {
+      text-align: center;
+    }
+
+    .dialog-heading {
+      font-weight: 900;
+      font-size: 26px;
+      line-height: 32px;
+      text-align: center;
+      letter-spacing: -0.5px;
+      @media screen and (max-width: 767.98px) {
+        font-size: 16px;
+        line-height: 21px;
+        letter-spacing: -0.3px;
+      }
+    }
+
+    .dialog-text {
+      font-weight: 900;
+      font-size: 24px;
+      line-height: 32px;
+      text-align: center;
+      letter-spacing: -0.5px;
+      @media screen and (max-width: 767.98px) {
+        font-size: 14px;
+        line-height: 21px;
+        letter-spacing: -0.3px;
+      }
+    }
+
+    .dialog-buttons {
+      button {
+        height: 50px;
+        padding: 0 20px;
+        font-weight: 600;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.5px;
+        border-radius: 16px;
+        @media screen and (max-width: 767.98px) {
+          font-weight: 900;
+          font-size: 12px;
+          line-height: 16px;
+          letter-spacing: -0.3px;
+        }
+      }
+      .btn-contained {
+        color: #fff;
+      }
+
+      .btn-outline {
+        color: $cgreen-500;
+        border: 2px solid $cgreen-500;
+      }
+    }
+  }
+}

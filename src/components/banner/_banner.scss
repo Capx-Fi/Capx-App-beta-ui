@@ -1,0 +1,20 @@
+.banner {
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  @media screen and (max-width: 767.98px) {
+    padding: 24px 16px;
+  }
+  .banner-heading {
+    font-weight: 900;
+    font-size: 40px;
+    line-height: 42px;
+
+    letter-spacing: -1px;
+    @media screen and (max-width: 767.98px) {
+      font-size: 28px;
+      line-height: 34px;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+.myProfile {
+  .pfp {
+    .pfp-inner {
+      .pfp-inner1 {
+        padding: 64px 48px;
+        flex-basis: 28.35%;
+        border: 2px solid #d9f4de;
+        border-radius: 32px;
+        background: #f5fff5;
+        color: $cgreen-700;
+
+        @media screen and (max-width: 760px) {
+          width: 100% !important;
+          padding: 24px 48px;
+        }
+
+        .img-box {
+          width: 100%;
+          padding: 10px;
+          background-color: $cgreen-400;
+          border-radius: 50%;
+          overflow: hidden;
+
+          .img-wrapper {
+            width: 100%;
+            padding-top: 100%;
+            border-radius: 50%;
+            overflow: hidden;
+
+            .profile-img {
+              width: 100%;
+              height: 100%;
+            }
+
+            .img-text {
+              font-size: 60px;
+              font-weight: 900;
+              top: 50%;
+              left: 50%;
+              transform: translate(-50%, -50%);
+            }
+          }
+        }
+
+        .pfp-username {
+          font-weight: 900;
+          font-size: 21px;
+          line-height: 32px;
+          letter-spacing: -0.5px;
+          padding: 8px 16px;
+          border-radius: 16px;
+          background: $cgreen-200;
+        }
+      }
+      .pfp-inner2 {
+        flex-basis: 33.4%;
+        .fullname {
+          background-color: #1f7a5515;
+          border-color: $cgreen-border;
+          padding: 12px 20px;
+          align-items: center;
+          p {
+            color: $cgreen-600;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 21px;
+            letter-spacing: -0.25px;
+            @media screen and (max-width: 760px) {
+              font-size: 14px;
+              line-height: 18px;
+            }
+          }
+        }
+
+        button {
+          font-weight: 900;
+          font-size: 14px;
+          line-height: 16px;
+        }
+      }
+
+      .pfp-inner3 {
+        margin-top: -3rem;
+        background: url("../../assets/images/profile/profile_splash.png")
+          no-repeat;
+        background-size: 80%;
+        background-position: 50% 100%;
+      }
+    }
+  }
+}

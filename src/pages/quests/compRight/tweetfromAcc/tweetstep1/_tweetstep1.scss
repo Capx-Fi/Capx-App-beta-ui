@@ -1,0 +1,81 @@
+.createtweet {
+  .createtweet-title {
+  }
+  .createtweet-wrapper {
+    border: 2px solid rgba(31, 122, 85, 0.2);
+    border-radius: 24px;
+    .copy-tweet:focus {
+      animation: copyscale 400ms;
+    }
+
+    .copy-tweet {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.5px;
+      background: rgba(31, 122, 85, 0.07);
+      border: 2px dashed rgba(31, 122, 85, 0.25);
+      border-radius: 20px;
+      @media screen and (max-width: 767.98px) {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+        letter-spacing: -0.3px;
+      }
+    }
+
+    @keyframes copyscale {
+      0% {
+        transform: scale(1, 1);
+      }
+      50% {
+        transform: scale(0.95, 0.95);
+      }
+      100% {
+        transform: scale(1, 1);
+      }
+    }
+
+    .heading {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.5px;
+      @media screen and (max-width: 767.98px) {
+        font-weight: 500;
+        font-size: 12px;
+        line-height: 15px;
+        letter-spacing: -0.3px;
+      }
+    }
+
+    .btns {
+      button {
+        flex-basis: 48%;
+        font-weight: 900;
+        font-size: 17px;
+        line-height: 22px;
+        letter-spacing: -0.5px;
+        border-radius: 16px;
+        @media screen and (max-width: 767.98px) {
+          font-weight: 900;
+          font-size: 10.957px;
+          line-height: 14px;
+          letter-spacing: -0.322266px;
+        }
+      }
+
+      .btn-outlined {
+        border: 2px solid $cgreen-500;
+        color: $cgreen-500;
+      }
+    }
+
+    .createtweet-2 {
+      padding: 28px 12px 10px;
+      background: transparent;
+      border: 1px solid rgba(31, 122, 85, 0.4);
+      border-radius: 12px;
+    }
+  }
+}

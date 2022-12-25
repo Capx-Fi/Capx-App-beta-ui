@@ -1,0 +1,151 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import "./variables";
+@import "./reset";
+@import "./fontSizes";
+@import "./common";
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("../assets/fonts/Satoshi-Light.eot");
+  src: url("../assets/fonts/Satoshi-Light.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/Satoshi-Light.woff2") format("woff2"),
+    url("../assets/fonts/Satoshi-Light.woff") format("woff"),
+    url("../assets/fonts/Satoshi-Light.ttf") format("truetype"),
+    url("../assets/fonts/Satoshi-Light.svg#Satoshi-Light") format("svg");
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("../assets/fonts/Satoshi-Regular.eot");
+  src: url("../assets/fonts/Satoshi-Regular.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/Satoshi-Regular.woff2") format("woff2"),
+    url("../assets/fonts/Satoshi-Regular.woff") format("woff"),
+    url("../assets/fonts/Satoshi-Regular.ttf") format("truetype"),
+    url("../assets/fonts/Satoshi-Regular.svg#Satoshi-Regular") format("svg");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("../assets/fonts/Satoshi-Bold.eot");
+  src: url("../assets/fonts/Satoshi-Bold.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/Satoshi-Bold.woff2") format("woff2"),
+    url("../assets/fonts/Satoshi-Bold.woff") format("woff"),
+    url("../assets/fonts/Satoshi-Bold.ttf") format("truetype"),
+    url("../assets/fonts/Satoshi-Bold.svg#Satoshi-Bold") format("svg");
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("../assets/fonts/Satoshi-Black.eot");
+  src: url("../assets/fonts/Satoshi-Black.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/Satoshi-Black.woff2") format("woff2"),
+    url("../assets/fonts/Satoshi-Black.woff") format("woff"),
+    url("../assets/fonts/Satoshi-Black.ttf") format("truetype"),
+    url("../assets/fonts/Satoshi-Black.svg#Satoshi-Black") format("svg");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Satoshi";
+  src: url("../assets/fonts/Satoshi-Medium.eot");
+  src: url("../assets/fonts/Satoshi-Medium.eot?#iefix")
+      format("embedded-opentype"),
+    url("../assets/fonts/Satoshi-Medium.woff2") format("woff2"),
+    url("../assets/fonts/Satoshi-Medium.woff") format("woff"),
+    url("../assets/fonts/Satoshi-Medium.ttf") format("truetype"),
+    url("../assets/fonts/Satoshi-Medium.svg#Satoshi-Medium") format("svg");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+// layout
+@import "../layout/layout";
+
+// pages
+@import "../pages/home/home";
+@import "../pages/onboarding/onboarding";
+@import "../pages/signup/signup";
+@import "../pages/login/login";
+@import "../pages/emailLogin/emaillogin";
+@import "../pages/emailSignup/emailSignup";
+@import "../pages/createUsername/createUsername";
+@import "../pages/inviteCode/inviteCode";
+@import "../pages/congratulations/congratulations";
+@import "../pages/MyWallet/MyWallet";
+
+// components
+@import "../components/Input/input";
+@import "../components/stepper/stepper";
+@import "../components/sideNav/sidenav";
+@import "../components/header/header";
+@import "../components/mobileNav/mobileNav";
+@import "../components/banner/banner";
+@import "../pages/MyWallet/components/questTable/questTable";
+@import "../pages/MyWallet/components/WalletBanner/WalletBanner";
+@import "../pages/home/components/HomeBanner/HomeBanner";
+@import "../pages/home/components/HomeBanner/HomeBanner";
+@import "../pages/home/components/ConsTasks/ConsTasks";
+@import "../pages/home/components/SpecialTasks/SpecialTasks";
+@import "../pages/home/components/OldTasks/OldTasks";
+@import "../components/Modal/modal";
+@import "../components/footer/footer";
+@import "../components/SliderArrow/sliderArrow";
+@import "../components/alertModal/alertModal";
+
+@import "../pages/profile/profile";
+
+// layouts
+
+//Task Page Left Components
+@import "../pages/quests/banner/banner";
+@import "../pages/quests/compLeft/compLeft";
+@import "../pages/quests/compLeft/description/Description";
+
+//Day01
+@import "../pages/quests/quest-layout/quest-layout";
+
+// Task Components
+@import "../pages/quests/compRight/dailyReward/dailyReward";
+@import "../pages/quests/compRight/watchvideo/watchvideo";
+@import "../pages/quests/compRight/singleQuiz/singleQuiz";
+@import "../pages/quests/compRight/tweetfromAcc/tweetstep1/tweetstep1";
+@import "../pages/quests/compRight/tweetfromAcc/tweetstep2/tweetstep2";
+@import "../pages/quests/compRight/inviteCode/CodeStep1/CodeStep1";
+@import "../pages/quests/compRight/inviteCode/CodeStep2/CodeStep2";
+@import "../pages/quests/compRight/inviteCode/shareModal/shareModal";
+@import "../pages/quests/compRight/success/success";
+@import "../pages/quests/compRight/failure/failure";
+@import "../pages/quests/compRight/questComplete/QuestComplete";
+@import "../pages/quests/compRight/buildProfile/createName/createName.scss";
+@import "../pages/quests/compRight/congratulationModal/CongratulationModal";
+@import "../pages/quests/compRight/errorModal/ErrorModal";
+@import "../pages/quests/compRight/actionConpleteModal/actionCompleteModal";
+@import "../pages/quests/compRight/buildProfile/connectTwitter/ConnectTwitter";
+@import "../pages/quests/compRight/buildProfile/connectDiscord/connectDiscoed";
+@import "../pages/quests/compRight/buildProfile/uploadPicture/uploadPicture";
+@import "../pages/quests/compRight/buildProfile/profile/profile";
+
+// leaderBoard page
+@import "../pages/leaderboard/leaderboard";
+@import "../pages/leaderboard/components/banner/banner";
+@import "../pages/leaderboard/components/topUserCard/topUserCard";
+@import "../pages/leaderboard/components/topUsersTable/topUsersTable";

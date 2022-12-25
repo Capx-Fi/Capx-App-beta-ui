@@ -1,0 +1,54 @@
+.quest-layout {
+  .quest {
+    background: url("../../../assets//images/desk-lamp.png");
+    background-repeat: no-repeat;
+    background-position: 100% 150%;
+    min-height: 370px;
+    @media screen and (max-width: 767.98px) {
+      background: unset;
+    }
+    .quest-details-1 {
+      flex-basis: 39%;
+      border-right: 2px solid rgba(31, 122, 85, 0.2);
+      @media screen and (max-width: 767.98px) {
+        border-right: 0;
+      }
+      .social {
+        .social-icon {
+        }
+      }
+    }
+    .quest-details-2 {
+      padding-left: 55px;
+      flex-basis: 41%;
+      @media screen and (max-width: 767.98px) {
+        background: none;
+        padding-left: 0;
+      }
+    }
+
+    .action-heading {
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.5px;
+      text-decoration-line: underline;
+      color: $cgreen-700;
+      @media screen and (max-width: 767.98px) {
+        font-size: 13px;
+      }
+    }
+    .action-btn {
+      font-weight: 900;
+      font-size: 17px;
+      line-height: 22px;
+      letter-spacing: -0.5px;
+      color: #fff;
+      @media screen and (max-width: 767.98px) {
+        font-weight: 900;
+        font-size: 14px;
+        line-height: 22px;
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+.layout {
+  .main-wrapper {
+    padding-top: 61px;
+    max-height: 100vh;
+    width: calc(100vw - 80px);
+    overflow-x: scroll;
+    @media screen and (max-width: 767.98px) {
+      padding-top: 55px;
+      padding-bottom: 70px;
+      width: 100vw;
+    }
+  }
+}

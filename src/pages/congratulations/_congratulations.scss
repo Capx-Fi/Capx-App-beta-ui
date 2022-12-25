@@ -1,0 +1,35 @@
+.congratulation-page {
+    .left-content-box-wrapper {
+      flex-basis: 49.4%;
+      background-color: rgba($color: #fff, $alpha: 0.5);
+      @media screen and (max-width: 767.98px) {
+        flex-basis: unset;
+        flex-grow: 1;
+        background-color: unset;
+      }
+      .left-content-box {
+        min-width: 326px;
+        @media screen and (max-width: 767.98px) {
+          min-width: unset;
+        }
+        .m-heaidng {
+          font-size: 38px;
+          letter-spacing: -1.5px;
+          line-height: 50px;
+        }
+        .devider {
+          height: 2px;
+        }
+        .checkbox {
+          width: 15px;
+          height: 15px;
+          accent-color: $green-800;
+        }
+      }
+    }
+  
+    //   .right-img-wrapper {
+    //     background: $gredient-green-1;
+    //   }
+  }
+  

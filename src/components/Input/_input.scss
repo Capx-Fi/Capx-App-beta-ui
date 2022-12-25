@@ -1,0 +1,14 @@
+.custom-input {
+    display: flex;
+    flex-direction: column;
+  
+    input {
+      background-color: transparent;
+      &:focus-visible {
+        outline: none;
+      }
+    }
+    input:focus-visible {
+    }
+  }
+  

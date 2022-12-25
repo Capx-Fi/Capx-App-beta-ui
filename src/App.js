@@ -1,13 +1,22 @@
-import React from "react";
-import "./App.css";
+import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
+import Modal from "./components/Modal/Modal";
+import { useFireBaseAuth } from "./hooks/useFirebaseAuth";
+import Routes from "./routes/routes";
 
-import Routes from "./routes";
+function App() {
+  useFireBaseAuth();
+  const authStateReady = useSelector((state)=>state.auth.isAuthReady);
 
-export default function App() {
   return (
-    <BrowserRouter>
-      <Routes />
-    </BrowserRouter>
+    <div className="App">
+      {authStateReady ?
+      <BrowserRouter>
+        <Routes/>
+      </BrowserRouter>: <Modal/>}
+    </div>
+   
   );
 }
+
+export default App;

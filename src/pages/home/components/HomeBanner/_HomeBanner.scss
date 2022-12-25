@@ -1,0 +1,75 @@
+.home-banner {
+  background: $gradient-home-banner;
+  .slide {
+    min-height: 272px;
+    padding: 57px 52px 71px;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: right bottom;
+    @media screen and (max-width: 767.98px) {
+      padding: 31px 17px 41px;
+      min-height: 160px;
+    }
+    h2 {
+      font-weight: 900;
+      font-size: 42px;
+      line-height: 48px;
+      letter-spacing: -1.2px;
+      padding-bottom: 3px;
+      @media screen and (max-width: 767.98px) {
+        font-size: 18px;
+        line-height: 22px;
+        letter-spacing: -0.5px;
+      }
+    }
+  }
+  .slider-2 {
+    background-image: url(../../../../assets/images/Slider01.png);
+    @media screen and (max-width: 767.98px) {
+      background-image: url(../../../../assets/images/PhoneSlide01.png);
+      background-size: 175px;
+    }
+  }
+  .slider-1 {
+    background-image: url(../../../../assets/images/Slider02.png);
+    @media screen and (max-width: 767.98px) {
+      background-image: url(../../../../assets/images/PhoneSlide02.png);
+      background-size: 175px;
+    }
+  }
+  .slider-3 {
+    background-image: url(../../../../assets/images/Slider03.png);
+    @media screen and (max-width: 767.98px) {
+      background-image: url(../../../../assets/images/PhoneSlide03.png);
+      background-size: 175px;
+    }
+  }
+  .slider-4 {
+    background-image: url(../../../../assets/images/Slider04.png);
+    @media screen and (max-width: 767.98px) {
+      background-image: url(../../../../assets/images/PhoneSlide04.png);
+      background-size: 175px;
+    }
+  }
+
+  .line-indicator {
+    bottom: 5px;
+    @media screen and (max-width: 767.98px) {
+      bottom: -20px;
+    }
+    li {
+      margin: 2px;
+      width: 22px;
+      height: 4px;
+      background-color: $cgreen-300;
+      border-radius: 100px;
+      overflow: hidden;
+      transition: all 0.13s;
+    }
+    .slick-active {
+      width: 74px;
+      background-color: $cgreen-400;
+      transition: all 0.1s;
+    }
+  }
+}

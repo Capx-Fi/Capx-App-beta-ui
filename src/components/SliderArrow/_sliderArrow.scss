@@ -1,0 +1,25 @@
+.slider-cust-arrow {
+  height: 35px;
+  width: 35px;
+  display: flex !important;
+  justify-content: center;
+  align-items: center;
+  background: #e6f7e5;
+  border-radius: 50%;
+  border: 2px solid $cgreen-500;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+
+  svg {
+    fill: $cgreen-500;
+  }
+}
+.left-arrow {
+  right: 99%;
+}
+
+.right-arrow {
+  left: 99%;
+}

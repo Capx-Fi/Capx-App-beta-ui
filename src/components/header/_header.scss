@@ -1,0 +1,79 @@
+.header {
+  min-height: 61px;
+  background-color: #f8fdf9;
+  border-bottom: 1px solid;
+  width: calc(100% - 90px);
+  z-index: 10;
+  @media screen and (max-width: 767.98px) {
+    min-height: 55px;
+    width: 100%;
+  }
+  .page-name {
+    color: #153945;
+    font-weight: 900;
+    font-size: 16px;
+    line-height: 21px;
+    letter-spacing: -0.5px;
+    @media screen and (max-width: 767.98px) {
+      font-size: 18px;
+    }
+  }
+  .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: $cgreen-200;
+    font-size: 12px;
+    font-weight: 900;
+    border: 1px solid;
+    border-color: $green-200;
+    height: 35px;
+    padding: 0 8px;
+    border-radius: 13px;
+    margin-left: 10px;
+  }
+
+  .logout-btn {
+    display: none;
+    @media screen and (max-width: 767.98px) {
+      display: unset;
+    }
+  }
+
+  .menu-popup {
+    // background: $gradient-cgreen-1;
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.2),
+        rgba(255, 255, 255, 0.2)
+      ),
+      linear-gradient(
+        180deg,
+        #f8fdf8 22.02%,
+        #e2f6e1 82.31%,
+        #b6edcf 144.59%,
+        #dcf1df 144.59%
+      );
+    border: 1px solid;
+    border-radius: 12px;
+    padding: 8px 8px 16px;
+    border-color: #b1e5bd;
+    box-shadow: 0 10px 15px -3px $cgreen-200, 0 4px 6px -4px $cgreen-200;
+    .menu-tab {
+      padding: 10px 16px;
+      border-bottom: 1px solid;
+      border-color: $green-200;
+      font-weight: 900;
+      font-size: 14px;
+      line-height: 16px;
+      color: $cgreen-700;
+      letter-spacing: -0.3px;
+      text-transform: capitalize;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+    .active {
+      background-color: $cgreen-200;
+    }
+  }
+}

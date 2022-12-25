@@ -524,11 +524,11 @@ const AnswerQuiz = () => {
         </div>
 
         <div className="quest-details-2 flex flex-col">
-          <Profile />
-          {/* {taskError === null &&
+          {taskError === null &&
             !showClaimScreen &&
-            questData && actionData && 
-            renderActionComponent()} */}
+            questData &&
+            actionData &&
+            renderActionComponent()}
           {showClaimScreen && actionData.length === 0 && (
             <QuestCompleteScreen
               modalAction={{ claimReward: claimRewardHandler }}

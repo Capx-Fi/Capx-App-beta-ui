@@ -53,7 +53,7 @@ const Leaderboard = () => {
           </div>
         </div>
       </div>
-      <AlertModal open={openAlertModal} handleClose={handleAlertModalClose} />
+      <AlertModal open={openAlertModal} page={'Leaderboard'} handleClose={handleAlertModalClose} />
     </>
   );
 };

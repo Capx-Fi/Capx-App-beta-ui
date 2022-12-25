@@ -1,7 +1,6 @@
 import React from "react";
 
 const QuestTable = ({ quests }) => {
-  console.log(quests);
   return (
     <div className="quest-table">
       <div className="table-wrapper">

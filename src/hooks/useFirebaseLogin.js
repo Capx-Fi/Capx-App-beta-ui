@@ -106,10 +106,10 @@ export const useFireBaseLogin = () => {
     let userprofile = null;
     if (userDetails) {
       try {
-        console.log(userDetails);
+        
         const userDoc = doc(db, config.USER_COLLECTION, userDetails.uid);
         const docSnap = await getDoc(userDoc);
-        console.log(docSnap.data());
+        ;
         if (docSnap.exists()) {
           const userQuest = await getUserQuestData(userDetails.uid);
           dispatch(setUser({...docSnap.data(),userQuest:userQuest}));
@@ -132,13 +132,15 @@ export const useFireBaseLogin = () => {
       let result = []
       const userQuestData = await getDocs(questDataQuery);
       userQuestData.forEach((doc)=>{result.push(doc.data())})
-      Object.keys(result[0].quests).forEach((key) => {
-        quests.push({
-          ...result[0].quests[key],
-          questID: key.split("|")[0],
-          quest_order_id: key,
+      if(result.length>0){
+        Object.keys(result[0].quests).forEach((key) => {
+          quests.push({
+            ...result[0].quests[key],
+            questID: key.split("|")[0],
+            quest_order_id: key,
+          });
         });
-      });
+      }
     }catch(err){
       console.log(err)
     }

@@ -10,7 +10,8 @@ import { setUser } from "../store/slices/userSlice";
 import { useFireBaseLogout } from "../hooks/useFireBaseLogout";
 import { logoutUser } from "../store/slices/authSlice";
 import Footer from "../components/footer/Footer";
-
+import { config } from "../config";
+import { auth } from "../firebase/firebase";
 const Layout = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
@@ -18,17 +19,17 @@ const Layout = () => {
   const [userDataFetch, setUserDataFetch] = useState(false);
   const [userLogout, setUserLogout] = useState(false);
   const [userQuests,setUserQuests] = useState(null);
-  const { data, error, isPending } = useFirestoreCollection("xusers", [
-    "email",
+  const { data, error, isPending } = useFirestoreCollection(config.USER_COLLECTION, [
+    '__name__',
     "==",
-    `${authUser ? authUser.email : ""}`,
+    `${authUser ? authUser.uid : ""}`,
   ]);
   const {
     data: questData,
     error: questError,
     isPending: questIsPending,
   } = useFirestoreCollection(
-    `xusers/${authUser ? authUser.uid : "dummy"}/quest-order`,
+    `${config.USER_COLLECTION}/${authUser ? authUser.uid : "dummy"}/quest-order`,
     ["docType", "==", "Aggregate"]
   );
   const {
@@ -44,7 +45,7 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    console.log(data,userQuests);
+    
     if (data && !logoutPending && !userLogout && userQuests) {
       if (data[0].username && data[0].username !== "") {
         dispatch(setUser({...data[0],userQuest:userQuests}));
@@ -58,7 +59,7 @@ const Layout = () => {
   }, [data, error, userLogout,userQuests]);
 
   useEffect(() => {
-    console.log(!questIsPending,questError);
+    
     let result = [];
     if (
       questData &&

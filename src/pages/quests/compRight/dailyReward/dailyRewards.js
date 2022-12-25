@@ -7,16 +7,15 @@ import { config } from "../../../../config";
 const DailyRewards = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
   const { isPending, data, error } = useFirestoreCollection(
-    `${config.QUEST_ORDER_ACTION_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
+    `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
     [
-      "action_order_id",
+      "__name__",
       "==",
       String(actionData.action_order_id),
     ]
   );
   useEffect(() => {
     if (data) {
-      console.log(data[0]);
       setActionDetails(data[0]);
     } else if (error) {
       console.log(error);

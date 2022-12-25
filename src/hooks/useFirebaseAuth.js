@@ -21,10 +21,10 @@ export const useFireBaseAuth = () => {
       //dispatch auth is ready redux change
       if (user) {
         try {
-          console.log(user);
+         
           const userDoc = doc(db, "xusers", user.uid);
           const docSnap = await getDoc(userDoc);
-          console.log(docSnap.data());
+         
           if (docSnap.data() !== undefined && docSnap.exists()) {
             const userQuestCollection = collection(db, `${config.USER_COLLECTION}/${user.uid}/quest-order`);
             const questDataQuery = query(userQuestCollection,where("docType", "==", "Aggregate"));
@@ -57,6 +57,13 @@ export const useFireBaseAuth = () => {
           );
         } catch (error) {
           console.log(error);
+          dispatch(
+            setAuthStatus({
+              isAuthReady: true,
+              user: null,
+              isUserProfileSet: false,
+            })
+          );
         }
       } else {
         console.log("i fired");

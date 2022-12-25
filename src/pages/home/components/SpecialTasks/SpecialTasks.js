@@ -14,7 +14,7 @@ import { config } from "../../../../config";
 
 const SpecialTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
-  console.log(dailytaskdata);
+  
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [questId, setQuestId] = useState(null);
@@ -26,7 +26,7 @@ const SpecialTasks = ({ quests }) => {
 
   const handleClick = (e, questId) => {
     e.preventDefault();
-    console.log(questId);
+    
     setQuestId(questId);
     const apiDataObject = { data: { questId: questId } };
     postData(apiDataObject, "/registerForQuest");
@@ -34,7 +34,7 @@ const SpecialTasks = ({ quests }) => {
 
   useEffect(() => {
     if (data && data.result.success && data.result.success === true) {
-      console.log(data);
+     
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate("/quest");
     } else if (
@@ -42,9 +42,9 @@ const SpecialTasks = ({ quests }) => {
       data.result.success === false &&
       (data.result.quest_status === "REGISTERED" ||
         data.result.quest_status === "IN_PROGRESS" ||
-        data.result.quest_status === "CLAIMED")
+        data.result.quest_status === "CLAIMED" || data.result.quest_status === "COMPLETED")
     ) {
-      console.log(data.result);
+      
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate("/quest");
     }
@@ -120,7 +120,7 @@ const SpecialTasks = ({ quests }) => {
                 <div className="wrapper flex flex-col items-stretch rounded-xl p-3 gap-3">
                   <div className="img-box rounded-xl overflow-hidden">
                     <img
-                      className="w-full h-fit card-img"
+                      className="w-full card-img"
                       src={data.image_url.trim().length>0 ? data.image_url :SpecialCardImage}
                       alt="invite"
                     />

@@ -37,7 +37,6 @@ const TopUserCard = ({ users }) => {
     },
   };
   const userMedal = (ind) => {
-    console.log(ind);
     if (ind === 1) return top1Options;
     if (ind === 2) return top2Options;
     if (ind === 3) return top3Options;

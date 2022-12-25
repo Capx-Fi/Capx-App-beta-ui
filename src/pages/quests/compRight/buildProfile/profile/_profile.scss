@@ -1,59 +1,59 @@
-// .comp-profile {
-//   .img-box {
-//     padding: 5px;
-//     min-height: 183px;
-//     min-width: 183px;
-//     background-color: $cgreen-400;
-//   }
+.comp-profile {
+  .img-box {
+    padding: 5px;
+    min-height: 183px;
+    min-width: 183px;
+    background-color: $cgreen-400;
+  }
 
-//   .name {
-//     .field-box {
-//       span {
-//         font-weight: 500;
-//         font-size: 16px;
-//         line-height: 21px;
-//         color: #292929;
-//         @media screen and (max-width: 767.98px) {
-//           font-size: 14px;
-//           line-height: 19px;
-//         }
-//       }
-//     }
-//   }
+  .name {
+    .field-box {
+      span {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 21px;
+        color: #292929;
+        @media screen and (max-width: 767.98px) {
+          font-size: 14px;
+          line-height: 19px;
+        }
+      }
+    }
+  }
 
-//   .social-box {
-//     .field-box {
-//       span {
-//         font-weight: 500;
-//         font-size: 16px;
-//         line-height: 21px;
-//         letter-spacing: -0.25px;
-//         color: #375a56;
-//         @media screen and (max-width: 767.98px) {
-//           font-size: 14px;
-//           line-height: 19px;
-//         }
-//       }
-//     }
-//   }
+  .social-box {
+    .field-box {
+      span {
+        font-weight: 500;
+        font-size: 16px;
+        line-height: 21px;
+        letter-spacing: -0.25px;
+        color: #375a56;
+        @media screen and (max-width: 767.98px) {
+          font-size: 14px;
+          line-height: 19px;
+        }
+      }
+    }
+  }
 
-//   .heading {
-//     span {
-//       font-weight: 900;
-//       font-size: 16px;
-//       line-height: 18px;
-//       letter-spacing: -0.25px;
-//       @media screen and (max-width: 767.98px) {
-//         font-size: 13px;
-//         line-height: 16px;
-//       }
-//     }
-//   }
-//   .field-box {
-//     padding: 16px;
+  .heading {
+    span {
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 18px;
+      letter-spacing: -0.25px;
+      @media screen and (max-width: 767.98px) {
+        font-size: 13px;
+        line-height: 16px;
+      }
+    }
+  }
+  .field-box {
+    padding: 16px;
 
-//     @media screen and (max-width: 767.98px) {
-//       padding: 12px 14px;
-//     }
-//   }
-// }
+    @media screen and (max-width: 767.98px) {
+      padding: 12px 14px;
+    }
+  }
+}

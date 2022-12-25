@@ -56,11 +56,11 @@ export const useApi = (url, method = Constants.GET) => {
           throw new Error(res.statusText);
         }
         const response = await res.json();
-        console.log(response);
+        
         setIsPending(false);
         setData(response);
       } catch (error) {
-        console.log(error.toString());
+        
         if (error?.name === Constants.ABORT_ERROR) {
           console.log("the fetch was aborted");
         }else if(error.toString()==='TypeError: Failed to fetch'){

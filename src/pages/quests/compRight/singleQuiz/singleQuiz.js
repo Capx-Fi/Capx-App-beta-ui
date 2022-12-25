@@ -5,20 +5,18 @@ import { useEffect } from "react";
 import { config } from "../../../../config";
 
 const SingleQuiz = ({ actionData }) => {
-  console.log(actionData);
   const [actionDetails, setActionDetails] = useState(null);
   const [selectedOption, setSelectedOption] = useState({ id: "", value: "" });
   const { isPending, data, error } = useFirestoreCollection(
     `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
     [
-      "action_order_id",
+      "__name__",
       "==",
       String(actionData.questID + "-" + actionData.action_id),
     ]
   );
   useEffect(() => {
     if (data) {
-      console.log(data[0]);
       setActionDetails(data[0]);
     } else if (error) {
       console.log(error);
@@ -26,7 +24,6 @@ const SingleQuiz = ({ actionData }) => {
   }, [data, error]);
 
   const handleOptionSelect = (e) => {
-    console.log(e.currentTarget);
     const newValue = {
       id: e.currentTarget.id,
       value: e.currentTarget.innerText,
@@ -37,7 +34,6 @@ const SingleQuiz = ({ actionData }) => {
     }
 
     e.currentTarget.classList.add("selected");
-    console.log(newValue);
     setSelectedOption((prevState) => {
       if (prevState.id === newValue.id) {
         return prevState;
@@ -45,8 +41,6 @@ const SingleQuiz = ({ actionData }) => {
         return newValue;
       }
     });
-
-    console.log(selectedOption);
   };
 
   const handleCompleteAction = (e) => {

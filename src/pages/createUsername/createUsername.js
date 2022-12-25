@@ -37,6 +37,8 @@ const CreateUsername = () => {
     resetForm();
   };
 
+  
+
   const formik = useFormik({
     initialValues: { username: "@" },
     validationSchema: Yup.object().shape({
@@ -44,7 +46,7 @@ const CreateUsername = () => {
         .required("Password is required")
         .min(6, "6 letters required"),
     }),
-    validateOnChange: false,
+    validateOnChange: true,
     validateOnBlur: true,
     onSubmit: handleFormSubmit,
   });
@@ -55,7 +57,7 @@ const CreateUsername = () => {
             dispatch(setUserName({username}))
             navigate('/invite-code',{ state: { username } })
         }else{
-            console.log(data.result.success)
+          
             setUsernameExists(true);
         }
     }

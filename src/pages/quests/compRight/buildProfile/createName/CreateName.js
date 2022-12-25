@@ -15,7 +15,7 @@ const CreateName = ({ actionData }) => {
   const { isPending, data, error } = useFirestoreCollection(
     `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
     [
-      "action_order_id",
+      "__name__",
       "==",
       String(actionData.questID + "-" + actionData.action_id),
     ]

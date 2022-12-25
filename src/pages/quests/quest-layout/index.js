@@ -18,6 +18,7 @@ import Affiliate from "../compRight/affiliate/affiliate"; // [Day1]-Task 6
 import { useFirestoreCollection } from "../../../hooks/useFirestoreCollection";
 import { useSelector } from "react-redux";
 import { useApi } from "../../../hooks/useApi";
+import { useLinkAuthProviders } from "../../../hooks/useLinkAuthProviders";
 import Profile from "../compRight/buildProfile/profile/Profile";
 
 // Quest Right Component Imports End ---------------------------------------------------------
@@ -49,12 +50,13 @@ const AnswerQuiz = () => {
   const [showClaimScreen, setShowClaimScreen] = useState(false);
   const [showActionClaim, setShowActionClaim] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [showProfilePage,setShowProfilePage] = useState(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const [reFetchInProgress, setReFetchInProgress] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isPending, data, error, reFetchData } = useFirestoreCollection(config.QUEST_ORDER_COLLECTION, [
-    "quest_order_id",
+    "__name__",
     "==",
     questOrderId,
   ]);
@@ -64,6 +66,13 @@ const AnswerQuiz = () => {
     postData,
     data: apiData,
   } = useApi(url, "POST");
+
+  const {
+    unlinkWithSocail,
+    error: linkSocalError,
+    isPending: isSOcialLinkPending,
+    linkDone : linkDone
+  } = useLinkAuthProviders();
   const [taskError, setTaskError] = useState(null);
 
   const handleCongratulationModal = () => {
@@ -80,14 +89,13 @@ const AnswerQuiz = () => {
   };
 
   const nextQuestSetup = () => {
-    console.log('currentQuestData',questData)
     const newQuestData = allQuestData.filter((val)=>{return val.status === 'new' && val.id !== questData.quest_id});
     if(newQuestData.length>0){
-      console.log(newQuestData);
       setReFetchInProgress(true);
       setOpenCongratulationModal(false);
       setShowClaimScreen(false);
       setShowActionClaim(false);
+      setIsClaimQuest(false);
       const apiDataObject = { data: { questId: newQuestData[0].id } };
       postData(apiDataObject, "/registerForQuest");
     }else{
@@ -365,15 +373,23 @@ const AnswerQuiz = () => {
           data[0].quest_type.toLowerCase() === "special" &&
           data[0].status.toLowerCase() === "claimed"
         ) {
-          setActionData({
-            ...Object.values(data[0].actions)
-              .filter((val) => {
-                return val.action_order_status === "COMPLETED";
-              })
-              .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
-              .reverse()[0],
-          });
-        } else {
+          
+            setActionData({
+              ...Object.values(data[0].actions)
+                .filter((val) => {
+                  return val.action_order_status === "COMPLETED";
+                })
+                .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
+                .reverse()[0],
+            });
+          
+        } else if(data[0].quest_type.toLowerCase() !== "special" && data[0].status.toLowerCase() === "completed") {
+          setShowClaimScreen(true);
+          setActionData([]);
+        }else if(data[0].quest_type.toLowerCase() === "special" && data[0].status.toLowerCase() === "completed"){
+          setShowClaimScreen(true);
+          setActionData([]);
+        }else{
           setOpenCongratulationModal(true);
         }
       } else {
@@ -382,7 +398,6 @@ const AnswerQuiz = () => {
         });
       }
       if(reFetchInProgress===true){
-        console.log(actionsData)
         setReFetchInProgress(false);
       } 
     } else if (error) {
@@ -415,7 +430,7 @@ const AnswerQuiz = () => {
           if(apiData.result.success === true){
             dispatch(setQuestOrderId({ questId: apiData.result.quest_order_id }));
             reFetchData({status:true,data:[
-              "quest_order_id",
+              "__name__",
               "==",
               apiData.result.quest_order_id,
             ]})
@@ -424,6 +439,9 @@ const AnswerQuiz = () => {
       }else if(apiData && isError){
         if(apiData.result.success === false){
           setErrorMessage(apiData.result?.message)
+          if(apiData.result?.message === "ERROR: Twitter already linked to different user"){
+            unlinkWithSocail("twitter")
+          }
         }
         setTaskError(true);
       }else if(isError){
@@ -478,16 +496,17 @@ const AnswerQuiz = () => {
                     return (
                       <QuestLeft
                         data={{
+                          actiondata:details3,
                           id: details3.action_order_id,
-                          title: details3.action_title,
+                          title: details3.action_order_left_title,
                           actionnum: details3.action_id,
-                          actiontag: details3.action_order_type,
+                          actiontag: details3.action_tag,
                           completed:
                             details3.action_order_status === "COMPLETED"
                               ? true
                               : false,
                           actionBtn: details3.action_order_status,
-                          currentActionId: actionData.action_order_id,
+                          currentActionId: actionData?.action_order_id,
                         }}
                         key={details3.action_order_id}
                       />
@@ -507,6 +526,8 @@ const AnswerQuiz = () => {
               modalAction={{ claimReward: claimRewardHandler }}
             />
           )}
+
+          {showProfilePage && actionData.length === 0 && <Profile/>}
 
           <CongratulationModal
             open={openCongratulationModal}

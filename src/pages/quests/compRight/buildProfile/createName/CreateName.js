@@ -24,7 +24,6 @@ const CreateName = ({ actionData }) => {
     setShowClaimBtn(false);
     setVarified(false);
     if (data) {
-      console.log(data[0]);
       setActionDetails(data[0]);
       if (data[0].action_order_status.toLowerCase() === "completed") {
         setShowClaimBtn(true);

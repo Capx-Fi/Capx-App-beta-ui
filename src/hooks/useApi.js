@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { Constants } from "../constants/constants";
-import { auth } from "../firebase/firebase";
 
 export const useApi = (url, method = Constants.GET) => {
   const [data, setData] = useState(null);
@@ -11,13 +10,16 @@ export const useApi = (url, method = Constants.GET) => {
   const accessToken = useSelector((state) => state.auth.accessToken);
   const [path, setPath] = useState("");
 
-  const postData = (postData, path = "",accessTokenRefreshed="") => {
-
+  const postData = (postData, path = "", accessTokenRefreshed = "") => {
     setOptions({
       method: Constants.POST,
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Bearer ${(accessTokenRefreshed.trim().length>0 ? accessTokenRefreshed :accessToken)}`,
+        Authorization: `Bearer ${
+          accessTokenRefreshed.trim().length > 0
+            ? accessTokenRefreshed
+            : accessToken
+        }`,
         "Access-Control-Allow-Headers": "*",
       },
       body: JSON.stringify(postData),
@@ -25,7 +27,7 @@ export const useApi = (url, method = Constants.GET) => {
     setPath(path);
   };
 
-  const getData = (getData, path="") =>{
+  const getData = (getData, path = "") => {
     setOptions({
       method: Constants.GET,
       headers: {
@@ -34,9 +36,9 @@ export const useApi = (url, method = Constants.GET) => {
         "Access-Control-Allow-Headers": "*",
       },
     });
-    let urlPath = path + '?' + ( new URLSearchParams( getData ) ).toString();
+    let urlPath = path + "?" + new URLSearchParams(getData).toString();
     setPath(urlPath);
-  }
+  };
 
   useEffect(() => {
     setData(null);
@@ -51,22 +53,21 @@ export const useApi = (url, method = Constants.GET) => {
           signal: controller.signal,
         });
         if (!res.ok) {
-          const errorResponse = await res.json()
-          setData(errorResponse)
+          const errorResponse = await res.json();
+          setData(errorResponse);
           throw new Error(res.statusText);
         }
         const response = await res.json();
-        
+
         setIsPending(false);
         setData(response);
       } catch (error) {
-        
         if (error?.name === Constants.ABORT_ERROR) {
           console.log("the fetch was aborted");
-        }else if(error.toString()==='TypeError: Failed to fetch'){
+        } else if (error.toString() === "TypeError: Failed to fetch") {
           setError("unexpected_error");
           setIsPending(false);
-        }else {
+        } else {
           setError("Error in api call");
           setIsPending(false);
         }
@@ -84,5 +85,11 @@ export const useApi = (url, method = Constants.GET) => {
     };
   }, [url, method, options]);
 
-  return { data: data, isPending: isPending, error: error, postData: postData ,getData:getData };
+  return {
+    data: data,
+    isPending: isPending,
+    error: error,
+    postData: postData,
+    getData: getData,
+  };
 };

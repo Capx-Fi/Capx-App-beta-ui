@@ -1,10 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import {
   InputCheckSvg,
   ProfileoutlineIconSvg,
 } from "../../../../../assets/svg";
-import AlertModal from "../../../../../components/alertModal/AlertModal";
 import { useUploadProfileImage } from "../../../../../hooks/useUploadProfileImage";
 import ErrorModal from "../../errorModal/ErrorModal";
 
@@ -45,30 +44,31 @@ const UploadPicture = ({ actionData }) => {
       image.size <= 5242880
     ) {
       setImageFile(image);
-      setImgUrl(true)
+      setImgUrl(true);
     } else {
       setModalHeadning("File type/size not allowed");
       SetIsOpenErrorModal(true);
-      e.target.value = ''
+      e.target.value = "";
     }
   };
 
-  const handleActionSubmit = async(e) => {
+  const handleActionSubmit = async (e) => {
     if (imageFile && imageFile.name.trim().length > 0) {
-    setImgUrl(false)
-    const imageUrl = await uploadImageToCloud(imageFile);
-    let input = {
-      type: "profileImage",
-      value: imageUrl,
-    };
-    actionData.handleCompleteAction(e, input);}
+      setImgUrl(false);
+      const imageUrl = await uploadImageToCloud(imageFile);
+      let input = {
+        type: "profileImage",
+        value: imageUrl,
+      };
+      actionData.handleCompleteAction(e, input);
+    }
   };
 
   return (
     <>
       <div className="upload-picture-action flex flex-col gap-3">
         <p className="reward-title action-heading">
-        {actionData?.action_title}
+          {actionData?.action_title}
         </p>
         <div className="upload-picture-wrapper flex flex-col gap-1">
           <label className="label" htmlFor="picture">
@@ -109,7 +109,9 @@ const UploadPicture = ({ actionData }) => {
           {actionData.action_order_status !== "COMPLETED" && (
             <button
               onClick={handleActionSubmit}
-              className={`action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl ${!imgUrl?"disabled":"bg-gredient-2"}`}
+              className={`action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl ${
+                !imgUrl ? "disabled" : "bg-gredient-2"
+              }`}
               disabled={!imgUrl}
             >
               Submit <HiArrowRight className="text-xl " />

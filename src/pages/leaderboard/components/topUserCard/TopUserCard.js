@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  CardCoinIcon,
-  DailyQuestsIcon,
-  TopUser1,
-  TopUser2,
-  TopUser3,
-} from "../../../../assets/svg";
+import { CardCoinIcon, DailyQuestsIcon } from "../../../../assets/svg";
 import Top1Bagde from "../../../../assets/lottie/Rank_01.json";
 import Top2Bagde from "../../../../assets/lottie/Rank_02.json";
 import Top3Bagde from "../../../../assets/lottie/Rank_03.json";

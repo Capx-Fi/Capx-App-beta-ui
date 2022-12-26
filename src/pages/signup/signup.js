@@ -1,7 +1,6 @@
 import React from "react";
 import {
   ChipCapxSvg,
-  DiscordIcon,
   GetStatedSvg,
   GetStatedSvg2,
   GoogleIcon,
@@ -9,13 +8,13 @@ import {
 } from "../../assets/svg";
 import { IoMdMail } from "react-icons/io";
 import { Link } from "react-router-dom";
-import { useFireBaseLogin } from "../../hooks/useFirebaseLogin"
+import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
 
 const Signup = () => {
-  const {error, isPending, signInUserUsingSocial} = useFireBaseLogin();
+  const { error, isPending, signInUserUsingSocial } = useFireBaseLogin();
 
   const handleLogin = async (method) => {
-    await signInUserUsingSocial(method)
+    await signInUserUsingSocial(method);
   };
 
   return (
@@ -71,14 +70,7 @@ const Signup = () => {
                   </span>
                 </div>
               </button>
-              {/* <button className="mb-5  self-stretch">
-                <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
-                  <img src={DiscordIcon} alt="google" />
-                  <span className="text-primary-800 font-medium fs-15 ml-4">
-                    Continue with Discord
-                  </span>
-                </div>
-              </button> */}
+
               <Link
                 to="/signin"
                 className="fs-15 font-bold text-primary-900 underline mb-6"

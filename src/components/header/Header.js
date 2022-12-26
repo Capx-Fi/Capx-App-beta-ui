@@ -1,14 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link, NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
 import { MdOutlineLogout } from "react-icons/md";
-import {
-  ActiveProfiletIcon,
-  BellIcon,
-  CoinSvg,
-  Logout,
-} from "../../assets/svg";
+import { ActiveProfiletIcon, CoinSvg } from "../../assets/svg";
 import { Menu, Transition } from "@headlessui/react";
 import { Fragment } from "react";
 

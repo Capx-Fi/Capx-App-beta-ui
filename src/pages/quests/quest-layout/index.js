@@ -519,7 +519,7 @@ const AnswerQuiz = () => {
         <div className="quest-details-2 flex flex-col">
           {taskError === null &&
             !showClaimScreen &&
-            questData && actionData && 
+            questData && actionData.length>0 && 
             renderActionComponent()}
           {showClaimScreen && actionData.length === 0 && (
             <QuestCompleteScreen

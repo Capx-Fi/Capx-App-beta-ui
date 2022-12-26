@@ -35,7 +35,8 @@ const ConsTasks = ({ quests }) => {
     } else if (
       data &&
       data.result.success === false &&
-      data.result.quest_status === "REGISTERED"
+      (data.result.quest_status === "REGISTERED" ||
+      data.result.quest_status === "IN_PROGRESS")
     ) {
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
       navigate("/quest");

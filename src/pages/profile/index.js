@@ -32,9 +32,7 @@ function Profile() {
     SetIsOpenErrorModal(false);
   };
 
-  const [url, setUrl] = useState(
-    config.API_URL
-  );
+  const [url, setUrl] = useState(config.API_URL);
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
   const {
@@ -67,11 +65,9 @@ function Profile() {
   const handleEditProfile = (e) => {
     e.preventDefault();
     setIsEditEnabled((prevState) => !prevState);
-    
   };
 
   const handleFormSubmit = (value) => {
-   
     if (value.fullName.trim().length > 0 && isEditEnabled) {
       const apiDataObject = { data: { name: value.fullName } };
       postData(apiDataObject, "/updateUserFullName");
@@ -106,11 +102,6 @@ function Profile() {
   };
 
   const handleImageUpload = async (e) => {
-    // const imageUrl = await uploadImageToCloud(e.target.files[0]);
-    // if (imageUrl) {
-    //   const apiDataObject = { data: { image_url: imageUrl } };
-    //   imageUploadPostData(apiDataObject);
-    // }
     let image = e.target.files[0];
     console.log(e.target.files[0]);
     if (

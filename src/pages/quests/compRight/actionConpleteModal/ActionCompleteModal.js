@@ -1,4 +1,4 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ActionCompleteLottie from "../../../../assets/lottie/ActionSuccessAnimation.json";
 import Lottie from "react-lottie";

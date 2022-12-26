@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { WalletSplash } from "../../assets/images";
-import { GetStatedSvg, QuestReportIcon, TaskListIcon } from "../../assets/svg";
+import { TaskListIcon } from "../../assets/svg";
 import AlertModal from "../../components/alertModal/AlertModal";
 import QuestTable from "./components/questTable/QuestTable";
-import MyWalletData from "./components/questTable/QuestTable";
 import WalletBanner from "./components/WalletBanner/WalletBanner";
 
 function MyWallet() {
@@ -17,9 +16,9 @@ function MyWallet() {
     navigate("/");
   };
 
-  useEffect(()=>{
+  useEffect(() => {
     setOpenAlertModal(true);
-  },[])
+  }, []);
 
   const dummyQuestData = [
     { date: "10 Dec 2022", name: "What is Capx App ?", earnings: 2 },
@@ -50,7 +49,11 @@ function MyWallet() {
           </div>
         </div>
       </div>
-      <AlertModal open={openAlertModal} page={'Wallet'} handleClose={handleAlertModalClose} />
+      <AlertModal
+        open={openAlertModal}
+        page={"Wallet"}
+        handleClose={handleAlertModalClose}
+      />
     </>
   );
 }

@@ -1,14 +1,11 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import badgeGold from "../../assets/lottie/badge_gold.json";
 import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
-import { useLocation } from "react-router-dom";
 
-const AlertModal = ({ open, page ,handleClose }) => {
+const AlertModal = ({ open, page, handleClose }) => {
   const cancelButtonRef = useRef(null);
-  const location = useLocation();
-  const pagename = location.pathname.replace("/", "").replace("-", " ");
 
   const defaultOptions = {
     loop: true,

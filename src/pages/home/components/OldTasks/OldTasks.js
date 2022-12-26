@@ -4,15 +4,11 @@ import { useNavigate } from "react-router-dom";
 import { useApi } from "../../../../hooks/useApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
-import { Constants } from "../../../../constants/constants";
 import { config } from "../../../../config";
 import Modal from "../../../../components/Modal/Modal";
-import { DailyRewardPng, InviteFriends } from "../../../../assets/images";
+import { DailyRewardPng } from "../../../../assets/images";
 import Slider from "react-slick";
 import { ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
-
-
-const handleDragStart = (e) => e.preventDefault();
 
 const SliderArrow = ({ style, onClick, direction }) => {
   return (
@@ -32,9 +28,7 @@ const OldTasks = ({ quests }) => {
   const navigate = useNavigate();
   const [questId, setQuestId] = useState(null);
   const auth = useSelector((state) => state.auth.user);
-  const [url, setUrl] = useState(
-    config.API_URL
-  );
+  const [url, setUrl] = useState(config.API_URL);
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
   const handleClick = (e, questId) => {
@@ -52,7 +46,8 @@ const OldTasks = ({ quests }) => {
       data &&
       data.result.success === false &&
       (data.result.quest_status === "REGISTERED" ||
-        data.result.quest_status === "IN_PROGRESS" || data.result.quest_status === "COMPLETED" )
+        data.result.quest_status === "IN_PROGRESS" ||
+        data.result.quest_status === "COMPLETED")
     ) {
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
       navigate("/quest");
@@ -129,36 +124,49 @@ const OldTasks = ({ quests }) => {
   return (
     <div className="oldtasks">
       <Slider {...SliderSettings}>
-        {quests&& quests.length>0 && quests.map((data, ind) => {
-          return (
-            <div key={ind} className="oldtasks-card flex pr-5">
-              <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
-                <div className="img-box rounded-xl overflow-hidden">
-                  <img src={data.image_url.trim().length>0 ? data.image_url :DailyRewardPng} alt="rewards" />
-                  <div className="card-chip flex items-center">
-                    <img src={CardCoinIcon} alt="coin" />
-                    <span>{data.taskreward + " xCapx"}</span>
+        {quests &&
+          quests.length > 0 &&
+          quests.map((data, ind) => {
+            return (
+              <div key={ind} className="oldtasks-card flex pr-5">
+                <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
+                  <div className="img-box rounded-xl overflow-hidden">
+                    <img
+                      src={
+                        data.image_url.trim().length > 0
+                          ? data.image_url
+                          : DailyRewardPng
+                      }
+                      alt="rewards"
+                    />
+                    <div className="card-chip flex items-center">
+                      <img src={CardCoinIcon} alt="coin" />
+                      <span>{data.taskreward + " xCapx"}</span>
+                    </div>
                   </div>
+                  <p className="card-title px-3">{data.tasktitle}</p>
+                  <button
+                    onClick={(e) => {
+                      handleClick(e, data.id);
+                    }}
+                    className="card-btn flex justify-between items-center rounded-xl"
+                  >
+                    {data.status === "COMPLETED" ? (
+                      <span>{"Claim"}</span>
+                    ) : (
+                      <span>
+                        {data.status === "IN_PROGRESS" ||
+                        data.status === "REGISTERED"
+                          ? "Resume"
+                          : "Begin Quest"}
+                      </span>
+                    )}
+                    <ImArrowRight2 className="text-white" />
+                  </button>
                 </div>
-                <p className="card-title px-3">{data.tasktitle}</p>
-                <button
-                  onClick={(e) => {
-                    handleClick(e, data.id);
-                  }}
-                  className="card-btn flex justify-between items-center rounded-xl"
-                >
-                  {data.status === 'COMPLETED'? <span>{"Claim"}</span> : <span>
-                    {data.status === "IN_PROGRESS" ||
-                    data.status === "REGISTERED"
-                      ? "Resume"
-                      : "Begin Quest"}
-                  </span>}
-                  <ImArrowRight2 className="text-white" />
-                </button>
               </div>
-            </div>
-          );
-        })}
+            );
+          })}
       </Slider>
       {isPending && <Modal />}
     </div>

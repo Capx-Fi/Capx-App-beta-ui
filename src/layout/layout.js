@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {  Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import Header from "../components/header/Header";
 import MobileNav from "../components/mobileNav/MobileNav";
 import SideNav from "../components/sideNav/SideNav";
@@ -11,25 +11,26 @@ import { useFireBaseLogout } from "../hooks/useFireBaseLogout";
 import { logoutUser } from "../store/slices/authSlice";
 import Footer from "../components/footer/Footer";
 import { config } from "../config";
-import { auth } from "../firebase/firebase";
+
 const Layout = () => {
   const dispatch = useDispatch();
   const user = useSelector((state) => state.user);
   const authUser = useSelector((state) => state.auth.user);
   const [userDataFetch, setUserDataFetch] = useState(false);
   const [userLogout, setUserLogout] = useState(false);
-  const [userQuests,setUserQuests] = useState(null);
-  const { data, error, isPending } = useFirestoreCollection(config.USER_COLLECTION, [
-    '__name__',
-    "==",
-    `${authUser ? authUser.uid : ""}`,
-  ]);
+  const [userQuests, setUserQuests] = useState(null);
+  const { data, error, isPending } = useFirestoreCollection(
+    config.USER_COLLECTION,
+    ["__name__", "==", `${authUser ? authUser.uid : ""}`]
+  );
   const {
     data: questData,
     error: questError,
     isPending: questIsPending,
   } = useFirestoreCollection(
-    `${config.USER_COLLECTION}/${authUser ? authUser.uid : "dummy"}/quest-order`,
+    `${config.USER_COLLECTION}/${
+      authUser ? authUser.uid : "dummy"
+    }/quest-order`,
     ["docType", "==", "Aggregate"]
   );
   const {
@@ -45,10 +46,9 @@ const Layout = () => {
   };
 
   useEffect(() => {
-    
     if (data && !logoutPending && !userLogout && userQuests) {
       if (data[0].username && data[0].username !== "") {
-        dispatch(setUser({...data[0],userQuest:userQuests}));
+        dispatch(setUser({ ...data[0], userQuest: userQuests }));
       }
       setUserDataFetch(true);
     } else if (error && error === -1) {
@@ -56,10 +56,9 @@ const Layout = () => {
     } else if (userLogout && !logoutPending) {
       dispatch(logoutUser());
     }
-  }, [data, error, userLogout,userQuests]);
+  }, [data, error, userLogout, userQuests]);
 
   useEffect(() => {
-    
     let result = [];
     if (
       questData &&
@@ -77,15 +76,17 @@ const Layout = () => {
         });
       });
       setUserQuests(result);
-    }else if(!questIsPending && !userLogout && questError ){
-      setUserQuests(result)
+    } else if (!questIsPending && !userLogout && questError) {
+      setUserQuests(result);
     }
-    
-  }, [questData,questError]);
+  }, [questData, questError]);
 
   return (
     <>
-      {userDataFetch && !userLogout &&user.username && user.username.trim().length > 0 ? (
+      {userDataFetch &&
+      !userLogout &&
+      user.username &&
+      user.username.trim().length > 0 ? (
         <div className="layout flex">
           <SideNav />
           <div className="flex-grow flex flex-col min-h-screen">

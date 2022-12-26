@@ -10,7 +10,7 @@ import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
 import { useNavigate } from "react-router-dom";
 import { useApi } from "../../hooks/useApi";
-import { useEffect,useState } from "react";
+import { useEffect, useState } from "react";
 import { setUserName } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import Modal from "../../components/Modal/Modal";
@@ -19,25 +19,25 @@ import { config } from "../../config";
 const CreateUsername = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const [username,setUsername] = useState('');
-  const [usernameExists, setUsernameExists ] = useState(false);
-  const { error,isPending, getData,  data } = useApi(config.API_URL,'GET');
-  const [showModal,setShowModal] = useState(true);
+  const [username, setUsername] = useState("");
+  const [usernameExists, setUsernameExists] = useState(false);
+  const { error, isPending, getData, data } = useApi(config.API_URL, "GET");
+  const [showModal, setShowModal] = useState(true);
 
-  const showModalFunc = () =>{
-    setShowModal((prevState)=>{return !prevState})
-  }
+  const showModalFunc = () => {
+    setShowModal((prevState) => {
+      return !prevState;
+    });
+  };
 
   const handleFormSubmit = async (values, { resetForm }) => {
     setShowModal(true);
     setUsernameExists(false);
     setUsername(values.username);
-    const apiDataObject = {username:values.username.split('@')[1]}
-    getData(apiDataObject,'/checkIfUsernameAvailable')
+    const apiDataObject = { username: values.username.split("@")[1] };
+    getData(apiDataObject, "/checkIfUsernameAvailable");
     resetForm();
   };
-
-  
 
   const formik = useFormik({
     initialValues: { username: "@" },
@@ -51,17 +51,16 @@ const CreateUsername = () => {
     onSubmit: handleFormSubmit,
   });
 
-  useEffect(()=>{
-    if(data){
-        if(data.result.success){
-            dispatch(setUserName({username}))
-            navigate('/invite-code',{ state: { username } })
-        }else{
-          
-            setUsernameExists(true);
-        }
+  useEffect(() => {
+    if (data) {
+      if (data.result.success) {
+        dispatch(setUserName({ username }));
+        navigate("/invite-code", { state: { username } });
+      } else {
+        setUsernameExists(true);
+      }
     }
-  },[data])
+  }, [data]);
 
   return (
     <>
@@ -133,8 +132,15 @@ const CreateUsername = () => {
             </div>
           </div>
         </div>
-        {isPending && <Modal/>}
-        {showModal && !isPending && usernameExists && <Modal actions={{error:"Username already taken",showModalFunc:showModalFunc}}/>}
+        {isPending && <Modal />}
+        {showModal && !isPending && usernameExists && (
+          <Modal
+            actions={{
+              error: "Username already taken",
+              showModalFunc: showModalFunc,
+            }}
+          />
+        )}
       </main>
     </>
   );

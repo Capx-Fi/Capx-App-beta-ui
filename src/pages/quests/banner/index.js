@@ -1,6 +1,6 @@
 import React from "react";
 import { QuestsIcon } from "../../../assets/images";
-import { BannerPlayIcon, CoinSvg } from "../../../assets/svg";
+import { CoinSvg } from "../../../assets/svg";
 
 const Banner = ({ data }) => {
   return (

@@ -1,15 +1,9 @@
 import React from "react";
 import Slider from "react-slick";
-import { ImArrowRight2 } from "react-icons/im";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import { useSelector } from "react-redux";
-
-const handleDragStart = (e) => e.preventDefault();
 
 function HomeBanner() {
-  const userData = useSelector((state) => state.user);
-
   const sliderSettings = {
     dots: true,
     dotsClass: "slick-dots line-indicator",
@@ -50,7 +44,7 @@ function HomeBanner() {
             </div>
           </div>
           <div className="slide slider-3 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
-          <div className="flex flex-col items-start  gap-6">
+            <div className="flex flex-col items-start  gap-6">
               <h2 className="gredient-text-2">
                 Reminder! Your
                 <br className="block md:hidden" /> Unclaimed

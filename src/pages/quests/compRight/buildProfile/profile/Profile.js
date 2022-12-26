@@ -5,7 +5,6 @@ import {
   DailyQuestsIcon,
   DiscordIcon,
   InputCheckSvg,
-  ProfileoutlineIconSvg,
   TwitterContainedIcon,
 } from "../../../../../assets/svg";
 
@@ -41,7 +40,9 @@ const Profile = () => {
         </div>
         <div className="field-box flex jutify-between">
           <img src={TwitterContainedIcon} alt="twitter" />
-          <span className="grow ml-2">{userData?.socials.twitter_id}</span>
+          <span className="grow ml-2">
+            {userData?.socials.twitter_username}
+          </span>
           <img src={InputCheckSvg} alt="check" />
         </div>
         {/* <div className="field-box flex jutify-between">

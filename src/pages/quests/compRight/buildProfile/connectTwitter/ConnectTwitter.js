@@ -9,7 +9,6 @@ import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
 import { useEffect } from "react";
 import useFirebaseReAuth from "../../../../../hooks/useFirebaseReAuth";
 import { useNavigate } from "react-router-dom";
-import Profile from "../profile/Profile";
 
 const ConnectTwitter = ({ actionData }) => {
   const navigate = useNavigate();
@@ -97,7 +96,18 @@ const ConnectTwitter = ({ actionData }) => {
             </>
           )}
         {actionData.action_order_status === "COMPLETED" &&
-          actionData.is_claimed === true && <Profile />}
+          actionData.is_claimed === true && (
+            <button
+              onClick={(e) => {
+                // actionData.handleCompleteAction(e, { type: "profile", value: "" })
+                navigate("/");
+              }}
+              className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+            >
+              Go to Home Page
+              <HiArrowRight className="text-xl " />
+            </button>
+          )}
       </div>
       <ActionCompleteModal
         open={showActionCompleteDialog}

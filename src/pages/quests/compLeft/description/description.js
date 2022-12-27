@@ -1,5 +1,4 @@
 import React from "react";
-import { MdDone } from "react-icons/md";
 
 const questLeft = ({ primarydetails }) => {
   return (
@@ -8,13 +7,22 @@ const questLeft = ({ primarydetails }) => {
         <p className="qdescription-title action-heading font-semibold underline underline-offset-2 fs-15">
           Description
         </p>
-        {primarydetails.qdescription && primarydetails.qdescription.trim().length>0 && primarydetails.qdescription.split('%').length>0?  
-          primarydetails.qdescription.split('%').map((val)=>{
-            return <p className="qdescription-content font-medium opacity-90"> {val}</p>
+        {primarydetails.qdescription &&
+        primarydetails.qdescription.trim().length > 0 &&
+        primarydetails.qdescription.split("%").length > 0 ? (
+          primarydetails.qdescription.split("%").map((val) => {
+            return (
+              <p className="qdescription-content font-medium opacity-90">
+                {" "}
+                {val}
+              </p>
+            );
           })
-         :  (<p className="qdescription-content font-medium opacity-90">
-          {primarydetails.qdescription}
-        </p>)}
+        ) : (
+          <p className="qdescription-content font-medium opacity-90">
+            {primarydetails.qdescription}
+          </p>
+        )}
       </div>
     </div>
   );

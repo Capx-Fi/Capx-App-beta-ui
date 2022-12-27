@@ -1,7 +1,6 @@
 import React from "react";
 import {
   ChipCapxSvg,
-  DiscordIcon,
   GetStatedSvg,
   GetStatedSvg2,
   GoogleIcon,

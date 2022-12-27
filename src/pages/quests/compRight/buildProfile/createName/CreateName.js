@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { InputCheckSvg } from "../../../../../assets/svg";
-import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
 import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
 import { config } from "../../../../../config";
 
@@ -13,23 +12,20 @@ const CreateName = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
 
   const { isPending, data, error } = useFirestoreCollection(
-    `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
-    [
-      "__name__",
-      "==",
-      String(actionData.questID + "-" + actionData.action_id),
-    ]
+    `${config.QUEST_ORDER_COLLECTION}/` +
+      actionData.questID +
+      `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
+    ["__name__", "==", String(actionData.questID + "-" + actionData.action_id)]
   );
 
-  const [ regex , setRegex ] = useState(new RegExp(/^[a-zA-Z ]*$/));
+  const [regex, setRegex] = useState(new RegExp(/^[a-zA-Z ]*$/));
 
   useEffect(() => {
     setShowClaimBtn(false);
     setVarified(false);
     if (data) {
-      console.log(data[0]);
       setActionDetails(data[0]);
-      if(data[0].action_order_status.toLowerCase() === 'completed'){
+      if (data[0].action_order_status.toLowerCase() === "completed") {
         setShowClaimBtn(true);
         setVarified(true);
       }
@@ -39,21 +35,20 @@ const CreateName = ({ actionData }) => {
   }, [data, error]);
 
   const handleInputChange = (e) => {
-    if(e.target.value.trim().length >= 0 ){
+    if (e.target.value.trim().length >= 0) {
       setProfileNameInput(e.target.value);
     }
   };
 
   const handleSubmit = (e) => {
-    if(profileNameInput.length > 0 && profileNameInput.trim().match(regex) ){
+    if (profileNameInput.length > 0 && profileNameInput.trim().match(regex)) {
       let input = {
-        type: 'buildProfileName',
-        value: profileNameInput.trim()
-      }
-      actionData.handleCompleteAction(e,input)
+        type: "buildProfileName",
+        value: profileNameInput.trim(),
+      };
+      actionData.handleCompleteAction(e, input);
     }
-  }
-
+  };
 
   return (
     <>
@@ -73,7 +68,9 @@ const CreateName = ({ actionData }) => {
               type="text"
               name="name"
               id="name"
-              disabled = {(actionDetails?.action_order_status.toLowerCase() === 'completed')}
+              disabled={
+                actionDetails?.action_order_status.toLowerCase() === "completed"
+              }
             />
             {varified && (
               <img
@@ -87,9 +84,11 @@ const CreateName = ({ actionData }) => {
           {!showClaimBtn && (
             <button
               onClick={handleSubmit}
-              disabled={profileNameInput.trim().length===0}
+              disabled={profileNameInput.trim().length === 0}
               className={`action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl ${
-                profileNameInput.trim().length===0 ? "disabled" : "bg-gredient-2"
+                profileNameInput.trim().length === 0
+                  ? "disabled"
+                  : "bg-gredient-2"
               }`}
             >
               Submit <HiArrowRight className="text-xl " />
@@ -109,7 +108,6 @@ const CreateName = ({ actionData }) => {
           )}
         </div>
       </div>
-      
     </>
   );
 };

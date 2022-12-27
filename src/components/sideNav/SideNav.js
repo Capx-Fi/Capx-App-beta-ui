@@ -3,12 +3,10 @@ import { NavLink } from "react-router-dom";
 import {
   ActiveHomeIcon,
   ActiveLeaderboardIconSvg,
-  ActiveProfiletIcon,
   ActiveWalletIcon,
   BrandLogoSvg,
   HomeIconSvg,
   LeaderboardIconSvg,
-  ProfileIconSvg,
   WalletIconSvg,
 } from "../../assets/svg";
 
@@ -45,19 +43,6 @@ const SideNav = () => {
         />
         <span>Leaderboard</span>
       </NavLink>
-      {/* <div className="flex-grow" />
-      <NavLink
-        to="/profile"
-        className="tabs flex flex-col items-center justify-center"
-      >
-        <img className="icons" src={ProfileIconSvg} alt="home" />
-        <img
-          className="icons  active-icon"
-          src={ActiveProfiletIcon}
-          alt="home"
-        />
-        <span>Profile</span>
-      </NavLink> */}
     </div>
   );
 };

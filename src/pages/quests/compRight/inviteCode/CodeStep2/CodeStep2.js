@@ -3,7 +3,6 @@ import { HiArrowRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import {
   ContentCopySvg,
-  GoogleIcon,
   InstagramIcon,
   TwitterIcon,
   WhatsappIcon,

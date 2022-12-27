@@ -358,17 +358,20 @@ const AnswerQuiz = () => {
       if (data[0].quest_category === "Daily_Reward") {
         actionsData = Object.values(data[0].actions).filter((val) => {
           return val.action_order_status !== "COMPLETED";
+          
         });
+        console.log(actionData)
       } else {
         actionsData = Object.values(data[0].actions).filter((val) => {
           return val.is_claimed !== true;
         });
+        console.log(actionData)
       }
 
       if (actionsData.length === 0) {
         console.log("All actions completed");
         if (isClaimQuest) {
-          setActionData([]);
+          setActionData(null);
         } else if (
           data[0].quest_type.toLowerCase() === "special" &&
           data[0].status.toLowerCase() === "claimed"
@@ -385,10 +388,10 @@ const AnswerQuiz = () => {
           
         } else if(data[0].quest_type.toLowerCase() !== "special" && data[0].status.toLowerCase() === "completed") {
           setShowClaimScreen(true);
-          setActionData([]);
+          setActionData(null);
         }else if(data[0].quest_type.toLowerCase() === "special" && data[0].status.toLowerCase() === "completed"){
           setShowClaimScreen(true);
-          setActionData([]);
+          setActionData(null);
         }else{
           setOpenCongratulationModal(true);
         }
@@ -410,7 +413,7 @@ const AnswerQuiz = () => {
       if(apiData && !isError){
         if(!showClaimScreen && !showActionClaim && !reFetchInProgress){
           if(apiData.result.success === true) {
-            if (actionData.length === 0) {
+            if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
                 setOpenCongratulationModal(true);
               } else {
@@ -521,7 +524,7 @@ const AnswerQuiz = () => {
             !showClaimScreen &&
             questData && actionData && 
             renderActionComponent()}
-          {showClaimScreen && actionData.length === 0 && (
+          {showClaimScreen && !actionData && (
             <QuestCompleteScreen
               modalAction={{ claimReward: claimRewardHandler }}
             />

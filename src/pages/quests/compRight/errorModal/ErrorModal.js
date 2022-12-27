@@ -1,10 +1,10 @@
-import { Fragment, useRef, useState } from "react";
+import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import ErrorLottie from "../../../../assets/lottie/ErrorAnimation.json";
 import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
 
-const ErrorModal = ({ open, handleClose, heading , message}) => {
+const ErrorModal = ({ open, handleClose, heading, message }) => {
   const cancelButtonRef = useRef(null);
 
   const defaultOptions = {

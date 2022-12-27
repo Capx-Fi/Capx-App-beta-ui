@@ -40,7 +40,7 @@ const questLeft = ({ data }) => {
               </span>
             </h5>
             <p
-              className={`actiontag ${data.actiontag.toLowerCase()} capitalize`}
+              className={`actiontag ${data.actiontag?.toLowerCase()} capitalize`}
             >
               {data.actiontag}
             </p>

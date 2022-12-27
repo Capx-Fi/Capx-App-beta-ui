@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  DailyQuestsIcon } from "../../assets/svg";
+import { DailyQuestsIcon } from "../../assets/svg";
 import ConsTasks from "./components/ConsTasks/ConsTasks";
 import HomeBanner from "./components/HomeBanner/HomeBanner";
 import OldTasks from "./components/OldTasks/OldTasks";
@@ -8,18 +8,27 @@ import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestsData } from "../../store/slices/questSlice";
 import Modal from "../../components/Modal/Modal";
-import { config } from "../../config"
+import { config } from "../../config";
+import CongratulationModal from "../quests/compRight/congratulationModal/CongratulationModal";
 
 const Home = () => {
   const dispatch = useDispatch();
   const [dailyQuests, setDailyQuests] = useState([]);
   const [prevQuests, setPrevQuests] = useState([]);
-  const [specialQuests,setSpecialQuests] = useState([]);
+  const [specialQuests, setSpecialQuests] = useState([]);
+  const [isOpenCongratulationModal, SetIsOpenCongratulationModal] =
+    useState(false);
+  const [congratulationModalText, SetCongratulationModalText] = useState("");
+
   const user = useSelector((state) => state.user);
   const { data, error, isPending } = useFirestoreCollection(
     `${config.ORG_COLLECTION}/${config.ORG_ID}/${config.ORG_QUEST_COLLECTION}`,
     ["__name__", "==", "quest_agg_1"]
   );
+
+  const handleCongratulationModal = () => {
+    SetIsOpenCongratulationModal(false);
+  };
 
   useEffect(() => {
     if (data && !isPending) {
@@ -27,14 +36,14 @@ const Home = () => {
       let result = [];
       Object.keys(data[0].quests).forEach((val) => {
         const dataObject = {
-          task_no: val.split('=')[1].split('_')[1],
+          task_no: val.split("=")[1].split("_")[1],
           id: val,
           tasktitle: questData.quests[val].title,
           tags: questData.quests[val].tags,
           rewards_type: questData.quests[val].rewards_type,
           taskreward: questData.quests[val].max_rewards,
           expiry: questData.quests[val].expiry,
-          image_url:questData.quests[val].image_url,
+          image_url: questData.quests[val].image_url,
           taskbtntext: user.questData.some((obj) => val === obj.questID)
             ? "Resume"
             : "Claim now",
@@ -59,26 +68,61 @@ const Home = () => {
       });
       let todaysDate = formatDate(new Date());
       dispatch(setQuestsData({ allQuests: result }));
+
+      const raminDailyQuests = result.filter((val) => {
+        return (
+          val.taskCategory.toLowerCase() !== "special" &&
+          val.status !== "CLAIMED"
+        );
+      });
+
+      if (raminDailyQuests.length <= 2) {
+        SetIsOpenCongratulationModal(true);
+        SetCongratulationModalText("You have completed all the quest");
+      }
+      console.log(raminDailyQuests.length, result.length);
+      console.log(result);
       setDailyQuests(
-        result.filter((val) => {
-          return (val.taskCategory.toLowerCase() === 'dailyreward' || (val.created_on === todaysDate && val.taskCategory.toLowerCase() !== 'special' && val.status === 'new'));
-        }).sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
+        result
+          .filter((val) => {
+            return (
+              val.taskCategory.toLowerCase() === "dailyreward" ||
+              (val.created_on === todaysDate &&
+                val.taskCategory.toLowerCase() !== "special" &&
+                val.status === "new")
+            );
+          })
+          .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       setSpecialQuests(
-        result.filter((val) => {
-          return val.taskCategory.toLowerCase() === 'special';
-        }).sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
+        result
+          .filter((val) => {
+            return val.taskCategory.toLowerCase() === "special";
+          })
+          .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       setPrevQuests(
-        result.filter((val) => {
-          return ((val.created_on !== todaysDate || val.status === "IN_PROGRESS" || val.status==="REGISTERED" || val.status === 'COMPLETED') && val.taskCategory.toLowerCase() === 'normal');
-        }).sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
+        result
+          .filter((val) => {
+            return (
+              (val.created_on !== todaysDate ||
+                val.status === "IN_PROGRESS" ||
+                val.status === "REGISTERED" ||
+                val.status === "COMPLETED") &&
+              val.taskCategory.toLowerCase() === "normal"
+            );
+          })
+          .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
-      if(result.filter((val)=>{return val.created_on !== todaysDate && val.status !== "COMPLETED"}).length !== 0){
+      if (
+        result.filter((val) => {
+          return val.created_on !== todaysDate && val.status !== "COMPLETED";
+        }).length !== 0
+      ) {
         var element = document.getElementById("home-container");
         element.classList.add("flex-wrap");
-        var secondEle = document.getElementById("scroll-container")
-        secondEle.classList.remove("md:w-3/5")
+        var secondEle = document.getElementById("scroll-container");
+        secondEle.classList.remove("md:w-3/5");
       }
     }
   }, [data]);
@@ -144,6 +188,11 @@ const Home = () => {
         </div>
       )}
       {isPending && <Modal></Modal>}
+      <CongratulationModal
+        text={congratulationModalText}
+        open={isOpenCongratulationModal}
+        handleClose={handleCongratulationModal}
+      />
     </div>
   );
 };

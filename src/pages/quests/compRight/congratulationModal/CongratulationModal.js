@@ -6,7 +6,13 @@ import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
-const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
+const CongratulationModal = ({
+  open,
+  handleClose,
+  rewards,
+  text,
+  nextQuestFunc,
+}) => {
   const cancelButtonRef = useRef(null);
   const navigate = useNavigate();
 
@@ -70,19 +76,29 @@ const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
                   Congratulations!
                 </h3>
                 <p className="dialog-text mb-3">
-                  You have earned {rewards} xCapx tokens as reward for
-                  successfully completing the quest
+                  {text
+                    ? text
+                    : `You have earned ${rewards} xCapx tokens as reward for
+                  successfully completing the quest`}
                 </p>
-                <div className="dialog-buttons flex justify-between">
-                  <button
-                    className="btn-outline flex items-center"
-                    onClick={nextQuestFunc}
-                  >
-                    <span> Next Quest</span>
-                    <HiArrowRight className="text-xl ml-3" />
-                  </button>
+                <div
+                  className={`dialog-buttons flex ${
+                    nextQuestFunc ? "justify-between" : "justify-center "
+                  }`}
+                >
+                  {nextQuestFunc && (
+                    <button
+                      className="btn-outline flex items-center"
+                      onClick={nextQuestFunc}
+                    >
+                      <span> Next Quest</span>
+                      <HiArrowRight className="text-xl ml-3" />
+                    </button>
+                  )}
+
                   <button
                     onClick={(e) => {
+                      handleClose();
                       e.preventDefault();
                       navigate("/");
                     }}

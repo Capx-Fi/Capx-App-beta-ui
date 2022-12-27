@@ -13,7 +13,6 @@ import { useSelector } from "react-redux";
 const ConnectTwitter = ({ actionData }) => {
   const userData = useSelector((state)=>state.user);
   const authAccess = useSelector((state)=>state.auth.accessToken);
-  console.log(userData.socials.twitter_id.trim().length === 0);
   const navigate = useNavigate();
   const [showActionCompleteDialog, setShowActionCompleteDialog] =
     useState(false);

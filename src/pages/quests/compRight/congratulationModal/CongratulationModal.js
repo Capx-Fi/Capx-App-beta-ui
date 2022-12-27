@@ -81,7 +81,11 @@ const CongratulationModal = ({
                     : `You have earned ${rewards} xCapx tokens as reward for
                   successfully completing the quest`}
                 </p>
-                <div className="dialog-buttons flex justify-between">
+                <div
+                  className={`dialog-buttons flex ${
+                    nextQuestFunc ? "justify-between" : "justify-center "
+                  }`}
+                >
                   {nextQuestFunc && (
                     <button
                       className="btn-outline flex items-center"

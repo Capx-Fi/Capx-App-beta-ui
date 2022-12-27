@@ -78,7 +78,7 @@ const Home = () => {
 
       if (raminDailyQuests.length <= 2) {
         SetIsOpenCongratulationModal(true);
-        SetCongratulationModalText("You have completed all the quest");
+        SetCongratulationModalText("You have completed all the quests");
       }
       console.log(raminDailyQuests.length, result.length);
       console.log(result);

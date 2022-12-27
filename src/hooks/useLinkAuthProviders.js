@@ -11,13 +11,14 @@ export const useLinkAuthProviders = () => {
   const [error, setError] = useState("");
   const [isPending, setIsPending] = useState(false);
   const [linkDone,setLinkDone] = useState(false);
+  const [useAccessToken, setUseActionToken] = useState(null)
   const user = auth.currentUser;
 
   const linkWithSocail = async (method) => {
     if (method) {
       setError(null);
       setIsPending(true);
-
+      setUseActionToken(null);
       let provider = null;
       switch (method.toUpperCase()) {
         case "GOOGLE": {
@@ -34,8 +35,12 @@ export const useLinkAuthProviders = () => {
       }
 
       try {
-        await linkWithPopup(user, provider);
+       const userdata =  await linkWithPopup(user, provider);
+       if(userdata && userdata.user){  
+        setUseActionToken(userdata.user.accessToken);
+       }
       } catch (error) {
+        console.log(error);
         setError(error);
       }
       setLinkDone(true);
@@ -50,7 +55,7 @@ export const useLinkAuthProviders = () => {
     if (method) {
       setError(null);
       setIsPending(true);
-
+      setUseActionToken(null);
       let provider = null;
       switch (method.toUpperCase()) {
         case "GOOGLE": {
@@ -67,8 +72,9 @@ export const useLinkAuthProviders = () => {
       }
 
       try {
-        await unlink(user, provider);
+        await unlink(user, provider.providerId);
       } catch (error) {
+        console.log(error);
         setError(error);
       }
       setLinkDone(true);
@@ -79,5 +85,5 @@ export const useLinkAuthProviders = () => {
     }
   };
 
-  return { linkWithSocail,unlinkWithSocail, error, isPending, linkDone };
+  return { linkWithSocail,unlinkWithSocail,useAccessToken, error, isPending, linkDone };
 };

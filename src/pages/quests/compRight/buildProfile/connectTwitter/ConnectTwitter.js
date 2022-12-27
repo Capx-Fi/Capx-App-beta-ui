@@ -33,15 +33,18 @@ const ConnectTwitter = ({ actionData }) => {
   };
 
   useEffect(() => {
-    if (linkDone === true && !fetchUpdatedToken) {
-      setFetchUpdatedToken(true);
-    } else if (linkDone === true && fetchUpdatedToken && !isPending) {
-      let input = {
-        type: "connectTwitter",
-        accessToken: accessToken,
-      };
-      actionData.handleCompleteAction(null, input);
-    }
+    const timer = setTimeout(() => {
+      if (linkDone === true && !fetchUpdatedToken) {
+        setFetchUpdatedToken(true);
+      } else if (linkDone === true && fetchUpdatedToken && !isPending) {
+        let input = {
+          type: "connectTwitter",
+          accessToken: accessToken,
+        };
+        actionData.handleCompleteAction(null, input);
+      }
+    }, 1000);
+    return () => clearTimeout(timer);
   }, [linkDone, isPending]);
 
   return (

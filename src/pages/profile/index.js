@@ -19,30 +19,25 @@ import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
 import { EditIconSvg, GoogleIcon } from "../../assets/svg";
 import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 import { config } from "../../config";
+import { MdFormatLineSpacing } from "react-icons/md";
 
 function Profile() {
   const inputRef = useRef();
+  const userData = useSelector((state) => state.user);
+
   const [isEditEnabled, setIsEditEnabled] = useState(false);
   const [showModel, setShowModal] = useState(true);
-  const userData = useSelector((state) => state.user);
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const [ModalHeading, setModalHeading] = useState("");
+  const [imagePreview, setImagePreview] = useState("");
 
   const handleErrorModal = () => {
     SetIsOpenErrorModal(false);
+    setModalHeading("");
+    formik.setFieldError("fullName", null);
   };
 
-  const [url, setUrl] = useState(config.API_URL);
-  const { isError, isPending, postData, data } = useApi(url, "POST");
-
-  const {
-    error: ApiError,
-    isPending: isAPiPending,
-    postData: imageUploadPostData,
-  } = useApi(
-    "https://capx-gateway-cnfe7xc8.uc.gateway.dev/updateUserProfileImg",
-    "POST"
-  );
+  const { isError, isPending, postData, data } = useApi(config.API_URL, "POST");
 
   const {
     linkWithSocail,
@@ -67,28 +62,49 @@ function Profile() {
     setIsEditEnabled((prevState) => !prevState);
   };
 
-  const handleFormSubmit = (value) => {
-    if (value.fullName.trim().length > 0 && isEditEnabled) {
-      const apiDataObject = { data: { name: value.fullName } };
-      postData(apiDataObject, "/updateUserFullName");
+  const handleFormSubmit = async (value) => {
+    const apiDataObjectForName = { data: { name: value.fullName } };
+    postData(apiDataObjectForName, "/updateUserFullName");
+
+    if (isError) {
+      setModalHeading(isError);
+      SetIsOpenErrorModal(true);
     }
-    // resetForm();
+
+    setImagePreview("");
   };
 
+  useEffect(() => {
+    if (!isPending && !isError && formik.values.imagefile) {
+      // for profile Image
+      (async () => {
+        const imageUrl = await uploadImageToCloud(formik.values.imagefile);
+        const apiDataObjectForImage = { data: { image_url: imageUrl } };
+        postData(apiDataObjectForImage, "/updateUserImage");
+
+        formik.resetForm();
+      })();
+    }
+  }, [isPending]);
+
   const formik = useFormik({
-    initialValues: { fullName: "" },
+    initialValues: { fullName: "", imagefile: null },
     validationSchema: Yup.object().shape({
       fullName: Yup.string()
         .required("Full name is required")
         .matches(/^[a-zA-Z ]*$/, "Invalid Full Name"),
     }),
+    validateOnChange: false,
     onSubmit: handleFormSubmit,
   });
 
   useEffect(() => {
     if (data && data.result.success === true) {
       setIsEditEnabled(false);
-      console.log(data);
+    }
+    if (data && data.result.success === false) {
+      setModalHeading(data.result?.message);
+      SetIsOpenErrorModal(true);
     }
   }, [data]);
 
@@ -103,22 +119,19 @@ function Profile() {
 
   const handleImageUpload = async (e) => {
     let image = e.target.files[0];
-    console.log(e.target.files[0]);
     if (
       (image.type === "image/png" || image.type === "image/jpeg") &&
-      image.size <= 100000
+      image.size <= 50000
     ) {
-      console.log(image);
-      const imageUrl = await uploadImageToCloud(image);
-      const apiDataObject = { data: { image_url: imageUrl } };
-      imageUploadPostData(apiDataObject);
+      formik.setFieldValue("imagefile", image);
+      var imagePreview = URL.createObjectURL(image);
+      setImagePreview(imagePreview);
     } else {
       setModalHeading("File type/size not allowed");
       SetIsOpenErrorModal(true);
     }
   };
 
-  console.log(imageUrl);
   return (
     <>
       <div className="myProfile flex pp-4 md:p-8">
@@ -142,7 +155,7 @@ function Profile() {
                 <div className="img-wrapper relative">
                   {userData?.image_url ? (
                     <img
-                      src={userData?.image_url}
+                      src={imagePreview ? imagePreview : userData?.image_url}
                       alt=""
                       className="profile-img absolute inset-0"
                     />
@@ -264,7 +277,7 @@ function Profile() {
                     </button>
                   )}
 
-                  {userData?.socials.twitter_id.trim() !== "" ? (
+                  {/* {userData?.socials.twitter_id.trim() !== "" ? (
                     <div className="fullname flex flex-row justify-between items-center rounded-2xl">
                       <div className="flex  items-center flex-row gap-3">
                         <img
@@ -272,7 +285,7 @@ function Profile() {
                           alt=""
                           className="pfp-background w-6"
                         />
-                        {/* Target the below class for changing Twitter Handle */}
+                        Target the below class for changing Twitter Handle
                         <p className="">
                           {userData?.socials.discord_id !== ""
                             ? userData?.socials.discord_id
@@ -298,13 +311,13 @@ function Profile() {
                           alt=""
                           className="pfp-background w-6"
                         />
-                        {/* Target the below class for changing Twitter Handle */}
-                        <p className="">Connect your Google</p>
+                        Target the below class for changing Twitter Handle
+                        <p className="">Connect your Discord</p>
                       </div>
                     </button>
-                  )}
+                  )} */}
 
-                  {userData.socials.instagram_id &&
+                  {/* {userData.socials.instagram_id &&
                   userData?.socials.instagram_id.trim() !== "" ? (
                     <div className="fullname flex flex-row justify-between items-center rounded-2xl">
                       <div className="flex  items-center flex-row gap-3">
@@ -313,7 +326,7 @@ function Profile() {
                           alt=""
                           className="pfp-background w-6"
                         />
-                        {/* Target the below class for changing Twitter Handle */}
+                        Target the below class for changing Twitter Handle
                         <p className="">
                           {userData.socials.instagram_id &&
                           userData?.socials.instagram_id !== ""
@@ -335,11 +348,11 @@ function Profile() {
                           alt=""
                           className="pfp-background w-6"
                         />
-                        {/* Target the below class for changing Twitter Handle */}
+                        Target the below class for changing Twitter Handle
                         <p className="">Connect your Instagram</p>
                       </div>
                     </button>
-                  )}
+                  )} */}
                   {isEditEnabled && (
                     <div className="submit-btn p-4 bg-gredient-2 flex justify-center rounded-2xl">
                       <button
@@ -361,10 +374,7 @@ function Profile() {
           </div>
         </div>
       </div>
-      {(isPending ||
-        isSOcialLinkPending ||
-        isAPiPending ||
-        isUploadImgPending) && <Modal />}
+      {(isPending || isSOcialLinkPending || isUploadImgPending) && <Modal />}
       {showModel && linkSocalError && (
         <Modal
           actions={{
@@ -374,8 +384,8 @@ function Profile() {
         />
       )}
       <ErrorModal
-        heading={ModalHeading}
-        open={isOpenErrorModal}
+        heading={ModalHeading || formik.errors.fullName}
+        open={isOpenErrorModal || !!formik.errors.fullName}
         handleClose={handleErrorModal}
       />
     </>

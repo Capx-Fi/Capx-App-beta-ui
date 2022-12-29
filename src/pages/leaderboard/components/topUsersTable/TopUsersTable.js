@@ -1,6 +1,6 @@
 import React from "react";
 
-const TopUsersTable = ({ users }) => {
+const TopUsersTable = ({ userData }) => {
   return (
     <div className="top-users-table">
       <div className="table-wrapper">
@@ -17,16 +17,17 @@ const TopUsersTable = ({ users }) => {
             </tr>
           </thead>
           <tbody>
-            {users.slice(2, 10).map((user, ind) => {
+            {userData.slice(2, 10).map((user, ind) => {
+              console.log(user);
               return (
                 <tr>
-                  <td className="table-data">#{user.rank}</td>
-                  <td className="table-data text-center">{user.name}</td>
+                  <td className="table-data">#{user.position}</td>
+                  <td className="table-data text-center">{user.username}</td>
                   <td className="table-data text-center">
-                    {user.tasks} Quests
+                    {user.quests} Quests
                   </td>
                   <td className="table-data text-center">
-                    {user.earned} xCapx
+                    {user.earned_rewards} xCapx
                   </td>
                 </tr>
               );

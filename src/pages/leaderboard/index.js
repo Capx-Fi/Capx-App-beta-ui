@@ -1,37 +1,54 @@
 import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { LeaderboardSplash } from "../../assets/images";
 import { LeaderboardBadge } from "../../assets/svg";
 import AlertModal from "../../components/alertModal/AlertModal";
+import Modal from "../../components/Modal/Modal";
+import { config } from "../../config";
+import { useApi } from "../../hooks/useApi";
+import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 import Banner from "./components/banner/Banner";
 import TopUserCard from "./components/topUserCard/TopUserCard";
 import TopUsersTable from "./components/topUsersTable/TopUsersTable";
 
 const Leaderboard = () => {
   const navigate = useNavigate();
-  const [openAlertModal, setOenAlertModal] = useState(false);
+  const [openAlertModal, setOpenAlertModal] = useState(false);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
+
+  const {
+    error,
+    isPending,
+    data: topUsersData,
+    getData,
+  } = useApi(config.API_URL);
+
+  const userData = useSelector((state) => state.user);
+
+  useEffect(() => {
+    if (!error) {
+      if (19 <= userData.earned_rewards) {
+        getData(null, "/fetchLeaderboard");
+      } else {
+        setOpenAlertModal(true);
+      }
+    } else {
+      if (error) {
+        setOpenErrorModal(true);
+      }
+    }
+  }, [userData, error]);
+  console.log(error);
 
   const handleAlertModalClose = () => {
-    setOenAlertModal((prev) => (prev ? false : true));
-    navigate('/')
+    setOpenAlertModal((prev) => (prev ? false : true));
+    navigate("/");
   };
 
-  useEffect(()=>{
-    setOenAlertModal(true)
-  },[])
-
-  const topTen = [
-    { name: "@tylerhill", earned: "32", tasks: "12", rank: 1 },
-    { name: "@jenniuxt", earned: "28", tasks: "8", rank: 2 },
-    { name: "charlesxavier", earned: "24", tasks: "5", rank: 3 },
-    { name: "@apollogaskill", earned: "21", tasks: "21", rank: 4 },
-    { name: "@barrethenry", earned: "18", tasks: "18", rank: 5 },
-    { name: "@evergladepaez", earned: "17", tasks: "17", rank: 6 },
-    { name: "@heidipino", earned: "12", tasks: "12", rank: 7 },
-    { name: "@kyrieslattery", earned: "8", tasks: "8", rank: 8 },
-    { name: "@martintottem", earned: "6", tasks: "6", rank: 9 },
-    { name: "@oliviapaicio", earned: "6", tasks: "6", rank: 10 },
-  ];
+  const handleErrorModalClose = () => {
+    setOpenErrorModal((prev) => (prev ? false : true));
+  };
 
   return (
     <>
@@ -42,18 +59,32 @@ const Leaderboard = () => {
           <h3 className="ml-3">Leaderboard</h3>
         </div>
         <div className="top-uses flex md:flex-row flex-col gap-6">
-          {topTen.slice(0, 3).map((users, ind) => {
-            return <TopUserCard key={users.name + ind} users={users} />;
-          })}
+          {topUsersData !== null &&
+            topUsersData?.result.leaderboard
+              .slice(0, 3)
+              .map((userData, ind) => {
+                return (
+                  <TopUserCard key={userData.name + ind} userData={userData} />
+                );
+              })}
         </div>
         <div className="flex">
-          <TopUsersTable users={topTen} />
+          {topUsersData !== null && (
+            <TopUsersTable userData={topUsersData?.result.leaderboard} />
+          )}
+
           <div className="splash-img grow md:flex justify-center items-center hidden ">
             <img src={LeaderboardSplash} alt="Trophy" />
           </div>
         </div>
       </div>
-      <AlertModal open={openAlertModal} page={'Leaderboard'} handleClose={handleAlertModalClose} />
+      <AlertModal
+        open={openAlertModal}
+        page={"Leaderboard"}
+        handleClose={handleAlertModalClose}
+      />
+      {isPending && <Modal />}
+      <ErrorModal open={openErrorModal} handleClose={handleErrorModalClose} />
     </>
   );
 };

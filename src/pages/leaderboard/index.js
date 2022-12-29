@@ -28,7 +28,7 @@ const Leaderboard = () => {
 
   useEffect(() => {
     if (!error) {
-      if (19 <= userData.earned_rewards) {
+      if (21 <= userData.earned_rewards) {
         getData(null, "/fetchLeaderboard");
       } else {
         setOpenAlertModal(true);

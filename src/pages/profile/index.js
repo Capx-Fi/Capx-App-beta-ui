@@ -37,8 +37,12 @@ function Profile() {
     formik.setFieldError("fullName", null);
   };
 
-  const { isError, isPending, postData, data } = useApi(config.API_URL, "POST");
-
+  const {
+    error: isError,
+    isPending,
+    postData,
+    data,
+  } = useApi(config.API_URL, "POST");
   const {
     linkWithSocail,
     error: linkSocalError,
@@ -49,8 +53,8 @@ function Profile() {
     uploadImageToCloud,
     isPending: isUploadImgPending,
     error,
-    imageUrl,
   } = useUploadProfileImage();
+
   const showModalFunc = () => {
     setShowModal((prevState) => {
       return !prevState;
@@ -63,29 +67,31 @@ function Profile() {
   };
 
   const handleFormSubmit = async (value) => {
-    const apiDataObjectForName = { data: { name: value.fullName } };
-    postData(apiDataObjectForName, "/updateUserFullName");
+    if (value.fullName !== userData?.name || formik.values.imagefile !== null) {
+      let apiDataObject = { data: {} };
+      if (formik.values.imagefile !== null) {
+        const imageUrl = await uploadImageToCloud(formik.values.imagefile);
+        apiDataObject["data"]["image_url"] = imageUrl;
+      }
+      if (value.fullName !== userData?.name) {
+        apiDataObject["data"]["name"] = value.fullName;
+      }
+      console.log(apiDataObject);
+      postData(apiDataObject, "/updateUserProfile");
+      setImagePreview("");
+      formik.resetForm();
+    } else {
+      setModalHeading("Nothing to update");
+      SetIsOpenErrorModal(true);
+    }
+  };
 
+  useEffect(() => {
     if (isError) {
       setModalHeading(isError);
       SetIsOpenErrorModal(true);
     }
-
-    setImagePreview("");
-  };
-
-  useEffect(() => {
-    if (!isPending && !isError && formik.values.imagefile) {
-      // for profile Image
-      (async () => {
-        const imageUrl = await uploadImageToCloud(formik.values.imagefile);
-        const apiDataObjectForImage = { data: { image_url: imageUrl } };
-        postData(apiDataObjectForImage, "/updateUserImage");
-
-        formik.resetForm();
-      })();
-    }
-  }, [isPending]);
+  }, [isError]);
 
   const formik = useFormik({
     initialValues: { fullName: "", imagefile: null },

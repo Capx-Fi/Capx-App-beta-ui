@@ -17,10 +17,10 @@ const TopUsersTable = ({ userData }) => {
             </tr>
           </thead>
           <tbody>
-            {userData.slice(2, 10).map((user, ind) => {
+            {userData.slice(3, 10).map((user, ind) => {
               console.log(user);
               return (
-                <tr>
+                <tr key={user.username + ind}>
                   <td className="table-data">#{user.position}</td>
                   <td className="table-data text-center">{user.username}</td>
                   <td className="table-data text-center">

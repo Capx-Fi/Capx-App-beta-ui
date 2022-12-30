@@ -19,9 +19,9 @@ const QuestTable = ({ quests }) => {
                   <td className="table-data whitespace-nowrap">
                     {details.date}
                   </td>
-                  <td className="table-data text-start">{details.name}</td>
+                  <td className="table-data text-start">{details.title}</td>
                   <td className="table-data text-center whitespace-nowrap">
-                    {details.earnings} xCapx
+                    {details.earned_rewards} xCapx
                   </td>
                 </tr>
               );

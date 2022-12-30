@@ -5,7 +5,7 @@ import Top2Bagde from "../../../../assets/lottie/Rank_02.json";
 import Top3Bagde from "../../../../assets/lottie/Rank_03.json";
 import Lottie from "react-lottie";
 
-const TopUserCard = ({ users }) => {
+const TopUserCard = ({ userData }) => {
   const top1Options = {
     loop: true,
     autoplay: true,
@@ -41,40 +41,53 @@ const TopUserCard = ({ users }) => {
       <div className="img-box relative bg-gredient-2 self-center">
         <div className="img-wrapper">
           {/* show this if image avialable */}
-          <img
-            className="img"
-            src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8M3x8YXZhdGFyfGVufDB8fDB8fA%3D%3D&w=1000&q=80"
-            alt="profile"
-          />
+          {userData.image_url ? (
+            <img
+              className="img"
+              src={userData.image_url}
+              alt={userData.username}
+            />
+          ) : (
+            <div className="img absolute">
+              <span className="capitalize">
+                {userData.username.slice(0, 1)}
+              </span>
+            </div>
+          )}
 
           {/* show this if not image avialable */}
-          {/* <div className="img absolute">
-                    <span className="">D</span>
-                  </div> */}
         </div>
         <div className="badge absolute flex flex-col justify-center items-center">
-          <Lottie options={userMedal(users.rank)} />
+          <Lottie options={userMedal(userData.position)} />
         </div>
       </div>
       <div className="text-box flex flex-col gap-3 justify-center">
-        <h6 className="name">{users.name}</h6>
+        <h6 className="name">{userData.username}</h6>
         <div className="flex items-center gap-3">
           <div className="tasks-box flex items-center ">
             <img className="box-icon" src={CardCoinIcon} alt="coin" />
-            <span className="text ml-1">{users.earned} xCapx</span>
+            <span className="text ml-1">{userData.earned_rewards} xCapx</span>
           </div>
           <div className="tasks-box flex items-center ">
             <img className="box-icon" src={DailyQuestsIcon} alt="tasks" />
-            <span className="text ml-1">{users.tasks} Tasks</span>
+            <span className="text ml-1">{userData.quests} Tasks</span>
           </div>
           <div className="tasks-box flex items-center md:hidden">
-            <Lottie options={userMedal(users.rank)} height={18} width={18} />
-            <span className="text ml-1">Rank #{users.rank}</span>
+            <Lottie
+              options={userMedal(userData.position)}
+              height={18}
+              width={18}
+            />
+            <span className="text ml-1">Rank #{userData.position}</span>
           </div>
         </div>
         <div className="rank-box md:flex items-center hidden ">
-          <Lottie options={userMedal(users.rank)} height={18} width={18} />
-          <span className="text ml-1">Rank #{users.rank}</span>
+          <Lottie
+            options={userMedal(userData.position)}
+            height={18}
+            width={18}
+          />
+          <span className="text ml-1">Rank #{userData.position}</span>
         </div>
       </div>
       <div className="grow hidden md:block" />

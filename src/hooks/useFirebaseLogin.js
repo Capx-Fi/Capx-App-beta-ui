@@ -5,12 +5,22 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   TwitterAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
 } from "firebase/auth";
 import { config } from "../config";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../store/slices/authSlice";
 import { setUser } from "../store/slices/userSlice";
-import { doc, getDoc, collection, query, where, getDocs } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  collection,
+  query,
+  where,
+  getDocs,
+} from "firebase/firestore";
+import { async } from "@firebase/util";
 
 export const useFireBaseLogin = () => {
   const dispatch = useDispatch();
@@ -72,24 +82,9 @@ export const useFireBaseLogin = () => {
       setError(null);
       setIsPending(true);
       try {
-        const { user: userDetails } = await signInWithPopup(auth, provider);
-        if (!userDetails) {
-          throw new Error("Could not complete signin");
-        }
-        if (userDetails) {
-          const isProfileSet = await setUerDetails(userDetails);
-          dispatch(
-            setLoggedInUser({
-              user: userDetails,
-              isUserProfileSet: isProfileSet,
-            })
-          );
-        }
-        if (!isCancelled) {
-          setIsPending(false);
-          setError(null);
-        }
+        await signInWithRedirect(auth, provider);
       } catch (error) {
+        console.log(error);
         setIsPending(false);
         if (!isCancelled) {
           setError(error.message);
@@ -106,13 +101,11 @@ export const useFireBaseLogin = () => {
     let userprofile = null;
     if (userDetails) {
       try {
-        
         const userDoc = doc(db, config.USER_COLLECTION, userDetails.uid);
         const docSnap = await getDoc(userDoc);
-        ;
         if (docSnap.exists()) {
           const userQuest = await getUserQuestData(userDetails.uid);
-          dispatch(setUser({...docSnap.data(),userQuest:userQuest}));
+          dispatch(setUser({ ...docSnap.data(), userQuest: userQuest }));
           userprofile = true;
         } else {
           userprofile = false;
@@ -124,15 +117,23 @@ export const useFireBaseLogin = () => {
     return userprofile;
   };
 
-  const getUserQuestData = async ( userId ) => {
-    const userQuestCollection = collection(db, `${config.USER_COLLECTION}/${userId}/quest-order`);
-    const questDataQuery = query(userQuestCollection,where("docType", "==", "Aggregate"));
+  const getUserQuestData = async (userId) => {
+    const userQuestCollection = collection(
+      db,
+      `${config.USER_COLLECTION}/${userId}/quest-order`
+    );
+    const questDataQuery = query(
+      userQuestCollection,
+      where("docType", "==", "Aggregate")
+    );
     let quests = [];
-    try{
-      let result = []
+    try {
+      let result = [];
       const userQuestData = await getDocs(questDataQuery);
-      userQuestData.forEach((doc)=>{result.push(doc.data())})
-      if(result.length>0){
+      userQuestData.forEach((doc) => {
+        result.push(doc.data());
+      });
+      if (result.length > 0) {
         Object.keys(result[0].quests).forEach((key) => {
           quests.push({
             ...result[0].quests[key],
@@ -141,11 +142,37 @@ export const useFireBaseLogin = () => {
           });
         });
       }
-    }catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
     return quests;
-  }
+  };
+
+  const getSigninResult = async () => {
+    try {
+      const response = await getRedirectResult(auth);
+
+      if (!response) {
+        throw new Error("Could not complete signin");
+      }
+      if (response) {
+        const { user: userDetails } = response;
+        const isProfileSet = await setUerDetails(userDetails);
+        dispatch(
+          setLoggedInUser({
+            user: userDetails,
+            isUserProfileSet: isProfileSet,
+          })
+        );
+      }
+      if (!isCancelled) {
+        setIsPending(false);
+        setError(null);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
   //cleanup function to abort the request
   // useEffect(()=>{
   //     return () => setIsCancelled(true);
@@ -156,5 +183,6 @@ export const useFireBaseLogin = () => {
     isPending: isPending,
     signInUser: signInUser,
     signInUserUsingSocial: signInUserUsingSocial,
+    getSigninResult,
   };
 };

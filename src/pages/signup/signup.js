@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ChipCapxSvg,
   GetStatedSvg,
@@ -12,6 +12,11 @@ import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
 
 const Signup = () => {
   const { error, isPending, signInUserUsingSocial } = useFireBaseLogin();
+  const { getSigninResult } = useFireBaseLogin();
+
+  useEffect(() => {
+    getSigninResult();
+  }, []);
 
   const handleLogin = async (method) => {
     await signInUserUsingSocial(method);

@@ -32,8 +32,7 @@ function Profile() {
     SetIsOpenErrorModal(false);
   };
 
-  const [url, setUrl] = useState(config.API_URL);
-  const { isError, isPending, postData, data } = useApi(url, "POST");
+  const { isError, isPending, postData, data } = useApi(config.API_URL, "POST");
 
   const {
     error: ApiError,
@@ -48,6 +47,8 @@ function Profile() {
     linkWithSocail,
     error: linkSocalError,
     isPending: isSOcialLinkPending,
+    getLinkResult,
+    useAccessToken,
   } = useLinkAuthProviders();
 
   const {
@@ -117,6 +118,14 @@ function Profile() {
       SetIsOpenErrorModal(true);
     }
   };
+
+  useEffect(() => {
+    getLinkResult();
+    console.log(useAccessToken);
+    if (useAccessToken && useAccessToken?.length !== 0) {
+      postData({ data: {} }, "/linkYourTwitter");
+    }
+  }, []);
 
   console.log(imageUrl);
   return (

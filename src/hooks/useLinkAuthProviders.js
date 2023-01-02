@@ -1,8 +1,11 @@
+import { async } from "@firebase/util";
 import {
+  getRedirectResult,
   GoogleAuthProvider,
   linkWithPopup,
+  linkWithRedirect,
   TwitterAuthProvider,
-  unlink
+  unlink,
 } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase/firebase";
@@ -10,8 +13,8 @@ import { auth } from "../firebase/firebase";
 export const useLinkAuthProviders = () => {
   const [error, setError] = useState("");
   const [isPending, setIsPending] = useState(false);
-  const [linkDone,setLinkDone] = useState(false);
-  const [useAccessToken, setUseActionToken] = useState(null)
+  const [linkDone, setLinkDone] = useState(false);
+  const [useAccessToken, setUseActionToken] = useState(null);
   const user = auth.currentUser;
 
   const linkWithSocail = async (method) => {
@@ -35,10 +38,14 @@ export const useLinkAuthProviders = () => {
       }
 
       try {
-       const userdata =  await linkWithPopup(user, provider);
-       if(userdata && userdata.user){  
-        setUseActionToken(userdata.user.accessToken);
-       }
+        const tokenDetails = await auth.currentUser.getIdTokenResult();
+        if (!tokenDetails.claims?.firebase.identities["twitter.com"]) {
+          await linkWithRedirect(user, provider);
+        }
+
+        // if (userdata && userdata.user) {
+        //   setUseActionToken(userdata.user.accessToken);
+        // }
       } catch (error) {
         console.log(error);
         setError(error);
@@ -85,5 +92,25 @@ export const useLinkAuthProviders = () => {
     }
   };
 
-  return { linkWithSocail,unlinkWithSocail,useAccessToken, error, isPending, linkDone };
+  const getLinkResult = async () => {
+    try {
+      const userdata = await getRedirectResult(auth);
+      console.log(userdata);
+      if (userdata && userdata.user) {
+        setUseActionToken(userdata.user.accessToken);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  return {
+    linkWithSocail,
+    unlinkWithSocail,
+    useAccessToken,
+    error,
+    isPending,
+    linkDone,
+    getLinkResult,
+  };
 };

@@ -9,12 +9,8 @@ import Routes from "./routes/routes";
 function App() {
   useFireBaseAuth();
   const authStateReady = useSelector((state) => state.auth.isAuthReady);
-  const { getSigninResult } = useFireBaseLogin();
-
-  useEffect(() => {
-    getSigninResult();
-  }, []);
-
+  const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  console.log(authStateReady, isLoggedIn);
   return (
     <div className="App">
       {authStateReady ? (

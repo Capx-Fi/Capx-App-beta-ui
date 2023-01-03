@@ -92,6 +92,8 @@ export const useLinkAuthProviders = () => {
   };
 
   const getLinkResult = async () => {
+    setIsPending(true);
+    setError(null);
     try {
       const userdata = await getRedirectResult(auth);
       console.log(userdata);
@@ -100,7 +102,10 @@ export const useLinkAuthProviders = () => {
       }
     } catch (error) {
       console.log(error);
+
+      setError(error);
     }
+    setIsPending(false);
   };
 
   return {

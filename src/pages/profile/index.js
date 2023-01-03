@@ -125,7 +125,6 @@ function Profile() {
     }
   }, [useAccessToken, isSOcialLinkPending]);
 
-
   useEffect(() => {
     getLinkResult();
   }, []);
@@ -276,7 +275,7 @@ function Profile() {
                     </button>
                   )}
 
-                  {userData?.socials.twitter_id.trim() !== "" ? (
+                  {userData?.socials.google_id.trim() !== "" ? (
                     <div className="fullname flex flex-row justify-between items-center rounded-2xl">
                       <div className="flex  items-center flex-row gap-3">
                         <img
@@ -286,15 +285,15 @@ function Profile() {
                         />
                         {/* Target the below class for changing Twitter Handle */}
                         <p className="">
-                          {userData?.socials.discord_id !== ""
-                            ? userData?.socials.discord_id
+                          {userData?.socials.google_id !== ""
+                            ? userData?.email
                             : "Connect your Google"}
                         </p>
                       </div>
                       <img
                         src={Check}
                         alt=""
-                        className="pfp-background rounded-full w-7 hidden"
+                        className="pfp-background rounded-full w-7"
                       />
                     </div>
                   ) : (

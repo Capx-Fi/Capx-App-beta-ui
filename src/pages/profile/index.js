@@ -120,11 +120,14 @@ function Profile() {
   };
 
   useEffect(() => {
-    getLinkResult();
-    console.log(useAccessToken);
-    if (useAccessToken && useAccessToken?.length !== 0) {
+    if (!isSOcialLinkPending && useAccessToken && useAccessToken.length > 0) {
       postData({ data: {} }, "/linkYourTwitter");
     }
+  }, [useAccessToken, isSOcialLinkPending]);
+
+
+  useEffect(() => {
+    getLinkResult();
   }, []);
 
   console.log(imageUrl);

@@ -42,10 +42,6 @@ export const useLinkAuthProviders = () => {
         if (!tokenDetails.claims?.firebase.identities["twitter.com"]) {
           await linkWithRedirect(user, provider);
         }
-
-        // if (userdata && userdata.user) {
-        //   setUseActionToken(userdata.user.accessToken);
-        // }
       } catch (error) {
         console.log(error);
         setError(error);

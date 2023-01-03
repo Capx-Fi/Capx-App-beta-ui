@@ -439,6 +439,7 @@ const AnswerQuiz = () => {
               status: true,
               data: ["__name__", "==", apiData.result.quest_order_id],
             });
+            navigate(`/quest/${apiData.result.quest_order_id}`);
           }
         }
       } else if (apiData && isError) {

@@ -31,15 +31,15 @@ const ConsTasks = ({ quests }) => {
     //to-do:change succcess to success
     if (data && data.result.success && data.result.success === true) {
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
-      navigate("/quest");
+      navigate(`/quest/${data.result.quest_order_id}`);
     } else if (
       data &&
       data.result.success === false &&
       (data.result.quest_status === "REGISTERED" ||
-      data.result.quest_status === "IN_PROGRESS")
+        data.result.quest_status === "IN_PROGRESS")
     ) {
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
-      navigate("/quest");
+      navigate(`/quest/${data.result.quest_order_id}`);
     }
   }, [data]);
 

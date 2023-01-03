@@ -5,7 +5,6 @@ import { publicRoutes, privateRoutes, semiProtectedRoutes } from "./constants";
 
 export default function Routes() {
   const [routes, setRoutes] = useState([]);
-  // const [routes, setRoutes] = useState(publicRoutes);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isUserProfileSet = useSelector((state) => state.auth.isUserProfileSet);
 
@@ -41,7 +40,6 @@ export default function Routes() {
         }
       });
     }
-    console.log(routes);
   }, [isLoggedIn, isUserProfileSet]);
 
   return useRoutes(routes);

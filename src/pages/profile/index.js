@@ -276,7 +276,7 @@ function Profile() {
                     </button>
                   )}
 
-                  {userData?.socials.google_id.trim() !== "" ? (
+                  {/* {userData?.socials.google_id.trim() !== "" ? (
                     <div className="fullname flex flex-row justify-between items-center rounded-2xl">
                       <div className="flex  items-center flex-row gap-3">
                         <img
@@ -284,7 +284,7 @@ function Profile() {
                           alt=""
                           className="pfp-background w-6"
                         />
-                        {/* Target the below class for changing Twitter Handle */}
+                      
                         <p className="">
                           {userData?.socials.google_id !== ""
                             ? userData?.email
@@ -310,13 +310,13 @@ function Profile() {
                           alt=""
                           className="pfp-background w-6"
                         />
-                        {/* Target the below class for changing Twitter Handle */}
+                      
                         <p className="">Connect your Google</p>
                       </div>
                     </button>
-                  )}
+                  )} */}
 
-                  {userData.socials.instagram_id &&
+                  {/* {userData.socials.instagram_id &&
                   userData?.socials.instagram_id.trim() !== "" ? (
                     <div className="fullname flex flex-row justify-between items-center rounded-2xl">
                       <div className="flex  items-center flex-row gap-3">
@@ -325,7 +325,7 @@ function Profile() {
                           alt=""
                           className="pfp-background w-6"
                         />
-                        {/* Target the below class for changing Twitter Handle */}
+                       
                         <p className="">
                           {userData.socials.instagram_id &&
                           userData?.socials.instagram_id !== ""
@@ -347,11 +347,11 @@ function Profile() {
                           alt=""
                           className="pfp-background w-6"
                         />
-                        {/* Target the below class for changing Twitter Handle */}
+                      
                         <p className="">Connect your Instagram</p>
                       </div>
                     </button>
-                  )}
+                  )} */}
                   {isEditEnabled && (
                     <div className="submit-btn p-4 bg-gredient-2 flex justify-center rounded-2xl">
                       <button

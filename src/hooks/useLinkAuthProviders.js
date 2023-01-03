@@ -44,14 +44,12 @@ export const useLinkAuthProviders = () => {
           if (!tokenDetails.claims?.firebase.identities["twitter.com"]) {
             await linkWithRedirect(user, provider);
           } else if (!useAccessToken) {
-            console.log("Token", tokenDetails.token);
             setUseActionToken(tokenDetails.token);
           }
         } else {
           if (!tokenDetails.claims?.firebase.identities["google.com"]) {
             await linkWithRedirect(user, provider);
           } else if (!useAccessToken) {
-            console.log("Token", tokenDetails.token);
             setUseActionToken(tokenDetails.token);
           }
         }
@@ -106,10 +104,8 @@ export const useLinkAuthProviders = () => {
     setError(null);
     try {
       const userdata = await getRedirectResult(auth);
-      console.log(userdata);
       if (userdata && userdata.user) {
         setUseActionToken(userdata.user.accessToken);
-        console.log(userdata.providerId);
         setSocialRedirectProvider(userdata.providerId);
       }
     } catch (error) {

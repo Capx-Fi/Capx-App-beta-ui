@@ -357,12 +357,10 @@ const AnswerQuiz = () => {
         actionsData = Object.values(data[0].actions).filter((val) => {
           return val.action_order_status !== "COMPLETED";
         });
-        console.log(actionData);
       } else {
         actionsData = Object.values(data[0].actions).filter((val) => {
           return val.is_claimed !== true;
         });
-        console.log(actionData);
       }
 
       if (actionsData.length === 0) {

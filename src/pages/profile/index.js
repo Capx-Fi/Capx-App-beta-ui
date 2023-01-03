@@ -90,7 +90,6 @@ function Profile() {
   useEffect(() => {
     if (data && data.result.success === true) {
       setIsEditEnabled(false);
-      console.log(data);
     }
   }, [data]);
 
@@ -105,12 +104,10 @@ function Profile() {
 
   const handleImageUpload = async (e) => {
     let image = e.target.files[0];
-    console.log(e.target.files[0]);
     if (
       (image.type === "image/png" || image.type === "image/jpeg") &&
       image.size <= 100000
     ) {
-      console.log(image);
       const imageUrl = await uploadImageToCloud(image);
       const apiDataObject = { data: { image_url: imageUrl } };
       imageUploadPostData(apiDataObject);
@@ -134,7 +131,6 @@ function Profile() {
     getLinkResult();
   }, []);
 
-  console.log(imageUrl);
   return (
     <>
       <div className="myProfile flex pp-4 md:p-8">

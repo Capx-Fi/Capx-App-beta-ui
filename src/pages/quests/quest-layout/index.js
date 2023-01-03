@@ -39,7 +39,7 @@ const AnswerQuiz = () => {
   const routeParams = useParams();
   const auth = useSelector((state) => state.auth.user);
   const allQuestData = useSelector((state) => state.quest.allQuests);
-  const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
+  // const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
   const [url, setUrl] = useState(config.API_URL);
   const [questData, setQuestData] = useState(null);
   const [actionData, setActionData] = useState(null);
@@ -209,7 +209,7 @@ const AnswerQuiz = () => {
               actionData={{
                 ...actionData,
                 handleCompleteAction: handleCompleteAction,
-                questID: questOrderId,
+                questID: routeParams.questID,
               }}
             />
           );
@@ -226,7 +226,7 @@ const AnswerQuiz = () => {
   const claimRewardHandler = () => {
     if (questData?.quest_category !== "Build_Profile") {
       let apiDataObject = {
-        data: { quest_order_id: questOrderId },
+        data: { quest_order_id: routeParams.questID },
       };
       postData(apiDataObject, "/claimReward");
     } else if (questData?.quest_category === "Build_Profile") {

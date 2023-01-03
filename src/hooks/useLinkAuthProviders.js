@@ -15,6 +15,7 @@ export const useLinkAuthProviders = () => {
   const [isPending, setIsPending] = useState(false);
   const [linkDone, setLinkDone] = useState(false);
   const [useAccessToken, setUseActionToken] = useState(null);
+  const [socialRedirectProvider, setSocialRedirectProvider] = useState("");
   const user = auth.currentUser;
 
   const linkWithSocail = async (method) => {
@@ -108,6 +109,8 @@ export const useLinkAuthProviders = () => {
       console.log(userdata);
       if (userdata && userdata.user) {
         setUseActionToken(userdata.user.accessToken);
+        console.log(userdata.providerId);
+        setSocialRedirectProvider(userdata.providerId);
       }
     } catch (error) {
       console.log(error);
@@ -125,5 +128,6 @@ export const useLinkAuthProviders = () => {
     isPending,
     linkDone,
     getLinkResult,
+    socialRedirectProvider,
   };
 };

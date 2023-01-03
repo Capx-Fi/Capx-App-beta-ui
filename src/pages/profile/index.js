@@ -48,6 +48,7 @@ function Profile() {
     error: linkSocalError,
     isPending: isSOcialLinkPending,
     getLinkResult,
+    socialRedirectProvider,
     useAccessToken,
   } = useLinkAuthProviders();
 
@@ -121,9 +122,13 @@ function Profile() {
 
   useEffect(() => {
     if (!isSOcialLinkPending && useAccessToken && useAccessToken.length > 0) {
-      postData({ data: {} }, "/linkYourTwitter");
+      if (socialRedirectProvider === "twitter.com") {
+        postData({ data: {} }, "/linkYourTwitter");
+      } else {
+        postData({ data: {} }, "/linkYourGoogle");
+      }
     }
-  }, [useAccessToken, isSOcialLinkPending]);
+  }, [useAccessToken, isSOcialLinkPending, socialRedirectProvider]);
 
   useEffect(() => {
     getLinkResult();

@@ -32,8 +32,7 @@ function Profile() {
     SetIsOpenErrorModal(false);
   };
 
-  const [url, setUrl] = useState(config.API_URL);
-  const { isError, isPending, postData, data } = useApi(url, "POST");
+  const { isError, isPending, postData, data } = useApi(config.API_URL, "POST");
 
   const {
     error: ApiError,
@@ -48,6 +47,9 @@ function Profile() {
     linkWithSocail,
     error: linkSocalError,
     isPending: isSOcialLinkPending,
+    getLinkResult,
+    socialRedirectProvider,
+    useAccessToken,
   } = useLinkAuthProviders();
 
   const {
@@ -88,7 +90,6 @@ function Profile() {
   useEffect(() => {
     if (data && data.result.success === true) {
       setIsEditEnabled(false);
-      console.log(data);
     }
   }, [data]);
 
@@ -103,12 +104,10 @@ function Profile() {
 
   const handleImageUpload = async (e) => {
     let image = e.target.files[0];
-    console.log(e.target.files[0]);
     if (
       (image.type === "image/png" || image.type === "image/jpeg") &&
       image.size <= 100000
     ) {
-      console.log(image);
       const imageUrl = await uploadImageToCloud(image);
       const apiDataObject = { data: { image_url: imageUrl } };
       imageUploadPostData(apiDataObject);
@@ -118,7 +117,20 @@ function Profile() {
     }
   };
 
-  console.log(imageUrl);
+  useEffect(() => {
+    if (!isSOcialLinkPending && useAccessToken && useAccessToken.length > 0) {
+      if (socialRedirectProvider === "twitter.com") {
+        postData({ data: {} }, "/linkYourTwitter");
+      } else {
+        postData({ data: {} }, "/linkYourGoogle");
+      }
+    }
+  }, [useAccessToken, isSOcialLinkPending, socialRedirectProvider]);
+
+  useEffect(() => {
+    getLinkResult();
+  }, []);
+
   return (
     <>
       <div className="myProfile flex pp-4 md:p-8">
@@ -264,7 +276,7 @@ function Profile() {
                     </button>
                   )}
 
-                  {userData?.socials.twitter_id.trim() !== "" ? (
+                  {userData?.socials.google_id.trim() !== "" ? (
                     <div className="fullname flex flex-row justify-between items-center rounded-2xl">
                       <div className="flex  items-center flex-row gap-3">
                         <img
@@ -274,15 +286,15 @@ function Profile() {
                         />
                         {/* Target the below class for changing Twitter Handle */}
                         <p className="">
-                          {userData?.socials.discord_id !== ""
-                            ? userData?.socials.discord_id
+                          {userData?.socials.google_id !== ""
+                            ? userData?.email
                             : "Connect your Google"}
                         </p>
                       </div>
                       <img
                         src={Check}
                         alt=""
-                        className="pfp-background rounded-full w-7 hidden"
+                        className="pfp-background rounded-full w-7"
                       />
                     </div>
                   ) : (

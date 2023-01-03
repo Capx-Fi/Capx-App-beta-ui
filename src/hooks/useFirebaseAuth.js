@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAuthStatus } from "./../store/slices/authSlice";
 import { setUser } from "./../store/slices/userSlice";
-import { config } from "../config"
+import { config } from "../config";
 import {
   doc,
   getDoc,
@@ -21,18 +21,25 @@ export const useFireBaseAuth = () => {
       //dispatch auth is ready redux change
       if (user) {
         try {
-         
           const userDoc = doc(db, "xusers", user.uid);
           const docSnap = await getDoc(userDoc);
-         
+
           if (docSnap.data() !== undefined && docSnap.exists()) {
-            const userQuestCollection = collection(db, `${config.USER_COLLECTION}/${user.uid}/quest-order`);
-            const questDataQuery = query(userQuestCollection,where("docType", "==", "Aggregate"));
+            const userQuestCollection = collection(
+              db,
+              `${config.USER_COLLECTION}/${user.uid}/quest-order`
+            );
+            const questDataQuery = query(
+              userQuestCollection,
+              where("docType", "==", "Aggregate")
+            );
             let quests = [];
-            let result = []
+            let result = [];
             const userQuestData = await getDocs(questDataQuery);
-            userQuestData.forEach((doc)=>{result.push(doc.data())})
-            if(result.length>0 && result[0].quests){
+            userQuestData.forEach((doc) => {
+              result.push(doc.data());
+            });
+            if (result.length > 0 && result[0].quests) {
               Object.keys(result[0].quests).forEach((key) => {
                 quests.push({
                   ...result[0].quests[key],
@@ -41,7 +48,7 @@ export const useFireBaseAuth = () => {
                 });
               });
             }
-            dispatch(setUser({...docSnap.data(),userQuest:quests}));
+            dispatch(setUser({ ...docSnap.data(), userQuest: quests }));
           }
           dispatch(
             setAuthStatus({

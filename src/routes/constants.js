@@ -74,7 +74,7 @@ export const privateRoutes = [
         element: <Profile />,
       },
       {
-        path: "/quest",
+        path: "/quest/:questID",
         element: <AnswerQuiz />,
       },
       {

@@ -14,7 +14,7 @@ function classNames(...classes) {
 const Header = ({ userAction }) => {
   const location = useLocation();
   const userData = useSelector((state) => state.user);
-  const pathname = location.pathname.replace("/", "").replace("-", " ");
+  const pathname = location.pathname.split("/")[1].replace("-", " ");
 
   const handleLogout = (e) => {
     userAction.handleLogout(e);

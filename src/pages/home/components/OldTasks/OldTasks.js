@@ -41,7 +41,7 @@ const OldTasks = ({ quests }) => {
   useEffect(() => {
     if (data && data.result.success && data.result.success === true) {
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
-      navigate("/quest");
+      navigate(`/quest/${data.result.quest_order_id}`);
     } else if (
       data &&
       data.result.success === false &&
@@ -50,7 +50,7 @@ const OldTasks = ({ quests }) => {
         data.result.quest_status === "COMPLETED")
     ) {
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
-      navigate("/quest");
+      navigate(`/quest/${data.result.quest_order_id}`);
     }
   }, [data]);
 

@@ -6,16 +6,18 @@ import Routes from "./routes/routes";
 
 function App() {
   useFireBaseAuth();
-  const authStateReady = useSelector((state)=>state.auth.isAuthReady);
+  const authStateReady = useSelector((state) => state.auth.isAuthReady);
 
   return (
     <div className="App">
-      {authStateReady ?
-      <BrowserRouter>
-        <Routes/>
-      </BrowserRouter>: <Modal/>}
+      {authStateReady ? (
+        <BrowserRouter>
+          <Routes />
+        </BrowserRouter>
+      ) : (
+        <Modal />
+      )}
     </div>
-   
   );
 }
 

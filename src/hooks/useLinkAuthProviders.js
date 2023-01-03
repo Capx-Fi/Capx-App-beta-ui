@@ -1,8 +1,11 @@
+import { async } from "@firebase/util";
 import {
+  getRedirectResult,
   GoogleAuthProvider,
   linkWithPopup,
+  linkWithRedirect,
   TwitterAuthProvider,
-  unlink
+  unlink,
 } from "firebase/auth";
 import { useState } from "react";
 import { auth } from "../firebase/firebase";
@@ -10,8 +13,9 @@ import { auth } from "../firebase/firebase";
 export const useLinkAuthProviders = () => {
   const [error, setError] = useState("");
   const [isPending, setIsPending] = useState(false);
-  const [linkDone,setLinkDone] = useState(false);
-  const [useAccessToken, setUseActionToken] = useState(null)
+  const [linkDone, setLinkDone] = useState(false);
+  const [useAccessToken, setUseActionToken] = useState(null);
+  const [socialRedirectProvider, setSocialRedirectProvider] = useState("");
   const user = auth.currentUser;
 
   const linkWithSocail = async (method) => {
@@ -35,10 +39,20 @@ export const useLinkAuthProviders = () => {
       }
 
       try {
-       const userdata =  await linkWithPopup(user, provider);
-       if(userdata && userdata.user){  
-        setUseActionToken(userdata.user.accessToken);
-       }
+        const tokenDetails = await auth.currentUser.getIdTokenResult();
+        if (method.toUpperCase() === "TWITTER") {
+          if (!tokenDetails.claims?.firebase.identities["twitter.com"]) {
+            await linkWithRedirect(user, provider);
+          } else if (!useAccessToken) {
+            setUseActionToken(tokenDetails.token);
+          }
+        } else {
+          if (!tokenDetails.claims?.firebase.identities["google.com"]) {
+            await linkWithRedirect(user, provider);
+          } else if (!useAccessToken) {
+            setUseActionToken(tokenDetails.token);
+          }
+        }
       } catch (error) {
         console.log(error);
         setError(error);
@@ -85,5 +99,31 @@ export const useLinkAuthProviders = () => {
     }
   };
 
-  return { linkWithSocail,unlinkWithSocail,useAccessToken, error, isPending, linkDone };
+  const getLinkResult = async () => {
+    setIsPending(true);
+    setError(null);
+    try {
+      const userdata = await getRedirectResult(auth);
+      if (userdata && userdata.user) {
+        setUseActionToken(userdata.user.accessToken);
+        setSocialRedirectProvider(userdata.providerId);
+      }
+    } catch (error) {
+      console.log(error);
+
+      setError(error);
+    }
+    setIsPending(false);
+  };
+
+  return {
+    linkWithSocail,
+    unlinkWithSocail,
+    useAccessToken,
+    error,
+    isPending,
+    linkDone,
+    getLinkResult,
+    socialRedirectProvider,
+  };
 };

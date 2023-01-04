@@ -75,7 +75,6 @@ function Profile() {
       if (value.fullName !== userData?.name) {
         apiDataObject["data"]["name"] = value.fullName;
       }
-      console.log(apiDataObject);
       postData(apiDataObject, "/updateUserProfile");
       setImagePreview("");
       formik.resetForm();
@@ -131,14 +130,14 @@ function Profile() {
   };
 
   const handleDiscordLink = () => {
-    window.location.href = `${config.API_URL}/linkDiscord`;
+    window.location.href = `${config.AUTH_ENDPOINT}/linkDiscord`;
   };
 
   useEffect(() => {
     if (!isSOcialLinkPending && useAccessToken && useAccessToken.length > 0) {
       if (socialRedirectProvider === "twitter.com") {
         postData({ data: {} }, "/linkYourTwitter");
-      } else {
+      } else if (socialRedirectProvider === "google.com") {
         postData({ data: {} }, "/linkYourGoogle");
       }
     }
@@ -147,7 +146,6 @@ function Profile() {
   useEffect(() => {
     (async () => {
       let code = getURLParameter("code");
-
       if (code && !data) {
         getData({ code: code }, "/linkAuthDiscord");
         navigate("/profile");

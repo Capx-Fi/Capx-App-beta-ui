@@ -42,6 +42,7 @@ function Profile() {
     getLinkResult,
     socialRedirectProvider,
     useAccessToken,
+    unlinkWithSocail,
   } = useLinkAuthProviders();
 
   const {
@@ -110,6 +111,16 @@ function Profile() {
     if (linkSocalError) showModalFunc(true);
   };
 
+  const handleSocialUnLink = (method) => {
+    unlinkWithSocail(method);
+
+    if (linkSocalError) {
+      showModalFunc(true);
+    } else {
+      postData({ data: {} }, "/unlinkYourTwitter");
+    }
+  };
+
   const handleImageUpload = async (e) => {
     let image = e.target.files[0];
     if (
@@ -138,6 +149,7 @@ function Profile() {
   useEffect(() => {
     getLinkResult();
   }, []);
+  console.log(userData);
 
   return (
     <>
@@ -259,11 +271,21 @@ function Profile() {
                             : "Connect your Twitter"}
                         </p>
                       </div>
-                      <img
-                        src={Check}
-                        alt=""
-                        className="pfp-background rounded-full w-7"
-                      />
+                      <div className="flex items-center">
+                        <button
+                          onClick={() => {
+                            handleSocialUnLink("twitter");
+                          }}
+                          className="unlink-btn mr-2"
+                        >
+                          Unlink
+                        </button>
+                        <img
+                          src={Check}
+                          alt=""
+                          className="pfp-background rounded-full w-7"
+                        />
+                      </div>
                     </div>
                   ) : (
                     <button

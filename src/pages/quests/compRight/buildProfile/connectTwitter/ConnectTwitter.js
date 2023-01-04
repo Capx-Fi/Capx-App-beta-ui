@@ -9,15 +9,25 @@ import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import Modal from "../../../../../components/Modal/Modal";
+import { config } from "../../../../../config";
+import { useApi } from "../../../../../hooks/useApi";
 
 const ConnectTwitter = ({ actionData }) => {
   const userData = useSelector((state) => state.user);
   const authAccess = useSelector((state) => state.auth.accessToken);
+  const { unlinkWithSocail, isPending, error } = useLinkAuthProviders();
   const navigate = useNavigate();
   const [showActionCompleteDialog, setShowActionCompleteDialog] =
     useState(false);
   const [fetchUpdatedToken, setFetchUpdatedToken] = useState(false);
   const [showClaimBtn, setShowClaimBtn] = useState(false);
+  const {
+    isError,
+    isPending: isunLinkAuthPending,
+    postData,
+    data,
+  } = useApi(config.API_URL, "POST");
   const {
     linkWithSocail,
     error: linkSocalError,
@@ -41,6 +51,14 @@ const ConnectTwitter = ({ actionData }) => {
   const handleSocialLink = async (method) => {
     linkWithSocail(method);
   };
+  const handleSocialUnLink = (method) => {
+    unlinkWithSocail(method);
+
+    if (!linkSocalError) {
+      postData({ data: {} }, "/unlinkYourTwitter");
+    } else {
+    }
+  };
 
   useEffect(() => {
     if (!isSocialLinkPending && useAccessToken && useAccessToken.length > 0) {
@@ -51,7 +69,7 @@ const ConnectTwitter = ({ actionData }) => {
   useEffect(() => {
     getLinkResult();
   }, []);
-
+  console.log(userData.socials.twitter_id.trim().length === 0);
   return (
     <>
       <div className="connect-twitter-action flex flex-col gap-3">
@@ -94,16 +112,28 @@ const ConnectTwitter = ({ actionData }) => {
                 <span>Twitter Connected</span>
               </div>
               {actionData?.action_order_status === "COMPLETED" ? (
-                <button
-                  onClick={(e) => {
-                    // actionData.handleCompleteAction(e, { type: "profile", value: "" })
-                    actionData?.claimRewardHandler();
-                  }}
-                  className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
-                >
-                  Claim 1 xCapx
-                  <HiArrowRight className="text-xl " />
-                </button>
+                <>
+                  <button
+                    onClick={(e) => {
+                      // actionData.handleCompleteAction(e, { type: "profile", value: "" })
+                      handleSocialUnLink("twitter");
+                    }}
+                    className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+                  >
+                    Disconnect your twitter
+                    <HiArrowRight className="text-xl " />
+                  </button>
+                  <button
+                    onClick={(e) => {
+                      // actionData.handleCompleteAction(e, { type: "profile", value: "" })
+                      actionData?.claimRewardHandler();
+                    }}
+                    className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+                  >
+                    Claim 1 xCapx
+                    <HiArrowRight className="text-xl " />
+                  </button>
+                </>
               ) : (
                 <button
                   onClick={(e) => {
@@ -136,6 +166,7 @@ const ConnectTwitter = ({ actionData }) => {
         open={showActionCompleteDialog}
         handleClose={handleActionCompleteDialog}
       />
+      {isPending && <Modal />}
     </>
   );
 };

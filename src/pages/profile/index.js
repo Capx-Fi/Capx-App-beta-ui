@@ -135,19 +135,14 @@ function Profile() {
   };
 
   useEffect(() => {
-    if (
-      !linkDone &&
-      !isSOcialLinkPending &&
-      useAccessToken &&
-      useAccessToken.length > 0
-    ) {
+    if (!isSOcialLinkPending && useAccessToken?.length > 0) {
       if (socialRedirectProvider === "twitter.com") {
         postData({ data: {} }, "/linkYourTwitter");
       } else if (socialRedirectProvider === "google.com") {
         postData({ data: {} }, "/linkYourGoogle");
       }
     }
-  }, [useAccessToken, isSOcialLinkPending, socialRedirectProvider, linkDone]);
+  }, [isSOcialLinkPending, socialRedirectProvider]);
 
   useEffect(() => {
     (async () => {

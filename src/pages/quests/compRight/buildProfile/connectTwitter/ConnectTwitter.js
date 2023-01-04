@@ -111,18 +111,9 @@ const ConnectTwitter = ({ actionData }) => {
                 />
                 <span>Twitter Connected</span>
               </div>
+
               {actionData?.action_order_status === "COMPLETED" ? (
                 <>
-                  <button
-                    onClick={(e) => {
-                      // actionData.handleCompleteAction(e, { type: "profile", value: "" })
-                      handleSocialUnLink("twitter");
-                    }}
-                    className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
-                  >
-                    Disconnect your twitter
-                    <HiArrowRight className="text-xl " />
-                  </button>
                   <button
                     onClick={(e) => {
                       // actionData.handleCompleteAction(e, { type: "profile", value: "" })
@@ -135,16 +126,27 @@ const ConnectTwitter = ({ actionData }) => {
                   </button>
                 </>
               ) : (
-                <button
-                  onClick={(e) => {
-                    // actionData.handleCompleteAction(e, { type: "profile", value: "" })
-                    handleActionComplete(authAccess);
-                  }}
-                  className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
-                >
-                  Complete Action
-                  <HiArrowRight className="text-xl " />
-                </button>
+                <>
+                  <button
+                    onClick={(e) => {
+                      // actionData.handleCompleteAction(e, { type: "profile", value: "" })
+                      handleActionComplete(authAccess);
+                    }}
+                    className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+                  >
+                    Complete Action
+                    <HiArrowRight className="text-xl " />
+                  </button>
+                  <p
+                    className="fs-15 font-bold text-primary-900 underline  text-center cursor-pointer pr-4"
+                    onClick={(e) => {
+                      // actionData.handleCompleteAction(e, { type: "profile", value: "" })
+                      handleSocialUnLink("twitter");
+                    }}
+                  >
+                    Facing issue? Unlink your twitter
+                  </p>
+                </>
               )}
             </>
           )}

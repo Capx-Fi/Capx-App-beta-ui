@@ -39,7 +39,7 @@ export const useLinkAuthProviders = () => {
       }
 
       try {
-        const tokenDetails = await auth.currentUser.getIdTokenResult();
+        const tokenDetails = await auth.currentUser.getIdTokenResult(true);
         if (method.toUpperCase() === "TWITTER") {
           if (!tokenDetails.claims?.firebase.identities["twitter.com"]) {
             await linkWithRedirect(user, provider);

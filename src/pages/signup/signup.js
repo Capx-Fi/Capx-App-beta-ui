@@ -23,7 +23,7 @@ const Signup = () => {
     error: apiError,
     isPending: isApiPending,
     getData,
-  } = useApi(config.API_URL);
+  } = useApi(config.AUTH_ENDPOINT);
 
   useEffect(() => {
     (async () => {
@@ -43,7 +43,7 @@ const Signup = () => {
   };
 
   const handleDiscordSignup = () => {
-    window.location.href = `${config.API_URL}/signUpDiscord`;
+    window.location.href = `${config.AUTH_ENDPOINT}/signUpDiscord`;
   };
   return (
     <>

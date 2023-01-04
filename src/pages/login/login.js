@@ -27,7 +27,7 @@ const Login = () => {
     error: apiError,
     isPending: isApiPending,
     getData,
-  } = useApi(config.API_URL);
+  } = useApi(config.AUTH_ENDPOINT);
 
   useEffect(() => {
     getSigninResult();
@@ -51,7 +51,7 @@ const Login = () => {
   }, [ApiData]);
 
   const handleDiscortLogin = () => {
-    window.location.href = `${config.API_URL}/loginDiscord`;
+    window.location.href = `${config.AUTH_ENDPOINT}/loginDiscord`;
   };
 
   return (

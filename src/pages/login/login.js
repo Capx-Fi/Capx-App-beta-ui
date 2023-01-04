@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import {
   ChipCapxSvg,
+  DiscordIcon,
   GetStatedSvg,
   GetStatedSvg2,
   GoogleIcon,
@@ -9,10 +10,24 @@ import {
 import { IoMdMail } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
+import { useApi } from "../../hooks/useApi";
+import { getURLParameter } from "../../utils";
+import { config } from "../../config";
 
 const Login = () => {
   const { error, isPending, signInUserUsingSocial } = useFireBaseLogin();
   const { getSigninResult } = useFireBaseLogin();
+  const {
+    error: isLoginError,
+    isPending: isLoginPending,
+    customSignin,
+  } = useFireBaseLogin();
+  const {
+    data: ApiData,
+    error: apiError,
+    isPending: isApiPending,
+    getData,
+  } = useApi(config.API_URL);
 
   useEffect(() => {
     getSigninResult();
@@ -21,6 +36,24 @@ const Login = () => {
   const handleLogin = async (method) => {
     await signInUserUsingSocial(method);
   };
+
+  useEffect(() => {
+    (async () => {
+      let code = getURLParameter("code");
+      if (code && !ApiData) {
+        getData({ code: code }, "/loginAuthDiscord");
+      } else if (code && ApiData) {
+        customSignin(ApiData.token);
+      } else {
+        getSigninResult();
+      }
+    })();
+  }, [ApiData]);
+
+  const handleDiscortLogin = () => {
+    window.location.href = `${config.API_URL}/loginDiscord`;
+  };
+
   return (
     <>
       <main className="signup-page min-h-screen">
@@ -74,14 +107,17 @@ const Login = () => {
                   </span>
                 </div>
               </button>
-              {/* {<button className="mb-5  self-stretch">
+              <button
+                onClick={handleDiscortLogin}
+                className="mb-5  self-stretch"
+              >
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={DiscordIcon} alt="google" />
                   <span className="text-primary-800 font-medium fs-15 ml-4">
                     Login with Discord
                   </span>
                 </div>
-              </button>} */}
+              </button>
               <Link
                 to="/signup"
                 className="fs-15 font-bold text-primary-900 underline mb-6"

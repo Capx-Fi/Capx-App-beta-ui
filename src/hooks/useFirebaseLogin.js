@@ -7,6 +7,7 @@ import {
   TwitterAuthProvider,
   signInWithRedirect,
   getRedirectResult,
+  signInWithCustomToken,
 } from "firebase/auth";
 import { config } from "../config";
 import { useDispatch } from "react-redux";
@@ -94,6 +95,38 @@ export const useFireBaseLogin = () => {
     } else {
       setError("No Social selected");
       setIsPending(false);
+    }
+  };
+
+  const customSignin = async (token) => {
+    setError(null);
+    setIsPending(true);
+    try {
+      const response = await signInWithCustomToken(auth, token);
+      if (!response) {
+        throw new Error("Could not complete signin");
+      }
+      //dispatch action to set user state
+      if (response.user) {
+        const isProfileSet = await setUerDetails(response.user);
+        dispatch(
+          setLoggedInUser({
+            user: response.user,
+            isUserProfileSet: isProfileSet,
+          })
+        );
+      }
+      if (!isCancelled) {
+        setIsPending(false);
+        setError(null);
+      }
+    } catch (error) {
+      setIsPending(false);
+      console.log(isCancelled);
+      if (!isCancelled) {
+        setError(error.message);
+        setIsPending(false);
+      }
     }
   };
 
@@ -187,5 +220,6 @@ export const useFireBaseLogin = () => {
     signInUser: signInUser,
     signInUserUsingSocial: signInUserUsingSocial,
     getSigninResult,
+    customSignin,
   };
 };

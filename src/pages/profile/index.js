@@ -12,13 +12,15 @@ import * as Yup from "yup";
 import Modal from "../../components/Modal/Modal";
 import { useLinkAuthProviders } from "../../hooks/useLinkAuthProviders";
 import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
-import { EditIconSvg, GoogleIcon } from "../../assets/svg";
+import { DiscordIcon, EditIconSvg, GoogleIcon } from "../../assets/svg";
 import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 import { config } from "../../config";
-import { MdFormatLineSpacing } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import { getURLParameter } from "../../utils";
 
 function Profile() {
   const inputRef = useRef();
+  const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
 
   const [isEditEnabled, setIsEditEnabled] = useState(false);
@@ -33,7 +35,10 @@ function Profile() {
     formik.setFieldError("fullName", null);
   };
 
-  const { isError, isPending, postData, data } = useApi(config.API_URL, "POST");
+  const { isError, isPending, postData, data, getData } = useApi(
+    config.API_URL,
+    "POST"
+  );
 
   const {
     linkWithSocail,
@@ -125,6 +130,10 @@ function Profile() {
     }
   };
 
+  const handleDiscordLink = () => {
+    window.location.href = `${config.API_URL}/linkDiscord`;
+  };
+
   useEffect(() => {
     if (!isSOcialLinkPending && useAccessToken && useAccessToken.length > 0) {
       if (socialRedirectProvider === "twitter.com") {
@@ -136,8 +145,17 @@ function Profile() {
   }, [useAccessToken, isSOcialLinkPending, socialRedirectProvider]);
 
   useEffect(() => {
-    getLinkResult();
-  }, []);
+    (async () => {
+      let code = getURLParameter("code");
+
+      if (code && !data) {
+        getData({ code: code }, "/linkAuthDiscord");
+        navigate("/profile");
+      } else {
+        getLinkResult();
+      }
+    })();
+  }, [data]);
 
   return (
     <>
@@ -324,42 +342,45 @@ function Profile() {
                     </button>
                   )} */}
 
-                  {/* {userData.socials.instagram_id &&
-                  userData?.socials.instagram_id.trim() !== "" ? (
+                  {userData.socials.discord_id &&
+                  userData?.socials.discord_id.trim() !== "" ? (
                     <div className="fullname flex flex-row justify-between items-center rounded-2xl">
                       <div className="flex  items-center flex-row gap-3">
                         <img
-                          src={IGIcon}
+                          src={DiscordIcon}
                           alt=""
                           className="pfp-background w-6"
                         />
-                        Target the below class for changing Twitter Handle
+
                         <p className="">
-                          {userData.socials.instagram_id &&
-                          userData?.socials.instagram_id !== ""
-                            ? userData?.socials.instagram_id
-                            : "Connect your Instagram"}
+                          {userData.socials.discord_id &&
+                          userData?.socials.discord_id !== ""
+                            ? userData?.socials.discord_username
+                            : "Connect your Discord"}
                         </p>
                       </div>
                       <img
                         src={Check}
                         alt=""
-                        className="pfp-background rounded-full w-7 hidden"
+                        className="pfp-background rounded-full w-7"
                       />
                     </div>
                   ) : (
-                    <button className="fullname flex flex-row justify-between items-center rounded-2xl">
+                    <button
+                      onClick={handleDiscordLink}
+                      className="fullname flex flex-row justify-between items-center rounded-2xl"
+                    >
                       <div className="flex  items-center flex-row gap-3">
                         <img
-                          src={IGIcon}
+                          src={DiscordIcon}
                           alt=""
                           className="pfp-background w-6"
                         />
-                        Target the below class for changing Twitter Handle
-                        <p className="">Connect your Instagram</p>
+
+                        <p className="">Connect your Discord</p>
                       </div>
                     </button>
-                  )} */}
+                  )}
                   {isEditEnabled && (
                     <div className="submit-btn p-4 bg-gredient-2 flex justify-center rounded-2xl">
                       <button

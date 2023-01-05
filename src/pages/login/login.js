@@ -13,15 +13,17 @@ import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
 import { useApi } from "../../hooks/useApi";
 import { getURLParameter } from "../../utils";
 import { config } from "../../config";
+import Modal from "../../components/Modal/Modal";
 
 const Login = () => {
-  const { error, isPending, signInUserUsingSocial } = useFireBaseLogin();
-  const { getSigninResult } = useFireBaseLogin();
   const {
-    error: isLoginError,
-    isPending: isLoginPending,
+    error,
+    isPending,
+    signInUserUsingSocial,
+    getSigninResult,
     customSignin,
   } = useFireBaseLogin();
+
   const {
     data: ApiData,
     error: apiError,
@@ -29,12 +31,12 @@ const Login = () => {
     getData,
   } = useApi(config.AUTH_ENDPOINT);
 
-  useEffect(() => {
-    getSigninResult();
-  }, []);
-
   const handleLogin = async (method) => {
-    await signInUserUsingSocial(method);
+    if (method === "discord") {
+      window.location.href = `${config.AUTH_ENDPOINT}/loginDiscord`;
+    } else {
+      await signInUserUsingSocial(method);
+    }
   };
 
   useEffect(() => {
@@ -49,10 +51,6 @@ const Login = () => {
       }
     })();
   }, [ApiData]);
-
-  const handleDiscortLogin = () => {
-    window.location.href = `${config.AUTH_ENDPOINT}/loginDiscord`;
-  };
 
   return (
     <>
@@ -108,7 +106,9 @@ const Login = () => {
                 </div>
               </button>
               <button
-                onClick={handleDiscortLogin}
+                onClick={() => {
+                  handleLogin("discord");
+                }}
                 className="mb-5  self-stretch"
               >
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
@@ -147,6 +147,7 @@ const Login = () => {
           </div>
         </div>
       </main>
+      {(isPending || isApiPending) && <Modal />}
     </>
   );
 };

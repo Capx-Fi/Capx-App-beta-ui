@@ -182,7 +182,7 @@ export const useFireBaseLogin = () => {
   };
 
   const getSigninResult = async () => {
-    setIsPending(false);
+    setIsPending(true);
     setError(null);
     try {
       const response = await getRedirectResult(auth);
@@ -207,7 +207,7 @@ export const useFireBaseLogin = () => {
       console.log(error);
       setError(error);
     }
-    setIsPending(true);
+    setIsPending(false);
   };
   //cleanup function to abort the request
   // useEffect(()=>{

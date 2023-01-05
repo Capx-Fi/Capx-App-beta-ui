@@ -107,6 +107,7 @@ export const useLinkAuthProviders = () => {
       if (userdata && userdata.user) {
         setUseActionToken(userdata.user.accessToken);
         setSocialRedirectProvider(userdata.providerId);
+        setLinkDone(true);
       }
     } catch (error) {
       console.log(error);

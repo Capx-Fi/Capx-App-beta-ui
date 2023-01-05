@@ -47,7 +47,6 @@ function Profile() {
     getLinkResult,
     socialRedirectProvider,
     useAccessToken,
-    linkDone,
   } = useLinkAuthProviders();
 
   const {
@@ -136,13 +135,20 @@ function Profile() {
 
   useEffect(() => {
     if (!isSOcialLinkPending && useAccessToken?.length > 0) {
-      if (socialRedirectProvider === "twitter.com") {
+      if (
+        socialRedirectProvider === "twitter.com" &&
+        userData.socials.twitter_id.length === 0
+      ) {
         postData({ data: {} }, "/linkYourTwitter");
-      } else if (socialRedirectProvider === "google.com") {
+      } else if (
+        socialRedirectProvider === "google.com" &&
+        userData.socials.google_id.length === 0
+      ) {
         postData({ data: {} }, "/linkYourGoogle");
       }
     }
   }, [isSOcialLinkPending, socialRedirectProvider]);
+  console.log(userData.socials.twitter_id.length === 0);
 
   useEffect(() => {
     (async () => {

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   ChipCapxSvg,
+  DiscordIcon,
   GetStatedSvg,
   GetStatedSvg2,
   GoogleIcon,
@@ -9,13 +10,48 @@ import {
 import { IoMdMail } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
+import { useApi } from "../../hooks/useApi";
+import { getURLParameter } from "../../utils";
+import { config } from "../../config";
+import Modal from "../../components/Modal/Modal";
 
 const Login = () => {
-  const { error, isPending, signInUserUsingSocial } = useFireBaseLogin();
+  const {
+    error,
+    isPending,
+    signInUserUsingSocial,
+    getSigninResult,
+    customSignin,
+  } = useFireBaseLogin();
+
+  const {
+    data: ApiData,
+    error: apiError,
+    isPending: isApiPending,
+    getData,
+  } = useApi(config.AUTH_ENDPOINT);
 
   const handleLogin = async (method) => {
-    await signInUserUsingSocial(method);
+    if (method === "discord") {
+      window.location.href = `${config.AUTH_ENDPOINT}/loginDiscord`;
+    } else {
+      await signInUserUsingSocial(method);
+    }
   };
+
+  useEffect(() => {
+    (async () => {
+      let code = getURLParameter("code");
+      if (code && !ApiData) {
+        getData({ code: code }, "/loginAuthDiscord");
+      } else if (code && ApiData) {
+        customSignin(ApiData.token);
+      } else {
+        getSigninResult();
+      }
+    })();
+  }, [ApiData]);
+
   return (
     <>
       <main className="signup-page min-h-screen">
@@ -69,14 +105,19 @@ const Login = () => {
                   </span>
                 </div>
               </button>
-              {/* {<button className="mb-5  self-stretch">
+              <button
+                onClick={() => {
+                  handleLogin("discord");
+                }}
+                className="mb-5  self-stretch"
+              >
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={DiscordIcon} alt="google" />
                   <span className="text-primary-800 font-medium fs-15 ml-4">
                     Login with Discord
                   </span>
                 </div>
-              </button>} */}
+              </button>
               <Link
                 to="/signup"
                 className="fs-15 font-bold text-primary-900 underline mb-6"
@@ -106,6 +147,7 @@ const Login = () => {
           </div>
         </div>
       </main>
+      {(isPending || isApiPending) && <Modal />}
     </>
   );
 };

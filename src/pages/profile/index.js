@@ -17,6 +17,7 @@ import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 import { config } from "../../config";
 import { useNavigate } from "react-router-dom";
 import { getURLParameter } from "../../utils";
+import { auth } from "../../firebase/firebase";
 
 function Profile() {
   const inputRef = useRef();
@@ -28,6 +29,7 @@ function Profile() {
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const [ModalHeading, setModalHeading] = useState("");
   const [imagePreview, setImagePreview] = useState("");
+  const [showTwitterUnlinkBtn, setShowTwitterUnlinkBtn] = useState(false);
 
   const handleErrorModal = () => {
     SetIsOpenErrorModal(false);
@@ -47,6 +49,7 @@ function Profile() {
     getLinkResult,
     socialRedirectProvider,
     useAccessToken,
+    unlinkWithSocail,
   } = useLinkAuthProviders();
 
   const {
@@ -107,6 +110,14 @@ function Profile() {
 
   useEffect(() => {
     formik.setFieldValue("fullName", userData?.name);
+    if (
+      auth.currentUser.providerData.length === 1 &&
+      userData.socials.discord_id.length === 0
+    ) {
+      setShowTwitterUnlinkBtn(false);
+    } else {
+      setShowTwitterUnlinkBtn(true);
+    }
   }, [userData]);
 
   const handleSocialLink = (method) => {
@@ -133,6 +144,19 @@ function Profile() {
     window.location.href = `${config.AUTH_ENDPOINT}/linkDiscord`;
   };
 
+  const hanldeTwitterUnlink = (method) => {
+    if (
+      auth.currentUser.providerData.length === 1 &&
+      userData.socials.discord_id.length === 0
+    ) {
+      SetIsOpenErrorModal(true);
+      setModalHeading("You must have one social provider");
+    } else {
+      unlinkWithSocail(method);
+      postData({ data: {} }, "/unlinkYourTwitter");
+    }
+  };
+
   useEffect(() => {
     if (!isSOcialLinkPending && useAccessToken?.length > 0) {
       if (
@@ -148,7 +172,6 @@ function Profile() {
       }
     }
   }, [isSOcialLinkPending, socialRedirectProvider]);
-  console.log(userData.socials.twitter_id.length === 0);
 
   useEffect(() => {
     (async () => {
@@ -282,11 +305,24 @@ function Profile() {
                             : "Connect your Twitter"}
                         </p>
                       </div>
-                      <img
-                        src={Check}
-                        alt=""
-                        className="pfp-background rounded-full w-7"
-                      />
+                      <div className="flex items-center">
+                        {showTwitterUnlinkBtn && (
+                          <button
+                            onClick={() => {
+                              hanldeTwitterUnlink("twitter");
+                            }}
+                            className="unlink-btn mr-2"
+                          >
+                            Unlink
+                          </button>
+                        )}
+
+                        <img
+                          src={Check}
+                          alt=""
+                          className="pfp-background rounded-full w-7"
+                        />
+                      </div>
                     </div>
                   ) : (
                     <button

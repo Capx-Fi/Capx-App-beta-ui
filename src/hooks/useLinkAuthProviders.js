@@ -8,6 +8,7 @@ import {
   unlink,
 } from "firebase/auth";
 import { useState } from "react";
+import { useSelector } from "react-redux";
 import { auth } from "../firebase/firebase";
 
 export const useLinkAuthProviders = () => {
@@ -16,6 +17,7 @@ export const useLinkAuthProviders = () => {
   const [linkDone, setLinkDone] = useState(false);
   const [useAccessToken, setUseActionToken] = useState(null);
   const [socialRedirectProvider, setSocialRedirectProvider] = useState("");
+  const userData = useSelector((state) => state.user);
   const user = auth.currentUser;
 
   const linkWithSocail = async (method) => {
@@ -39,7 +41,7 @@ export const useLinkAuthProviders = () => {
       }
 
       try {
-        const tokenDetails = await auth.currentUser.getIdTokenResult();
+        const tokenDetails = await auth.currentUser.getIdTokenResult(true);
         if (method.toUpperCase() === "TWITTER") {
           if (!tokenDetails.claims?.firebase.identities["twitter.com"]) {
             await linkWithRedirect(user, provider);
@@ -86,7 +88,14 @@ export const useLinkAuthProviders = () => {
       }
 
       try {
-        await unlink(user, provider.providerId);
+        if (
+          user.providerData.length === 1 &&
+          userData.socials.discord_id.length === 0
+        ) {
+          throw new Error("You must have one social provider");
+        } else {
+          await unlink(user, provider.providerId);
+        }
       } catch (error) {
         console.log(error);
         setError(error);

@@ -1,8 +1,8 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, onIdTokenChanged } from "firebase/auth";
 import { auth, db } from "../firebase/firebase";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { setAuthStatus } from "./../store/slices/authSlice";
+import { setAccessToken, setAuthStatus } from "./../store/slices/authSlice";
 import { setUser } from "./../store/slices/userSlice";
 import { config } from "../config";
 import {
@@ -81,6 +81,12 @@ export const useFireBaseAuth = () => {
             isUserProfileSet: false,
           })
         );
+      }
+    });
+
+    onIdTokenChanged(auth, async (user) => {
+      if (user) {
+        dispatch(setAccessToken(user.stsTokenManager.accessToken));
       }
     });
 

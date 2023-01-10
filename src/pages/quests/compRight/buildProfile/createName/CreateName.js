@@ -3,11 +3,13 @@ import { HiArrowRight } from "react-icons/hi";
 import { InputCheckSvg } from "../../../../../assets/svg";
 import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
 import { config } from "../../../../../config";
+import ErrorModal from "../../errorModal/ErrorModal";
 
 const CreateName = ({ actionData }) => {
   const [showClaimBtn, setShowClaimBtn] = useState(false);
   const [varified, setVarified] = useState(false);
   const [profileNameInput, setProfileNameInput] = useState("");
+  const [showErrorModal, setShowErrorModal] = useState(false);
 
   const [actionDetails, setActionDetails] = useState(null);
 
@@ -47,7 +49,13 @@ const CreateName = ({ actionData }) => {
         value: profileNameInput.trim(),
       };
       actionData.handleCompleteAction(e, input);
+    } else {
+      setShowErrorModal(true);
     }
+  };
+
+  const handleErrorModal = () => {
+    setShowErrorModal(false);
   };
 
   return (
@@ -108,6 +116,11 @@ const CreateName = ({ actionData }) => {
           )}
         </div>
       </div>
+      <ErrorModal
+        heading={"Please enter valid fullname"}
+        open={showErrorModal}
+        handleClose={handleErrorModal}
+      />
     </>
   );
 };

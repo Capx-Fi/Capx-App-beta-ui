@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { NavLink, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation } from "react-router-dom";
 import { BiMenu } from "react-icons/bi";
 import { MdOutlineLogout } from "react-icons/md";
 import { ActiveProfiletIcon, CoinSvg } from "../../assets/svg";
@@ -24,10 +24,10 @@ const Header = ({ userAction }) => {
     <header className="header flex items-center border-primary-200 fixed top-0 w-full md:px-7 px-4">
       <h3 className="page-name capitalize">{pathname ? pathname : "Home"}</h3>
       <div className="flex-grow" />
-      <div className="btn">
+      <Link to="/my-wallet" className="btn">
         <img src={CoinSvg} alt="coin" />
         <span className="ml-2">{userData.earned_rewards} xCapx</span>
-      </div>
+      </Link>
 
       <button className="btn logout-btn md:hidden" onClick={handleLogout}>
         <MdOutlineLogout className="fs-22" />

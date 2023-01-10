@@ -1,13 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useRef } from "react";
 
-const tweetstep1 = ({ actionData }) => {
+const Tweetstep1 = ({ actionData }) => {
+  const [showCopiedBox, setShowCopiedBox] = useState(false);
+
+  const handleCopyTextButton = () => {
+    navigator.clipboard.writeText(
+      "Excited to be part of Capx App Private Beta, and you can become an early member too! 🫶 #CapxApp #CapxFi @CapxFi. To get your special invite code apply on - app.capx.fi"
+    );
+    setShowCopiedBox(true);
+    setTimeout(() => {
+      setShowCopiedBox(false);
+    }, 1500);
+  };
+
   return (
-    <div className="createtweet flex flex-col gap-3">
+    <div className="createtweet relative flex flex-col gap-3">
       <p className="createtweet-title action-heading ">
         Action #1 : Let’s Tell the World about Capx App
       </p>
+      {showCopiedBox && <p className="copied-box ">Copied!</p>}
 
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
         <div className="createtweet-1 flex flex-col gap-1">
@@ -15,12 +28,8 @@ const tweetstep1 = ({ actionData }) => {
             Click the below block to copy Tweet
           </p>
           <button
+            onClick={handleCopyTextButton}
             className="copy-tweet p-4 items-start text-left"
-            onClick={() => {
-              navigator.clipboard.writeText(
-                "Excited to be part of Capx App Private Beta, and you can become an early member too! 🫶 #CapxApp #CapxFi @CapxFi. To get your special invite code apply on - app.capx.fi"
-              );
-            }}
           >
             Excited to be part of Capx App Private Beta, and you can become an
             early member too! 🫶 #CapxApp #CapxFi @CapxFi <br />
@@ -40,11 +49,9 @@ const tweetstep1 = ({ actionData }) => {
         </div>
 
         <div className="btns flex justify-between">
-          <button onClick={() => {
-              navigator.clipboard.writeText(
-                "Excited to be part of Capx App Private Beta, and you can become an early member too! 🫶 #CapxApp #CapxFi @CapxFi. To get your special invite code apply on - app.capx.fi"
-              );
-            }} className="btn-outlined">Copy</button>
+          <button onClick={handleCopyTextButton} className="btn-outlined">
+            Copy
+          </button>
           <button
             className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl"
             onClick={(e) =>
@@ -63,4 +70,4 @@ const tweetstep1 = ({ actionData }) => {
   );
 };
 
-export default tweetstep1;
+export default Tweetstep1;

@@ -1,6 +1,30 @@
 .createtweet {
   .createtweet-title {
   }
+
+  .copied-box {
+    position: absolute;
+    top: 36px;
+    left: 110%;
+    background: #ccf3ff;
+    border: 1px solid #92c1dc;
+    border-radius: 12px;
+    padding: 12px 20px;
+    width: 150px;
+    text-align: center;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: -0.65px;
+    color: #153945;
+    @media screen and (max-width: 767.98px) {
+      position: initial;
+      width: unset;
+      padding: 8px 20px;
+      font-size: 13px;
+      line-height: 20px;
+    }
+  }
   .createtweet-wrapper {
     border: 2px solid rgba(31, 122, 85, 0.2);
     border-radius: 24px;

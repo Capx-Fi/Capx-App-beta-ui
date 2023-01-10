@@ -14,10 +14,17 @@ const Codestep2 = ({ actionData }) => {
   const [showSharingOptions, setShowSharingOptions] = useState(false);
   const [openShareModal, setOpenShareModal] = useState(false);
   const [shareingPlatform, setShareingPlatform] = useState("");
+  const [showCopiedBox, setShowCopiedBox] = useState(false);
 
   const handleshareModal = () => {
     setOpenShareModal(false);
-    navigator.clipboard.writeText(userInviteCode);
+    navigator.clipboard.writeText(
+      "Join the Capx app closed alpha - app.capx-fi with my code - B5OCO"
+    );
+    setShowCopiedBox(true);
+    setTimeout(() => {
+      setShowCopiedBox(false);
+    }, 1500);
   };
 
   const handleSocialShareButton = (platform) => {
@@ -25,20 +32,27 @@ const Codestep2 = ({ actionData }) => {
     setOpenShareModal(true);
   };
 
+  const handleCopyTextButton = () => {
+    navigator.clipboard.writeText(userInviteCode);
+    setShowCopiedBox(true);
+    setTimeout(() => {
+      setShowCopiedBox(false);
+    }, 1500);
+  };
+
   return (
     <>
-      <div className="codestep2 flex flex-col gap-3">
+      <div className="codestep2 relative flex flex-col gap-3">
         <p className="codestep2-title action-heading   ">
           Action #1 : Share Invite Code
         </p>
+        {showCopiedBox && <p className="copied-box ">Copied!</p>}
         <div className="codestep2-wrapper mb-3">
           <div className="codestep2-placeholder px-5 py-4 rounded-2xl text-cgreen-700 flex justify-between">
             <span> {userInviteCode}</span>
             <button
               className="flex items-center justify-center"
-              onClick={() => {
-                navigator.clipboard.writeText(userInviteCode);
-              }}
+              onClick={handleCopyTextButton}
             >
               <img src={ContentCopySvg} alt="copy" />
             </button>

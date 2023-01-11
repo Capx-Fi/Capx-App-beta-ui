@@ -191,7 +191,8 @@ const AnswerQuiz = () => {
         case "Generate_Invite_Code":
           return (
             <GenCodeStep1
-              actionData={{ handleCompleteAction: handleCompleteAction }}
+              actionData={{ ...actionData,
+              handleCompleteAction: handleCompleteAction }}
             />
           );
         case "Share_Invite_Code":

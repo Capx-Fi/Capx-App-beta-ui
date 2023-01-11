@@ -19,7 +19,7 @@ const Codestep2 = ({ actionData }) => {
   const handleshareModal = () => {
     setOpenShareModal(false);
     navigator.clipboard.writeText(
-      "Join the Capx app closed alpha - app.capx-fi with my code - B5OCO"
+      `Join the Capx app closed alpha - app.capx-fi with my code - ${userInviteCode}`
     );
     setShowCopiedBox(true);
     setTimeout(() => {
@@ -111,9 +111,9 @@ const Codestep2 = ({ actionData }) => {
               </div>
               <button
                 className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl "
-                onClick={(e) =>
-                  actionData.handleCompleteAction(e, { type: "inviteCode" })
-                }
+                // onClick={(e) =>
+                //   actionData.handleCompleteAction(e, { type: "inviteCode" })
+                // }
               >
                 Complete Quest
                 <HiArrowRight className="text-xl ml-4" />

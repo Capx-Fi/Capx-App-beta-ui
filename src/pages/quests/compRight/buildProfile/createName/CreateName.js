@@ -96,7 +96,7 @@ const CreateName = ({ actionData }) => {
               className={`action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl ${
                 profileNameInput.trim().length === 0
                   ? "disabled"
-                  : "bg-gredient-2"
+                  : "bg-gredient-2 contained-effect"
               }`}
             >
               Submit <HiArrowRight className="text-xl " />
@@ -109,7 +109,7 @@ const CreateName = ({ actionData }) => {
                 // actionData.handleCompleteAction(e, { type: "profile", value: "" })
                 actionData?.claimRewardHandler()
               }
-              className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+              className="bg-gredient-2 contained-effect action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
             >
               Claim 1 xCapx <HiArrowRight className="text-xl " />
             </button>

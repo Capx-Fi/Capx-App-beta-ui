@@ -11,7 +11,7 @@ const Banner = () => {
           <br className="md:hidden block" /> Keep earning
         </h2>
         <Link to="/">
-          <button className="flex items-center text-white justify-between ">
+          <button className="flex outlined-effect items-center text-white justify-between ">
             <span className="fs-16 font-black mr-3">Explore Quests</span>
             <ImArrowRight2 />
           </button>

@@ -17,7 +17,7 @@ const codestep1 = ({ actionData }) => {
           onClick={(e) =>
             actionData.handleCompleteAction(e, { type: "inviteCode" })
           }
-          className="bg-gredient-2 action-btn self-stretch flex w-full justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl text-white font-semibold fs-16"
+          className="bg-gredient-2 contained-effect action-btn self-stretch flex w-full justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl text-white font-semibold fs-16"
         >
           Generate Invite Code
           <HiArrowRight className="text-xl ml-4" />

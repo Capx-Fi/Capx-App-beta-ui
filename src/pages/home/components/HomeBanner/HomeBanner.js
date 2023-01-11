@@ -43,7 +43,7 @@ function HomeBanner() {
               </h2>
             </div>
           </div>
-          <div className="slide slider-3 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
+          {/* <div className="slide slider-3 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
             <div className="flex flex-col items-start  gap-6">
               <h2 className="gredient-text-2">
                 Reminder! Your
@@ -54,7 +54,7 @@ function HomeBanner() {
                 <br className="block md:hidden" /> soon
               </h2>
             </div>
-          </div>
+          </div> */}
           <div className="slide slider-4 flex flex-row w-full rounded-2xl md:rounded-3xl text-cgreen-100">
             <div className="flex flex-col items-start  gap-6">
               <h2 className="gredient-text-2">

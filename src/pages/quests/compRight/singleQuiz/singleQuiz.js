@@ -8,12 +8,10 @@ const SingleQuiz = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
   const [selectedOption, setSelectedOption] = useState({ id: "", value: "" });
   const { isPending, data, error } = useFirestoreCollection(
-    `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
-    [
-      "__name__",
-      "==",
-      String(actionData.questID + "-" + actionData.action_id),
-    ]
+    `${config.QUEST_ORDER_COLLECTION}/` +
+      actionData.questID +
+      `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
+    ["__name__", "==", String(actionData.questID + "-" + actionData.action_id)]
   );
   useEffect(() => {
     if (data) {
@@ -85,7 +83,7 @@ const SingleQuiz = ({ actionData }) => {
         <button
           disabled={selectedOption.value === "" ? true : false}
           onClick={handleCompleteAction}
-          className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full"
+          className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full"
         >
           {actionDetails.action_order_cta}
           <HiArrowRight className="text-xl ml-4" />

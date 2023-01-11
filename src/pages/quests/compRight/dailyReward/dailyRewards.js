@@ -1,4 +1,4 @@
-import React, {useState,useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { CoinSvg } from "../../../../assets/svg";
 import { useFirestoreCollection } from "../../../../hooks/useFirestoreCollection";
@@ -7,12 +7,10 @@ import { config } from "../../../../config";
 const DailyRewards = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
   const { isPending, data, error } = useFirestoreCollection(
-    `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
-    [
-      "__name__",
-      "==",
-      String(actionData.action_order_id),
-    ]
+    `${config.QUEST_ORDER_COLLECTION}/` +
+      actionData.questID +
+      `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
+    ["__name__", "==", String(actionData.action_order_id)]
   );
   useEffect(() => {
     if (data) {
@@ -40,7 +38,10 @@ const DailyRewards = ({ actionData }) => {
             1 xCapx
           </p>
         </div>
-        <button className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full" onClick={handleCompleteAction}>
+        <button
+          className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full"
+          onClick={handleCompleteAction}
+        >
           {actionDetails?.action_order_cta}
           <HiArrowRight className="text-xl ml-4" />
         </button>

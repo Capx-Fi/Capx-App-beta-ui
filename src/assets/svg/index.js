@@ -54,8 +54,10 @@ import TopUser1 from "./TopUser1.svg";
 import TopUser2 from "./TopUser2.svg";
 import TopUser3 from "./TopUser3.svg";
 import TaskListIcon from "./TaskListIcon.svg";
+import ContainedCheckSvg from "./ContainedCheckSvg.svg";
 
 export {
+  ContainedCheckSvg,
   TaskListIcon,
   TopUser1,
   TopUser2,

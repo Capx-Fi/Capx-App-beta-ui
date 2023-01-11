@@ -111,9 +111,9 @@ const Codestep2 = ({ actionData }) => {
               </div>
               <button
                 className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl "
-                // onClick={(e) =>
-                //   actionData.handleCompleteAction(e, { type: "inviteCode" })
-                // }
+                onClick={(e) =>
+                  actionData.handleCompleteAction(e, { type: "inviteCode" })
+                }
               >
                 Complete Quest
                 <HiArrowRight className="text-xl ml-4" />
@@ -129,7 +129,7 @@ const Codestep2 = ({ actionData }) => {
                   onClick={() => {
                     handleSocialShareButton("Twitter");
                   }}
-                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                  className=" flex w-full outlined-effect rounded-xl border-2 border-primary-200"
                 >
                   <img src={TwitterIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
@@ -140,7 +140,7 @@ const Codestep2 = ({ actionData }) => {
                   onClick={() => {
                     handleSocialShareButton("Instagram");
                   }}
-                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                  className=" flex w-full outlined-effect rounded-xl border-2 border-primary-200"
                 >
                   <img src={InstagramIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
@@ -151,7 +151,7 @@ const Codestep2 = ({ actionData }) => {
                   onClick={() => {
                     handleSocialShareButton("Whatsapp");
                   }}
-                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                  className=" flex w-full outlined-effect rounded-xl border-2 border-primary-200"
                 >
                   <img src={WhatsappIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">

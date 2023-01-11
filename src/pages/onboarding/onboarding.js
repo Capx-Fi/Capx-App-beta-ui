@@ -24,7 +24,7 @@ const Onboarding = () => {
               <div className="brand-chip bg-primary-100   border-primary-200 border-1 rounded-full md:mb-6 mb-10 md:self-center self-start">
                 <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
               </div>
-              <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-2 pb-3">
+              <h2 className="m-heaidng md:text-center font-black gredient-text leading-tight md:mb-2 pb-3">
                 Learn together Earn together
               </h2>
               <p className="discription fs-16 font-bold text-slate-500 md:text-center md:mb-10 mb-8 hidden md:block">

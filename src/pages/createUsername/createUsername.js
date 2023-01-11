@@ -94,7 +94,9 @@ const CreateUsername = () => {
                 <button
                   type="submit"
                   className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 md:mb-4 mb-8 ${
-                    formik.errors.username ? "disabled" : "bg-gredient-2"
+                    formik.errors.username
+                      ? "disabled"
+                      : "bg-gredient-2 contained-effect"
                   }`}
                   disabled={!!formik.errors.username}
                 >

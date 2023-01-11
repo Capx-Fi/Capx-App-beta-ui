@@ -59,7 +59,7 @@ const ErrorModal = ({ open, handleClose, heading, message }) => {
                 <div className="dialog-buttons flex flex-col">
                   <button
                     onClick={handleClose}
-                    className="btn-contained bg-gredient-2 flex justify-center items-center"
+                    className="btn-contained contained-effect bg-gredient-2 flex justify-center items-center"
                   >
                     <span>Try Again</span>
                     <HiArrowRight className="text-xl ml-3" />

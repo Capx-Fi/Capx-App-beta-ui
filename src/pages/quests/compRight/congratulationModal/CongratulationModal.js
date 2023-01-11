@@ -75,7 +75,7 @@ const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
                 </p>
                 <div className="dialog-buttons flex justify-between">
                   <button
-                    className="btn-outline flex items-center"
+                    className="btn-outline outlined-effect flex items-center"
                     onClick={nextQuestFunc}
                   >
                     <span> Next Quest</span>
@@ -86,7 +86,7 @@ const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
                       e.preventDefault();
                       navigate("/");
                     }}
-                    className="btn-contained bg-gredient-2 flex items-center"
+                    className="btn-contained bg-gredient-2 contained-effect flex items-center"
                   >
                     <span>Go To Home</span>
                     <HiArrowRight className="text-xl ml-3" />

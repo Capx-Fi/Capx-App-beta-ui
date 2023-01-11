@@ -49,11 +49,14 @@ const Tweetstep1 = ({ actionData }) => {
         </div>
 
         <div className="btns flex justify-between">
-          <button onClick={handleCopyTextButton} className="btn-outlined">
+          <button
+            onClick={handleCopyTextButton}
+            className="btn-outlined outlined-effect"
+          >
             Copy
           </button>
           <button
-            className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl"
+            className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl"
             onClick={(e) =>
               actionData.handleCompleteAction(e, {
                 type: "video",

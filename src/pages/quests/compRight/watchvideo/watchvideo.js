@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useFirestoreCollection } from "../../../../hooks/useFirestoreCollection";
 import { config } from "../../../../config";
@@ -6,12 +6,10 @@ import { config } from "../../../../config";
 const WatchVideo = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
   const { isPending, data, error } = useFirestoreCollection(
-    `${config.QUEST_ORDER_COLLECTION}/` + actionData.questID + `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
-    [
-      "__name__",
-      "==",
-      String(actionData.questID + "-" + actionData.action_id),
-    ]
+    `${config.QUEST_ORDER_COLLECTION}/` +
+      actionData.questID +
+      `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
+    ["__name__", "==", String(actionData.questID + "-" + actionData.action_id)]
   );
   useEffect(() => {
     if (data) {
@@ -28,7 +26,9 @@ const WatchVideo = ({ actionData }) => {
       <div className="video-wrapper p-2 pb-5 bg-slate-50 w-full rounded-3xl border-2 mb-10">
         <div className="responsive-iframe">
           <iframe
-            src={actionDetails ? actionDetails.action_order_details.media_link:""}
+            src={
+              actionDetails ? actionDetails.action_order_details.media_link : ""
+            }
             frameBorder="0"
             allow="autoplay; encrypted-media"
             allowFullScreen
@@ -39,7 +39,7 @@ const WatchVideo = ({ actionData }) => {
       </div>
       <button
         id="videoClick"
-        className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold w-full"
+        className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold w-full"
         onClick={(e) =>
           actionData.handleCompleteAction(e, { type: "video", value: "" })
         }

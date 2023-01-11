@@ -68,7 +68,7 @@ const ForgotPassowrd = () => {
                   className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 ${
                     formik.errors.confirmPassword || formik.errors.password
                       ? "disabled"
-                      : "bg-gredient-2"
+                      : "bg-gredient-2 contained-effect"
                   }`}
                   disabled={
                     !!formik.errors.confirmPassword || !!formik.errors.password

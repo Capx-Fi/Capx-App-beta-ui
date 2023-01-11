@@ -10,13 +10,11 @@ import OtpInput from "react-otp-input";
 import { useApi } from "../../hooks/useApi";
 import { useSelector } from "react-redux";
 import Modal from "../../components/Modal/Modal";
-import { config } from "../../config"
+import { config } from "../../config";
 
 const InviteCode = () => {
   const navigate = useNavigate();
-  const [url, setUrl] = useState(
-    config.API_URL
-  );
+  const [url, setUrl] = useState(config.API_URL);
   const [inviteCode, setInviteCode] = useState("");
   const { isError, isPending, postData, data } = useApi(url, "GET");
   const username = useSelector((state) => state.user.username);
@@ -29,7 +27,7 @@ const InviteCode = () => {
   };
 
   useEffect(() => {
-    if (!data && username === "" ) {
+    if (!data && username === "") {
       navigate("/");
     }
     if (data) {
@@ -45,10 +43,9 @@ const InviteCode = () => {
   const handleFormSubmit = async (e) => {
     setShowModal(true);
     e.preventDefault();
-   
+
     const apiDataObject = { data: { invite_code: inviteCode, username } };
     postData(apiDataObject, "/createUser");
-    
   };
 
   return (
@@ -106,9 +103,11 @@ const InviteCode = () => {
                 <button
                   type="submit"
                   className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 ${
-                    inviteCode.length !==5  ? "disabled" : "bg-gredient-2"
+                    inviteCode.length !== 5
+                      ? "disabled"
+                      : "bg-gredient-2 contained-effect"
                   }`}
-                  disabled={inviteCode.length !==5}
+                  disabled={inviteCode.length !== 5}
                 >
                   Let's go
                 </button>

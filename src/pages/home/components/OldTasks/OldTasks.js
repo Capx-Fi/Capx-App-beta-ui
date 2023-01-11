@@ -149,7 +149,7 @@ const OldTasks = ({ quests }) => {
                     onClick={(e) => {
                       handleClick(e, data.id);
                     }}
-                    className="card-btn flex justify-between items-center rounded-xl"
+                    className="card-btn contained-effect flex justify-between items-center rounded-xl"
                   >
                     {data.status === "COMPLETED" ? (
                       <span>{"Claim"}</span>

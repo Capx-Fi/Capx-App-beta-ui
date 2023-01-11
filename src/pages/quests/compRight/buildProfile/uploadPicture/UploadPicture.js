@@ -109,7 +109,7 @@ const UploadPicture = ({ actionData }) => {
           {actionData.action_order_status !== "COMPLETED" && (
             <button
               onClick={handleActionSubmit}
-              className={`action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl ${
+              className={`action-btn contained-effect flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl ${
                 !imgUrl ? "disabled" : "bg-gredient-2"
               }`}
               disabled={!imgUrl}

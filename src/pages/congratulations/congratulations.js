@@ -45,7 +45,7 @@ const Congratulaions = () => {
 
               <button
                 type="submit"
-                className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 bg-gredient-2`}
+                className={`text-white contained-effect fs-16 font-bold self-stretch rounded-xl py-3 mb-4 bg-gredient-2`}
                 onClick={() => {
                   handleClick();
                 }}

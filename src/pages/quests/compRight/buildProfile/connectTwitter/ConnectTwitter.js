@@ -66,7 +66,7 @@ const ConnectTwitter = ({ actionData }) => {
               onClick={() => {
                 handleSocialLink("twitter");
               }}
-              className="twitter-box flex items-center justify-center"
+              className="twitter-box outlined-effect flex items-center justify-center"
             >
               <span>Connect your Twitter</span>
               <img
@@ -99,7 +99,7 @@ const ConnectTwitter = ({ actionData }) => {
                     // actionData.handleCompleteAction(e, { type: "profile", value: "" })
                     actionData?.claimRewardHandler();
                   }}
-                  className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+                  className="bg-gredient-2 contained-effect action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
                 >
                   Claim 1 xCapx
                   <HiArrowRight className="text-xl " />
@@ -125,7 +125,7 @@ const ConnectTwitter = ({ actionData }) => {
                 // actionData.handleCompleteAction(e, { type: "profile", value: "" })
                 navigate("/");
               }}
-              className="bg-gredient-2 action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
+              className="bg-gredient-2 contained-effect action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
             >
               Go to Home Page
               <HiArrowRight className="text-xl " />

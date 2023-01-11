@@ -32,12 +32,12 @@ const Onboarding = () => {
                 your web3 journey!
               </p>
               <p className="discription fs-16 font-bold text-slate-500 md:text-center md:mb-10 mb-8 block md:hidden">
-              Welcome to the world of quests, contests & challenges. Begin
+                Welcome to the world of quests, contests & challenges. Begin
                 your web3 journey!
               </p>
               <div className="md:hidden block devider self-stretch h-1 mb-2 bg-primary-200 mb-9"></div>
               <Link to="/signup" className="mb-6 self-stretch">
-                <div className="md:flex hidden items-center bg-primary-100 border-primary-200 border-1 px-3 py-4 rounded-xl ">
+                <div className="md:flex outlined-effect hidden items-center bg-primary-100 border-primary-200 border-1 px-3 py-4 rounded-xl ">
                   <img src={FrontPandaImg} alt="Panda" />
                   <div className="flex flex-col items-start ml-4">
                     <span className="fs-15 font-medium">I’m new here</span>
@@ -48,12 +48,12 @@ const Onboarding = () => {
                   <span className="flex-1" />
                   <FaChevronRight className="text-primary-800" />
                 </div>
-                <div className="rounded=xl md:hidden flex justify-center self-stretch bg-gredient-2 py-3 rounded-xl">
+                <div className="rounded=xl contained-effect md:hidden flex justify-center self-stretch bg-gredient-2 py-3 rounded-xl">
                   <span className="text-white font-bold fs-16">Sign up</span>
                 </div>
               </Link>
               <Link to="/signin" className=" md:mb-20 self-stretch">
-                <div className="md:flex hidden items-center bg-primary-100 border-primary-200 border-1 px-3 py-4 rounded-xl">
+                <div className="md:flex outlined-effect hidden items-center bg-primary-100 border-primary-200 border-1 px-3 py-4 rounded-xl">
                   <img src={RightPandaImg} alt="Panda" />
                   <div className="flex flex-col items-start ml-4 ">
                     <span className="fs-15 font-medium">
@@ -66,7 +66,7 @@ const Onboarding = () => {
                   <span className="flex-1" />
                   <FaChevronRight className="text-primary-800" />
                 </div>
-                <div className="rounded=xl md:hidden flex justify-center self-stretch py-3 rounded-xl border-2 border-primary-200">
+                <div className="rounded=xl outlined-effect md:hidden flex justify-center self-stretch py-3 rounded-xl border-2 border-primary-200">
                   <span className="text-primary-800 font-bold fs-16">
                     Sign in
                   </span>

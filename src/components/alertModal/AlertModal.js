@@ -61,7 +61,7 @@ const AlertModal = ({ open, page, handleClose }) => {
                 <div className="dialog-buttons flex flex-col">
                   <button
                     onClick={handleClose}
-                    className="btn-contained bg-gredient-2 flex justify-center items-center"
+                    className="btn-contained contained-effect bg-gredient-2 flex justify-center items-center"
                   >
                     <span>Go to Home</span>
                     <HiArrowRight className="text-xl ml-3" />

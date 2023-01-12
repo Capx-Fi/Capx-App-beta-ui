@@ -4,6 +4,7 @@ import { InputCheckSvg } from "../../../../../assets/svg";
 import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
 import { config } from "../../../../../config";
 import ErrorModal from "../../errorModal/ErrorModal";
+import TopLoader from "../../../../../components/topLoader/TopLoader";
 
 const CreateName = ({ actionData }) => {
   const [showClaimBtn, setShowClaimBtn] = useState(false);
@@ -116,6 +117,7 @@ const CreateName = ({ actionData }) => {
           )}
         </div>
       </div>
+      {isPending && <TopLoader />}
       <ErrorModal
         heading={"Please enter valid fullname"}
         open={showErrorModal}

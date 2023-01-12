@@ -5,11 +5,11 @@ import { useApi } from "../../../../hooks/useApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
 import { config } from "../../../../config";
-import Modal from "../../../../components/Modal/Modal";
 import { ImArrowRight2 } from "react-icons/im";
 import Slider from "react-slick";
 import { DailyRewardPng } from "../../../../assets/images";
 import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
+import TopLoader from "../../../../components/topLoader/TopLoader";
 
 const ConsTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
@@ -154,7 +154,7 @@ const ConsTasks = ({ quests }) => {
             })}
         </Slider>
       </div>
-      {isPending && <Modal />}
+      {isPending && <TopLoader />}
     </div>
   );
 };

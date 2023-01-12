@@ -329,7 +329,7 @@ function Profile() {
                       onClick={() => {
                         handleSocialLink("twitter");
                       }}
-                      className="fullname flex flex-row justify-between items-center rounded-2xl"
+                      className="fullname outlined-effect flex flex-row justify-between items-center rounded-2xl"
                     >
                       <div className="flex items-center flex-row gap-3">
                         <img
@@ -409,7 +409,7 @@ function Profile() {
                   ) : (
                     <button
                       onClick={handleDiscordLink}
-                      className="fullname flex flex-row justify-between items-center rounded-2xl"
+                      className="fullname outlined-effect flex flex-row justify-between items-center rounded-2xl"
                     >
                       <div className="flex  items-center flex-row gap-3">
                         <img
@@ -423,15 +423,14 @@ function Profile() {
                     </button>
                   )}
                   {isEditEnabled && (
-                    <div className="submit-btn p-4 bg-gredient-2 flex justify-center rounded-2xl">
-                      <button
-                        type="buttom"
-                        onClick={formik.handleSubmit}
-                        className="fs-14 font-bold tracking-normal text-cgreen-100"
-                      >
+                    <button
+                      onClick={formik.handleSubmit}
+                      className="submit-btn contained-effect p-4 bg-gredient-2 flex justify-center rounded-2xl"
+                    >
+                      <span className="fs-14  font-bold tracking-normal text-cgreen-100">
                         Save Profile
-                      </button>
-                    </div>
+                      </span>
+                    </button>
                   )}
                 </div>
               </div>

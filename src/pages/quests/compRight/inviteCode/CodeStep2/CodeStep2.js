@@ -19,7 +19,7 @@ const Codestep2 = ({ actionData }) => {
   const handleshareModal = () => {
     setOpenShareModal(false);
     navigator.clipboard.writeText(
-      "Join the Capx app closed alpha - app.capx-fi with my code - B5OCO"
+      `Join the Capx app closed alpha - app.capx-fi with my code - ${userInviteCode}`
     );
     setShowCopiedBox(true);
     setTimeout(() => {
@@ -61,7 +61,7 @@ const Codestep2 = ({ actionData }) => {
         {!showSharingOptions &&
           actionData?.action_order_status !== "COMPLETED" && (
             <button
-              className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl "
+              className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl "
               onClick={() => {
                 setShowSharingOptions(true);
               }}
@@ -79,7 +79,7 @@ const Codestep2 = ({ actionData }) => {
                   onClick={() => {
                     handleSocialShareButton("Twitter");
                   }}
-                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                  className=" flex w-full outlined-effect rounded-xl border-2 border-primary-200"
                 >
                   <img src={TwitterIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
@@ -90,7 +90,7 @@ const Codestep2 = ({ actionData }) => {
                   onClick={() => {
                     handleSocialShareButton("Instagram");
                   }}
-                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                  className=" flex w-full outlined-effect rounded-xl border-2 border-primary-200"
                 >
                   <img src={InstagramIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
@@ -101,7 +101,7 @@ const Codestep2 = ({ actionData }) => {
                   onClick={() => {
                     handleSocialShareButton("Whatsapp");
                   }}
-                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                  className=" flex w-full outlined-effect rounded-xl border-2 border-primary-200"
                 >
                   <img src={WhatsappIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
@@ -110,7 +110,7 @@ const Codestep2 = ({ actionData }) => {
                 </button>
               </div>
               <button
-                className="bg-gredient-2 action-btn self-stretch flex justify-center items-center p-3 rounded-2xl "
+                className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl "
                 onClick={(e) =>
                   actionData.handleCompleteAction(e, { type: "inviteCode" })
                 }
@@ -129,7 +129,7 @@ const Codestep2 = ({ actionData }) => {
                   onClick={() => {
                     handleSocialShareButton("Twitter");
                   }}
-                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                  className=" flex w-full outlined-effect rounded-xl border-2 border-primary-200"
                 >
                   <img src={TwitterIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
@@ -140,7 +140,7 @@ const Codestep2 = ({ actionData }) => {
                   onClick={() => {
                     handleSocialShareButton("Instagram");
                   }}
-                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                  className=" flex w-full outlined-effect rounded-xl border-2 border-primary-200"
                 >
                   <img src={InstagramIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">
@@ -151,7 +151,7 @@ const Codestep2 = ({ actionData }) => {
                   onClick={() => {
                     handleSocialShareButton("Whatsapp");
                   }}
-                  className=" flex w-full rounded-xl border-2 border-primary-200"
+                  className=" flex w-full outlined-effect rounded-xl border-2 border-primary-200"
                 >
                   <img src={WhatsappIcon} alt="google" />
                   <span className="font-semibold fs-15 ml-4 text-cgreen-700">

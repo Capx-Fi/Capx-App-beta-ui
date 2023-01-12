@@ -37,20 +37,20 @@ const Congratulaions = () => {
                 <Lottie options={lottieOptions} height={240} width={240} />
               </div>
               <p className="underline text-primary-800 font-black fs-30">
-                All set!
+                Welcome!
               </p>
-              <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-10">
-                Let’s learn, build <br /> & grow together
+              <h2 className="m-heaidng text-center font-black gredient-text leading-tight md:mb-5 mb-10">
+                Let’s learn, earn & <br /> make some friends
               </h2>
 
               <button
                 type="submit"
-                className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 bg-gredient-2`}
+                className={`text-white contained-effect fs-16 font-bold self-stretch rounded-xl py-3 mb-4 bg-gredient-2`}
                 onClick={() => {
                   handleClick();
                 }}
               >
-                Start
+                Begin
               </button>
 
               <p className="text-gray-400 fs-15 font-bold hidden md:block absolute bottom-0 py-5">

@@ -1,14 +1,19 @@
 import { useFormik } from "formik";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
 import * as Yup from "yup";
 import Input from "../../components/Input/Input";
 import { useFirebaseForgotPassword } from "../../hooks/useFirebaseForgotPassword";
 import Modal from "../../components/Modal/Modal";
+import AlertModal from "./components/alertModal/AlertModal";
+import { useNavigate } from "react-router-dom";
 
 const ForgotPassowrd = () => {
-  const { error, isPending, forgotPassword } = useFirebaseForgotPassword();
+  const navigate = useNavigate();
+  const { error, isPending, forgotPassword, isCompleted } =
+    useFirebaseForgotPassword();
   const [showModal, setShowModal] = useState(false);
+  const [showAlertModal, setShowAlertModal] = useState(false);
 
   const showModalFunc = () => {
     setShowModal((prevState) => {
@@ -16,11 +21,25 @@ const ForgotPassowrd = () => {
     });
   };
 
+  const handleAlertModal = () => {
+    setShowAlertModal((prev) => !prev);
+    navigate("/signin/email");
+  };
+
   const handleFormSubmit = async (values, { resetForm }) => {
     forgotPassword(values.email);
-    if (error) setShowModal(true);
     resetForm();
   };
+
+  useEffect(() => {
+    if (!isPending) {
+      if (isCompleted) {
+        setShowAlertModal(true);
+      } else if (error) {
+        setShowModal(true);
+      }
+    }
+  }, [isPending]);
 
   const formik = useFormik({
     initialValues: { email: "" },
@@ -68,7 +87,7 @@ const ForgotPassowrd = () => {
                   className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-4 ${
                     formik.errors.confirmPassword || formik.errors.password
                       ? "disabled"
-                      : "bg-gredient-2"
+                      : "bg-gredient-2 contained-effect"
                   }`}
                   disabled={
                     !!formik.errors.confirmPassword || !!formik.errors.password
@@ -102,6 +121,9 @@ const ForgotPassowrd = () => {
             showModalFunc: showModalFunc,
           }}
         />
+      )}
+      {showAlertModal && (
+        <AlertModal handleClose={handleAlertModal} open={showAlertModal} />
       )}
     </>
   );

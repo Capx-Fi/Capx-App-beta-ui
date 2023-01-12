@@ -11,11 +11,13 @@ const EmailLogin = () => {
   const navigate = useNavigate();
   const { error, isPending, signInUser } = useFireBaseLogin();
   const [showPassword, setShowPassword] = useState(false);
-  const [showModal,setShowModal] = useState(true);
+  const [showModal, setShowModal] = useState(true);
 
-  const showModalFunc = () =>{
-    setShowModal((prevState)=>{return !prevState})
-  }
+  const showModalFunc = () => {
+    setShowModal((prevState) => {
+      return !prevState;
+    });
+  };
 
   const handleShowPassword = () => {
     setShowPassword((prev) => (prev ? false : true));
@@ -23,7 +25,7 @@ const EmailLogin = () => {
 
   const handleFormSubmit = async (value, { resetForm }) => {
     setShowModal(true);
-    signInUser(value.email,value.password);
+    signInUser(value.email, value.password);
     resetForm();
   };
 
@@ -108,7 +110,7 @@ const EmailLogin = () => {
                   className={`text-white fs-16 font-bold self-stretch rounded-xl py-3 mb-2 ${
                     formik.errors.email || formik.errors.password
                       ? "disabled"
-                      : "bg-gredient-2"
+                      : "bg-gredient-2 contained-effect"
                   }`}
                   disabled={!!formik.errors.email || !!formik.errors.password}
                 >
@@ -145,7 +147,9 @@ const EmailLogin = () => {
           </div>
         </div>
         {isPending && <Modal />}
-        {showModal && error && <Modal actions={{error:error,showModalFunc:showModalFunc}} /> }
+        {showModal && error && (
+          <Modal actions={{ error: error, showModalFunc: showModalFunc }} />
+        )}
       </main>
     </>
   );

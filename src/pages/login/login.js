@@ -64,8 +64,8 @@ const Login = () => {
               <h2 className="m-heaidng hidden md:block font-black gredient-text leading-tight md:mb-5 mb-3">
                 Welcome back!
               </h2>
-              <Link to="email" className="mb-5 self-stretch">
-                <div className=" flex justify-center items-center self-stretch bg-gredient-2 py-3 rounded-xl">
+              <Link to="email" className="mb-5 self-stretch ">
+                <div className=" flex justify-center contained-effect items-center self-stretch bg-gredient-2 py-3 rounded-xl">
                   <IoMdMail className="text-white fs-22" />
                   <span className="text-white font-medium fs-15 ml-4">
                     Login with Email
@@ -83,9 +83,9 @@ const Login = () => {
                 onClick={() => {
                   handleLogin("google");
                 }}
-                className="mb-5 self-stretch"
+                className="mb-5 self-stretch outlined-effect"
               >
-                <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
+                <div className=" flex  justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={GoogleIcon} alt="google" />
                   <span className="text-primary-800 font-medium fs-15 ml-4">
                     Login with Google
@@ -96,7 +96,7 @@ const Login = () => {
                 onClick={() => {
                   handleLogin("twitter");
                 }}
-                className="mb-5 self-stretch"
+                className="mb-5 self-stretch outlined-effect"
               >
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={TwitterIcon} alt="google" />
@@ -109,7 +109,7 @@ const Login = () => {
                 onClick={() => {
                   handleLogin("discord");
                 }}
-                className="mb-5  self-stretch"
+                className="mb-5 self-stretch outlined-effect"
               >
                 <div className=" flex justify-center self-stretch py-2.5 rounded-xl border-2 border-primary-200">
                   <img src={DiscordIcon} alt="google" />

@@ -1,20 +1,10 @@
 import { Fragment, useRef } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import ErrorLottie from "../../../../assets/lottie/ErrorAnimation.json";
-import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
+import { ContainedCheckSvg } from "../../../../assets/svg";
 
-const ErrorModal = ({ open, handleClose, heading, message }) => {
+const AlertModal = ({ open, handleClose }) => {
   const cancelButtonRef = useRef(null);
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: ErrorLottie,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   return (
     <Transition.Root show={open} as={Fragment}>
@@ -36,7 +26,7 @@ const ErrorModal = ({ open, handleClose, heading, message }) => {
           <div className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
         </Transition.Child>
 
-        <div className="error-dialog fixed inset-0 z-10 overflow-y-auto">
+        <div className="password-dialog fixed inset-0 z-10 overflow-y-auto">
           <div className="flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
             <Transition.Child
               as={Fragment}
@@ -48,20 +38,26 @@ const ErrorModal = ({ open, handleClose, heading, message }) => {
               leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
             >
               <Dialog.Panel className="dialog-box  flex flex-col gap-3 relative transform overflow-hidden rounded-lg  shadow-xl transition-all  sm:w-full sm:max-w-lg">
-                <div className="coin-lottie">
-                  <Lottie options={defaultOptions} height={240} width={240} />
+                <div className="coin-lottie flex justify-center mb-3">
+                  <img src={ContainedCheckSvg} alt="Check" />
                 </div>
-                <h3 className="dialog-heading gredient-text">
-                  {heading ? heading : "Something went wrong"}
-                </h3>
-                <p className="dialog-text mb-3">Please try again</p>
-                <p className="dialog-text mb-3">{message}</p>
+                <p className="gredient-text  mb-3">
+                  <span className="dialog-heading ">Password Link Sent</span>
+                </p>
+
+                <p className="dialog-text mb-3">
+                  <span className=" ">
+                    Please check your inbox (also spam folder) for a mail from
+                    support@capx.fi
+                  </span>
+                </p>
+
                 <div className="dialog-buttons flex flex-col">
                   <button
                     onClick={handleClose}
                     className="btn-contained contained-effect bg-gredient-2 flex justify-center items-center"
                   >
-                    <span>Try Again</span>
+                    <span>Back to Login</span>
                     <HiArrowRight className="text-xl ml-3" />
                   </button>
                 </div>
@@ -74,4 +70,4 @@ const ErrorModal = ({ open, handleClose, heading, message }) => {
   );
 };
 
-export default ErrorModal;
+export default AlertModal;

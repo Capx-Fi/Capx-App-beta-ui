@@ -7,8 +7,8 @@ import SpecialTasks from "./components/SpecialTasks/SpecialTasks";
 import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestsData } from "../../store/slices/questSlice";
-import Modal from "../../components/Modal/Modal";
 import { config } from "../../config";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -165,7 +165,7 @@ const Home = () => {
           </div>
         </div>
       )}
-      {isPending && <Modal></Modal>}
+      {isPending && <TopLoader />}
     </div>
   );
 };

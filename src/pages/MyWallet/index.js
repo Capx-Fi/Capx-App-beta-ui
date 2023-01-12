@@ -5,13 +5,13 @@ import { useNavigate } from "react-router-dom";
 import { WalletSplash } from "../../assets/images";
 import { TaskListIcon } from "../../assets/svg";
 import AlertModal from "../../components/alertModal/AlertModal";
-import Modal from "../../components/Modal/Modal";
 import { config } from "../../config";
 import { useApi } from "../../hooks/useApi";
 import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 import QuestTable from "./components/questTable/QuestTable";
 import WalletBanner from "./components/WalletBanner/WalletBanner";
 import dayjs from "dayjs";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 function MyWallet() {
   const [openAlertModal, setOpenAlertModal] = useState(false);
@@ -82,7 +82,7 @@ function MyWallet() {
         page={"Wallet"}
         handleClose={handleAlertModalClose}
       />
-      {isPending && <Modal />}
+      {isPending && <TopLoader />}
       <ErrorModal open={openErrorModal} handleClose={handleErrorModalClose} />
     </>
   );

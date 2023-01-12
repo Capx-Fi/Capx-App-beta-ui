@@ -34,6 +34,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setQuestOrderId } from "../../../store/slices/questSlice";
 import { config } from "../../../config";
+import TopLoader from "../../../components/topLoader/TopLoader";
 
 const AnswerQuiz = () => {
   const routeParams = useParams();
@@ -191,8 +192,10 @@ const AnswerQuiz = () => {
         case "Generate_Invite_Code":
           return (
             <GenCodeStep1
-              actionData={{ ...actionData,
-              handleCompleteAction: handleCompleteAction }}
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+              }}
             />
           );
         case "Share_Invite_Code":
@@ -560,7 +563,7 @@ const AnswerQuiz = () => {
         </div>
       </div>
 
-      {apiIsPending && <Modal />}
+      {apiIsPending && <TopLoader />}
     </div>
   );
 };

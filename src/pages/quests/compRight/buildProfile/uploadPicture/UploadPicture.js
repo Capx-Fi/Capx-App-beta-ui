@@ -4,6 +4,7 @@ import {
   InputCheckSvg,
   ProfileoutlineIconSvg,
 } from "../../../../../assets/svg";
+import TopLoader from "../../../../../components/topLoader/TopLoader";
 import { useUploadProfileImage } from "../../../../../hooks/useUploadProfileImage";
 import ErrorModal from "../../errorModal/ErrorModal";
 
@@ -131,6 +132,7 @@ const UploadPicture = ({ actionData }) => {
           )}
         </div>
       </div>
+      {isUploadImgPending && <TopLoader />}
       <ErrorModal
         heading={ModalHeadning}
         open={isOpenErrorModal}

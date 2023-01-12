@@ -3,6 +3,7 @@ import { HiArrowRight } from "react-icons/hi";
 import { useFirestoreCollection } from "../../../../hooks/useFirestoreCollection";
 import { useEffect } from "react";
 import { config } from "../../../../config";
+import TopLoader from "../../../../components/topLoader/TopLoader";
 
 const SingleQuiz = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
@@ -51,45 +52,50 @@ const SingleQuiz = ({ actionData }) => {
   };
 
   return (
-    <div className="quiz">
-      <p className="quiz-title action-heading font-bold underline underline-offset-4 text-cgreen-700 fs-15 pb-5">
-        {"Action #" + actionData.action_id + ": Answer the questions below"}
-      </p>
-      <div className="quiz-box flex flex-col self-stretch mb-10 border-1 gap-3 rounded-2xl">
+    <>
+      <div className="quiz">
+        <p className="quiz-title action-heading font-bold underline underline-offset-4 text-cgreen-700 fs-15 pb-5">
+          {"Action #" + actionData.action_id + ": Answer the questions below"}
+        </p>
+        <div className="quiz-box flex flex-col self-stretch mb-10 border-1 gap-3 rounded-2xl">
+          {actionDetails && (
+            <h5 className="quiz-question">
+              {actionDetails.action_order_details.question}
+            </h5>
+          )}
+          {actionDetails && actionDetails.action_order_details.options && (
+            <div className="quiz-answers font-medium flex flex-col gap-3 ">
+              {actionDetails.action_order_details.options.map(
+                (option, index) => {
+                  return (
+                    <button
+                      onClick={handleOptionSelect}
+                      className="answer border-1 rounded-xl"
+                      key={index + 1}
+                      id={index + 1}
+                    >
+                      {option}
+                    </button>
+                  );
+                }
+              )}
+            </div>
+          )}
+        </div>
+
         {actionDetails && (
-          <h5 className="quiz-question">
-            {actionDetails.action_order_details.question}
-          </h5>
-        )}
-        {actionDetails && actionDetails.action_order_details.options && (
-          <div className="quiz-answers font-medium flex flex-col gap-3 ">
-            {actionDetails.action_order_details.options.map((option, index) => {
-              return (
-                <button
-                  onClick={handleOptionSelect}
-                  className="answer border-1 rounded-xl"
-                  key={index + 1}
-                  id={index + 1}
-                >
-                  {option}
-                </button>
-              );
-            })}
-          </div>
+          <button
+            disabled={selectedOption.value === "" ? true : false}
+            onClick={handleCompleteAction}
+            className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full"
+          >
+            {actionDetails.action_order_cta}
+            <HiArrowRight className="text-xl ml-4" />
+          </button>
         )}
       </div>
-
-      {actionDetails && (
-        <button
-          disabled={selectedOption.value === "" ? true : false}
-          onClick={handleCompleteAction}
-          className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full"
-        >
-          {actionDetails.action_order_cta}
-          <HiArrowRight className="text-xl ml-4" />
-        </button>
-      )}
-    </div>
+      {isPending && <TopLoader />}
+    </>
   );
 };
 

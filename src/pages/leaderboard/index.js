@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { LeaderboardSplash } from "../../assets/images";
 import { LeaderboardBadge } from "../../assets/svg";
 import AlertModal from "../../components/alertModal/AlertModal";
-import Modal from "../../components/Modal/Modal";
+import TopLoader from "../../components/topLoader/TopLoader";
 import { config } from "../../config";
 import { useApi } from "../../hooks/useApi";
 import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
@@ -83,7 +83,7 @@ const Leaderboard = () => {
         page={"Leaderboard"}
         handleClose={handleAlertModalClose}
       />
-      {isPending && <Modal />}
+      {isPending && <TopLoader />}
       <ErrorModal open={openErrorModal} handleClose={handleErrorModalClose} />
     </>
   );

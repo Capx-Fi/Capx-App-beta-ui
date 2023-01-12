@@ -5,10 +5,10 @@ import { useApi } from "../../../../hooks/useApi";
 import { useDispatch, useSelector } from "react-redux";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
 import { config } from "../../../../config";
-import Modal from "../../../../components/Modal/Modal";
 import { DailyRewardPng } from "../../../../assets/images";
 import Slider from "react-slick";
 import { ImArrowRight2, ImArrowLeft2 } from "react-icons/im";
+import TopLoader from "../../../../components/topLoader/TopLoader";
 
 const SliderArrow = ({ style, onClick, direction }) => {
   return (
@@ -168,7 +168,7 @@ const OldTasks = ({ quests }) => {
             );
           })}
       </Slider>
-      {isPending && <Modal />}
+      {isPending && <TopLoader />}
     </div>
   );
 };

@@ -7,8 +7,8 @@ import { CardCoinIcon } from "../../../../assets/svg";
 import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 import { useApi } from "../../../../hooks/useApi";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
-import Modal from "../../../../components/Modal/Modal";
 import { config } from "../../../../config";
+import TopLoader from "../../../../components/topLoader/TopLoader";
 
 const SpecialTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
@@ -145,7 +145,7 @@ const SpecialTasks = ({ quests }) => {
             })}
         </Slider>
       </div>
-      {isPending && <Modal />}
+      {isPending && <TopLoader />}
     </div>
   );
 };

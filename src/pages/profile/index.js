@@ -18,6 +18,7 @@ import { config } from "../../config";
 import { useNavigate } from "react-router-dom";
 import { getURLParameter } from "../../utils";
 import { auth } from "../../firebase/firebase";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 function Profile() {
   const inputRef = useRef();
@@ -209,6 +210,12 @@ function Profile() {
                   {userData?.image_url ? (
                     <img
                       src={imagePreview ? imagePreview : userData?.image_url}
+                      alt=""
+                      className="profile-img absolute inset-0"
+                    />
+                  ) : imagePreview ? (
+                    <img
+                      src={imagePreview}
                       alt=""
                       className="profile-img absolute inset-0"
                     />
@@ -442,7 +449,9 @@ function Profile() {
           </div>
         </div>
       </div>
-      {(isPending || isSOcialLinkPending || isUploadImgPending) && <Modal />}
+      {(isPending || isSOcialLinkPending || isUploadImgPending) && (
+        <TopLoader />
+      )}
       {showModel && linkSocalError && (
         <Modal
           actions={{

@@ -9,6 +9,7 @@ import ActionCompleteModal from "../../actionConpleteModal/ActionCompleteModal";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
+import TopLoader from "../../../../../components/topLoader/TopLoader";
 
 const ConnectTwitter = ({ actionData }) => {
   const userData = useSelector((state) => state.user);
@@ -132,6 +133,7 @@ const ConnectTwitter = ({ actionData }) => {
             </button>
           )}
       </div>
+      {isSocialLinkPending && <TopLoader />}
       <ActionCompleteModal
         open={showActionCompleteDialog}
         handleClose={handleActionCompleteDialog}

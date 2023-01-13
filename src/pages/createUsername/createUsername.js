@@ -55,7 +55,7 @@ const CreateUsername = () => {
     if (data) {
       if (data.result.success) {
         dispatch(setUserName({ username }));
-        navigate("/invite-code", { state: { username } });
+        navigate("/invite-code", { state: { username , referer:'/create-username' } });
       } else {
         setUsernameExists(true);
       }

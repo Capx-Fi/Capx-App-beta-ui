@@ -7,6 +7,7 @@ import { useFirebaseForgotPassword } from "../../hooks/useFirebaseForgotPassword
 import Modal from "../../components/Modal/Modal";
 import AlertModal from "./components/alertModal/AlertModal";
 import { useNavigate } from "react-router-dom";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 const ForgotPassowrd = () => {
   const navigate = useNavigate();
@@ -113,7 +114,7 @@ const ForgotPassowrd = () => {
           </div>
         </div>
       </main>
-      {isPending && <Modal />}
+      {isPending && <TopLoader />}
       {showModal && error && (
         <Modal
           actions={{

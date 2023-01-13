@@ -231,9 +231,9 @@ function Profile() {
               <div className="pfp-username flex justify-between capitalize">
                 {/* Target the below paragraph for changing Username */}
                 <p className="grow text-center">{userData?.username}</p>
-                <button>
+                {/* <button>
                   <img src={EditIconSvg} alt="edit" />
-                </button>
+                </button> */}
               </div>
             </div>
 

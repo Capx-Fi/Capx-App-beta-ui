@@ -4,13 +4,13 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/header/Header";
 import MobileNav from "../components/mobileNav/MobileNav";
 import SideNav from "../components/sideNav/SideNav";
-import Modal from "../components/Modal/Modal";
 import { useFirestoreCollection } from "../hooks/useFirestoreCollection";
 import { setUser } from "../store/slices/userSlice";
 import { useFireBaseLogout } from "../hooks/useFireBaseLogout";
 import { logoutUser } from "../store/slices/authSlice";
 import Footer from "../components/footer/Footer";
 import { config } from "../config";
+import TopLoader from "../components/topLoader/TopLoader";
 
 const Layout = () => {
   const dispatch = useDispatch();
@@ -102,9 +102,9 @@ const Layout = () => {
           <MobileNav />
         </div>
       ) : (
-        <Modal />
+        <TopLoader />
       )}
-      {logoutPending && userLogout && <Modal />}
+      {logoutPending && userLogout && <TopLoader />}
     </>
   );
 };

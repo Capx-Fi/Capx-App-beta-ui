@@ -11,6 +11,7 @@ import { useApi } from "../../hooks/useApi";
 import { useSelector } from "react-redux";
 import Modal from "../../components/Modal/Modal";
 import { config } from "../../config";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 const InviteCode = () => {
   const navigate = useNavigate();
@@ -138,7 +139,7 @@ const InviteCode = () => {
             </div>
           </div>
         </div>
-        {isPending && <Modal />}
+        {isPending && <TopLoader />}
         {showModal && !isPending && data && data.result.success === false && (
           <Modal
             actions={{

@@ -31,11 +31,16 @@ const OldTasks = ({ quests }) => {
   const [url, setUrl] = useState(config.API_URL);
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
-  const handleClick = (e, questId) => {
+  const handleClick = (e, quest) => {
     e.preventDefault();
-    setQuestId(questId);
-    const apiDataObject = { data: { questId: questId } };
-    postData(apiDataObject, "/registerForQuest");
+    setQuestId(quest.id);
+    if (quest.status === "new") {
+      const apiDataObject = { data: { questId: quest.id } };
+      postData(apiDataObject, "/registerForQuest");
+    } else {
+      dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
+      navigate(`/quest/${quest.id + "|" + auth.uid}`);
+    }
   };
 
   useEffect(() => {
@@ -147,7 +152,7 @@ const OldTasks = ({ quests }) => {
                   <p className="card-title px-3">{data.tasktitle}</p>
                   <button
                     onClick={(e) => {
-                      handleClick(e, data.id);
+                      handleClick(e, data);
                     }}
                     className="card-btn contained-effect flex justify-between items-center rounded-xl"
                   >

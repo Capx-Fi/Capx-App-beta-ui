@@ -20,12 +20,16 @@ const SpecialTasks = ({ quests }) => {
   const [url, setUrl] = useState(config.API_URL);
   const { isError, isPending, postData, data } = useApi(url, "POST");
 
-  const handleClick = (e, questId) => {
+  const handleClick = (e, quest) => {
     e.preventDefault();
-
-    setQuestId(questId);
-    const apiDataObject = { data: { questId: questId } };
-    postData(apiDataObject, "/registerForQuest");
+    setQuestId(quest.id);
+    if (quest.status === "new") {
+      const apiDataObject = { data: { questId: quest.id } };
+      postData(apiDataObject, "/registerForQuest");
+    } else {
+      dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
+      navigate(`/quest/${quest.id + "|" + auth.uid}`);
+    }
   };
 
   useEffect(() => {
@@ -108,7 +112,7 @@ const SpecialTasks = ({ quests }) => {
               return (
                 <div
                   onClick={(e) => {
-                    handleClick(e, data.id);
+                    handleClick(e, data);
                   }}
                   key={"unique" + ind}
                   className="specialcards-main flex pr-5"

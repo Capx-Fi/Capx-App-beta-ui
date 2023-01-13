@@ -7,7 +7,7 @@ const Tweetstep1 = ({ actionData }) => {
 
   const handleCopyTextButton = () => {
     navigator.clipboard.writeText(
-      "Excited to be part of Capx App Private Beta, and you can become an early member too! 🫶 #CapxApp #CapxFi @CapxFi. To get your special invite code apply on - app.capx.fi"
+      "I just earned 5 xCapx tokens on #CapxApp Beta 🫶. You can join too - app.capx.fi. @CapxFi"
     );
     setShowCopiedBox(true);
     setTimeout(() => {
@@ -31,9 +31,9 @@ const Tweetstep1 = ({ actionData }) => {
             onClick={handleCopyTextButton}
             className="copy-tweet p-4 items-start text-left"
           >
-            Excited to be part of Capx App Private Beta, and you can become an
-            early member too! 🫶 #CapxApp #CapxFi @CapxFi <br />
-            <br /> To get your special invite code apply on - app.capx.fi
+            I just earned 5 xCapx tokens on #CapxApp Beta 🫶<br />
+            <br /> You can join too - app.capx.fi <br/>
+            <br/> @CapxFi
           </button>
         </div>
 
@@ -42,7 +42,7 @@ const Tweetstep1 = ({ actionData }) => {
             NOTE
           </p>
           <p className="copy-tweet p-4">
-            Use Hashtags :<span className="font-bold">#CapxApp #CapxFi</span>
+            Use Hashtags :<span className="font-bold">#CapxApp</span>
             <br />
             Tag us on the tweet: <span className="font-bold">@CapxFi</span>
           </p>

@@ -100,7 +100,7 @@ const AnswerQuiz = () => {
       const apiDataObject = { data: { questId: newQuestData[0].id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
-      console.log("all quests registered or complete");
+      navigate('/');
     }
   };
 

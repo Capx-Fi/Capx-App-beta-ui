@@ -15,6 +15,7 @@ import { setUserName } from "../../store/slices/userSlice";
 import { useDispatch } from "react-redux";
 import Modal from "../../components/Modal/Modal";
 import { config } from "../../config";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 const CreateUsername = () => {
   const navigate = useNavigate();
@@ -55,7 +56,9 @@ const CreateUsername = () => {
     if (data) {
       if (data.result.success) {
         dispatch(setUserName({ username }));
-        navigate("/invite-code", { state: { username } });
+        navigate("/invite-code", {
+          state: { username, referer: "/create-username" },
+        });
       } else {
         setUsernameExists(true);
       }
@@ -134,7 +137,7 @@ const CreateUsername = () => {
             </div>
           </div>
         </div>
-        {isPending && <Modal />}
+        {isPending && <TopLoader />}
         {showModal && !isPending && usernameExists && (
           <Modal
             actions={{

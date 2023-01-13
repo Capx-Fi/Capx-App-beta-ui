@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import Modal from "./components/Modal/Modal";
+import TopLoader from "./components/topLoader/TopLoader";
 import { useFireBaseAuth } from "./hooks/useFirebaseAuth";
 import Routes from "./routes/routes";
 
@@ -15,7 +16,7 @@ function App() {
           <Routes />
         </BrowserRouter>
       ) : (
-        <Modal />
+        <TopLoader />
       )}
     </div>
   );

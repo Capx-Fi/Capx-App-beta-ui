@@ -6,6 +6,7 @@ import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
 import Modal from "../../components/Modal/Modal";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 const EmailLogin = () => {
   const navigate = useNavigate();
@@ -146,7 +147,7 @@ const EmailLogin = () => {
             </div>
           </div>
         </div>
-        {isPending && <Modal />}
+        {isPending && <TopLoader />}
         {showModal && error && (
           <Modal actions={{ error: error, showModalFunc: showModalFunc }} />
         )}

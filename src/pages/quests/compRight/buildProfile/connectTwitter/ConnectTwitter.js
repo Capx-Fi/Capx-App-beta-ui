@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import TopLoader from "../../../../../components/topLoader/TopLoader";
 import Profile from "../profile/Profile";
+import { auth } from "../../../../../firebase/firebase";
 
 const ConnectTwitter = ({ actionData }) => {
   const userData = useSelector((state) => state.user);
@@ -45,10 +46,17 @@ const ConnectTwitter = ({ actionData }) => {
   };
 
   useEffect(() => {
+    const isTwitterProvider = auth.currentUser.providerData.filter(
+      (providers) => {
+        return providers.providerId === "twitter.com";
+      }
+    );
+
     if (
       !isSocialLinkPending &&
       useAccessToken &&
       useAccessToken.length > 0 &&
+      isTwitterProvider.length > 0 &&
       !actionData.is_claimed
     ) {
       handleActionComplete();

@@ -41,7 +41,7 @@ const Tweetstep1 = ({ actionData }) => {
             NOTE
           </p>
           <p className="copy-tweet p-4">
-            Use Hashtags :<span className="font-bold">#CapxApp #CapxFi</span>
+            Use Hashtags :<span className="font-bold">#CapxApp</span>
             <br />
             Tag us on the tweet: <span className="font-bold">@CapxFi</span>
           </p>

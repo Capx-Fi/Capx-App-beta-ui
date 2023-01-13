@@ -35,7 +35,7 @@ const Tweetstep2 = ({ actionData }) => {
 
   const handleCopyText = () => {
     navigator.clipboard.writeText(
-      "Excited to be part of Capx App Private Beta, and you can become an early member too! 🫶 #CapxApp #CapxFi @CapxFi. To get your special invite code apply on - app.capx.fi"
+      "I just earned 5 xCapx tokens on #CapxApp Beta 🫶 You can join too - app.capx.fi @CapxFi"
     );
     setShowCopiedBox(true);
     setTimeout(() => {
@@ -82,9 +82,8 @@ const Tweetstep2 = ({ actionData }) => {
             className="copy-tweet p-4 items-start text-left"
             onClick={handleCopyText}
           >
-            Excited to be part of Capx App Private Beta, and you can become an
-            early member too! 🫶 #CapxApp #CapxFi @CapxFi <br />
-            <br /> To get your special invite code apply on - app.capx.fi
+            I just earned 5 xCapx tokens on #CapxApp Beta 🫶
+            <br /> You can join too - app.capx.fi <br /> @CapxFi
           </button>
         </div>
 

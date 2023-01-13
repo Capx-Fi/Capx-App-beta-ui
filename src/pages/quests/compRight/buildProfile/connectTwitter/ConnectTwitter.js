@@ -10,6 +10,8 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import TopLoader from "../../../../../components/topLoader/TopLoader";
+import Profile from "../profile/Profile";
+import { auth } from "../../../../../firebase/firebase";
 
 const ConnectTwitter = ({ actionData }) => {
   const userData = useSelector((state) => state.user);
@@ -44,7 +46,19 @@ const ConnectTwitter = ({ actionData }) => {
   };
 
   useEffect(() => {
-    if (!isSocialLinkPending && useAccessToken && useAccessToken.length > 0) {
+    const isTwitterProvider = auth.currentUser.providerData.filter(
+      (providers) => {
+        return providers.providerId === "twitter.com";
+      }
+    );
+
+    if (
+      !isSocialLinkPending &&
+      useAccessToken &&
+      useAccessToken.length > 0 &&
+      isTwitterProvider.length > 0 &&
+      !actionData.is_claimed
+    ) {
       handleActionComplete();
     }
   }, [useAccessToken, isSocialLinkPending]);
@@ -121,16 +135,19 @@ const ConnectTwitter = ({ actionData }) => {
           )}
         {actionData.action_order_status === "COMPLETED" &&
           actionData.is_claimed === true && (
-            <button
+            <>
+              {/* <button
               onClick={(e) => {
-                // actionData.handleCompleteAction(e, { type: "profile", value: "" })
+                
                 navigate("/");
               }}
               className="bg-gredient-2 contained-effect action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
             >
               Go to Home Page
               <HiArrowRight className="text-xl " />
-            </button>
+            </button> */}
+              <Profile />
+            </>
           )}
       </div>
       {isSocialLinkPending && <TopLoader />}

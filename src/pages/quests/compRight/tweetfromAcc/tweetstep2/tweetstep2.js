@@ -12,6 +12,9 @@ const Tweetstep2 = ({ actionData }) => {
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const [ModalHeadning, setModalHeadning] = useState("");
   const [showCopiedBox, setShowCopiedBox] = useState(false);
+  const [textForTweet, setTextForTweet] = useState(
+    "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - app.capx.fi\n\n@CapxFi"
+  );
 
   var expression =
     /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
@@ -34,9 +37,7 @@ const Tweetstep2 = ({ actionData }) => {
   };
 
   const handleCopyText = () => {
-    navigator.clipboard.writeText(
-      "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - app.capx.fi\n\n@CapxFi"
-    );
+    navigator.clipboard.writeText(textForTweet);
     setShowCopiedBox(true);
     setTimeout(() => {
       setShowCopiedBox(false);
@@ -82,9 +83,19 @@ const Tweetstep2 = ({ actionData }) => {
             className="copy-tweet p-4 items-start text-left"
             onClick={handleCopyText}
           >
-             I just earned 5 xCapx tokens on #CapxApp Beta 🫶<br />
-            <br /> You can join too - app.capx.fi <br/>
-            <br/> @CapxFi
+            {textForTweet.split("\n\n").map((line, ind) => {
+              return (
+                <>
+                  {ind !== 0 && (
+                    <>
+                      <br />
+                      <br />
+                    </>
+                  )}
+                  {line}
+                </>
+              );
+            })}
           </button>
         </div>
 

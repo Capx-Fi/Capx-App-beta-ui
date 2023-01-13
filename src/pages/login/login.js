@@ -13,7 +13,7 @@ import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
 import { useApi } from "../../hooks/useApi";
 import { getURLParameter } from "../../utils";
 import { config } from "../../config";
-import Modal from "../../components/Modal/Modal";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 const Login = () => {
   const {
@@ -147,7 +147,7 @@ const Login = () => {
           </div>
         </div>
       </main>
-      {(isPending || isApiPending) && <Modal />}
+      {(isPending || isApiPending) && <TopLoader />}
     </>
   );
 };

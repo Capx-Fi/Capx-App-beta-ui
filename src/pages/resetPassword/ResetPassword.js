@@ -6,6 +6,7 @@ import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import { useFirebaseResetPassword } from "../../hooks/useFirebaseResetPassword";
 import Modal from "../../components/Modal/Modal";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 function useQuery() {
   const location = useLocation();
@@ -154,7 +155,7 @@ const ResetPassword = () => {
           </div>
         </div>
       </main>
-      {isPending && <Modal />}
+      {isPending && <TopLoader />}
       {showModal && error && (
         <Modal
           actions={{

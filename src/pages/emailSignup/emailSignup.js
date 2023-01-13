@@ -14,6 +14,7 @@ import { useFirebaseSignup } from "../../hooks/useFirebaseSignup";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Modal from "../../components/Modal/Modal";
+import TopLoader from "../../components/topLoader/TopLoader";
 
 const EmailSignup = () => {
   const navigate = useNavigate();
@@ -73,7 +74,7 @@ const EmailSignup = () => {
               <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-3">
                 Sign up with email
               </h2>
-              {_isPending && <Modal />}
+              {_isPending && <TopLoader />}
               {showModal && _error && (
                 <Modal
                   actions={{ error: _error, showModalFunc: showModalFunc }}

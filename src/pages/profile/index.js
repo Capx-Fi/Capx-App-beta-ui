@@ -313,7 +313,7 @@ function Profile() {
                         </p>
                       </div>
                       <div className="flex items-center">
-                        {showTwitterUnlinkBtn && (
+                        {/* {showTwitterUnlinkBtn && (
                           <button
                             onClick={() => {
                               hanldeTwitterUnlink("twitter");
@@ -322,7 +322,7 @@ function Profile() {
                           >
                             Unlink
                           </button>
-                        )}
+                        )} */}
 
                         <img
                           src={Check}

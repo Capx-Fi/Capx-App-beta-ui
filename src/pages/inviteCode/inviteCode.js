@@ -143,7 +143,7 @@ const InviteCode = () => {
         {showModal && !isPending && data && data.result.success === false && (
           <Modal
             actions={{
-              error: "Invalid Invite Code",
+              error: data.result.message,
               showModalFunc: showModalFunc,
             }}
           />

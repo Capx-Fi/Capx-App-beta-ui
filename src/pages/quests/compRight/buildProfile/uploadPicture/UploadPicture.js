@@ -31,15 +31,16 @@ const UploadPicture = ({ actionData }) => {
     console.log("drop");
   };
 
-  const handleDrop = (event) => {
-    console.log("fileUploaded");
-    event.preventDefault();
-    setImageFile(event.dataTransfer.files);
-  };
-
   const handleImageUpdate = (e) => {
+    e.preventDefault();
+    let image = null;
     setImgUrl(false);
-    let image = e.target.files[0];
+    if (e.dataTransfer?.files) {
+      image = e.dataTransfer.files[0];
+    } else if (e.target?.files) {
+      image = e.target.files[0];
+    }
+
     if (
       (image.type === "image/png" || image.type === "image/jpeg") &&
       image.size <= 5242880
@@ -78,7 +79,7 @@ const UploadPicture = ({ actionData }) => {
           <div className="input-wrapper flex flex-col  mb-4 relative">
             <div
               onDragOver={handleDragover}
-              onDrop={handleDrop}
+              onDrop={handleImageUpdate}
               onClick={(e) => inputRef.current.click()}
               className="dropzone flex flex-col items-center gap-3"
             >

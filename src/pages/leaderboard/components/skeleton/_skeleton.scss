@@ -1,0 +1,40 @@
+.leaderboard-skeleton {
+  .top-cards {
+    border: 1px solid #c3ebcc;
+    border-radius: 20px;
+    padding: 16px 0;
+    background: $gredient-green-1;
+    @media screen and (max-width: 767.98px) {
+      padding: 8px 12px;
+    }
+    .profile-img {
+      height: 92px;
+      width: 92px;
+      @media screen and (max-width: 767.98px) {
+        width: 42px;
+        height: 42px;
+      }
+    }
+    .line-1 {
+      width: 83px;
+      height: 24px;
+      @media screen and (max-width: 767.98px) {
+        width: 58px;
+        height: 16px;
+      }
+    }
+
+    .line-2 {
+      width: 154px;
+      height: 16px;
+      @media screen and (max-width: 767.98px) {
+        width: 209px;
+        height: 14px;
+      }
+    }
+    .line-3 {
+      width: 90px;
+      height: 16px;
+    }
+  }
+}

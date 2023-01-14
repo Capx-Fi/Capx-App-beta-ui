@@ -4,11 +4,12 @@ import { useRef } from "react";
 
 const Tweetstep1 = ({ actionData }) => {
   const [showCopiedBox, setShowCopiedBox] = useState(false);
+  const [textForTweet, setTextForTweet] = useState(
+    "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
+  );
 
   const handleCopyTextButton = () => {
-    navigator.clipboard.writeText(
-      "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
-    );
+    navigator.clipboard.writeText(textForTweet);
     setShowCopiedBox(true);
     setTimeout(() => {
       setShowCopiedBox(false);
@@ -18,7 +19,7 @@ const Tweetstep1 = ({ actionData }) => {
   return (
     <div className="createtweet relative flex flex-col gap-3">
       <p className="createtweet-title action-heading ">
-        Action #1 : Let’s Tell the World about Capx App
+        Action #1 : Let's Tell the World about Capx App
       </p>
       {showCopiedBox && <p className="copied-box ">Copied!</p>}
 
@@ -31,9 +32,19 @@ const Tweetstep1 = ({ actionData }) => {
             onClick={handleCopyTextButton}
             className="copy-tweet p-4 items-start text-left"
           >
-            I just earned 5 xCapx tokens on #CapxApp Beta 🫶<br />
-            <br /> You can join too - capx.fi/waitlist <br/>
-            <br/> @CapxFi
+            {textForTweet.split("\n\n").map((line, ind) => {
+              return (
+                <>
+                  {ind !== 0 && (
+                    <>
+                      <br />
+                      <br />
+                    </>
+                  )}
+                  {line}
+                </>
+              );
+            })}
           </button>
         </div>
 

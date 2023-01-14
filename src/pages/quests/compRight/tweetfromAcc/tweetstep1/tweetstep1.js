@@ -7,7 +7,7 @@ const Tweetstep1 = ({ actionData }) => {
 
   const handleCopyTextButton = () => {
     navigator.clipboard.writeText(
-      "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - app.capx.fi\n\n@CapxFi"
+      "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
     );
     setShowCopiedBox(true);
     setTimeout(() => {
@@ -32,7 +32,7 @@ const Tweetstep1 = ({ actionData }) => {
             className="copy-tweet p-4 items-start text-left"
           >
             I just earned 5 xCapx tokens on #CapxApp Beta 🫶<br />
-            <br /> You can join too - app.capx.fi <br/>
+            <br /> You can join too - capx.fi/waitlist <br/>
             <br/> @CapxFi
           </button>
         </div>

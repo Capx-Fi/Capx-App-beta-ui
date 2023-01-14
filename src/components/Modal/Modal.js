@@ -77,8 +77,8 @@ const Modal = ({ actions }) => {
                         onClick={(e) => actions.showModalFunc()}
                         className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 mb-5 rounded-2xl text-white font-semibold fs-16 w-full"
                       >
-                        Try Again
-                        <HiArrowRight className="text-xl ml-4" />
+                        Close
+                        {/* <HiArrowRight className="text-xl ml-4" /> */}
                       </button>
                     </div>
                   </>

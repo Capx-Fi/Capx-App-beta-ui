@@ -1,0 +1,16 @@
+{
+  "projects": {
+    "default": "capx-x-web3auth",
+    "release": "capx-app"
+  },
+  "targets": {
+    "capx-app": {
+      "hosting": {
+        "app": [
+          "release-app"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}

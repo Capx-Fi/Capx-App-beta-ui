@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+  capx-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    restart: always

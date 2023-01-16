@@ -11,6 +11,7 @@ pipeline {
         stage('Push Branch to capx-app AWS ECR Registry') {
             steps {
                 sh 'pwd'
+                sh 'sudo docker container ls -a'
             }
         }
     }

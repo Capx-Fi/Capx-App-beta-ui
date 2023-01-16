@@ -125,7 +125,9 @@ const CreateUsername = () => {
             <div className="h-full w-full flex items-end justify-end relative">
               {!!formik.values.username && !formik.errors.username ? (
                 <img
-                  src={config.FIRESTORE_IMAGE_URL + config.INVITE_CODE_STICKER}
+                  src={
+                    config.FIRESTORE_IMAGE_URL + config.CREATE_USERNAME_STICKER
+                  }
                   alt="dummy"
                 />
               ) : (

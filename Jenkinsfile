@@ -8,13 +8,14 @@ pipeline {
 
             }
         }
-        stage('Push Branch to capx-app AWS ECR Registry') {
+        stage('Build capx-app AWS ECR Registry') {
             steps {
-                sh 'pwd'
                 sh 'docker build -t capx-app .'
-                sh 'docker tag capx-app:latest 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:latest'
-                sh 'docker push 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:latest'
             }
+        }
+        stage("Tag & Push") {
+            sh 'docker tag capx-app:latest 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:latest'
+            sh 'docker push 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:latest'
         }
     }
 }

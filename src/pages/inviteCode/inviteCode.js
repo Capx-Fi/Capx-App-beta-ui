@@ -1,8 +1,4 @@
-import {
-  ChipCapxSvg,
-  InviteCodeSideSticker,
-  InvitecodeStickerMob,
-} from "../../assets/svg";
+import { ChipCapxSvg } from "../../assets/svg";
 import Stepper from "../../components/stepper/Stepper";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -123,7 +119,9 @@ const InviteCode = () => {
               </p>
 
               <img
-                src={InvitecodeStickerMob}
+                src={
+                  config.FIRESTORE_IMAGE_URL + config.INVITE_CODE_MOB_STICKER
+                }
                 alt="sticker"
                 className="block md:hidden absolute bottom-0 mb-16"
               />
@@ -133,7 +131,9 @@ const InviteCode = () => {
             <div className="h-full w-full flex items-end justify-center relative">
               <img
                 className="width-90p"
-                src={InviteCodeSideSticker}
+                src={
+                  config.FIRESTORE_IMAGE_URL + config.INVITE_CODE_SIDE_STICKER
+                }
                 alt="dummy"
               />
             </div>

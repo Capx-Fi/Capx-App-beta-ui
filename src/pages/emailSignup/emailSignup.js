@@ -1,12 +1,7 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  ChipCapxSvg,
-  DxSignupSticker,
-  MobDxStocker,
-  OnboardSvg,
-} from "../../assets/svg";
+import { ChipCapxSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
@@ -15,6 +10,7 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import Modal from "../../components/Modal/Modal";
 import TopLoader from "../../components/topLoader/TopLoader";
+import { config } from "../../config";
 
 const EmailSignup = () => {
   const navigate = useNavigate();
@@ -164,7 +160,7 @@ const EmailSignup = () => {
                 !formik.errors.password &&
                 !formik.errors.email && (
                   <img
-                    src={MobDxStocker}
+                    src={config.FIRESTORE_IMAGE_URL + config.MOB_SIGNUP_STICKER}
                     alt="sticker"
                     className="block md:hidden absolute bottom-0 mb-12"
                   />
@@ -180,8 +176,8 @@ const EmailSignup = () => {
                   !!formik.values.password &&
                   !formik.errors.password &&
                   !formik.errors.email
-                    ? DxSignupSticker
-                    : OnboardSvg
+                    ? config.FIRESTORE_IMAGE_URL + config.SIGNUP_STICKER_SVG
+                    : config.FIRESTORE_IMAGE_URL + config.ONBOARD_SVG
                 }
                 alt="dummy"
               />

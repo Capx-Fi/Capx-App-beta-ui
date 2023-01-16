@@ -1,13 +1,10 @@
 import React from "react";
 
-import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
+import { ChipCapxSvg } from "../../assets/svg";
 import { FaChevronRight } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import {
-  FrontPandaImg,
-  OnboardMobBg,
-  RightPandaImg,
-} from "../../assets/images";
+import { FrontPandaImg, RightPandaImg } from "../../assets/images";
+import { config } from "../../config";
 
 const Onboarding = () => {
   return (
@@ -17,7 +14,7 @@ const Onboarding = () => {
           <div className="left-content-box-wrapper p-6 flex-col  flex md:justify-center justify:start items-center bg-white-transparent min-h-screen relative">
             <img
               className="md:hidden block absolute top-0 right-0"
-              src={OnboardMobBg}
+              src={config.FIRESTORE_IMAGE_URL + config.ONBOARD_BG_SVG}
               alt="bg"
             />
             <div className="left-content-box flex flex-col items-center justify-center mt-12 md:mt-0">
@@ -80,7 +77,11 @@ const Onboarding = () => {
           </div>
           <div className="flex-1 md:min-h-screen hidden md:block">
             <div className="h-full w-full flex items-end justify-center px-6">
-              <img className="width-90p" src={OnboardSvg} alt="dummy" />
+              <img
+                className="width-90p"
+                src={config.FIRESTORE_IMAGE_URL + config.ONBOARD_SVG}
+                alt="dummy"
+              />
             </div>
           </div>
         </div>

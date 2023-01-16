@@ -1,9 +1,9 @@
 import Stepper from "../../components/stepper/Stepper";
-import { OnboardSvg } from "../../assets/svg";
 import { useDispatch } from "react-redux";
 import { setUserProfileComplete } from "../../store/slices/authSlice";
 import TrophyAnimation from "../../assets/lottie/TrophyOnboarding.json";
 import Lottie from "react-lottie";
+import { config } from "../../config";
 
 const Congratulaions = () => {
   const lottieOptions = {
@@ -60,7 +60,11 @@ const Congratulaions = () => {
           </div>
           <div className="flex-1 md:min-h-screen py-8 hidden md:block">
             <div className="h-full w-full flex items-end justify-center px-6">
-              <img className="width-90p" src={OnboardSvg} alt="dummy" />
+              <img
+                className="width-90p"
+                src={config.FIRESTORE_IMAGE_URL + config.ONBOARD_SVG}
+                alt="dummy"
+              />
             </div>
           </div>
         </div>

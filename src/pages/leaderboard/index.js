@@ -9,6 +9,7 @@ import { config } from "../../config";
 import { useApi } from "../../hooks/useApi";
 import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 import Banner from "./components/banner/Banner";
+import Skeleton from "./components/skeleton/Skeleton";
 import TopUserCard from "./components/topUserCard/TopUserCard";
 import TopUsersTable from "./components/topUsersTable/TopUsersTable";
 
@@ -57,25 +58,34 @@ const Leaderboard = () => {
           <img src={LeaderboardBadge} alt="Leaderboard" />
           <h3 className="ml-3">Leaderboard</h3>
         </div>
-        <div className="top-uses flex md:flex-row flex-col gap-6">
-          {topUsersData !== null &&
-            topUsersData?.result.leaderboard
-              .slice(0, 3)
-              .map((userData, ind) => {
-                return (
-                  <TopUserCard key={userData.name + ind} userData={userData} />
-                );
-              })}
-        </div>
-        <div className="flex">
-          {topUsersData !== null && (
-            <TopUsersTable userData={topUsersData?.result.leaderboard} />
-          )}
+        {isPending ? (
+          <Skeleton />
+        ) : (
+          <>
+            <div className="top-uses flex md:flex-row flex-col gap-6">
+              {topUsersData !== null &&
+                topUsersData?.result.leaderboard
+                  .slice(0, 3)
+                  .map((userData, ind) => {
+                    return (
+                      <TopUserCard
+                        key={userData.name + ind}
+                        userData={userData}
+                      />
+                    );
+                  })}
+            </div>
+            <div className="flex">
+              {topUsersData !== null && (
+                <TopUsersTable userData={topUsersData?.result.leaderboard} />
+              )}
 
-          <div className="splash-img grow md:flex justify-center items-center hidden ">
-            <img src={LeaderboardSplash} alt="Trophy" />
-          </div>
-        </div>
+              <div className="splash-img grow md:flex justify-center items-center hidden ">
+                <img src={LeaderboardSplash} alt="Trophy" />
+              </div>
+            </div>
+          </>
+        )}
       </div>
       <AlertModal
         open={openAlertModal}

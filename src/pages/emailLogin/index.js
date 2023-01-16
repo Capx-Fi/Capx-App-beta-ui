@@ -1,12 +1,13 @@
 import { useFormik } from "formik";
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ChipCapxSvg, OnboardSvg } from "../../assets/svg";
+import { ChipCapxSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import { useFireBaseLogin } from "../../hooks/useFirebaseLogin";
 import Modal from "../../components/Modal/Modal";
 import TopLoader from "../../components/topLoader/TopLoader";
+import { config } from "../../config";
 
 const EmailLogin = () => {
   const navigate = useNavigate();
@@ -143,7 +144,11 @@ const EmailLogin = () => {
           </div>
           <div className="flex-1 md:min-h-screen hidden md:block">
             <div className="h-full w-full flex items-end justify-center px-6">
-              <img className="width-90p" src={OnboardSvg} alt="dummy" />
+              <img
+                className="width-90p"
+                src={config.FIRESTORE_IMAGE_URL + config.ONBOARD_SVG}
+                alt="dummy"
+              />
             </div>
           </div>
         </div>

@@ -1,9 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   ChipCapxSvg,
   DiscordIcon,
-  GetStatedSvg,
-  GetStatedSvg2,
   GoogleIcon,
   TwitterIcon,
 } from "../../assets/svg";
@@ -135,12 +133,20 @@ const Signup = () => {
           </div>
           <div className="right-img-wrapper flex-1 md:min-h-screen hidden md:block">
             <div className="h-full w-full flex items-end justify-end">
-              <img className="width-90p" src={GetStatedSvg} alt="dummy" />
+              <img
+                className="width-90p"
+                src={config.FIRESTORE_IMAGE_URL + config.GETSTARTED_SVG}
+                alt="dummy"
+              />
             </div>
           </div>
           <div className="right-img-wrapper flex-1 md:min-h-screen block md:hidden pt-10">
             <div className="h-full w-full flex items-end justify-center px-6">
-              <img className="width-90p" src={GetStatedSvg2} alt="dummy" />
+              <img
+                className="width-90p"
+                src={config.FIRESTORE_IMAGE_URL + config.GETSTARTED_SVG_2}
+                alt="dummy"
+              />
             </div>
             <p className="gredient-text text-center fs-40 font-black tracking-tight -translate-y-10">
               Let’s get started !

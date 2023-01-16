@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setQuestsData } from "../../store/slices/questSlice";
 import { config } from "../../config";
 import TopLoader from "../../components/topLoader/TopLoader";
+import Skeleton from "./components/skeleton/Skeleton";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -127,25 +128,31 @@ const Home = () => {
         id="scroll-container"
       >
         <HomeBanner />
-        <div className="home-wrapper-1-inner flex flex-col gap-5">
-          <div className="home-title flex flex-row items-center gap-2">
-            <img src={DailyQuestsIcon} className="w-8" alt="quest" />
-            <p className="fs-16 font-black">Daily Rewards</p>
-          </div>
-          <div className="home-tasks flex flex-row 11/12">
-            <ConsTasks quests={dailyQuests} />
-          </div>
-        </div>
+        {isPending ? (
+          <Skeleton />
+        ) : (
+          <>
+            <div className="home-wrapper-1-inner flex flex-col gap-5">
+              <div className="home-title flex flex-row items-center gap-2">
+                <img src={DailyQuestsIcon} className="w-8" alt="quest" />
+                <p className="fs-16 font-black">Daily Rewards</p>
+              </div>
+              <div className="home-tasks flex flex-row 11/12">
+                <ConsTasks quests={dailyQuests} />
+              </div>
+            </div>
 
-        <div className="home-wrapper-1-inner flex flex-col gap-5">
-          <div className="home-title flex flex-row items-center gap-2">
-            <img src={DailyQuestsIcon} className="w-8" />
-            <p className="fs-16 font-black">Special Quests</p>
-          </div>
-          <div className="home-tasks ">
-            <SpecialTasks quests={specialQuests} />
-          </div>
-        </div>
+            <div className="home-wrapper-1-inner flex flex-col gap-5">
+              <div className="home-title flex flex-row items-center gap-2">
+                <img src={DailyQuestsIcon} className="w-8" />
+                <p className="fs-16 font-black">Special Quests</p>
+              </div>
+              <div className="home-tasks ">
+                <SpecialTasks quests={specialQuests} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {prevQuests && prevQuests.length > 0 && (

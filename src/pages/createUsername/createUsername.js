@@ -1,10 +1,5 @@
 import { useFormik } from "formik";
-import {
-  ChipCapxSvg,
-  CreateunameSticker,
-  CreateunameStickermMob,
-  GetStatedSvg,
-} from "../../assets/svg";
+import { ChipCapxSvg } from "../../assets/svg";
 import Input from "../../components/Input/Input";
 import * as Yup from "yup";
 import Stepper from "../../components/stepper/Stepper";
@@ -116,7 +111,10 @@ const CreateUsername = () => {
               </p>
               {!!formik.values.username && !formik.errors.username && (
                 <img
-                  src={CreateunameStickermMob}
+                  src={
+                    config.FIRESTORE_IMAGE_URL +
+                    config.CREATE_USERNAME_MOB_STICKER
+                  }
                   alt="sticker"
                   className="block md:hidden absolute bottom-0 mb-12"
                 />
@@ -125,15 +123,17 @@ const CreateUsername = () => {
           </div>
           <div className="flex-1 md:min-h-screen py-8 hidden md:block">
             <div className="h-full w-full flex items-end justify-end relative">
-              <img
-                className="width-90p"
-                src={
-                  !!formik.values.username && !formik.errors.username
-                    ? CreateunameSticker
-                    : GetStatedSvg
-                }
-                alt="dummy"
-              />
+              {!!formik.values.username && !formik.errors.username ? (
+                <img
+                  src={config.FIRESTORE_IMAGE_URL + config.INVITE_CODE_STICKER}
+                  alt="dummy"
+                />
+              ) : (
+                <img
+                  src={config.FIRESTORE_IMAGE_URL + config.GETSTARTED_SVG}
+                  alt="dummy"
+                />
+              )}
             </div>
           </div>
         </div>

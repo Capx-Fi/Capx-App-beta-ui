@@ -1,0 +1,53 @@
+.home-skeleton {
+  .daily-card {
+    max-width: 308px;
+    min-width: 230px;
+    border: 2px solid #fff;
+    .image-box {
+      width: 260px;
+      height: 169.59px;
+    }
+
+    .heading-wrapper {
+      height: 38px;
+      .heading {
+        height: 19px;
+      }
+    }
+    .button {
+      font-size: 14px;
+      font-weight: 900;
+      line-height: 21px;
+      padding: 8px 16px 10px;
+    }
+  }
+
+  .home-tasks {
+    .special-card {
+      background: $gradient-cgreen-2;
+
+      .img-box {
+        width: 496px;
+        height: 229.68px;
+        @media screen and (max-width: 767.98px) {
+          width: 276px;
+          height: 127.81px;
+        }
+      }
+
+      .heading-wrapper {
+        height: 38px;
+        @media screen and (max-width: 767.98px) {
+          height: 18px;
+        }
+        .heading {
+          height: 23px;
+          width: 100px;
+          @media screen and (max-width: 767.98px) {
+            height: 18px;
+          }
+        }
+      }
+    }
+  }
+}

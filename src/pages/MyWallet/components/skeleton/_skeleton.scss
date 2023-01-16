@@ -1,0 +1,26 @@
+.quest-table-skeleton {
+  .table-data > div > div {
+    height: 12px;
+  }
+
+  .date {
+    width: 71px;
+    @media screen and (max-width: 767.98px) {
+      width: 55px;
+    }
+  }
+
+  .datail {
+    width: 125px;
+    @media screen and (max-width: 767.98px) {
+      width: 90px;
+    }
+  }
+
+  .earned {
+    width: 45px;
+    @media screen and (max-width: 767.98px) {
+      width: 35px;
+    }
+  }
+}

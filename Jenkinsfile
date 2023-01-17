@@ -15,7 +15,7 @@ pipeline {
         }
         stage('Copy ENV file') {
             steps {
-                sh 'cp $HOME/env/.env .'
+                sh 'cp /home/ubuntu/env/.env .'
                 sh 'ls'
             }
         }

@@ -13,6 +13,12 @@ pipeline {
                 sh 'npm ci --legacy-peer-deps'
             }
         }
+        stage('Copy ENV file') {
+            steps {
+                sh 'cp ~/env/.env .'
+                sh 'ls'
+            }
+        }
         stage('Build App') {
             steps {
                 sh 'npm run build'

@@ -16,6 +16,8 @@ import ResetPassword from "../pages/resetPassword/ResetPassword";
 import { Navigate } from "react-router-dom";
 import AnswerQuiz from "../pages/quests/quest-layout/index.js";
 import Leaderboard from "../pages/leaderboard";
+import EmailVerificationExpired from "../pages/emailVerificationExpired/EmailVerificationExpired";
+import EmailVerification from "../pages/emailverification/EmailVerification";
 
 const Redirect = ({ to }) => {
   return <Navigate to={to} />;
@@ -53,6 +55,14 @@ export const publicRoutes = [
   {
     path: "*",
     element: <Redirect to="/" />,
+  },
+  {
+    path: "/email-verification",
+    element: <EmailVerification />,
+  },
+  {
+    path: "/email-verification-expired",
+    element: <EmailVerificationExpired />,
   },
 ];
 

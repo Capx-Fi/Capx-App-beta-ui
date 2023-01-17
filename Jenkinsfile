@@ -4,8 +4,6 @@ pipeline {
         stage('git pull') {
             steps {
                 git branch: 'feature/jenkins', credentialsId: 'Capx-Fi', url: 'git@github.com:Capx-Fi/Capx-App-React.git'
-                sh 'zip -r capx-app.zip .'
-
             }
         }
         stage('Install Dependencies') {
@@ -16,7 +14,7 @@ pipeline {
         stage('Copy ENV file') {
             steps {
                 sh 'cp /home/ubuntu/env/.env .'
-                sh 'ls'
+                sh 'ls -a'
             }
         }
         stage('Build App') {

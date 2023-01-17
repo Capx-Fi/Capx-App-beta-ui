@@ -8,13 +8,19 @@ pipeline {
 
             }
         }
-        stage('Build capx-app AWS ECR Registry') {
+        stage('Install Dependencies') {
             steps {
-                sh 'docker build -t capx-app .'
+                sh 'npm ci --legacy-peer-deps'
+            }
+        }
+        stage('Build App') {
+            steps {
+                sh 'npm run build'
             }
         }
         stage("Tag & Push") {
             steps {
+                sh 'docker build -t capx-app .'
                 sh 'docker tag capx-app:latest 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:latest'
                 sh 'docker push 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:latest'
             }

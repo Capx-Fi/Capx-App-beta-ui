@@ -13,7 +13,6 @@ import Skeleton from "./components/skeleton/Skeleton";
 import { DailyRewardPanda } from "../../assets/images";
 import { useApi } from "../../hooks/useApi";
 import { useNavigate } from "react-router-dom";
-import { auth } from "../../firebase/firebase";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -22,6 +21,7 @@ const Home = () => {
   const [prevQuests, setPrevQuests] = useState([]);
   const [specialQuests, setSpecialQuests] = useState([]);
   const user = useSelector((state) => state.user);
+  const auth = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
 
   const {
@@ -142,8 +142,15 @@ const Home = () => {
 
   const handleClaimDailyReward = (e) => {
     e.preventDefault();
-    const apiDataObject = { data: { questId: dailyReward[0].id } };
-    postData(apiDataObject, "/registerForQuest");
+    if (dailyReward[0].status === "new") {
+      const apiDataObject = { data: { questId: dailyReward[0].id } };
+      postData(apiDataObject, "/registerForQuest");
+    } else {
+      dispatch(
+        setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
+      );
+      navigate(`/quest/${dailyReward[0].id + "|" + auth.uid}`);
+    }
   };
 
   useEffect(() => {
@@ -163,6 +170,8 @@ const Home = () => {
       navigate(`/quest/${Apidata.result.quest_order_id}`);
     }
   }, [Apidata]);
+
+  console.log(dailyReward);
 
   return (
     <div

@@ -11,8 +11,10 @@ import LeaderboardSplash from "./LeaderboardSplash.png";
 import WalletSplash from "./WalletSplash.png";
 import SpecialCardImage from "./SpecialCardImage.png";
 import QuestsIcon from "./QuestsIcon.png";
+import DailyRewardPanda from "./DailyRewardPanda.png";
 
 export {
+  DailyRewardPanda,
   QuestsIcon,
   SpecialCardImage,
   WalletSplash,

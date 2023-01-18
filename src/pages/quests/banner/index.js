@@ -10,8 +10,13 @@ const Banner = ({ data }) => {
         <h2 className="banner-heading ml-2 ">{data.title}</h2>
       </div>
       <div className="capx-chip flex flex-row self-start">
-        <img src={CoinSvg} alt="coin" className="" />
-        <p className=" ml-2 md:ml-4">{data.rewards + " xCapx"}</p>
+        <div className="text-left">
+          <p className="">Reward</p>
+        </div>
+        <div className="text-right flex items-center">
+          <img src={CoinSvg} alt="coin" className="" />
+          <span className="ml-2 md:ml-2">{data.rewards + " xCapx"}</span>
+        </div>
       </div>
     </div>
   );

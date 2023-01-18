@@ -131,9 +131,7 @@ const InviteCode = () => {
             <div className="h-full w-full flex items-end justify-center relative">
               <img
                 className="width-90p"
-                src={
-                  config.FIRESTORE_IMAGE_URL + config.INVITE_CODE_SIDE_STICKER
-                }
+                src={config.FIRESTORE_IMAGE_URL + config.INVITE_CODE_STICKER}
                 alt="dummy"
               />
             </div>

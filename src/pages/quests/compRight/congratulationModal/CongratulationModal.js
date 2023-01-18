@@ -82,10 +82,7 @@ const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
                     <HiArrowRight className="text-xl ml-3" />
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate("/");
-                    }}
+                    onClick={handleClose}
                     className="btn-contained bg-gredient-2 contained-effect flex items-center"
                   >
                     <span>Go To Home</span>

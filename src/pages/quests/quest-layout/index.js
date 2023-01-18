@@ -75,6 +75,7 @@ const AnswerQuiz = () => {
   const [taskError, setTaskError] = useState(null);
 
   const handleCongratulationModal = () => {
+    navigate("/");
     setOpenCongratulationModal((prev) => (prev ? !prev : prev));
   };
 
@@ -100,7 +101,7 @@ const AnswerQuiz = () => {
       const apiDataObject = { data: { questId: newQuestData[0].id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
-      navigate('/');
+      navigate("/");
     }
   };
 

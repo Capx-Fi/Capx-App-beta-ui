@@ -56,14 +56,6 @@ export const publicRoutes = [
     path: "*",
     element: <Redirect to="/" />,
   },
-  {
-    path: "/email-verification",
-    element: <EmailVerification />,
-  },
-  {
-    path: "/email-verification-expired",
-    element: <EmailVerificationExpired />,
-  },
 ];
 
 export const privateRoutes = [
@@ -111,6 +103,14 @@ export const semiProtectedRoutes = [
   {
     path: "/congratulation",
     element: <Congratulaions />,
+  },
+  {
+    path: "/email-verification",
+    element: <EmailVerification />,
+  },
+  {
+    path: "/email-verification-expired",
+    element: <EmailVerificationExpired />,
   },
   {
     path: "*",

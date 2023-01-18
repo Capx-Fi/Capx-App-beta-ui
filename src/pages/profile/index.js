@@ -207,7 +207,12 @@ function Profile() {
   }, [data, isPending]);
 
   useEffect(() => {
-    if (!isPending && !inviteProgramData && !isError) {
+    if (
+      !isPending &&
+      !inviteProgramData &&
+      !isError &&
+      userData.invite_code !== ""
+    ) {
       getData(null, "/inviteProgramStats");
     }
   }, [isPending]);

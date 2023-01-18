@@ -34,7 +34,7 @@ const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
         as="div"
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={handleClose}
+        onClose={() => {}}
       >
         <Transition.Child
           as={Fragment}
@@ -82,7 +82,10 @@ const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
                     <HiArrowRight className="text-xl ml-3" />
                   </button>
                   <button
-                    onClick={handleClose}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      navigate("/");
+                    }}
                     className="btn-contained bg-gredient-2 contained-effect flex items-center"
                   >
                     <span>Go To Home</span>

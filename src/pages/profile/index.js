@@ -217,8 +217,6 @@ function Profile() {
     }
   }, [isPending]);
 
-  console.log(inviteProgramData);
-
   return (
     <>
       <div className="myProfile flex pp-4 md:p-8">
@@ -242,9 +240,7 @@ function Profile() {
                 <p className="username text-center capitalize">
                   {userData?.name}
                 </p>
-                <p className="name text-center capitalize">
-                  {userData?.username}
-                </p>
+                <p className="name text-center ">@{userData?.username}</p>
               </div>
               <div className="socials flex flex-col gap-5">
                 <div className="social-heading flex items-center justify-center">
@@ -253,12 +249,7 @@ function Profile() {
                 </div>
 
                 {userData?.socials.twitter_id.trim() !== "" ? (
-                  <div
-                    onClick={() => {
-                      hanldeTwitterUnlink("twitter");
-                    }}
-                    className="social-box flex items-center"
-                  >
+                  <div className="social-box flex items-center">
                     <img src={TwitterIcon} alt="twitter" />
                     <p className="name ml-2">
                       {userData?.socials.twitter_username}
@@ -288,7 +279,10 @@ function Profile() {
                     <img src={Check} alt="check" />
                   </div>
                 ) : (
-                  <button className="social-box outlined-effect flex items-center">
+                  <button
+                    onClick={handleDiscordLink}
+                    className="social-box outlined-effect flex items-center"
+                  >
                     <img src={DiscordIcon} alt="twitter" />
                     <p className="name ml-2">Connect you discord</p>
                     <div className="grow" />
@@ -394,7 +388,7 @@ function Profile() {
         />
       )}
       <ErrorModal
-        heading={ModalHeading || formik.errors.fullName}
+        heading={ModalHeading || formik.errors.fullName || linkSocalError}
         open={isOpenErrorModal || !!formik.errors.fullName}
         handleClose={handleErrorModal}
       />

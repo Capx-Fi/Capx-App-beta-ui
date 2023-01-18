@@ -24,10 +24,10 @@ pipeline {
         }
         stage("Tag & Push") {
             steps {
-                sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 296324153710.dkr.ecr.us-east-1.amazonaws.com'
-                sh 'docker build -t capx-app .'
-                sh 'docker tag capx-app:latest 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:valhala'
-                sh 'docker push 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:valhala'
+                sh 'aws ecr get-login-password --region us-east-1 | sudo docker login --username AWS --password-stdin 296324153710.dkr.ecr.us-east-1.amazonaws.com'
+                sh 'sudo docker build -t capx-app .'
+                sh 'sudo docker tag capx-app:latest 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:valhala'
+                sh 'sudo docker push 296324153710.dkr.ecr.us-east-1.amazonaws.com/capx-app:valhala'
             }
         }
     }

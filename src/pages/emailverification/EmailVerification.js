@@ -1,9 +1,21 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { ChipCapxSvg } from "../../assets/svg";
 import Stepper from "../../components/stepper/Stepper";
 import { config } from "../../config";
+import { useFirebaseEmailVerification } from "../../hooks/useFirebaseEmailVerification";
 
 const EmailVerification = () => {
+  const email = useSelector((state)=>state.auth.user.email);
+  const {
+    verifyEmail,
+    error: linkSocalError,
+    isPending: isSOcialLinkPending,
+    isCompleted: linkDone,
+  } = useFirebaseEmailVerification();
+  useEffect(()=>{
+    verifyEmail();
+  },[])
   return (
     <main className="emailVerification-page min-h-screen">
       <div className="flex min-h-screen">
@@ -18,7 +30,7 @@ const EmailVerification = () => {
               <br className="hidden md:block" /> verification link
             </h2>
             <p className="text-center middle-text md:px-0 px-8">
-              We've sent a verification link to <b>johndoe@gmail.com.</b>
+              We've sent a verification link to <b>{email}</b>
               <br className="md:block hidden" /> The link will expire in the
               next 90 minutes!
             </p>

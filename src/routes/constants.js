@@ -53,6 +53,10 @@ export const publicRoutes = [
     element: <ResetPassword />,
   },
   {
+    path: "/email-verification-expired",
+    element: <EmailVerificationExpired />,
+  },
+  {
     path: "*",
     element: <Redirect to="/" />,
   },
@@ -105,15 +109,18 @@ export const semiProtectedRoutes = [
     element: <Congratulaions />,
   },
   {
-    path: "/email-verification",
-    element: <EmailVerification />,
-  },
-  {
-    path: "/email-verification-expired",
-    element: <EmailVerificationExpired />,
-  },
-  {
     path: "*",
     element: <Redirect to="/create-username" />,
   },
 ];
+
+export const verificationRoute = [
+  {
+    path: "/email-verify",
+    element: <EmailVerification />,
+  },
+  {
+    path: "*",
+    element: <Redirect to="/email-verify" />,
+  },
+]

@@ -53,7 +53,7 @@ export const publicRoutes = [
     element: <ResetPassword />,
   },
   {
-    path: "/email-verification-expired",
+    path: "/email-verification",
     element: <EmailVerificationExpired />,
   },
   {

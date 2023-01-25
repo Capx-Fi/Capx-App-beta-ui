@@ -18,6 +18,7 @@ import AnswerQuiz from "../pages/quests/quest-layout/index.js";
 import Leaderboard from "../pages/leaderboard";
 import EmailVerificationExpired from "../pages/emailVerificationExpired/EmailVerificationExpired";
 import EmailVerification from "../pages/emailverification/EmailVerification";
+import OnboardingLayout from "../layout/onboardingLayout/OnboardingLayout";
 
 const Redirect = ({ to }) => {
   return <Navigate to={to} />;
@@ -26,35 +27,42 @@ const Redirect = ({ to }) => {
 export const publicRoutes = [
   {
     path: "/",
-    element: <Onboarding />,
-  },
-  {
-    path: "/signup",
-    element: <Signup />,
-  },
-  {
-    path: "/signin",
-    element: <Login />,
-  },
-  {
-    path: "/signup/email",
-    element: <EmailSignup />,
-  },
-  {
-    path: "/signin/email",
-    element: <EmailLogin />,
-  },
-  {
-    path: "/forgot-password",
-    element: <ForgotPassowrd />,
-  },
-  {
-    path: "/reset-password",
-    element: <ResetPassword />,
-  },
-  {
-    path: "/email-verification",
-    element: <EmailVerificationExpired />,
+    element: <OnboardingLayout />,
+    children: [
+      {
+        index: true,
+        element: <Onboarding />,
+      },
+      {
+        path: "/signup",
+        element: <Signup />,
+      },
+
+      {
+        path: "/signin",
+        element: <Login />,
+      },
+      {
+        path: "/signup/email",
+        element: <EmailSignup />,
+      },
+      {
+        path: "/signin/email",
+        element: <EmailLogin />,
+      },
+      {
+        path: "/forgot-password",
+        element: <ForgotPassowrd />,
+      },
+      {
+        path: "/reset-password",
+        element: <ResetPassword />,
+      },
+      {
+        path: "/email-verification",
+        element: <EmailVerificationExpired />,
+      },
+    ],
   },
   {
     path: "*",
@@ -97,17 +105,24 @@ export const privateRoutes = [
 
 export const semiProtectedRoutes = [
   {
-    path: "/create-username",
-    element: <CreateUsername />,
+    path: "/",
+    element: <OnboardingLayout />,
+    children: [
+      {
+        path: "/create-username",
+        element: <CreateUsername />,
+      },
+      {
+        path: "/invite-code",
+        element: <InviteCode />,
+      },
+      {
+        path: "/congratulation",
+        element: <Congratulaions />,
+      },
+    ],
   },
-  {
-    path: "/invite-code",
-    element: <InviteCode />,
-  },
-  {
-    path: "/congratulation",
-    element: <Congratulaions />,
-  },
+
   {
     path: "*",
     element: <Redirect to="/create-username" />,
@@ -116,11 +131,18 @@ export const semiProtectedRoutes = [
 
 export const verificationRoute = [
   {
-    path: "/email-verify",
-    element: <EmailVerification />,
+    path: "/",
+    element: <OnboardingLayout />,
+    children: [
+      {
+        path: "/email-verify",
+        element: <EmailVerification />,
+      },
+    ],
   },
+
   {
     path: "*",
     element: <Redirect to="/email-verify" />,
   },
-]
+];

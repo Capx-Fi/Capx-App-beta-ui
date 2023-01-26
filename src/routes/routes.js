@@ -2,7 +2,6 @@ import { useRoutes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { publicRoutes, privateRoutes, semiProtectedRoutes, verificationRoute } from "./constants";
-import { user } from "firebase-functions/v1/auth";
 
 export default function Routes() {
   const [routes, setRoutes] = useState([]);
@@ -26,20 +25,20 @@ export default function Routes() {
         });
       } else if(!isUserProfileSet && !isEmailVerified) {
         console.log("user profile not set verification required");
-        if(providerData.providerId !== "twitter.com"){
-          setRoutes((prevState) => {
-            if (prevState === verificationRoute) {
-              return prevState;
-            } else {
-              return verificationRoute;
-            }
-          });
-        }else{
+        if(providerData.providerId === "twitter.com" && providerData.phoneNumber!==null && providerData.email === null ){
           setRoutes((prevState) => {
             if (prevState === semiProtectedRoutes) {
               return prevState;
             } else {
               return semiProtectedRoutes;
+            }
+          });
+        }else{
+          setRoutes((prevState) => {
+            if (prevState === verificationRoute) {
+              return prevState;
+            } else {
+              return verificationRoute;
             }
           });
         }

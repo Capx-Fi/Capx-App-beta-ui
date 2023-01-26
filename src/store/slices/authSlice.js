@@ -25,7 +25,7 @@ export const authSlice = createSlice({
         action.payload.user && action.payload.user.uid ? true : false;
       state.isUserProfileSet = action.payload.isUserProfileSet;
       state.emailVerified = action.payload.user?.emailVerified === true?true:false; 
-      tokenDetails = action.payload.tokenDetails;
+      state.tokenDetails = action.payload.tokenDetails;
     },
     setLoggedInUser: (state, action) => {
       state.isLoggedIn =

@@ -8,10 +8,8 @@ export default function Routes() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isUserProfileSet = useSelector((state) => state.auth.isUserProfileSet);
   const isEmailVerified = useSelector((state) => state.auth.emailVerified);
-  console.log("user",useSelector((state) => state.auth))
 
   useEffect(() => {
-    console.log("route value",isLoggedIn,isUserProfileSet,isEmailVerified)
     
     if (isLoggedIn ) {
       console.log("user logged in");

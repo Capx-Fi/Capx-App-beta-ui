@@ -41,7 +41,6 @@ const Skeleton = () => {
                 {Array(7)
                   .fill("")
                   .map((user, ind) => {
-                    console.log(user);
                     return (
                       <tr key={user.username + ind}>
                         <td className="table-data">

@@ -18,7 +18,6 @@ const TopUsersTable = ({ userData }) => {
           </thead>
           <tbody>
             {userData.slice(3, 10).map((user, ind) => {
-              console.log(user);
               return (
                 <tr key={user.username + ind}>
                   <td className="table-data">#{user.position}</td>

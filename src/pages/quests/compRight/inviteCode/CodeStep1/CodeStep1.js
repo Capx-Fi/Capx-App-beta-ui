@@ -15,7 +15,6 @@ const Codestep1 = ({ actionData }) => {
   const [openShareModal, setOpenShareModal] = useState(false);
   const [shareingPlatform, setShareingPlatform] = useState("");
   const [showCopiedBox, setShowCopiedBox] = useState(false);
-  console.log(actionData)
   const handleshareModal = () => {
     setOpenShareModal(false);
     navigator.clipboard.writeText(

@@ -22,7 +22,6 @@ export const useFireBaseLogout = () => {
         throw new Error("Could not complete signout");
       }
       //dispatch action to clear user state
-      console.log(response);
 
       dispatch(logoutUser());
 

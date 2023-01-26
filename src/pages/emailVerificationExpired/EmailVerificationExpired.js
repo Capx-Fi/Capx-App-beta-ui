@@ -23,7 +23,6 @@ const EmailVerificationExpired = () => {
     if (!query.get("oobCode")) {
       navigate("/signup");
     }
-    console.log(linkSocalError, linkDone);
   }, []);
 
   const emailVerify = async () => {

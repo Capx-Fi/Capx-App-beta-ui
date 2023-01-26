@@ -10,6 +10,7 @@ export default function Routes() {
   const isEmailVerified = useSelector((state) => state.auth.emailVerified);
   const providerData = useSelector((state)=>state.auth.user?.providerData[0]);
 
+
   useEffect(() => {
     
     if (isLoggedIn ) {

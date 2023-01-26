@@ -215,7 +215,7 @@ function Profile() {
     ) {
       getData(null, "/inviteProgramStats");
     }
-  }, [isPending]);
+  }, [userData]);
 
   return (
     <>

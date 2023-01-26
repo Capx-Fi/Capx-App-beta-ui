@@ -171,7 +171,6 @@ const Home = () => {
     }
   }, [Apidata]);
 
-  console.log(dailyReward);
 
   return (
     <div

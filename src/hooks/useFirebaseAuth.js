@@ -73,7 +73,6 @@ export const useFireBaseAuth = () => {
           );
         }
       } else {
-        console.log("i fired");
         dispatch(
           setAuthStatus({
             isAuthReady: true,

@@ -28,14 +28,12 @@ export const useFirebaseEmailVerification = () => {
       setIsPending(true);
       setError(null);
       const resp  = await applyActionCode(auth,actionCode);
-      console.log(resp);
       setIsPending(false);
       setIsCompleted(true);
     } catch (error) {
-      console.log(error.message);
       setIsPending(false);
       setIsCompleted(true);
-      setError(error);
+      setError(error.message);
     }
   }
 

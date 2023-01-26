@@ -53,7 +53,6 @@ export const useFireBaseLogin = () => {
       }
     } catch (error) {
       setIsPending(false);
-      console.log(isCancelled);
       if (!isCancelled) {
         setError(error.message);
         setIsPending(false);
@@ -122,7 +121,6 @@ export const useFireBaseLogin = () => {
       }
     } catch (error) {
       setIsPending(false);
-      console.log(isCancelled);
       if (!isCancelled) {
         setError(error.message);
         setIsPending(false);
@@ -204,7 +202,6 @@ export const useFireBaseLogin = () => {
         setError(null);
       }
     } catch (error) {
-      console.log(error);
       setError(error);
     }
     setIsPending(false);

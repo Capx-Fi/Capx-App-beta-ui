@@ -6,7 +6,6 @@ import { useFormik } from "formik";
 
 const Affiliate = ({ actionData }) => {
   const handleFormSubmit = (value) => {
-    console.log(value.email);
     actionData.handleCompleteAction(null, {
       type: "affiliate",
       value: value.email,

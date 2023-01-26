@@ -33,6 +33,15 @@ export default function Routes() {
             return verificationRoute;
           }
         });
+      }else if(isUserProfileSet && !isEmailVerified) {
+        console.log("user profile set");
+        setRoutes((prevState) => {
+          if (prevState === privateRoutes) {
+            return prevState;
+          } else {
+            return privateRoutes;
+          }
+        });
       }else if(!isUserProfileSet && isEmailVerified) {
         console.log("user profile not set");
         setRoutes((prevState) => {

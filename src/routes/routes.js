@@ -9,8 +9,7 @@ export default function Routes() {
   const isUserProfileSet = useSelector((state) => state.auth.isUserProfileSet);
   const isEmailVerified = useSelector((state) => state.auth.emailVerified);
   const providerData = useSelector((state)=>state.auth.user?.providerData[0]);
-  const kd = useSelector((state)=>state.auth.accessToken);
-  console.log(JSON.parse(Buffer.from(kd.split('.')[1], 'base64').toString()));
+  const jsonToken = useSelector((state)=>state.auth.tokenDetails); 
 
 
   useEffect(() => {
@@ -28,7 +27,12 @@ export default function Routes() {
         });
       } else if(!isUserProfileSet && !isEmailVerified) {
         console.log("user profile not set verification required");
-        if(providerData && providerData.providerId === "twitter.com" && providerData.phoneNumber!==null && providerData.email === null ){
+        if((providerData && 
+          providerData.providerId === "twitter.com" && 
+          providerData.phoneNumber!==null && 
+          providerData.email === null) ||
+          (jsonToken.discord &&
+          jsonToken.discord?.id.trim().lenght>0)){
           setRoutes((prevState) => {
             if (prevState === semiProtectedRoutes) {
               return prevState;
@@ -74,7 +78,7 @@ export default function Routes() {
         }
       });
     }
-  }, [isLoggedIn, isUserProfileSet, isEmailVerified,providerData]);
+  }, [isLoggedIn, isUserProfileSet, isEmailVerified,providerData,jsonToken]);
 
   return useRoutes(routes);
 }

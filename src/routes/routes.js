@@ -8,7 +8,7 @@ export default function Routes() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isUserProfileSet = useSelector((state) => state.auth.isUserProfileSet);
   const isEmailVerified = useSelector((state) => state.auth.emailVerified);
-  const providerData = useSelector((state)=>state.auth.user.providerData[0]);
+  const providerData = useSelector((state)=>state.auth.user?.providerData[0]);
 
   useEffect(() => {
     
@@ -25,7 +25,7 @@ export default function Routes() {
         });
       } else if(!isUserProfileSet && !isEmailVerified) {
         console.log("user profile not set verification required");
-        if(providerData.providerId === "twitter.com" && providerData.phoneNumber!==null && providerData.email === null ){
+        if(providerData && providerData.providerId === "twitter.com" && providerData.phoneNumber!==null && providerData.email === null ){
           setRoutes((prevState) => {
             if (prevState === semiProtectedRoutes) {
               return prevState;
@@ -71,7 +71,7 @@ export default function Routes() {
         }
       });
     }
-  }, [isLoggedIn, isUserProfileSet, isEmailVerified]);
+  }, [isLoggedIn, isUserProfileSet, isEmailVerified,providerData]);
 
   return useRoutes(routes);
 }

@@ -10,6 +10,7 @@ export default function Routes() {
   const isEmailVerified = useSelector((state) => state.auth.emailVerified);
   const providerData = useSelector((state)=>state.auth.user?.providerData[0]);
   const jsonToken = useSelector((state)=>state.auth.tokenDetails); 
+  console.log(jsonToken);
 
 
   useEffect(() => {

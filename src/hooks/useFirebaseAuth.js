@@ -71,6 +71,7 @@ export const useFireBaseAuth = () => {
               isAuthReady: true,
               user: null,
               isUserProfileSet: false,
+              tokenDetails:null
             })
           );
         }
@@ -80,6 +81,7 @@ export const useFireBaseAuth = () => {
             isAuthReady: true,
             user: null,
             isUserProfileSet: false,
+            tokenDetails:null
           })
         );
       }

@@ -30,7 +30,7 @@ export default function Routes() {
           providerData.providerId === "twitter.com" && 
           providerData.phoneNumber!==null && 
           providerData.email === null) ||
-          (jsonToken.discord &&
+          (jsonToken && jsonToken.discord &&
           jsonToken.discord?.id.trim().lenght>0)){
           setRoutes((prevState) => {
             if (prevState === semiProtectedRoutes) {

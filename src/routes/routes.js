@@ -8,6 +8,8 @@ export default function Routes() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isUserProfileSet = useSelector((state) => state.auth.isUserProfileSet);
   const isEmailVerified = useSelector((state) => state.auth.emailVerified);
+  const providerData = useSelector((state)=>state.auth.user?.providerData[0]);
+
 
   useEffect(() => {
     
@@ -24,13 +26,23 @@ export default function Routes() {
         });
       } else if(!isUserProfileSet && !isEmailVerified) {
         console.log("user profile not set verification required");
-        setRoutes((prevState) => {
-          if (prevState === verificationRoute) {
-            return prevState;
-          } else {
-            return verificationRoute;
-          }
-        });
+        if(providerData && providerData.providerId === "twitter.com" && providerData.phoneNumber!==null && providerData.email === null ){
+          setRoutes((prevState) => {
+            if (prevState === semiProtectedRoutes) {
+              return prevState;
+            } else {
+              return semiProtectedRoutes;
+            }
+          });
+        }else{
+          setRoutes((prevState) => {
+            if (prevState === verificationRoute) {
+              return prevState;
+            } else {
+              return verificationRoute;
+            }
+          });
+        }
       }else if(isUserProfileSet && !isEmailVerified) {
         console.log("user profile set");
         setRoutes((prevState) => {
@@ -60,7 +72,7 @@ export default function Routes() {
         }
       });
     }
-  }, [isLoggedIn, isUserProfileSet, isEmailVerified]);
+  }, [isLoggedIn, isUserProfileSet, isEmailVerified,providerData]);
 
   return useRoutes(routes);
 }

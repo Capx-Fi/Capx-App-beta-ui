@@ -26,20 +26,20 @@ export default function Routes() {
         });
       } else if(!isUserProfileSet && !isEmailVerified) {
         console.log("user profile not set verification required");
-        if(providerData.providerId !== "twitter.com"){
-          setRoutes((prevState) => {
-            if (prevState === verificationRoute) {
-              return prevState;
-            } else {
-              return verificationRoute;
-            }
-          });
-        }else{
+        if(providerData.providerId === "twitter.com" && providerData.phoneNumber!==null && providerData.email === null ){
           setRoutes((prevState) => {
             if (prevState === semiProtectedRoutes) {
               return prevState;
             } else {
               return semiProtectedRoutes;
+            }
+          });
+        }else{
+          setRoutes((prevState) => {
+            if (prevState === verificationRoute) {
+              return prevState;
+            } else {
+              return verificationRoute;
             }
           });
         }

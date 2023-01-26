@@ -9,6 +9,8 @@ export default function Routes() {
   const isUserProfileSet = useSelector((state) => state.auth.isUserProfileSet);
   const isEmailVerified = useSelector((state) => state.auth.emailVerified);
   const providerData = useSelector((state)=>state.auth.user?.providerData[0]);
+  const kd = useSelector((state)=>state.auth.user);
+  console.log(kd);
 
   useEffect(() => {
     

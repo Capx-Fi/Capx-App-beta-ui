@@ -79,9 +79,9 @@
 
 // layout
 @import "../layout/layout";
+@import "../layout/onboardingLayout/onboardingLayout";
 
 // pages
-@import "../pages/home/home";
 @import "../pages/onboarding/onboarding";
 @import "../pages/signup/signup";
 @import "../pages/login/login";
@@ -99,13 +99,7 @@
 @import "../components/header/header";
 @import "../components/mobileNav/mobileNav";
 @import "../components/banner/banner";
-@import "../pages/MyWallet/components/questTable/questTable";
-@import "../pages/MyWallet/components/WalletBanner/WalletBanner";
-@import "../pages/home/components/HomeBanner/HomeBanner";
-@import "../pages/home/components/HomeBanner/HomeBanner";
-@import "../pages/home/components/ConsTasks/ConsTasks";
-@import "../pages/home/components/SpecialTasks/SpecialTasks";
-@import "../pages/home/components/OldTasks/OldTasks";
+
 @import "../components/Modal/modal";
 @import "../components/footer/footer";
 @import "../components/SliderArrow/sliderArrow";
@@ -147,7 +141,28 @@
 @import "../pages/leaderboard/components/banner/banner";
 @import "../pages/leaderboard/components/topUserCard/topUserCard";
 @import "../pages/leaderboard/components/topUsersTable/topUsersTable";
+@import "../pages/leaderboard/components/skeleton/skeleton";
+
+// wallet page
+
+@import "../pages/MyWallet/components/questTable/questTable";
+@import "../pages/MyWallet/components/WalletBanner/WalletBanner";
+@import "../pages/MyWallet/components/skeleton/skeleton";
 
 // forgot password components
 
 @import "../pages/forgetPassword/components/alertModal";
+
+// home page
+
+@import "../pages/home/home";
+@import "../pages/home/components/HomeBanner/HomeBanner";
+@import "../pages/home/components/HomeBanner/HomeBanner";
+@import "../pages/home/components/ConsTasks/ConsTasks";
+@import "../pages/home/components/SpecialTasks/SpecialTasks";
+@import "../pages/home/components/OldTasks/OldTasks";
+@import "../pages/home/components/skeleton/skeleton";
+
+// email verification
+@import "../pages/emailverification/emailVerification";
+@import "../pages/emailVerificationExpired//emailVerificationExpired";

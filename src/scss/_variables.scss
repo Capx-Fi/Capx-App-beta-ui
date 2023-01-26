@@ -51,6 +51,13 @@ $gradient-cgreen-3: linear-gradient(
   ),
   rgba(31, 122, 85, 0.1);
 
+$gradient-cgreen-4: linear-gradient(
+    360deg,
+    rgba(57, 187, 93, 0.3) -4.15%,
+    rgba(226, 246, 225, 0) 106.57%
+  ),
+  #d4f1da;
+
 $gradient-cgreen-ph: linear-gradient(
   180deg,
   #f8fdf8 0%,

@@ -6,16 +6,31 @@ import OldTasks from "./components/OldTasks/OldTasks";
 import SpecialTasks from "./components/SpecialTasks/SpecialTasks";
 import { useFirestoreCollection } from "../../hooks/useFirestoreCollection";
 import { useDispatch, useSelector } from "react-redux";
-import { setQuestsData } from "../../store/slices/questSlice";
+import { setQuestOrderId, setQuestsData } from "../../store/slices/questSlice";
 import { config } from "../../config";
 import TopLoader from "../../components/topLoader/TopLoader";
+import Skeleton from "./components/skeleton/Skeleton";
+import { DailyRewardPanda } from "../../assets/images";
+import { useApi } from "../../hooks/useApi";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
   const dispatch = useDispatch();
   const [dailyQuests, setDailyQuests] = useState([]);
+  const [dailyReward, setDailyReward] = useState([]);
   const [prevQuests, setPrevQuests] = useState([]);
   const [specialQuests, setSpecialQuests] = useState([]);
   const user = useSelector((state) => state.user);
+  const auth = useSelector((state) => state.auth.user);
+  const navigate = useNavigate();
+
+  const {
+    isError,
+    isPending: isApiPending,
+    postData,
+    data: Apidata,
+  } = useApi(config.API_URL, "POST");
+
   const { data, error, isPending } = useFirestoreCollection(
     `${config.ORG_COLLECTION}/${config.ORG_ID}/${config.ORG_QUEST_COLLECTION}`,
     ["__name__", "==", "quest_agg_1"]
@@ -59,14 +74,22 @@ const Home = () => {
       });
       let todaysDate = formatDate(new Date());
       dispatch(setQuestsData({ allQuests: result }));
+
+      setDailyReward(
+        result.filter((val) => {
+          return val.taskCategory.toLowerCase() === "dailyreward";
+        })
+      );
+
       setDailyQuests(
         result
           .filter((val) => {
             return (
-              val.taskCategory.toLowerCase() === "dailyreward" ||
-              (val.created_on === todaysDate &&
-                val.taskCategory.toLowerCase() !== "special" &&
-                val.status === "new")
+              // val.taskCategory.toLowerCase() === "dailyreward" ||
+              val.created_on === todaysDate &&
+              val.taskCategory.toLowerCase() !== "special" &&
+              val.status === "new" &&
+              val.taskCategory.toLowerCase() !== "dailyreward"
             );
           })
           .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
@@ -117,6 +140,39 @@ const Home = () => {
     return num.toString().padStart(2, "0");
   }
 
+  const handleClaimDailyReward = (e) => {
+    e.preventDefault();
+    if (dailyReward[0].status === "new") {
+      const apiDataObject = { data: { questId: dailyReward[0].id } };
+      postData(apiDataObject, "/registerForQuest");
+    } else {
+      dispatch(
+        setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
+      );
+      navigate(`/quest/${dailyReward[0].id + "|" + auth.uid}`);
+    }
+  };
+
+  useEffect(() => {
+    //to-do:change succcess to success
+    if (Apidata && Apidata.result.success && Apidata.result.success === true) {
+      dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
+      navigate(`/quest/${Apidata.result.quest_order_id}`);
+    } else if (
+      Apidata &&
+      Apidata.result.success === false &&
+      (Apidata.result.quest_status === "REGISTERED" ||
+        Apidata.result.quest_status === "IN_PROGRESS")
+    ) {
+      dispatch(
+        setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
+      );
+      navigate(`/quest/${Apidata.result.quest_order_id}`);
+    }
+  }, [Apidata]);
+
+  console.log(dailyReward);
+
   return (
     <div
       className={"home flex flex-col flex-wrap md:flex-row md:p-8 p-5 gap-8"}
@@ -127,25 +183,33 @@ const Home = () => {
         id="scroll-container"
       >
         <HomeBanner />
-        <div className="home-wrapper-1-inner flex flex-col gap-5">
-          <div className="home-title flex flex-row items-center gap-2">
-            <img src={DailyQuestsIcon} className="w-8" alt="quest" />
-            <p className="fs-16 font-black">Daily Rewards</p>
-          </div>
-          <div className="home-tasks flex flex-row 11/12">
-            <ConsTasks quests={dailyQuests} />
-          </div>
-        </div>
+        {isPending ? (
+          <Skeleton />
+        ) : (
+          <>
+            {dailyQuests.length !== 0 && (
+              <div className="home-wrapper-1-inner flex flex-col gap-5">
+                <div className="home-title flex flex-row items-center gap-2">
+                  <img src={DailyQuestsIcon} className="w-8" alt="quest" />
+                  <p className="fs-16 font-black">Daily Rewards</p>
+                </div>
+                <div className="home-tasks flex flex-row 11/12">
+                  <ConsTasks quests={dailyQuests} />
+                </div>
+              </div>
+            )}
 
-        <div className="home-wrapper-1-inner flex flex-col gap-5">
-          <div className="home-title flex flex-row items-center gap-2">
-            <img src={DailyQuestsIcon} className="w-8" />
-            <p className="fs-16 font-black">Special Quests</p>
-          </div>
-          <div className="home-tasks ">
-            <SpecialTasks quests={specialQuests} />
-          </div>
-        </div>
+            <div className="home-wrapper-1-inner flex flex-col gap-5">
+              <div className="home-title flex flex-row items-center gap-2">
+                <img src={DailyQuestsIcon} className="w-8" />
+                <p className="fs-16 font-black">Special Quests</p>
+              </div>
+              <div className="home-tasks ">
+                <SpecialTasks quests={specialQuests} />
+              </div>
+            </div>
+          </>
+        )}
       </div>
 
       {prevQuests && prevQuests.length > 0 && (
@@ -165,7 +229,21 @@ const Home = () => {
           </div>
         </div>
       )}
-      {isPending && <TopLoader />}
+      {dailyReward.length > 0 && dailyReward[0].status !== "CLAIMED" && (
+        <button
+          onClick={handleClaimDailyReward}
+          className="fixed-daily-reward fixed flex items-center outlined-effect text-start"
+        >
+          <img src={DailyRewardPanda} alt="panda" />
+          <p className="ml-2">
+            Claim your
+            <br />
+            Daily Reward!
+          </p>
+        </button>
+      )}
+
+      {(isPending || isApiPending) && <TopLoader />}
     </div>
   );
 };

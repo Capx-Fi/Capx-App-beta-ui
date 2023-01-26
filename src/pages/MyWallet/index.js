@@ -12,6 +12,7 @@ import QuestTable from "./components/questTable/QuestTable";
 import WalletBanner from "./components/WalletBanner/WalletBanner";
 import dayjs from "dayjs";
 import TopLoader from "../../components/topLoader/TopLoader";
+import Skeleton from "./components/skeleton/Skeleton";
 
 function MyWallet() {
   const [openAlertModal, setOpenAlertModal] = useState(false);
@@ -68,9 +69,7 @@ function MyWallet() {
           <h3 className="ml-3">Quests Report</h3>
         </div>
         <div className="flex">
-          {sortedQuestsData.length > 0 && (
-            <QuestTable quests={sortedQuestsData} />
-          )}
+          {isPending ? <Skeleton /> : <QuestTable quests={sortedQuestsData} />}
 
           <div className="splash-img grow md:flex justify-center items-center hidden ">
             <img src={WalletSplash} alt="Trophy" />

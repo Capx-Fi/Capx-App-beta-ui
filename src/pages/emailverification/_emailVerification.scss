@@ -1,4 +1,4 @@
-.invite-code-page {
+.emailVerification-page {
   background-color: rgba($color: #fff, $alpha: 0.5);
   @media screen and (max-width: 767.98px) {
     background-color: unset;
@@ -10,20 +10,25 @@
       min-width: unset;
     }
     .m-heaidng {
+      font-weight: 900;
       font-size: 40px;
+      line-height: 48px;
       letter-spacing: -1.5px;
-      line-height: 54px;
       @media screen and (max-width: 767.98px) {
-        line-height: 40px !important;
+        font-size: 38px;
+        line-height: 48px;
       }
     }
-    .devider {
-      height: 2px;
-    }
-    .checkbox {
-      width: 15px;
-      height: 15px;
-      accent-color: $green-800;
+
+    .middle-text {
+      font-weight: 500;
+      font-size: 16px;
+      line-height: 22px;
+      color: rgba(90, 96, 100, 0.9);
+      @media screen and (max-width: 767.98px) {
+        font-size: 16px;
+        line-height: 22px;
+      }
     }
   }
 }

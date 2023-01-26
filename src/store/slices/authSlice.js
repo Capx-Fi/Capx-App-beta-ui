@@ -7,6 +7,7 @@ const initialState = {
   accessToken: null,
   isUserProfileSet: false,
   uid: null,
+  emailVerified: null,
 };
 
 export const authSlice = createSlice({
@@ -22,6 +23,7 @@ export const authSlice = createSlice({
       state.isLoggedIn =
         action.payload.user && action.payload.user.uid ? true : false;
       state.isUserProfileSet = action.payload.isUserProfileSet;
+      state.emailVerified = action.payload.user?.emailVerified === true?true:false; 
     },
     setLoggedInUser: (state, action) => {
       state.isLoggedIn =
@@ -31,6 +33,7 @@ export const authSlice = createSlice({
         ? action.payload.user.accessToken
         : null;
       state.isUserProfileSet = action.payload.isUserProfileSet;
+      state.emailVerified = action.payload.user?.emailVerified === true?true:false; 
     },
     setUserProfileComplete: (state, action) => {
       state.isUserProfileSet = true;

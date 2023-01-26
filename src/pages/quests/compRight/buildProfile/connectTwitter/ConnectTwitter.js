@@ -116,7 +116,7 @@ const ConnectTwitter = ({ actionData }) => {
                   }}
                   className="bg-gredient-2 contained-effect action-btn flex justify-center items-center py-4 px-8 gap-2 md:gap-6 rounded-2xl"
                 >
-                  Claim 1 xCapx
+                  Claim 2 xCapx
                   <HiArrowRight className="text-xl " />
                 </button>
               ) : (

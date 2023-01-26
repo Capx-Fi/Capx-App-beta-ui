@@ -1,17 +1,21 @@
 import { useRoutes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import { publicRoutes, privateRoutes, semiProtectedRoutes } from "./constants";
+import { publicRoutes, privateRoutes, semiProtectedRoutes, verificationRoute } from "./constants";
 
 export default function Routes() {
   const [routes, setRoutes] = useState([]);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const isUserProfileSet = useSelector((state) => state.auth.isUserProfileSet);
+  const isEmailVerified = useSelector((state) => state.auth.emailVerified);
+  console.log("user",useSelector((state) => state.auth))
 
   useEffect(() => {
-    if (isLoggedIn) {
+    console.log("route value",isLoggedIn,isUserProfileSet,isEmailVerified)
+    
+    if (isLoggedIn ) {
       console.log("user logged in");
-      if (isUserProfileSet) {
+      if (isUserProfileSet && isEmailVerified) {
         console.log("user profile set");
         setRoutes((prevState) => {
           if (prevState === privateRoutes) {
@@ -20,7 +24,25 @@ export default function Routes() {
             return privateRoutes;
           }
         });
-      } else {
+      } else if(!isUserProfileSet && !isEmailVerified) {
+        console.log("user profile not set verification required");
+        setRoutes((prevState) => {
+          if (prevState === verificationRoute) {
+            return prevState;
+          } else {
+            return verificationRoute;
+          }
+        });
+      }else if(isUserProfileSet && !isEmailVerified) {
+        console.log("user profile set");
+        setRoutes((prevState) => {
+          if (prevState === privateRoutes) {
+            return prevState;
+          } else {
+            return privateRoutes;
+          }
+        });
+      }else if(!isUserProfileSet && isEmailVerified) {
         console.log("user profile not set");
         setRoutes((prevState) => {
           if (prevState === semiProtectedRoutes) {
@@ -40,7 +62,7 @@ export default function Routes() {
         }
       });
     }
-  }, [isLoggedIn, isUserProfileSet]);
+  }, [isLoggedIn, isUserProfileSet, isEmailVerified]);
 
   return useRoutes(routes);
 }

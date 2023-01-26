@@ -34,7 +34,7 @@ const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
         as="div"
         className="relative z-10"
         initialFocus={cancelButtonRef}
-        onClose={handleClose}
+        onClose={() => {}}
       >
         <Transition.Child
           as={Fragment}

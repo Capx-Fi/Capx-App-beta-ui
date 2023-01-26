@@ -25,7 +25,7 @@
     }
 
     .line-2 {
-      width: 154px;
+      width: 130px;
       height: 16px;
       @media screen and (max-width: 767.98px) {
         width: 209px;
@@ -35,6 +35,24 @@
     .line-3 {
       width: 90px;
       height: 16px;
+    }
+  }
+  .top-users-table {
+    flex-basis: 75%;
+    @media screen and (max-width: 767.98px) {
+      flex-basis: 100%;
+    }
+
+    .table-data > div > div {
+      height: 12px;
+      width: 75px;
+      // @media screen and (max-width: 767.98px) {
+      //   flex-basis: 12px;
+      // }
+    }
+
+    .position {
+      width: 25px !important;
     }
   }
 }

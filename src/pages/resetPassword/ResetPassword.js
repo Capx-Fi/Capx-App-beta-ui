@@ -84,7 +84,7 @@ const ResetPassword = () => {
 
   return (
     <>
-      <div className="emaillogin-page left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start md:mt-0 mt-14 items-stretch md:items-center bg-white-transparent min-h-screen relative">
+      <div className="emailVerification-page emaillogin-page left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start md:mt-0 mt-14 items-stretch md:items-center bg-white-transparent min-h-screen relative">
         <div className="left-content-box flex flex-col items-center justify-center">
           <div className="brand-chip bg-primary-100  hidden md:block border-primary-200 border-1 rounded-full mb-6 md:self-center self-start">
             <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
@@ -93,19 +93,19 @@ const ResetPassword = () => {
             Reset Password
           </h2>:mode!==null && mode === 'verify' ?
           linkDone === null && linkSocalError === null?
-          (<h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1">
+          (<h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1 mb-3">
               Please Click the button below to
               <br /> verify your email!
           </h2>):linkSocalError === null ? (
             linkDone === true && (
-              <h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1">
+              <h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1 mb-3">
                 Congratulaions, your email is verified please login to continue
                 on your journey.
               </h2>
             )
           ) : (
             linkDone === true && (
-              <h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1">
+              <h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1 mb-3">
                 Oops! Sorry, your verification
                 <br /> link has expired please
                 <br /> try signing up again!

@@ -10,7 +10,7 @@ export default function Routes() {
   const isEmailVerified = useSelector((state) => state.auth.emailVerified);
   const providerData = useSelector((state)=>state.auth.user?.providerData[0]);
   const jsonToken = useSelector((state)=>state.auth.tokenDetails); 
-  console.log(jsonToken);
+  console.log(jsonToken,providerData);
 
 
   useEffect(() => {
@@ -35,7 +35,7 @@ export default function Routes() {
           (jsonToken && jsonToken.claims && jsonToken.claims.discord &&
           jsonToken.claims.discord?.id.trim().lenght>0)){
           setRoutes((prevState) => {
-            if (prevState === semiProtectedRoutes) {
+            if (prevState === semiProtectedRoutes) {git 
               return prevState;
             } else {
               return semiProtectedRoutes;

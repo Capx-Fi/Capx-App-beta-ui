@@ -45,6 +45,7 @@ function Profile() {
   const [imagePreview, setImagePreview] = useState("");
   const [showTwitterUnlinkBtn, setShowTwitterUnlinkBtn] = useState(false);
   const [inviteProgramData, setInviteProgramData] = useState(null);
+  const [showCopiedBox, setShowCopiedBox] = useState(false);
 
   const handleErrorModal = () => {
     SetIsOpenErrorModal(false);
@@ -217,6 +218,14 @@ function Profile() {
     }
   }, [userData]);
 
+  const handleCopyInviteCode = () => {
+    navigator.clipboard.writeText(userData.invite_code);
+    setShowCopiedBox(true);
+    setTimeout(() => {
+      setShowCopiedBox(false);
+    }, 1500);
+  };
+
   return (
     <>
       <div className="myProfile flex pp-4 md:p-8">
@@ -337,20 +346,21 @@ function Profile() {
                     : 0}
                 </p>
               </div>
+              {showCopiedBox && (
+                <p className="copied-box block md:hidden">Copied!</p>
+              )}
               {userData.invite_code !== "" ? (
-                <div className="statistics-box flex flex-col gap-4">
+                <div className="statistics-box flex flex-col relative gap-4">
+                  {showCopiedBox && (
+                    <p className="copied-box hidden md:block">Copied!</p>
+                  )}
                   <div className="flex items-center">
                     <img src={AnnouncePng} alt="fire" />
                     <p className="ml-2 text">Your invite Code</p>
                   </div>
                   <div className="invite-code-box flex items-center justify-between">
                     <p className="number">{userData.invite_code}</p>
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(userData.invite_code);
-                      }}
-                      className="copy-btn"
-                    >
+                    <button onClick={handleCopyInviteCode} className="copy-btn">
                       <img src={ContentCopySvg} alt="copy" />
                     </button>
                   </div>

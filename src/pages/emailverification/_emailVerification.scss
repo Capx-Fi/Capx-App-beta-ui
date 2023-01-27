@@ -6,8 +6,10 @@
 
   .left-content-box {
     min-width: 380px;
+    max-width: 417px;
     @media screen and (max-width: 767.98px) {
       min-width: unset;
+      max-width: unset;
     }
     .m-heaidng {
       font-weight: 900;

@@ -55,7 +55,7 @@ export const publicRoutes = [
         element: <ForgotPassowrd />,
       },
       {
-        path: "/reset-password",
+        path: "/email",
         element: <ResetPassword />,
       },
       {

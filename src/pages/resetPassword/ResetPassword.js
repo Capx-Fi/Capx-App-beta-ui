@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import { useFirebaseResetPassword } from "../../hooks/useFirebaseResetPassword";
 import Modal from "../../components/Modal/Modal";
 import TopLoader from "../../components/topLoader/TopLoader";
+import { useFirebaseEmailVerification } from "../../hooks/useFirebaseEmailVerification";
+import {config} from "../../config";
 
 function useQuery() {
   const location = useLocation();

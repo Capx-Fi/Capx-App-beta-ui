@@ -44,9 +44,8 @@ const EmailVerificationExpired = () => {
           ) : linkSocalError === null ? (
             linkDone === true && (
               <h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1">
-                Congratulaions, your email
-                <br /> is verified
-                <br /> please sigin to continue on your journey.
+                Congratulaions, your email is verified please login to continue
+                on your journey.
               </h2>
             )
           ) : (
@@ -72,7 +71,7 @@ const EmailVerificationExpired = () => {
             linkDone === true && (
               <Link to="/signin/email" className="self-stretch">
                 <button className="signup-btn contained-effect bg-gredient-2 w-full">
-                  Sign In
+                  Login
                 </button>
               </Link>
             )

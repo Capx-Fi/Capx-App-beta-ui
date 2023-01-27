@@ -21,7 +21,8 @@ export const useFireBaseAuth = () => {
       //dispatch auth is ready redux change
       if (user) {
         try {
-          const tokenDetails = auth.currentUser.getIdTokenResult(true);
+          const tokenDetails = auth.currentUser.getIdTokenResult();
+          console.log("token detauls",tokenDetails);
           const userDoc = doc(db, "xusers", user.uid);
           const docSnap = await getDoc(userDoc);
 

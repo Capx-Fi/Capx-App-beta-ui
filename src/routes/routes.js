@@ -35,7 +35,7 @@ export default function Routes() {
           (jsonToken && jsonToken.claims && jsonToken.claims.discord &&
           jsonToken.claims.discord?.id.trim().lenght>0)){
           setRoutes((prevState) => {
-            if (prevState === semiProtectedRoutes) {git 
+            if (prevState === semiProtectedRoutes) {
               return prevState;
             } else {
               return semiProtectedRoutes;

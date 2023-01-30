@@ -191,19 +191,11 @@ function Profile() {
 
   useEffect(() => {
     let code = getURLParameter("code");
-    if (code && !data && !isPending) {
+    if (code && !isPending && inviteProgramData) {
       getData({ code: code }, "/linkAuthDiscord");
       navigate("/profile");
     } else {
       getLinkResult();
-    }
-
-    if (
-      data &&
-      (data.result?.inviteProgramRewards === 0 ||
-        data.result?.inviteProgramRewards)
-    ) {
-      setInviteProgramData(data.result);
     }
   }, [data, isPending]);
 
@@ -216,7 +208,14 @@ function Profile() {
     ) {
       getData(null, "/inviteProgramStats");
     }
-  }, [userData]);
+    if (
+      data &&
+      (data.result?.inviteProgramRewards === 0 ||
+        data.result?.inviteProgramRewards)
+    ) {
+      setInviteProgramData(data.result);
+    }
+  }, [userData, isPending]);
 
   const handleCopyInviteCode = () => {
     navigator.clipboard.writeText(userData.invite_code);

@@ -1,0 +1,22 @@
+.write-article {
+  .doc-input {
+    background: transparent;
+    border: 1px solid rgba(31, 122, 85, 0.4);
+    border-radius: 12px;
+    padding: 28px 12px 10px;
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  .google-btn {
+    color: #202124 !important;
+    background-color: #fff;
+    border: 1px solid #dadce0;
+  }
+  .notion-btn {
+    color: #fff !important;
+    background-color: #0047b3;
+    border: 1px solid #dadce0;
+  }
+}

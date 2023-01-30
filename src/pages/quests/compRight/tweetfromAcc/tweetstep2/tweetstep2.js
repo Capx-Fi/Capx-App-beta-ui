@@ -3,9 +3,14 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import TopLoader from "../../../../../components/topLoader/TopLoader";
+import { config } from "../../../../../config";
+import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
 import ErrorModal from "../../errorModal/ErrorModal";
+import { GoLinkExternal } from "react-icons/go";
 
 const Tweetstep2 = ({ actionData }) => {
+  const [actionDetails, setActionDetails] = useState(null);
   const [tweetUrl, setTweetUrl] = useState("");
   const [enableVerify, setEnableVerify] = useState(false);
   const userData = useSelector((state) => state.user);
@@ -24,6 +29,22 @@ const Tweetstep2 = ({ actionData }) => {
       setTweetUrl(e.target.value);
     }
   };
+
+  const { isPending, data, error } = useFirestoreCollection(
+    `${config.QUEST_ORDER_COLLECTION}/` +
+      actionData.questID +
+      `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
+    ["__name__", "==", String(actionData.action_order_id)]
+  );
+
+  useEffect(() => {
+    if (data) {
+      setActionDetails(data[0]);
+    } else if (error) {
+      console.log(error);
+    }
+  }, [data, error]);
+
   useEffect(() => {
     if (tweetUrl && tweetUrl.trim().length >= 0) {
       setEnableVerify(true);
@@ -45,17 +66,27 @@ const Tweetstep2 = ({ actionData }) => {
   };
 
   const handleActionComplete = (e) => {
-    if (tweetUrl.trim().match(regex)) {
+    if (
+      tweetUrl.trim().match(regex) ||
+      actionDetails?.action_order_details?.tweet_url
+    ) {
       if (
         userData &&
         userData.socials &&
         userData.socials.twitter_id.trim().length > 0 &&
         userData.socials.twitter_username.trim().length > 0
       ) {
-        actionData.handleCompleteAction(e, {
-          type: "twitterVerify",
-          value: tweetUrl,
-        });
+        if (tweetUrl) {
+          actionData.handleCompleteAction(e, {
+            type: "twitterVerify",
+            value: tweetUrl,
+          });
+        } else if (actionDetails?.action_order_details?.tweet_url) {
+          actionData.handleCompleteAction(e, {
+            type: "twitterVerify",
+            value: actionDetails?.action_order_details?.tweet_url,
+          });
+        }
       } else {
         setModalHeadning(
           "Please connect your twitter account before continuing"
@@ -71,39 +102,60 @@ const Tweetstep2 = ({ actionData }) => {
   return (
     <div className="createtweet relative flex flex-col gap-3">
       <p className="createtweet-title action-heading ">
-        Action #1 : Let's Tell the World about Capx App
+        {actionDetails?.action_order_title}
       </p>
       {showCopiedBox && <p className="copied-box ">Copied!</p>}
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
-        <div className="createtweet-1 flex flex-col gap-1">
-          <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
-            Click the below block to copy Tweet
-          </p>
-          <button
-            className="copy-tweet p-4 items-start text-left"
-            onClick={handleCopyText}
-          >
-            {textForTweet.split("\n\n").map((line, ind) => {
-              return (
-                <>
-                  {ind !== 0 && (
+        {!actionDetails?.action_order_details ? (
+          <>
+            <div className="createtweet-1 flex flex-col gap-1">
+              <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
+                Click the below block to copy Tweet
+              </p>
+              <button
+                className="copy-tweet p-4 items-start text-left"
+                onClick={handleCopyText}
+              >
+                {textForTweet.split("\n\n").map((line, ind) => {
+                  return (
                     <>
-                      <br />
-                      <br />
+                      {ind !== 0 && (
+                        <>
+                          <br />
+                          <br />
+                        </>
+                      )}
+                      {line}
                     </>
-                  )}
-                  {line}
-                </>
-              );
-            })}
-          </button>
-        </div>
-
-        <input
-          className="createtweet-2 flex flex-col gap-1 fs-15"
-          placeholder="https://twitter.com/xyz/post"
-          onChange={(e) => handleInputChange(e)}
-        />
+                  );
+                })}
+              </button>
+            </div>
+            <input
+              className="createtweet-2 flex flex-col gap-1 fs-15"
+              placeholder="https://twitter.com/xyz/post"
+              onChange={(e) => handleInputChange(e)}
+            />
+          </>
+        ) : (
+          <div className="createtweet-1 flex flex-col gap-1">
+            <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
+              Retweet the below
+            </p>
+            <div className="url-box p-4 flex items-center justify-between underline">
+              <p>{actionDetails?.action_order_details?.tweet_url}</p>
+              <button
+                onClick={() => {
+                  window.open(actionDetails?.action_order_details?.tweet_url);
+                  setEnableVerify(true);
+                }}
+                className="ml-3"
+              >
+                <GoLinkExternal />
+              </button>
+            </div>
+          </div>
+        )}
 
         <button
           className={`${
@@ -121,6 +173,7 @@ const Tweetstep2 = ({ actionData }) => {
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
       />
+      {isPending && <TopLoader />}
     </div>
   );
 };

@@ -1,0 +1,16 @@
+.light {
+  // header css
+  .header {
+    background-color: $light-primary-100;
+    .page-name {
+      color: $light-primary-700;
+    }
+    .btn {
+      border-color: $light-common-border;
+      color: red;
+    }
+  }
+  .sidenav {
+    background-color: $light-primary-100;
+  }
+}

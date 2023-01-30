@@ -83,3 +83,74 @@ $cgreen-600: #195f56;
 $cgreen-700: #153945;
 $cgreen-border: #8ec4894d;
 $disabled-btn-bg: #5a606459;
+
+// theme variables
+
+//text
+$heading-gredient: -webkit-linear-gradient(
+  249.41deg,
+  #4e8c74 11.53%,
+  #1d6258 86.57%
+);
+
+$light-primary-100: #f5fff5;
+$dark-primary-100: unset;
+
+$light-primary-200: #d9edde;
+$dark-primary-200: unset;
+
+$light-primary-300: #8fc175;
+$dark-primary-300: unset;
+
+$light-primary-400: #3a906c;
+$dark-primary-400: unset;
+
+$light-primary-500: #1f7a55;
+$dark-primary-500: unset;
+
+$light-primary-600: #195f56;
+$dark-primary-600: unset;
+
+$light-primary-700: #153945;
+$dark-primary-700: unset;
+
+$light-primary-200: #d9edde;
+$dark-primary-200: unset;
+
+$light-common-border: #8ec4894d;
+
+//body gredient
+$light-body-gredient: linear-gradient(
+    180deg,
+    #f8fdf8 22.02%,
+    #e2f6e1 82.31%,
+    #b6edcf 144.59%,
+    #dcf1df 144.59%
+  ),
+  #ffffff;
+$dark-body-gredient: unset;
+
+// banners gredient
+$light-banner-gredient: linear-gradient(
+    360deg,
+    rgba(57, 187, 93, 0.3) -4.15%,
+    rgba(226, 246, 225, 0) 106.57%
+  ),
+  #d4f1da;
+$dark-banner-gredient: unset;
+
+//button gredient
+$light-button-gredient: linear-gradient(180deg, #94bf7e 0%, #479b77 100%);
+$darl-button-gredient: unset;
+
+//quest action card gredient
+$light-button-gredient: linear-gradient(180deg, #94bf7e 0%, #479b77 100%);
+$darl-button-gredient: unset;
+
+$light-action-card-gredient: linear-gradient(
+    90deg,
+    rgba(71, 197, 106, 0.2) -9.61%,
+    rgba(211, 235, 215, 0) 92.59%
+  ),
+  rgba(31, 122, 85, 0.1);
+$darl-action-card-gredient: unset;

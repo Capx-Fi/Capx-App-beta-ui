@@ -182,13 +182,19 @@ const AnswerQuiz = () => {
         case "Social_Twitter":
           return (
             <TweetStep1
-              actionData={{ handleCompleteAction: handleCompleteAction }}
+              actionData={{
+                handleCompleteAction: handleCompleteAction,
+              }}
             />
           );
         case "Social_Twitter_Verify":
           return (
             <TweetStep2
-              actionData={{ handleCompleteAction: handleCompleteAction }}
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
             />
           );
         case "Generate_Invite_Code":
@@ -368,6 +374,7 @@ const AnswerQuiz = () => {
   useEffect(() => {
     if (data) {
       setQuestData(data[0]);
+
       let actionsData = [];
       if (data[0].quest_category === "Daily_Reward") {
         actionsData = Object.values(data[0].actions).filter((val) => {

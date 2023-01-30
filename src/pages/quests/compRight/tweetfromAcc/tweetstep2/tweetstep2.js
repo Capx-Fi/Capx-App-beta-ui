@@ -3,9 +3,13 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import TopLoader from "../../../../../components/topLoader/TopLoader";
+import { config } from "../../../../../config";
+import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
 import ErrorModal from "../../errorModal/ErrorModal";
 
 const Tweetstep2 = ({ actionData }) => {
+  const [actionDetails, setActionDetails] = useState(null);
   const [tweetUrl, setTweetUrl] = useState("");
   const [enableVerify, setEnableVerify] = useState(false);
   const userData = useSelector((state) => state.user);
@@ -24,6 +28,22 @@ const Tweetstep2 = ({ actionData }) => {
       setTweetUrl(e.target.value);
     }
   };
+
+  const { isPending, data, error } = useFirestoreCollection(
+    `${config.QUEST_ORDER_COLLECTION}/` +
+      actionData.questID +
+      `/${config.QUEST_ORDER_ACTION_COLLECTION}/`,
+    ["__name__", "==", String(actionData.action_order_id)]
+  );
+
+  useEffect(() => {
+    if (data) {
+      setActionDetails(data[0]);
+    } else if (error) {
+      console.log(error);
+    }
+  }, [data, error]);
+
   useEffect(() => {
     if (tweetUrl && tweetUrl.trim().length >= 0) {
       setEnableVerify(true);
@@ -71,7 +91,7 @@ const Tweetstep2 = ({ actionData }) => {
   return (
     <div className="createtweet relative flex flex-col gap-3">
       <p className="createtweet-title action-heading ">
-        Action #1 : Let's Tell the World about Capx App
+        {actionDetails?.action_order_title}
       </p>
       {showCopiedBox && <p className="copied-box ">Copied!</p>}
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
@@ -98,6 +118,21 @@ const Tweetstep2 = ({ actionData }) => {
             })}
           </button>
         </div>
+        {actionDetails?.action_order_details?.tweet_url && (
+          <div className="thread-box">
+            <p className="text">
+              Please go to this thread and retweet the text
+            </p>
+            <p
+              onClick={() => {
+                window.open(actionDetails?.action_order_details.tweet_url);
+              }}
+              className="thread underline cursor-pointer break-all"
+            >
+              {actionDetails?.action_order_details.tweet_url}
+            </p>
+          </div>
+        )}
 
         <input
           className="createtweet-2 flex flex-col gap-1 fs-15"
@@ -121,6 +156,7 @@ const Tweetstep2 = ({ actionData }) => {
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
       />
+      {isPending && <TopLoader />}
     </div>
   );
 };

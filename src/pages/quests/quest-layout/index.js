@@ -35,6 +35,7 @@ import { useDispatch } from "react-redux";
 import { setQuestOrderId } from "../../../store/slices/questSlice";
 import { config } from "../../../config";
 import TopLoader from "../../../components/topLoader/TopLoader";
+import CapxBlog from "../compRight/capxBlog/CapxBlog";
 
 const AnswerQuiz = () => {
   const routeParams = useParams();
@@ -211,6 +212,16 @@ const AnswerQuiz = () => {
         case "Daily_Reward":
           return (
             <DailyReward
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
+        case "Blog":
+          return (
+            <CapxBlog
               actionData={{
                 ...actionData,
                 handleCompleteAction: handleCompleteAction,

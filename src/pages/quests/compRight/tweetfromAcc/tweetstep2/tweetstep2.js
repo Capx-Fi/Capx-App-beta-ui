@@ -7,6 +7,7 @@ import TopLoader from "../../../../../components/topLoader/TopLoader";
 import { config } from "../../../../../config";
 import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
 import ErrorModal from "../../errorModal/ErrorModal";
+import { GoLinkExternal } from "react-icons/go";
 
 const Tweetstep2 = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
@@ -65,7 +66,10 @@ const Tweetstep2 = ({ actionData }) => {
   };
 
   const handleActionComplete = (e) => {
-    if (tweetUrl.trim().match(regex)) {
+    if (
+      tweetUrl.trim().match(regex) ||
+      actionDetails?.action_order_details?.tweet_url
+    ) {
       if (
         userData &&
         userData.socials &&
@@ -95,50 +99,56 @@ const Tweetstep2 = ({ actionData }) => {
       </p>
       {showCopiedBox && <p className="copied-box ">Copied!</p>}
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
-        <div className="createtweet-1 flex flex-col gap-1">
-          <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
-            Click the below block to copy Tweet
-          </p>
-          <button
-            className="copy-tweet p-4 items-start text-left"
-            onClick={handleCopyText}
-          >
-            {textForTweet.split("\n\n").map((line, ind) => {
-              return (
-                <>
-                  {ind !== 0 && (
+        {!actionDetails?.action_order_details ? (
+          <>
+            <div className="createtweet-1 flex flex-col gap-1">
+              <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
+                Click the below block to copy Tweet
+              </p>
+              <button
+                className="copy-tweet p-4 items-start text-left"
+                onClick={handleCopyText}
+              >
+                {textForTweet.split("\n\n").map((line, ind) => {
+                  return (
                     <>
-                      <br />
-                      <br />
+                      {ind !== 0 && (
+                        <>
+                          <br />
+                          <br />
+                        </>
+                      )}
+                      {line}
                     </>
-                  )}
-                  {line}
-                </>
-              );
-            })}
-          </button>
-        </div>
-        {actionDetails?.action_order_details?.tweet_url && (
-          <div className="thread-box">
-            <p className="text">
-              Please go to this thread and retweet the text
+                  );
+                })}
+              </button>
+            </div>
+            <input
+              className="createtweet-2 flex flex-col gap-1 fs-15"
+              placeholder="https://twitter.com/xyz/post"
+              onChange={(e) => handleInputChange(e)}
+            />
+          </>
+        ) : (
+          <div className="createtweet-1 flex flex-col gap-1">
+            <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
+              Retweet the below
             </p>
-            <p
-              onClick={() => {
-                window.open(actionDetails?.action_order_details.tweet_url);
-              }}
-              className="thread underline cursor-pointer break-all"
-            >
-              {actionDetails?.action_order_details.tweet_url}
-            </p>
+            <div className="url-box p-4 flex items-center justify-between underline">
+              <p>{actionDetails?.action_order_details?.tweet_url}</p>
+              <button
+                onClick={() => {
+                  window.open(actionDetails?.action_order_details?.tweet_url);
+                  setEnableVerify(true);
+                }}
+                className="ml-3"
+              >
+                <GoLinkExternal />
+              </button>
+            </div>
           </div>
         )}
-
-        <input
-          className="createtweet-2 flex flex-col gap-1 fs-15"
-          placeholder="https://twitter.com/xyz/post"
-          onChange={(e) => handleInputChange(e)}
-        />
 
         <button
           className={`${

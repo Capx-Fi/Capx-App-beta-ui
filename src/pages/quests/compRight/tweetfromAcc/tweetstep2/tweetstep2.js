@@ -76,10 +76,17 @@ const Tweetstep2 = ({ actionData }) => {
         userData.socials.twitter_id.trim().length > 0 &&
         userData.socials.twitter_username.trim().length > 0
       ) {
-        actionData.handleCompleteAction(e, {
-          type: "twitterVerify",
-          value: tweetUrl,
-        });
+        if (tweetUrl) {
+          actionData.handleCompleteAction(e, {
+            type: "twitterVerify",
+            value: tweetUrl,
+          });
+        } else if (actionDetails?.action_order_details?.tweet_url) {
+          actionData.handleCompleteAction(e, {
+            type: "twitterVerify",
+            value: actionDetails?.action_order_details?.tweet_url,
+          });
+        }
       } else {
         setModalHeadning(
           "Please connect your twitter account before continuing"

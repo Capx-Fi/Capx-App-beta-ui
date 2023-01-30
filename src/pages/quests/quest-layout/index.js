@@ -36,6 +36,8 @@ import { setQuestOrderId } from "../../../store/slices/questSlice";
 import { config } from "../../../config";
 import TopLoader from "../../../components/topLoader/TopLoader";
 import CapxBlog from "../compRight/capxBlog/CapxBlog";
+import WriteArticle from "../compRight/writeArticle/WriteArticle1";
+import WriteArticle2 from "../compRight/writeArticle/WriteArticle2";
 
 const AnswerQuiz = () => {
   const routeParams = useParams();
@@ -105,7 +107,7 @@ const AnswerQuiz = () => {
       navigate("/");
     }
   };
-
+  console.log(actionData);
   const renderActionComponent = () => {
     if (actionData && questData) {
       switch (actionData.action_order_type) {
@@ -235,6 +237,26 @@ const AnswerQuiz = () => {
               }}
             />
           );
+        case "Info":
+          return (
+            <WriteArticle
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
+        case "SubmitForReview":
+          return (
+            <WriteArticle2
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
         default:
           return <p>No data</p>;
       }
@@ -350,6 +372,15 @@ const AnswerQuiz = () => {
         apiDataObject = {
           data: {
             action_order_id: actionData.action_order_id,
+          },
+        };
+        break;
+      }
+      case "submitDocLink": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
+            doc_link: input.value,
           },
         };
         break;

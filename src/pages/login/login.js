@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   ChipCapxSvg,
   DiscordIcon,
@@ -12,8 +12,10 @@ import { useApi } from "../../hooks/useApi";
 import { getURLParameter } from "../../utils";
 import { config } from "../../config";
 import TopLoader from "../../components/topLoader/TopLoader";
+import Modal from "../../components/Modal/Modal";
 
 const Login = () => {
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const {
     error,
     isPending,
@@ -49,6 +51,16 @@ const Login = () => {
       }
     })();
   }, [ApiData]);
+
+  useEffect(() => {
+    if (apiError || error) {
+      setShowErrorModal(true);
+    }
+  }, [apiError, error]);
+
+  const handleErrorModal = () => {
+    setShowErrorModal(false);
+  };
 
   return (
     <>
@@ -148,6 +160,17 @@ const Login = () => {
         </p>
       </div>
       {(isPending || isApiPending) && <TopLoader />}
+      {showErrorModal && (
+        <Modal
+          actions={{
+            error:
+              error?.toString() ||
+              apiError?.toString() ||
+              "Something went wrong",
+            showModalFunc: handleErrorModal,
+          }}
+        />
+      )}
     </>
   );
 };

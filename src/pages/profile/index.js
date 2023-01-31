@@ -25,8 +25,6 @@ import {
 function Profile() {
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
-
-  const [showModel, setShowModal] = useState(true);
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const [ModalHeading, setModalHeading] = useState("");
   const [inviteProgramData, setInviteProgramData] = useState(null);
@@ -50,12 +48,6 @@ function Profile() {
     socialRedirectProvider,
     useAccessToken,
   } = useLinkAuthProviders();
-
-  const showModalFunc = () => {
-    setShowModal((prevState) => {
-      return !prevState;
-    });
-  };
 
   useEffect(() => {
     if (data && data.result.success === false) {
@@ -300,14 +292,7 @@ function Profile() {
         </div>
       </div>
       {(isPending || isSOcialLinkPending) && <TopLoader />}
-      {showModel && linkSocalError && (
-        <Modal
-          actions={{
-            error: linkSocalError.message,
-            showModalFunc: showModalFunc,
-          }}
-        />
-      )}
+
       <ErrorModal
         heading={ModalHeading}
         open={isOpenErrorModal}

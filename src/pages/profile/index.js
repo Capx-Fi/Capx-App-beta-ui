@@ -1,30 +1,19 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import {
   Check,
   TwitterIcon,
-  ConnectSo,
   FullName,
   ProfileSplash,
 } from "../../assets/images/profile";
 import { useApi } from "../../hooks/useApi";
-import { useFormik } from "formik";
-import * as Yup from "yup";
 import Modal from "../../components/Modal/Modal";
 import { useLinkAuthProviders } from "../../hooks/useLinkAuthProviders";
-import { useUploadProfileImage } from "../../hooks/useUploadProfileImage";
-import {
-  ContentCopySvg,
-  DailyQuestsIcon,
-  DiscordIcon,
-  EditIconSvg,
-  GoogleIcon,
-} from "../../assets/svg";
+import { ContentCopySvg, DailyQuestsIcon, DiscordIcon } from "../../assets/svg";
 import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 import { config } from "../../config";
 import { useNavigate } from "react-router-dom";
 import { getURLParameter } from "../../utils";
-import { auth } from "../../firebase/firebase";
 import TopLoader from "../../components/topLoader/TopLoader";
 import {
   AnnouncePng,
@@ -34,23 +23,16 @@ import {
 } from "../../assets/images";
 
 function Profile() {
-  const inputRef = useRef();
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
-
-  const [isEditEnabled, setIsEditEnabled] = useState(false);
-  const [showModel, setShowModal] = useState(true);
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const [ModalHeading, setModalHeading] = useState("");
-  const [imagePreview, setImagePreview] = useState("");
-  const [showTwitterUnlinkBtn, setShowTwitterUnlinkBtn] = useState(false);
   const [inviteProgramData, setInviteProgramData] = useState(null);
   const [showCopiedBox, setShowCopiedBox] = useState(false);
 
   const handleErrorModal = () => {
     SetIsOpenErrorModal(false);
     setModalHeading("");
-    formik.setFieldError("fullName", null);
   };
 
   const { isError, isPending, postData, data, getData } = useApi(
@@ -65,112 +47,32 @@ function Profile() {
     getLinkResult,
     socialRedirectProvider,
     useAccessToken,
-    unlinkWithSocail,
   } = useLinkAuthProviders();
 
-  const {
-    uploadImageToCloud,
-    isPending: isUploadImgPending,
-    error,
-  } = useUploadProfileImage();
-  const showModalFunc = () => {
-    setShowModal((prevState) => {
-      return !prevState;
-    });
-  };
-
-  const handleEditProfile = (e) => {
-    e.preventDefault();
-    setIsEditEnabled((prevState) => !prevState);
-  };
-
-  const handleFormSubmit = async (value) => {
-    if (value.fullName !== userData?.name || formik.values.imagefile !== null) {
-      let apiDataObject = { data: {} };
-      if (formik.values.imagefile !== null) {
-        const imageUrl = await uploadImageToCloud(formik.values.imagefile);
-        apiDataObject["data"]["image_url"] = imageUrl;
-      }
-      if (value.fullName !== userData?.name) {
-        apiDataObject["data"]["name"] = value.fullName;
-      }
-      postData(apiDataObject, "/updateUserProfile");
-      setImagePreview("");
-      formik.resetForm();
-    } else {
-      setModalHeading("Nothing to update");
-      SetIsOpenErrorModal(true);
-    }
-  };
-
-  const formik = useFormik({
-    initialValues: { fullName: "", imagefile: null },
-    validationSchema: Yup.object().shape({
-      fullName: Yup.string()
-        .required("Full name is required")
-        .matches(/^[a-zA-Z ]*$/, "Invalid Full Name"),
-    }),
-    validateOnChange: false,
-    onSubmit: handleFormSubmit,
-  });
-
   useEffect(() => {
-    if (data && data.result.success === true) {
-      setIsEditEnabled(false);
-    }
     if (data && data.result.success === false) {
-      setModalHeading(data.result?.message);
+      setModalHeading(data.result?.error);
       SetIsOpenErrorModal(true);
     }
-  }, [data]);
-
-  useEffect(() => {
-    formik.setFieldValue("fullName", userData?.name);
-    if (
-      auth.currentUser.providerData.length === 1 &&
-      userData.socials.discord_id.length === 0
-    ) {
-      setShowTwitterUnlinkBtn(false);
-    } else {
-      setShowTwitterUnlinkBtn(true);
+    if (isError) {
+      setModalHeading(isError);
+      SetIsOpenErrorModal(true);
     }
-  }, [userData]);
+  }, [data, isError]);
 
   const handleSocialLink = (method) => {
     linkWithSocail(method);
-    if (linkSocalError) showModalFunc(true);
   };
 
-  const handleImageUpload = async (e) => {
-    let image = e.target.files[0];
-    if (
-      (image.type === "image/png" || image.type === "image/jpeg") &&
-      image.size <= 50000
-    ) {
-      formik.setFieldValue("imagefile", image);
-      var imagePreview = URL.createObjectURL(image);
-      setImagePreview(imagePreview);
-    } else {
-      setModalHeading("File type/size not allowed");
+  useEffect(() => {
+    if (linkSocalError) {
       SetIsOpenErrorModal(true);
+      setModalHeading(linkSocalError?.message);
     }
-  };
+  }, [linkSocalError]);
 
   const handleDiscordLink = () => {
     window.location.href = `${config.AUTH_ENDPOINT}/linkDiscord`;
-  };
-
-  const hanldeTwitterUnlink = (method) => {
-    if (
-      auth.currentUser.providerData.length === 1 &&
-      userData.socials.discord_id.length === 0
-    ) {
-      SetIsOpenErrorModal(true);
-      setModalHeading("You must have one social provider");
-    } else {
-      unlinkWithSocail(method);
-      postData({ data: {} }, "/unlinkYourTwitter");
-    }
   };
 
   useEffect(() => {
@@ -389,20 +291,11 @@ function Profile() {
           </div>
         </div>
       </div>
-      {(isPending || isSOcialLinkPending || isUploadImgPending) && (
-        <TopLoader />
-      )}
-      {showModel && linkSocalError && (
-        <Modal
-          actions={{
-            error: linkSocalError.message,
-            showModalFunc: showModalFunc,
-          }}
-        />
-      )}
+      {(isPending || isSOcialLinkPending) && <TopLoader />}
+
       <ErrorModal
-        heading={ModalHeading || formik.errors.fullName || linkSocalError}
-        open={isOpenErrorModal || !!formik.errors.fullName}
+        heading={ModalHeading}
+        open={isOpenErrorModal}
         handleClose={handleErrorModal}
       />
     </>

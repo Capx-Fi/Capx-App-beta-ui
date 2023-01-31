@@ -24,7 +24,6 @@ const WriteArticle = ({ actionData }) => {
     }
   }, [data, error]);
 
-  console.log(data);
   return (
     <div className="write-article flex flex-col gap-3">
       <p className="action-heading">

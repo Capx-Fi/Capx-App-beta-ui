@@ -1,11 +1,18 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { ChipCapxSvg } from "../../assets/svg";
+import Modal from "../../components/Modal/Modal";
 import Stepper from "../../components/stepper/Stepper";
 import { config } from "../../config";
 import { useFirebaseEmailVerification } from "../../hooks/useFirebaseEmailVerification";
 
 const EmailVerification = () => {
+  const [showErrorModal, setShowErrorModal] = useState(false);
+
+  const handleErrorModal = () => {
+    setShowErrorModal(false);
+  };
+
   const email = useSelector((state) => state.auth.user.email);
   const {
     verifyEmail,
@@ -13,9 +20,17 @@ const EmailVerification = () => {
     isPending: isSOcialLinkPending,
     isCompleted: linkDone,
   } = useFirebaseEmailVerification();
+
   useEffect(() => {
     verifyEmail();
   }, []);
+
+  useEffect(() => {
+    if (linkSocalError) {
+      setShowErrorModal(true);
+    }
+  }, [linkSocalError]);
+
   return (
     <>
       <div className="emailVerification-page left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start items-stretch md:items-center min-h-screen relative">
@@ -70,6 +85,14 @@ const EmailVerification = () => {
           />
         </div>
       </div>
+      {showErrorModal && (
+        <Modal
+          actions={{
+            error: linkSocalError?.toString(),
+            showModalFunc: handleErrorModal,
+          }}
+        />
+      )}
     </>
   );
 };

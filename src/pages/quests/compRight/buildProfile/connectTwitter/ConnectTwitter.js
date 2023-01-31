@@ -71,7 +71,6 @@ const ConnectTwitter = ({ actionData }) => {
 
   useEffect(() => {
     if (linkSocalError) {
-      console.log(linkSocalError.message);
       setShowErrorModal(true);
     }
   }, [linkSocalError]);

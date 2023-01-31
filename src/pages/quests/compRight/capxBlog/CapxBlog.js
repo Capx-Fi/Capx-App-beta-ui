@@ -34,7 +34,6 @@ const CapxBlog = ({ actionData }) => {
       actionData.handleCompleteAction(e, { type: "", value: "" });
     }
   };
-  console.log(actionDetails);
 
   return (
     <div className="capx-blog-read flex flex-col gap-3">

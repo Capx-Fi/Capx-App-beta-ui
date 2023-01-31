@@ -30,7 +30,6 @@ const Signup = () => {
     isPending: isApiPending,
     getData,
   } = useApi(config.AUTH_ENDPOINT);
-  console.log(error, apiError);
 
   useEffect(() => {
     (async () => {
@@ -58,8 +57,6 @@ const Signup = () => {
       await signInUserUsingSocial(method);
     }
   };
-
-  console.log(error, apiError);
 
   const handleErrorModal = () => {
     setShowErrorModal(false);

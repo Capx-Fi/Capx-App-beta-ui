@@ -21,6 +21,8 @@ export const useFireBaseAuth = () => {
       //dispatch auth is ready redux change
       if (user) {
         try {
+          const tokenDetails = auth.currentUser.getIdTokenResult();
+          console.log("token detauls",tokenDetails);
           const userDoc = doc(db, "xusers", user.uid);
           const docSnap = await getDoc(userDoc);
 
@@ -60,6 +62,7 @@ export const useFireBaseAuth = () => {
                 docSnap.data().username.trim().length > 0
                   ? true
                   : false,
+              tokenDetails:tokenDetails,
             })
           );
         } catch (error) {
@@ -69,6 +72,7 @@ export const useFireBaseAuth = () => {
               isAuthReady: true,
               user: null,
               isUserProfileSet: false,
+              tokenDetails:null
             })
           );
         }
@@ -78,6 +82,7 @@ export const useFireBaseAuth = () => {
             isAuthReady: true,
             user: null,
             isUserProfileSet: false,
+            tokenDetails:null
           })
         );
       }

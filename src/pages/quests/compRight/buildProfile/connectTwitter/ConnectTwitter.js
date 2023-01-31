@@ -12,8 +12,10 @@ import { useSelector } from "react-redux";
 import TopLoader from "../../../../../components/topLoader/TopLoader";
 import Profile from "../profile/Profile";
 import { auth } from "../../../../../firebase/firebase";
+import ErrorModal from "../../errorModal/ErrorModal";
 
 const ConnectTwitter = ({ actionData }) => {
+  const [showErrorModal, setShowErrorModal] = useState(false);
   const userData = useSelector((state) => state.user);
   const authAccess = useSelector((state) => state.auth.accessToken);
   const navigate = useNavigate();
@@ -31,6 +33,10 @@ const ConnectTwitter = ({ actionData }) => {
 
   const handleActionCompleteDialog = () => {
     setShowActionCompleteDialog((prev) => (prev ? false : true));
+  };
+
+  const handleErrorModal = () => {
+    setShowErrorModal(false);
   };
 
   const handleActionComplete = (accessToken = "") => {
@@ -62,6 +68,12 @@ const ConnectTwitter = ({ actionData }) => {
       handleActionComplete();
     }
   }, [useAccessToken, isSocialLinkPending]);
+
+  useEffect(() => {
+    if (linkSocalError) {
+      setShowErrorModal(true);
+    }
+  }, [linkSocalError]);
 
   useEffect(() => {
     getLinkResult();
@@ -154,6 +166,11 @@ const ConnectTwitter = ({ actionData }) => {
       <ActionCompleteModal
         open={showActionCompleteDialog}
         handleClose={handleActionCompleteDialog}
+      />
+      <ErrorModal
+        heading={linkSocalError?.message}
+        open={showErrorModal}
+        handleClose={handleErrorModal}
       />
     </>
   );

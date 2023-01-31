@@ -35,6 +35,9 @@ import { useDispatch } from "react-redux";
 import { setQuestOrderId } from "../../../store/slices/questSlice";
 import { config } from "../../../config";
 import TopLoader from "../../../components/topLoader/TopLoader";
+import CapxBlog from "../compRight/capxBlog/CapxBlog";
+import WriteArticle from "../compRight/writeArticle/WriteArticle1";
+import WriteArticle2 from "../compRight/writeArticle/WriteArticle2";
 
 const AnswerQuiz = () => {
   const routeParams = useParams();
@@ -104,7 +107,7 @@ const AnswerQuiz = () => {
       navigate("/");
     }
   };
-
+  console.log(actionData);
   const renderActionComponent = () => {
     if (actionData && questData) {
       switch (actionData.action_order_type) {
@@ -181,13 +184,19 @@ const AnswerQuiz = () => {
         case "Social_Twitter":
           return (
             <TweetStep1
-              actionData={{ handleCompleteAction: handleCompleteAction }}
+              actionData={{
+                handleCompleteAction: handleCompleteAction,
+              }}
             />
           );
         case "Social_Twitter_Verify":
           return (
             <TweetStep2
-              actionData={{ handleCompleteAction: handleCompleteAction }}
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
             />
           );
         case "Generate_Invite_Code":
@@ -211,6 +220,36 @@ const AnswerQuiz = () => {
         case "Daily_Reward":
           return (
             <DailyReward
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
+        case "Blog":
+          return (
+            <CapxBlog
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
+        case "Info":
+          return (
+            <WriteArticle
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
+        case "SubmitForReview":
+          return (
+            <WriteArticle2
               actionData={{
                 ...actionData,
                 handleCompleteAction: handleCompleteAction,
@@ -337,6 +376,15 @@ const AnswerQuiz = () => {
         };
         break;
       }
+      case "submitDocLink": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
+            doc_link: input.value,
+          },
+        };
+        break;
+      }
       default:
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
@@ -357,6 +405,7 @@ const AnswerQuiz = () => {
   useEffect(() => {
     if (data) {
       setQuestData(data[0]);
+
       let actionsData = [];
       if (data[0].quest_category === "Daily_Reward") {
         actionsData = Object.values(data[0].actions).filter((val) => {

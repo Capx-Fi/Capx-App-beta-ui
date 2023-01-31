@@ -202,7 +202,10 @@ export const useFireBaseLogin = () => {
         setError(null);
       }
     } catch (error) {
-      setError(error);
+      if (error.message !== "Could not complete signin") {
+        setError(error);
+      }
+      console.log(error);
     }
     setIsPending(false);
   };

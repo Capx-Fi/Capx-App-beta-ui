@@ -7,6 +7,8 @@ import * as Yup from "yup";
 import { useFirebaseResetPassword } from "../../hooks/useFirebaseResetPassword";
 import Modal from "../../components/Modal/Modal";
 import TopLoader from "../../components/topLoader/TopLoader";
+import { useFirebaseEmailVerification } from "../../hooks/useFirebaseEmailVerification";
+import {config} from "../../config";
 
 function useQuery() {
   const location = useLocation();
@@ -19,6 +21,13 @@ const ResetPassword = () => {
   const { error, isPending, resetPassword } = useFirebaseResetPassword();
   const [showPassword, setShowPassword] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [mode, setMode] = useState(null);
+  const {
+    verifyEmailCall,
+    error: linkSocalError,
+    isPending: isPendingVerification,
+    isCompleted: linkDone,
+  } = useFirebaseEmailVerification();
 
   const showModalFunc = () => {
     setShowModal((prevState) => {
@@ -27,10 +36,21 @@ const ResetPassword = () => {
   };
 
   useEffect(() => {
-    if (!query.get("oobCode")) {
-      navigate("/forgot-password");
+    if (!query.get("oobCode") && !query.get("mode") ) {
+      navigate("/");
+    }else{
+      if(query.get("mode") === 'verifyEmail'){
+        setMode("verify")
+      }else if(query.get("mode") === 'resetPassword'){
+        setMode("reset")
+      }
+      
     }
   }, []);
+
+  const emailVerify = async () => {
+    verifyEmailCall(query.get("oobCode"));
+  };
 
   const handleShowPassword = () => {
     setShowPassword((prev) => (prev ? false : true));
@@ -64,16 +84,36 @@ const ResetPassword = () => {
 
   return (
     <>
-      <div className="emaillogin-page left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start md:mt-0 mt-14 items-stretch md:items-center bg-white-transparent min-h-screen relative">
+      <div className="emailVerification-page emaillogin-page left-content-box-wrapper  p-6 flex-col  flex md:justify-center justify-start md:mt-0 mt-14 items-stretch md:items-center bg-white-transparent min-h-screen relative">
         <div className="left-content-box flex flex-col items-center justify-center">
           <div className="brand-chip bg-primary-100  hidden md:block border-primary-200 border-1 rounded-full mb-6 md:self-center self-start">
             <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
           </div>
-          <h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-3">
+          {(mode !==null && mode === 'reset')?<h2 className="m-heaidng font-black gredient-text leading-tight md:mb-5 mb-3">
             Reset Password
-          </h2>
+          </h2>:mode!==null && mode === 'verify' ?
+          linkDone === null && linkSocalError === null?
+          (<h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1 mb-3">
+              Please Click the button below to
+              <br /> verify your email!
+          </h2>):linkSocalError === null ? (
+            linkDone === true && (
+              <h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1 mb-3">
+                Congratulaions, your email is verified please login to continue
+                on your journey.
+              </h2>
+            )
+          ) : (
+            linkDone === true && (
+              <h2 className="m-heaidng font-black gredient-text text-center leading-tight pb-1 mb-3">
+                Oops! Sorry, your verification
+                <br /> link has expired please
+                <br /> try signing up again!
+              </h2>
+            )
+          ): <></>}
 
-          <form className="w-full flex flex-col" onSubmit={formik.handleSubmit}>
+          {(mode !==null && mode === 'reset')?<form className="w-full flex flex-col" onSubmit={formik.handleSubmit}>
             <div className="w-full mb-4">
               <Input
                 placeholder="Create a storng password"
@@ -132,7 +172,33 @@ const ResetPassword = () => {
             >
               Reset Password
             </button>
-          </form>
+          </form> : mode!==null && mode === 'verify'?
+          linkDone === null && linkSocalError === null ? (
+            <div className="self-stretch">
+              <button
+                onClick={emailVerify}
+                className="signup-btn contained-effect bg-gredient-2 w-full"
+              >
+                Verify Email
+              </button>
+            </div>
+          ) : linkSocalError === null ? (
+            linkDone === true && (
+              <Link to="/signin/email" className="self-stretch">
+                <button className="signup-btn contained-effect bg-gredient-2 w-full">
+                  Login
+                </button>
+              </Link>
+            )
+          ) : (
+            linkDone === true && (
+              <Link to="/signup" className="self-stretch">
+                <button className="signup-btn contained-effect bg-gredient-2 w-full">
+                  Sign up
+                </button>
+              </Link>
+            )
+          ):<></>}
 
           <div className="brand-chip bg-primary-100  block md:hidden border-primary-200 border-1 rounded-full mb-6 self-center ">
             <img className=" mt-1" src={ChipCapxSvg} alt="capx" />
@@ -143,12 +209,22 @@ const ResetPassword = () => {
           </p>
         </div>
       </div>
-      <div className="flex-1 md:min-h-screen hidden md:block">
+      {(mode !==null && mode === 'reset')?<div className="flex-1 md:min-h-screen hidden md:block">
         <div className="h-full w-full flex items-end justify-center px-6">
           <img className="width-90p" src={OnboardSvg} alt="dummy" />
         </div>
+      </div>:(mode !==null && mode === 'verify') ?
+        <div className="flex-1 md:min-h-screen hidden md:block">
+        <div className="h-full w-full flex items-end justify-center px-6 relative">
+          <img
+            className="width-90p"
+            src={config.FIRESTORE_IMAGE_URL + config.EMAIL_VERIFICATION_SVG}
+            alt="dummy"
+          />
+        </div>
       </div>
-      {isPending && <TopLoader />}
+      :<></> }
+      {(isPending || isPendingVerification) && <TopLoader />}
       {showModal && error && (
         <Modal
           actions={{

@@ -42,6 +42,9 @@ const Signup = () => {
         getSigninResult();
       }
     })();
+    if (ApiData?.result?.message || ApiData?.result?.error) {
+      setShowErrorModal(true);
+    }
   }, [ApiData]);
 
   useEffect(() => {
@@ -167,6 +170,8 @@ const Signup = () => {
             error:
               error?.toString() ||
               apiError?.toString() ||
+              ApiData?.result?.message ||
+              ApiData?.result?.error ||
               "Something went wrong",
             showModalFunc: handleErrorModal,
           }}

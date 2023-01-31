@@ -50,7 +50,7 @@ const Login = () => {
         getSigninResult();
       }
     })();
-    if (ApiData.result?.message || ApiData.result?.error) {
+    if (ApiData?.result?.message || ApiData?.result?.error) {
       setShowErrorModal(true);
     }
   }, [ApiData]);
@@ -169,8 +169,8 @@ const Login = () => {
             error:
               error?.toString() ||
               apiError?.toString() ||
-              ApiData.result?.message ||
-              ApiData.result?.error ||
+              ApiData?.result?.message ||
+              ApiData?.result?.error ||
               "Something went wrong",
             showModalFunc: handleErrorModal,
           }}

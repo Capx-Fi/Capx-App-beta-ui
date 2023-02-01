@@ -92,7 +92,6 @@ const WeeklyFeedback = ({ actionData }) => {
           } 
         `}
           onClick={(e) => {
-            alert("yo");
             actionData.handleCompleteAction(e, {
               type: "submitFeedback",
               value: { answers: answer, comment: comment },

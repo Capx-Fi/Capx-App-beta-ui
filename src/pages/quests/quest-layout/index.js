@@ -38,6 +38,7 @@ import TopLoader from "../../../components/topLoader/TopLoader";
 import CapxBlog from "../compRight/capxBlog/CapxBlog";
 import WriteArticle from "../compRight/writeArticle/WriteArticle1";
 import WriteArticle2 from "../compRight/writeArticle/WriteArticle2";
+import WeeklyFeedback from "../compRight/weeklyFeedback/WeeklyFeedback";
 
 const AnswerQuiz = () => {
   const routeParams = useParams();
@@ -107,7 +108,7 @@ const AnswerQuiz = () => {
       navigate("/");
     }
   };
-  console.log(actionData);
+
   const renderActionComponent = () => {
     if (actionData && questData) {
       switch (actionData.action_order_type) {
@@ -257,6 +258,16 @@ const AnswerQuiz = () => {
               }}
             />
           );
+        case "FeedbackForm":
+          return (
+            <WeeklyFeedback
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
         default:
           return <p>No data</p>;
       }
@@ -385,6 +396,16 @@ const AnswerQuiz = () => {
         };
         break;
       }
+      case "submitFeedback": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
+            answers: input.value.answers,
+            comment: input.value.comment,
+          },
+        };
+        break;
+      }
       default:
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
@@ -478,7 +499,9 @@ const AnswerQuiz = () => {
           }
         } else if (showClaimScreen && !isPending && !reFetchInProgress) {
           if (apiData.result.success === true) {
-            setOpenCongratulationModal(true);
+            if (questData.quest_category !== "Feedback") {
+              setOpenCongratulationModal(true);
+            }
           }
         } else if (showActionClaim && !isPending && !reFetchInProgress) {
           if (apiData.result.success === true) {

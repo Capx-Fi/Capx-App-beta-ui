@@ -3,6 +3,8 @@ import Banner from "../banner";
 import QuestLeft from "../compLeft";
 import QuestDescription from "../compLeft/description/description.js";
 import Modal from "../../../components/Modal/Modal";
+import { analytics } from "../../../firebase/firebase";
+import { logEvent } from "firebase/analytics";
 
 // Day 01 Quest Imports ---------------------------------------------------------
 
@@ -47,7 +49,9 @@ const AnswerQuiz = () => {
   // const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
   const [url, setUrl] = useState(config.API_URL);
   const [questData, setQuestData] = useState(null);
+  const [questID, setQuestID] = useState(null);
   const [actionData, setActionData] = useState(null);
+  const [currentActionData,setCurrentActionData] = useState(null);
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
   const [openActionCompleteModal, setOpenActionCompleteModel] = useState(false);
   const [isClaimQuest, setIsClaimQuest] = useState(false);
@@ -97,11 +101,13 @@ const AnswerQuiz = () => {
       return val.status === "new" && val.id !== questData.quest_id;
     });
     if (newQuestData.length > 0) {
+      setQuestID(newQuestData[0].id);
       setReFetchInProgress(true);
       setOpenCongratulationModal(false);
       setShowClaimScreen(false);
       setShowActionClaim(false);
       setIsClaimQuest(false);
+      logEvent(analytics, 'QUEST_REGISTRATION_ATTEMPT', {questID:newQuestData[0].id,user:auth.uid})
       const apiDataObject = { data: { questId: newQuestData[0].id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
@@ -280,11 +286,22 @@ const AnswerQuiz = () => {
 
   const claimRewardHandler = () => {
     if (questData?.quest_category !== "Build_Profile") {
+      logEvent(analytics,'QUEST_CLAIM_ATTEMPT',{
+        questOrderId:routeParams.questID,
+        questType:questData.quest_category,
+        user:auth.uid,
+      } )
       let apiDataObject = {
         data: { quest_order_id: routeParams.questID },
       };
       postData(apiDataObject, "/claimReward");
     } else if (questData?.quest_category === "Build_Profile") {
+      logEvent(analytics,'QUEST_ACTION_CLAIM_ATTEMPT',{
+        questOrderId:routeParams.questID,
+        questType:questData.quest_category,
+        user:auth.uid,
+        action_order_id: actionData.action_order_id
+      } )
       let apiDataObject = {
         data: { action_order_id: actionData.action_order_id },
       };
@@ -298,6 +315,15 @@ const AnswerQuiz = () => {
       e.preventDefault();
     }
     let apiDataObject;
+    logEvent(analytics,
+    'QUEST_ACTION_COMPLETE_ATTEMPT', 
+    { questOrderId:routeParams.questID,
+      questType:questData.quest_category,
+      user:auth.uid,
+      actionType:actionData.action_order_type,
+      value:(input.value != null||input.value != undefined)?input.value:"no value",
+      action_order_id: actionData.action_order_id})
+    setCurrentActionData(actionData);
     switch (input.type) {
       case "singleQuiz": {
         apiDataObject = {
@@ -426,7 +452,7 @@ const AnswerQuiz = () => {
   useEffect(() => {
     if (data) {
       setQuestData(data[0]);
-
+      logEvent(analytics,'QUEST_OPENED', { questOrderId:routeParams.questID , questType:data[0].quest_category,user:auth.uid  })
       let actionsData = [];
       if (data[0].quest_category === "Daily_Reward") {
         actionsData = Object.values(data[0].actions).filter((val) => {
@@ -489,6 +515,13 @@ const AnswerQuiz = () => {
       if (apiData && !isError) {
         if (!showClaimScreen && !showActionClaim && !reFetchInProgress) {
           if (apiData.result.success === true) {
+            logEvent(analytics,
+              'QUEST_ACTION_COMPLETE_SUCCESS', 
+              { questOrderId:routeParams.questID,
+                questType:questData.quest_category,
+                user:auth.uid,
+                actionType:currentActionData.action_order_type,
+                action_order_id: currentActionData.action_order_id})
             if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
                 setOpenCongratulationModal(true);
@@ -509,6 +542,7 @@ const AnswerQuiz = () => {
           }
         } else if (reFetchInProgress) {
           if (apiData.result.success === true) {
+            logEvent(analytics, 'QUEST_REGISTRATION_SUCCESS', {questID:questID,user:auth.uid,questOrder:apiData.result.quest_order_id});
             dispatch(
               setQuestOrderId({ questId: apiData.result.quest_order_id })
             );

@@ -22,6 +22,8 @@ import {
   getDocs,
 } from "firebase/firestore";
 import { async } from "@firebase/util";
+import { analytics } from "../firebase/firebase";
+import { logEvent } from "firebase/analytics";
 
 export const useFireBaseLogin = () => {
   const dispatch = useDispatch();
@@ -32,6 +34,7 @@ export const useFireBaseLogin = () => {
   const signInUser = async (email, password) => {
     setError(null);
     setIsPending(true);
+    logEvent(analytics, 'LOGIN_ATTEMPT_EMAIL' , {email})
     try {
       const response = await signInWithEmailAndPassword(auth, email, password);
       if (!response) {
@@ -40,6 +43,7 @@ export const useFireBaseLogin = () => {
       //dispatch action to set user state
       if (response.user) {
         const isProfileSet = await setUerDetails(response.user);
+        logEvent(analytics, 'LOGIN_SUCCESS_EMAIL' , {email,user:response.user.uid,newUser:!isProfileSet})
         dispatch(
           setLoggedInUser({
             user: response.user,
@@ -61,6 +65,7 @@ export const useFireBaseLogin = () => {
   };
 
   const signInUserUsingSocial = async (method) => {
+    logEvent(analytics, 'LOGIN_ATTEMPT_SOCIAL' , {method})
     if (method) {
       let provider = null;
       switch (method.toUpperCase()) {
@@ -100,6 +105,7 @@ export const useFireBaseLogin = () => {
   const customSignin = async (token) => {
     setError(null);
     setIsPending(true);
+    logEvent(analytics, 'LOGIN_ATTEMPT_SOCIAL' , {method:'Discord'})
     try {
       const response = await signInWithCustomToken(auth, token);
       if (!response) {
@@ -108,6 +114,7 @@ export const useFireBaseLogin = () => {
       //dispatch action to set user state
       if (response.user) {
         const isProfileSet = await setUerDetails(response.user);
+        logEvent(analytics, 'LOGIN_SUCCESS_SOCIAL' , {method:'Discord',user:response.user.uid,newUser:!isProfileSet})
         dispatch(
           setLoggedInUser({
             user: response.user,
@@ -190,6 +197,7 @@ export const useFireBaseLogin = () => {
       if (response) {
         const { user: userDetails } = response;
         const isProfileSet = await setUerDetails(userDetails);
+        logEvent(analytics, 'LOGIN_SUCCESS_SOCIAL' , {method:'gmail/twitter',user:userDetails.uid,newUser:!isProfileSet})
         dispatch(
           setLoggedInUser({
             user: userDetails,

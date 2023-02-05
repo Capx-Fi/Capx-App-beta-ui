@@ -532,11 +532,25 @@ const AnswerQuiz = () => {
           }
         } else if (showClaimScreen && !isPending && !reFetchInProgress) {
           if (apiData.result.success === true) {
+            logEvent(analytics,
+              'QUEST_ACTION_COMPLETE_SUCCESS', 
+              { questOrderId:routeParams.questID,
+                questType:questData.quest_category,
+                user:auth.uid,
+                actionType:currentActionData.action_order_type,
+                action_order_id: currentActionData.action_order_id})
             if (questData.quest_category !== "Feedback") {
               setOpenCongratulationModal(true);
             }
           }
         } else if (showActionClaim && !isPending && !reFetchInProgress) {
+          logEvent(analytics,
+            'QUEST_ACTION_COMPLETE_SUCCESS', 
+            { questOrderId:routeParams.questID,
+              questType:questData.quest_category,
+              user:auth.uid,
+              actionType:currentActionData.action_order_type,
+              action_order_id: currentActionData.action_order_id})
           if (apiData.result.success === true) {
             setOpenActionCompleteModel(true);
           }

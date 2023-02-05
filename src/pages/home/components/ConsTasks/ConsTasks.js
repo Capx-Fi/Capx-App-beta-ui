@@ -10,6 +10,8 @@ import Slider from "react-slick";
 import { DailyRewardPng } from "../../../../assets/images";
 import SliderArrow from "../../../../components/SliderArrow/SliderArrow";
 import TopLoader from "../../../../components/topLoader/TopLoader";
+import { analytics } from "../../../../firebase/firebase";
+import { logEvent } from "firebase/analytics";
 
 const ConsTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
@@ -23,6 +25,7 @@ const ConsTasks = ({ quests }) => {
   const handleClick = (e, questId) => {
     e.preventDefault();
     setQuestId(questId);
+    logEvent(analytics, 'QUEST_REGISTRATION_ATTEMPT', {questID:questId,user:auth.uid})
     const apiDataObject = { data: { questId: questId } };
     postData(apiDataObject, "/registerForQuest");
   };
@@ -30,6 +33,7 @@ const ConsTasks = ({ quests }) => {
   useEffect(() => {
     //to-do:change succcess to success
     if (data && data.result.success && data.result.success === true) {
+      logEvent(analytics, 'QUEST_REGISTRATION_SUCCESS', {questID:questId,user:auth.uid,questOrderId:data.result.quest_order_id})
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate(`/quest/${data.result.quest_order_id}`);
     } else if (
@@ -38,6 +42,7 @@ const ConsTasks = ({ quests }) => {
       (data.result.quest_status === "REGISTERED" ||
         data.result.quest_status === "IN_PROGRESS")
     ) {
+      logEvent(analytics, 'QUEST_RESUME', {questID:questId,user:auth.uid,questOrderId:data.result.quest_order_id})
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
       navigate(`/quest/${data.result.quest_order_id}`);
     }

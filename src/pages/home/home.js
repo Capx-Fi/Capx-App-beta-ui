@@ -13,6 +13,8 @@ import Skeleton from "./components/skeleton/Skeleton";
 import { DailyRewardPanda } from "../../assets/images";
 import { useApi } from "../../hooks/useApi";
 import { useNavigate } from "react-router-dom";
+import { analytics } from "../../firebase/firebase";
+import { logEvent } from "firebase/analytics";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -143,9 +145,13 @@ const Home = () => {
   const handleClaimDailyReward = (e) => {
     e.preventDefault();
     if (dailyReward[0].status === "new") {
+      logEvent(analytics, 'QUEST_REGISTRATION_ATTEMPT', {questID:dailyReward[0].id,user:auth.uid})
+      logEvent(analytics, 'QUEST_REGISTRATION_DAILY_REWARD_ATTEMPT', {questID:dailyReward[0].id,user:auth.uid})
       const apiDataObject = { data: { questId: dailyReward[0].id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
+      logEvent(analytics, 'QUEST_RESUME', {questID:dailyReward[0].id,user:auth.uid,questOrderId:dailyReward[0].id + "|" + auth.uid})
+      logEvent(analytics, 'QUEST_DAILY_REWARD_RESUME', {questID:dailyReward[0].id,user:auth.uid,questOrderId:dailyReward[0].id + "|" + auth.uid})
       dispatch(
         setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
       );
@@ -156,6 +162,8 @@ const Home = () => {
   useEffect(() => {
     //to-do:change succcess to success
     if (Apidata && Apidata.result.success && Apidata.result.success === true) {
+      logEvent(analytics, 'QUEST_REGISTRATION_SUCCESS', {questID:dailyReward[0].id,user:auth.uid,questOrderId:Apidata.result.quest_order_id});
+      logEvent(analytics, 'QUEST_REGISTRATION_DAILY_REWARD_SUCCESS', {questID:dailyReward[0].id,user:auth.uid,questOrderId:Apidata.result.quest_order_id})
       dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
       navigate(`/quest/${Apidata.result.quest_order_id}`);
     } else if (
@@ -164,6 +172,8 @@ const Home = () => {
       (Apidata.result.quest_status === "REGISTERED" ||
         Apidata.result.quest_status === "IN_PROGRESS")
     ) {
+      logEvent(analytics, 'QUEST_RESUME', {questID:dailyReward[0].id,user:auth.uid,questOrderId:Apidata.result.quest_order_id})
+      logEvent(analytics, 'QUEST_DAILY_REWARD_RESUME', {questID:dailyReward[0].id,user:auth.uid,questOrderId:Apidata.result.quest_order_id})
       dispatch(
         setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
       );

@@ -209,7 +209,7 @@ function Profile() {
                 <img src={FullName} alt="statistics" />
                 <p className="ml-2">Invite Statistics</p>
               </div>
-              <div className="statistics-box flex items-center">
+              <div className="statistics-box invite-statistics flex items-center">
                 <img src={FirePng} alt="fire" />
                 <p className="ml-2 text">
                   Invites
@@ -223,7 +223,7 @@ function Profile() {
                     : 0}
                 </p>
               </div>
-              <div className="statistics-box flex items-center">
+              <div className="statistics-box invite-statistics flex items-center">
                 <img src={LightningPng} alt="fire" />
                 <p className="ml-2 text">
                   Invites
@@ -237,7 +237,7 @@ function Profile() {
                     : 0}
                 </p>
               </div>
-              <div className="statistics-box flex items-center">
+              <div className="statistics-box invite-statistics flex items-center">
                 <img src={CoinsPng} alt="fire" />
                 <p className="ml-2 text">
                   Invites xCapx
@@ -255,7 +255,7 @@ function Profile() {
                 <p className="copied-box block md:hidden">Copied!</p>
               )}
               {userData.invite_code !== "" ? (
-                <div className="statistics-box flex flex-col relative gap-4">
+                <div className="statistics-box invite-statistics flex flex-col relative gap-4">
                   {showCopiedBox && (
                     <p className="copied-box hidden md:block">Copied!</p>
                   )}
@@ -271,7 +271,7 @@ function Profile() {
                   </div>
                 </div>
               ) : (
-                <div className="statistics-box flex flex-col gap-4">
+                <div className="statistics-box invite-statistics flex flex-col gap-4">
                   <div className="flex items-center">
                     <img src={AnnouncePng} alt="fire" />
                     <p className="ml-2 text">Your invite Code</p>
@@ -282,12 +282,90 @@ function Profile() {
                 </div>
               )}
             </div>
-            <div className="grow" />
+            <div className="statistics-section flex flex-col gap-6">
+              <div className="heading flex items-center justify-center md:justify-start">
+                <img src={FullName} alt="statistics" />
+                <p className="ml-2">OG Invite Statistics</p>
+              </div>
+              <div className="statistics-box og-invite-statistics flex items-center">
+                <img src={FirePng} alt="fire" />
+                <p className="ml-2 text">
+                  Invites
+                  <br />
+                  used
+                </p>
+                <span className="grow" />
+                <p className="number">
+                  {inviteProgramData?.inviteProgramStats.invitesUsed
+                    ? inviteProgramData?.inviteProgramStats.invitesUsed
+                    : 0}
+                </p>
+              </div>
+              <div className="statistics-box og-invite-statistics flex items-center">
+                <img src={LightningPng} alt="fire" />
+                <p className="ml-2 text">
+                  Invites
+                  <br />
+                  left
+                </p>
+                <span className="grow" />
+                <p className="number">
+                  {inviteProgramData?.inviteProgramStats.invitesLeft
+                    ? inviteProgramData?.inviteProgramStats.invitesLeft
+                    : 0}
+                </p>
+              </div>
+              <div className="statistics-box og-invite-statistics flex items-center">
+                <img src={CoinsPng} alt="fire" />
+                <p className="ml-2 text">
+                  Invites xCapx
+                  <br />
+                  earnings
+                </p>
+                <span className="grow" />
+                <p className="number">
+                  {inviteProgramData?.inviteProgramRewards
+                    ? inviteProgramData?.inviteProgramRewards
+                    : 0}
+                </p>
+              </div>
+              {showCopiedBox && (
+                <p className="copied-box block md:hidden">Copied!</p>
+              )}
+              {userData.invite_code !== "" ? (
+                <div className="statistics-box og-invite-statistics flex flex-col relative gap-4">
+                  {showCopiedBox && (
+                    <p className="copied-box hidden md:block">Copied!</p>
+                  )}
+                  <div className="flex items-center">
+                    <img src={AnnouncePng} alt="fire" />
+                    <p className="ml-2 text">Your invite Code</p>
+                  </div>
+                  <div className="invite-code-box flex items-center justify-between">
+                    <p className="number">{userData.invite_code}</p>
+                    <button onClick={handleCopyInviteCode} className="copy-btn">
+                      <img src={ContentCopySvg} alt="copy" />
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <div className="statistics-box og-invite-statistics flex flex-col gap-4">
+                  <div className="flex items-center">
+                    <img src={AnnouncePng} alt="fire" />
+                    <p className="ml-2 text">Your invite Code</p>
+                  </div>
+                  <div className="invite-code-box flex items-center justify-between">
+                    <p className="number">*****</p>
+                  </div>
+                </div>
+              )}
+            </div>
+            {/* <div className="grow" />
             <img
               className="right-img self-center md:block hidden"
               src={ProfileSplash}
               alt="Profile"
-            />
+            /> */}
           </div>
         </div>
       </div>

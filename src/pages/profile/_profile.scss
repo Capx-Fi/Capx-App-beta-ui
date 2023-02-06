@@ -185,10 +185,19 @@
           color: $cgreen-700;
         }
       }
-      .statistics-box {
-        padding: 21px 27px 19px 16px;
+
+      .og-invite-statistics {
+        background: #e2d6ee;
+        border: 1px solid rgba(205, 86, 235, 0.89);
+      }
+
+      .invite-statistics {
         background: #d6eedb;
         border: 1px solid #c1dfbe;
+      }
+      .statistics-box {
+        padding: 21px 27px 19px 16px;
+
         border-radius: 20px;
 
         .text {
@@ -228,6 +237,7 @@
           }
         }
       }
+
       .copied-box {
         position: absolute;
         top: 0px;

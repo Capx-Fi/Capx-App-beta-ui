@@ -65,6 +65,15 @@
       }
     }
   }
+
+  .og-card {
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.08)
+      ),
+      linear-gradient(180deg, #df9df6 0%, #b26edc 42.39%, #c25ee5 100%) !important;
+  }
   .slick-track {
     margin-right: initial;
     margin-left: initial;

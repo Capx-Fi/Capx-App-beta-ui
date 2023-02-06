@@ -29,6 +29,7 @@ function Profile() {
   const [ModalHeading, setModalHeading] = useState("");
   const [inviteProgramData, setInviteProgramData] = useState(null);
   const [showCopiedBox, setShowCopiedBox] = useState(false);
+  const [showOgCopiedBox, setShowOgCopiedBox] = useState(false);
 
   const handleErrorModal = () => {
     SetIsOpenErrorModal(false);
@@ -110,7 +111,7 @@ function Profile() {
       !isPending &&
       !inviteProgramData &&
       !isError &&
-      userData.invite_code !== ""
+      (userData.invite_code || userData.og_invite_code)
     ) {
       getData(null, "/inviteProgramStats");
     }
@@ -123,12 +124,20 @@ function Profile() {
     }
   }, [userData, isPending]);
 
-  const handleCopyInviteCode = () => {
-    navigator.clipboard.writeText(userData.invite_code);
-    setShowCopiedBox(true);
-    setTimeout(() => {
-      setShowCopiedBox(false);
-    }, 1500);
+  const handleCopyInviteCode = (type) => {
+    if (type) {
+      navigator.clipboard.writeText(userData.og_invite_code);
+      setShowOgCopiedBox(true);
+      setTimeout(() => {
+        setShowOgCopiedBox(false);
+      }, 1500);
+    } else {
+      navigator.clipboard.writeText(userData.invite_code);
+      setShowCopiedBox(true);
+      setTimeout(() => {
+        setShowCopiedBox(false);
+      }, 1500);
+    }
   };
 
   return (
@@ -251,21 +260,21 @@ function Profile() {
                     : 0}
                 </p>
               </div>
-              {showCopiedBox && (
-                <p className="copied-box block md:hidden">Copied!</p>
-              )}
+              {showCopiedBox && <p className="copied-box">Copied!</p>}
               {userData.invite_code !== "" ? (
                 <div className="statistics-box invite-statistics flex flex-col relative gap-4">
-                  {showCopiedBox && (
-                    <p className="copied-box hidden md:block">Copied!</p>
-                  )}
                   <div className="flex items-center">
                     <img src={AnnouncePng} alt="fire" />
                     <p className="ml-2 text">Your invite Code</p>
                   </div>
                   <div className="invite-code-box flex items-center justify-between">
                     <p className="number">{userData.invite_code}</p>
-                    <button onClick={handleCopyInviteCode} className="copy-btn">
+                    <button
+                      onClick={() => {
+                        handleCopyInviteCode();
+                      }}
+                      className="copy-btn"
+                    >
                       <img src={ContentCopySvg} alt="copy" />
                     </button>
                   </div>
@@ -282,90 +291,95 @@ function Profile() {
                 </div>
               )}
             </div>
-            <div className="statistics-section flex flex-col gap-6">
-              <div className="heading flex items-center justify-center md:justify-start">
-                <img src={FullName} alt="statistics" />
-                <p className="ml-2">OG Invite Statistics</p>
-              </div>
-              <div className="statistics-box og-invite-statistics flex items-center">
-                <img src={FirePng} alt="fire" />
-                <p className="ml-2 text">
-                  Invites
-                  <br />
-                  used
-                </p>
-                <span className="grow" />
-                <p className="number">
-                  {inviteProgramData?.inviteProgramStats.invitesUsed
-                    ? inviteProgramData?.inviteProgramStats.invitesUsed
-                    : 0}
-                </p>
-              </div>
-              <div className="statistics-box og-invite-statistics flex items-center">
-                <img src={LightningPng} alt="fire" />
-                <p className="ml-2 text">
-                  Invites
-                  <br />
-                  left
-                </p>
-                <span className="grow" />
-                <p className="number">
-                  {inviteProgramData?.inviteProgramStats.invitesLeft
-                    ? inviteProgramData?.inviteProgramStats.invitesLeft
-                    : 0}
-                </p>
-              </div>
-              <div className="statistics-box og-invite-statistics flex items-center">
-                <img src={CoinsPng} alt="fire" />
-                <p className="ml-2 text">
-                  Invites xCapx
-                  <br />
-                  earnings
-                </p>
-                <span className="grow" />
-                <p className="number">
-                  {inviteProgramData?.inviteProgramRewards
-                    ? inviteProgramData?.inviteProgramRewards
-                    : 0}
-                </p>
-              </div>
-              {showCopiedBox && (
-                <p className="copied-box block md:hidden">Copied!</p>
-              )}
-              {userData.invite_code !== "" ? (
-                <div className="statistics-box og-invite-statistics flex flex-col relative gap-4">
-                  {showCopiedBox && (
-                    <p className="copied-box hidden md:block">Copied!</p>
-                  )}
-                  <div className="flex items-center">
-                    <img src={AnnouncePng} alt="fire" />
-                    <p className="ml-2 text">Your invite Code</p>
-                  </div>
-                  <div className="invite-code-box flex items-center justify-between">
-                    <p className="number">{userData.invite_code}</p>
-                    <button onClick={handleCopyInviteCode} className="copy-btn">
-                      <img src={ContentCopySvg} alt="copy" />
-                    </button>
-                  </div>
+            {userData.og_invite_code ? (
+              <div className="statistics-section og-section flex flex-col gap-6">
+                <div className="heading flex items-center justify-center md:justify-start">
+                  <img src={FullName} alt="statistics" />
+                  <p className="ml-2">OG Invite Statistics</p>
                 </div>
-              ) : (
-                <div className="statistics-box og-invite-statistics flex flex-col gap-4">
-                  <div className="flex items-center">
-                    <img src={AnnouncePng} alt="fire" />
-                    <p className="ml-2 text">Your invite Code</p>
-                  </div>
-                  <div className="invite-code-box flex items-center justify-between">
-                    <p className="number">*****</p>
-                  </div>
+                <div className="statistics-box og-invite-statistics flex items-center">
+                  <img src={FirePng} alt="fire" />
+                  <p className="ml-2 text">
+                    Invites
+                    <br />
+                    used
+                  </p>
+                  <span className="grow" />
+                  <p className="number">
+                    {inviteProgramData?.ogInviteProgramStats.invitesUsed
+                      ? inviteProgramData?.ogInviteProgramStats.invitesUsed
+                      : 0}
+                  </p>
                 </div>
-              )}
-            </div>
-            {/* <div className="grow" />
-            <img
-              className="right-img self-center md:block hidden"
-              src={ProfileSplash}
-              alt="Profile"
-            /> */}
+                <div className="statistics-box og-invite-statistics flex items-center">
+                  <img src={LightningPng} alt="fire" />
+                  <p className="ml-2 text">
+                    Invites
+                    <br />
+                    left
+                  </p>
+                  <span className="grow" />
+                  <p className="number">
+                    {inviteProgramData?.ogInviteProgramStats.invitesLeft
+                      ? inviteProgramData?.ogInviteProgramStats.invitesLeft
+                      : 0}
+                  </p>
+                </div>
+                <div className="statistics-box og-invite-statistics flex items-center">
+                  <img src={CoinsPng} alt="fire" />
+                  <p className="ml-2 text">
+                    Invites xCapx
+                    <br />
+                    earnings
+                  </p>
+                  <span className="grow" />
+                  <p className="number">
+                    {inviteProgramData?.ogInviteProgramRewards
+                      ? inviteProgramData?.ogInviteProgramRewards
+                      : 0}
+                  </p>
+                </div>
+                {showOgCopiedBox && <p className="copied-box">Copied!</p>}
+                {userData.og_invite_code !== "" ? (
+                  <div className="statistics-box og-invite-statistics flex flex-col relative gap-4">
+                    <div className="flex items-center">
+                      <img src={AnnouncePng} alt="fire" />
+                      <p className="ml-2 text">Your invite Code</p>
+                    </div>
+                    <div className="invite-code-box flex items-center justify-between">
+                      <p className="number">{userData.og_invite_code}</p>
+                      <button
+                        onClick={() => {
+                          handleCopyInviteCode("og");
+                        }}
+                        className="copy-btn"
+                      >
+                        <img src={ContentCopySvg} alt="copy" />
+                      </button>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="statistics-box og-invite-statistics flex flex-col gap-4">
+                    <div className="flex items-center">
+                      <img src={AnnouncePng} alt="fire" />
+                      <p className="ml-2 text">Your invite Code</p>
+                    </div>
+                    <div className="invite-code-box flex items-center justify-between">
+                      <p className="number">*****</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ) : (
+              <>
+                <div className="grow" />
+                <img
+                  className="right-img self-center md:block hidden"
+                  src={ProfileSplash}
+                  alt="Profile"
+                />
+              </>
+            )}
           </div>
         </div>
       </div>

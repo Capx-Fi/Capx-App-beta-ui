@@ -30,11 +30,11 @@ function MyWallet() {
 
   useEffect(() => {
     if (!error) {
-      if (15 <= userData.earned_rewards) {
-        getData(null, "/fetchWallet");
-      } else {
-        setOpenAlertModal(true);
-      }
+      // if (15 <= userData.earned_rewards) {
+      getData(null, "/fetchWallet");
+      // } else {
+      //   setOpenAlertModal(true);
+      // }
     } else {
       if (error) {
         setOpenErrorModal(true);

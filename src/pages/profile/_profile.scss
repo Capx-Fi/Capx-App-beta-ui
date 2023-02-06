@@ -172,7 +172,9 @@
       flex-basis: 34%;
       @media screen and (max-width: 760px) {
         padding: 0 10px;
+        order: 2;
       }
+
       .heading {
         img {
           width: 20px;
@@ -239,27 +241,30 @@
       }
 
       .copied-box {
-        position: absolute;
-        top: 0px;
-        left: 110%;
         background: #ccf3ff;
         border: 1px solid #92c1dc;
         border-radius: 12px;
         padding: 12px 20px;
-        width: 150px;
         text-align: center;
         font-weight: 700;
         font-size: 16px;
         line-height: 24px;
         letter-spacing: -0.65px;
         color: #153945;
+        z-index: 1;
+        order: 1;
         @media screen and (max-width: 767.98px) {
-          position: initial;
-          width: unset;
+          order: unset;
           padding: 8px 20px;
           font-size: 13px;
           line-height: 20px;
         }
+      }
+    }
+
+    .og-section {
+      @media screen and (max-width: 760px) {
+        order: 1;
       }
     }
 

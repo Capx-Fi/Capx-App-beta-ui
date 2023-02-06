@@ -51,7 +51,7 @@ const AnswerQuiz = () => {
   const [questData, setQuestData] = useState(null);
   const [questID, setQuestID] = useState(null);
   const [actionData, setActionData] = useState(null);
-  const [currentActionData,setCurrentActionData] = useState(null);
+  const [currentActionData, setCurrentActionData] = useState(null);
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
   const [openActionCompleteModal, setOpenActionCompleteModel] = useState(false);
   const [isClaimQuest, setIsClaimQuest] = useState(false);
@@ -107,7 +107,10 @@ const AnswerQuiz = () => {
       setShowClaimScreen(false);
       setShowActionClaim(false);
       setIsClaimQuest(false);
-      logEvent(analytics, 'QUEST_REGISTRATION_ATTEMPT', {questID:newQuestData[0].id,user:auth.uid})
+      logEvent(analytics, "QUEST_REGISTRATION_ATTEMPT", {
+        questID: newQuestData[0].id,
+        user: auth.uid,
+      });
       const apiDataObject = { data: { questId: newQuestData[0].id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
@@ -215,6 +218,15 @@ const AnswerQuiz = () => {
               }}
             />
           );
+        case "Generate_OG_Invite_Code":
+          return (
+            <GenCodeStep1
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+              }}
+            />
+          );
         case "Share_Invite_Code":
           return (
             <GenCodeStep2
@@ -286,22 +298,22 @@ const AnswerQuiz = () => {
 
   const claimRewardHandler = () => {
     if (questData?.quest_category !== "Build_Profile") {
-      logEvent(analytics,'QUEST_CLAIM_ATTEMPT',{
-        questOrderId:routeParams.questID,
-        questType:questData.quest_category,
-        user:auth.uid,
-      } )
+      logEvent(analytics, "QUEST_CLAIM_ATTEMPT", {
+        questOrderId: routeParams.questID,
+        questType: questData.quest_category,
+        user: auth.uid,
+      });
       let apiDataObject = {
         data: { quest_order_id: routeParams.questID },
       };
       postData(apiDataObject, "/claimReward");
     } else if (questData?.quest_category === "Build_Profile") {
-      logEvent(analytics,'QUEST_ACTION_CLAIM_ATTEMPT',{
-        questOrderId:routeParams.questID,
-        questType:questData.quest_category,
-        user:auth.uid,
-        action_order_id: actionData.action_order_id
-      } )
+      logEvent(analytics, "QUEST_ACTION_CLAIM_ATTEMPT", {
+        questOrderId: routeParams.questID,
+        questType: questData.quest_category,
+        user: auth.uid,
+        action_order_id: actionData.action_order_id,
+      });
       let apiDataObject = {
         data: { action_order_id: actionData.action_order_id },
       };
@@ -315,14 +327,17 @@ const AnswerQuiz = () => {
       e.preventDefault();
     }
     let apiDataObject;
-    logEvent(analytics,
-    'QUEST_ACTION_COMPLETE_ATTEMPT', 
-    { questOrderId:routeParams.questID,
-      questType:questData.quest_category,
-      user:auth.uid,
-      actionType:actionData.action_order_type,
-      value:(input.value != null||input.value != undefined)?input.value:"no value",
-      action_order_id: actionData.action_order_id})
+    logEvent(analytics, "QUEST_ACTION_COMPLETE_ATTEMPT", {
+      questOrderId: routeParams.questID,
+      questType: questData.quest_category,
+      user: auth.uid,
+      actionType: actionData.action_order_type,
+      value:
+        input.value != null || input.value != undefined
+          ? input.value
+          : "no value",
+      action_order_id: actionData.action_order_id,
+    });
     setCurrentActionData(actionData);
     switch (input.type) {
       case "singleQuiz": {
@@ -345,7 +360,7 @@ const AnswerQuiz = () => {
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
         };
-        setIsClaimQuest(true);
+
         break;
       }
       case "affiliate": {
@@ -452,7 +467,11 @@ const AnswerQuiz = () => {
   useEffect(() => {
     if (data) {
       setQuestData(data[0]);
-      logEvent(analytics,'QUEST_OPENED', { questOrderId:routeParams.questID , questType:data[0].quest_category,user:auth.uid  })
+      logEvent(analytics, "QUEST_OPENED", {
+        questOrderId: routeParams.questID,
+        questType: data[0].quest_category,
+        user: auth.uid,
+      });
       let actionsData = [];
       if (data[0].quest_category === "Daily_Reward") {
         actionsData = Object.values(data[0].actions).filter((val) => {
@@ -463,9 +482,9 @@ const AnswerQuiz = () => {
           return val.is_claimed !== true;
         });
       }
-
       if (actionsData.length === 0) {
         console.log("All actions completed");
+
         if (isClaimQuest) {
           setActionData(null);
         } else if (
@@ -515,13 +534,13 @@ const AnswerQuiz = () => {
       if (apiData && !isError) {
         if (!showClaimScreen && !showActionClaim && !reFetchInProgress) {
           if (apiData.result.success === true) {
-            logEvent(analytics,
-              'QUEST_ACTION_COMPLETE_SUCCESS', 
-              { questOrderId:routeParams.questID,
-                questType:questData.quest_category,
-                user:auth.uid,
-                actionType:currentActionData.action_order_type,
-                action_order_id: currentActionData.action_order_id})
+            logEvent(analytics, "QUEST_ACTION_COMPLETE_SUCCESS", {
+              questOrderId: routeParams.questID,
+              questType: questData.quest_category,
+              user: auth.uid,
+              actionType: currentActionData.action_order_type,
+              action_order_id: currentActionData.action_order_id,
+            });
             if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
                 setOpenCongratulationModal(true);
@@ -532,31 +551,35 @@ const AnswerQuiz = () => {
           }
         } else if (showClaimScreen && !isPending && !reFetchInProgress) {
           if (apiData.result.success === true) {
-            logEvent(analytics,
-              'QUEST_ACTION_COMPLETE_SUCCESS', 
-              { questOrderId:routeParams.questID,
-                questType:questData.quest_category,
-                user:auth.uid,
-                actionType:currentActionData.action_order_type,
-                action_order_id: currentActionData.action_order_id})
+            logEvent(analytics, "QUEST_ACTION_COMPLETE_SUCCESS", {
+              questOrderId: routeParams.questID,
+              questType: questData.quest_category,
+              user: auth.uid,
+              actionType: currentActionData.action_order_type,
+              action_order_id: currentActionData.action_order_id,
+            });
             if (questData.quest_category !== "Feedback") {
               setOpenCongratulationModal(true);
             }
           }
         } else if (showActionClaim && !isPending && !reFetchInProgress) {
-          logEvent(analytics,
-            'QUEST_ACTION_COMPLETE_SUCCESS', 
-            { questOrderId:routeParams.questID,
-              questType:questData.quest_category,
-              user:auth.uid,
-              actionType:currentActionData.action_order_type,
-              action_order_id: currentActionData.action_order_id})
+          logEvent(analytics, "QUEST_ACTION_COMPLETE_SUCCESS", {
+            questOrderId: routeParams.questID,
+            questType: questData.quest_category,
+            user: auth.uid,
+            actionType: currentActionData.action_order_type,
+            action_order_id: currentActionData.action_order_id,
+          });
           if (apiData.result.success === true) {
             setOpenActionCompleteModel(true);
           }
         } else if (reFetchInProgress) {
           if (apiData.result.success === true) {
-            logEvent(analytics, 'QUEST_REGISTRATION_SUCCESS', {questID:questID,user:auth.uid,questOrder:apiData.result.quest_order_id});
+            logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
+              questID: questID,
+              user: auth.uid,
+              questOrder: apiData.result.quest_order_id,
+            });
             dispatch(
               setQuestOrderId({ questId: apiData.result.quest_order_id })
             );

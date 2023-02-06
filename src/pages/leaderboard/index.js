@@ -29,11 +29,11 @@ const Leaderboard = () => {
 
   useEffect(() => {
     if (!error) {
-      if (15 <= userData.earned_rewards) {
-        getData(null, "/fetchLeaderboard");
-      } else {
-        setOpenAlertModal(true);
-      }
+      // if (15 <= userData.earned_rewards) {
+      getData(null, "/fetchLeaderboard");
+      // } else {
+      //   setOpenAlertModal(true);
+      // }
     } else {
       if (error) {
         setOpenErrorModal(true);

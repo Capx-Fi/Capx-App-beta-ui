@@ -44,6 +44,8 @@ const Home = () => {
       let result = [];
       Object.keys(data[0].quests).forEach((val) => {
         const dataObject = {
+          allowed_users: questData.quests[val].allowed_users,
+          quest_category: questData.quests[val].quest_category,
           task_no: val.split("=")[1].split("_")[1],
           id: val,
           tasktitle: questData.quests[val].title,
@@ -86,34 +88,57 @@ const Home = () => {
       setDailyQuests(
         result
           .filter((val) => {
-            return (
-              // val.taskCategory.toLowerCase() === "dailyreward" ||
+            if (
               val.created_on === todaysDate &&
               val.taskCategory.toLowerCase() !== "special" &&
               val.status === "new" &&
               val.taskCategory.toLowerCase() !== "dailyreward"
-            );
+            ) {
+              if (val.allowed_users.length > 0) {
+                return val.allowed_users.includes(user.username);
+              } else {
+                return true;
+              }
+            } else {
+              return false;
+            }
           })
           .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       setSpecialQuests(
         result
           .filter((val) => {
-            return val.taskCategory.toLowerCase() === "special";
+            if (val.taskCategory.toLowerCase() === "special") {
+              if (val.allowed_users.length > 0) {
+                return val.allowed_users.includes(user.username);
+              } else {
+                return true;
+              }
+            } else {
+              return false;
+            }
           })
           .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       setPrevQuests(
         result
           .filter((val) => {
-            return (
+            if (
               (val.created_on !== todaysDate ||
                 val.status === "IN_PROGRESS" ||
                 val.status === "REGISTERED" ||
                 val.status === "COMPLETED") &&
               val.status !== "CLAIMED" &&
               val.taskCategory.toLowerCase() === "normal"
-            );
+            ) {
+              if (val.allowed_users.length > 0) {
+                return val.allowed_users.includes(user.username);
+              } else {
+                return true;
+              }
+            } else {
+              return false;
+            }
           })
           .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
@@ -145,13 +170,27 @@ const Home = () => {
   const handleClaimDailyReward = (e) => {
     e.preventDefault();
     if (dailyReward[0].status === "new") {
-      logEvent(analytics, 'QUEST_REGISTRATION_ATTEMPT', {questID:dailyReward[0].id,user:auth.uid})
-      logEvent(analytics, 'QUEST_REGISTRATION_DAILY_REWARD_ATTEMPT', {questID:dailyReward[0].id,user:auth.uid})
+      logEvent(analytics, "QUEST_REGISTRATION_ATTEMPT", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+      });
+      logEvent(analytics, "QUEST_REGISTRATION_DAILY_REWARD_ATTEMPT", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+      });
       const apiDataObject = { data: { questId: dailyReward[0].id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
-      logEvent(analytics, 'QUEST_RESUME', {questID:dailyReward[0].id,user:auth.uid,questOrderId:dailyReward[0].id + "|" + auth.uid})
-      logEvent(analytics, 'QUEST_DAILY_REWARD_RESUME', {questID:dailyReward[0].id,user:auth.uid,questOrderId:dailyReward[0].id + "|" + auth.uid})
+      logEvent(analytics, "QUEST_RESUME", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: dailyReward[0].id + "|" + auth.uid,
+      });
+      logEvent(analytics, "QUEST_DAILY_REWARD_RESUME", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: dailyReward[0].id + "|" + auth.uid,
+      });
       dispatch(
         setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
       );
@@ -162,8 +201,16 @@ const Home = () => {
   useEffect(() => {
     //to-do:change succcess to success
     if (Apidata && Apidata.result.success && Apidata.result.success === true) {
-      logEvent(analytics, 'QUEST_REGISTRATION_SUCCESS', {questID:dailyReward[0].id,user:auth.uid,questOrderId:Apidata.result.quest_order_id});
-      logEvent(analytics, 'QUEST_REGISTRATION_DAILY_REWARD_SUCCESS', {questID:dailyReward[0].id,user:auth.uid,questOrderId:Apidata.result.quest_order_id})
+      logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: Apidata.result.quest_order_id,
+      });
+      logEvent(analytics, "QUEST_REGISTRATION_DAILY_REWARD_SUCCESS", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: Apidata.result.quest_order_id,
+      });
       dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
       navigate(`/quest/${Apidata.result.quest_order_id}`);
     } else if (
@@ -172,15 +219,22 @@ const Home = () => {
       (Apidata.result.quest_status === "REGISTERED" ||
         Apidata.result.quest_status === "IN_PROGRESS")
     ) {
-      logEvent(analytics, 'QUEST_RESUME', {questID:dailyReward[0].id,user:auth.uid,questOrderId:Apidata.result.quest_order_id})
-      logEvent(analytics, 'QUEST_DAILY_REWARD_RESUME', {questID:dailyReward[0].id,user:auth.uid,questOrderId:Apidata.result.quest_order_id})
+      logEvent(analytics, "QUEST_RESUME", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: Apidata.result.quest_order_id,
+      });
+      logEvent(analytics, "QUEST_DAILY_REWARD_RESUME", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: Apidata.result.quest_order_id,
+      });
       dispatch(
         setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
       );
       navigate(`/quest/${Apidata.result.quest_order_id}`);
     }
   }, [Apidata]);
-
 
   return (
     <div

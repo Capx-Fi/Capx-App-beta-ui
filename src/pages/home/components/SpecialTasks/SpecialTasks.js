@@ -154,19 +154,23 @@ const SpecialTasks = ({ quests }) => {
                         }
                         alt="invite"
                       />
-                      <div className="card-chip md:hidden flex items-center">
-                        <img src={CardCoinIcon} alt="coin" />
-                        <span>{data.taskreward + " xCapx"}</span>
-                      </div>
+                      {data.taskreward > 0 && (
+                        <div className="card-chip md:hidden flex items-center">
+                          <img src={CardCoinIcon} alt="coin" />
+                          <span>{data.taskreward + " xCapx"}</span>
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center justify-between">
                       <p className="card-title">{data.tasktitle}</p>
-                      <div className="card-chip md:flex hidden items-center ml-10">
-                        <img src={CardCoinIcon} alt="coin" />
-                        <span className="ml-1">
-                          {data.taskreward + " xCapx"}
-                        </span>
-                      </div>
+                      {data.taskreward > 0 && (
+                        <div className="card-chip md:flex hidden items-center ml-10">
+                          <img src={CardCoinIcon} alt="coin" />
+                          <span className="ml-1">
+                            {data.taskreward + " xCapx"}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

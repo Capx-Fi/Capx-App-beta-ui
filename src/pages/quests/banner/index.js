@@ -9,15 +9,17 @@ const Banner = ({ data }) => {
         <img src={QuestsIcon} alt="banner" />
         <h2 className="banner-heading ml-2 ">{data.title}</h2>
       </div>
-      <div className="capx-chip flex flex-row self-start">
-        <div className="text-left">
-          <p className="">Reward</p>
+      {data.rewards > 0 && (
+        <div className="capx-chip flex flex-row self-start">
+          <div className="text-left">
+            <p className="">Reward</p>
+          </div>
+          <div className="text-right flex items-center">
+            <img src={CoinSvg} alt="coin" className="" />
+            <span className="ml-2 md:ml-2">{data.rewards + " xCapx"}</span>
+          </div>
         </div>
-        <div className="text-right flex items-center">
-          <img src={CoinSvg} alt="coin" className="" />
-          <span className="ml-2 md:ml-2">{data.rewards + " xCapx"}</span>
-        </div>
-      </div>
+      )}
     </div>
   );
 };

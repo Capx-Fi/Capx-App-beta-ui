@@ -45,6 +45,7 @@ import WeeklyFeedback from "../compRight/weeklyFeedback/WeeklyFeedback";
 const AnswerQuiz = () => {
   const routeParams = useParams();
   const auth = useSelector((state) => state.auth.user);
+  const userData = useSelector((state) => state.user);
   const allQuestData = useSelector((state) => state.quest.allQuests);
   // const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
   const [url, setUrl] = useState(config.API_URL);
@@ -98,7 +99,15 @@ const AnswerQuiz = () => {
 
   const nextQuestSetup = () => {
     const newQuestData = allQuestData.filter((val) => {
-      return val.status === "new" && val.id !== questData.quest_id;
+      if (val.status === "new" && val.id !== questData.quest_id) {
+        if (val.allowed_users.length > 0) {
+          return val.allowed_users.includes(userData.username);
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
     });
     if (newQuestData.length > 0) {
       setQuestID(newQuestData[0].id);

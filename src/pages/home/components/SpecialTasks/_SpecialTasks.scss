@@ -47,6 +47,7 @@
         letter-spacing: -0.2px;
         padding: 7px 0;
         @media screen and (max-width: 767.98px) {
+          padding: unset;
           font-size: 14px;
           line-height: 18px;
         }

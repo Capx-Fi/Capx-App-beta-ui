@@ -12,12 +12,22 @@ import TopLoader from "../../../../components/topLoader/TopLoader";
 import { analytics } from "../../../../firebase/firebase";
 import { logEvent } from "firebase/analytics";
 
+const OgEligibleUsers = [
+  "vBeBA4sDUkM7aBYJnViiaQ6PMXN2",
+  "pADVt8MWpdZV4gNSivwcFy0Ykxp1",
+  "DPGcZzsYsJbxwaT4U7JvyMPc5Jc2",
+  "ZxrLNNS7yFZQjno75xJ1bPWJzI03",
+  "GYPNo9Yq2fdRASOwsTybktgZyX23",
+  "g1bD46HenVP6TK2jCeOFm3iTV0w2",
+];
+
 const SpecialTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [questId, setQuestId] = useState(null);
+  const [filteredDailyTaskData, setFilteredDailyTaskData] = useState([]);
   const auth = useSelector((state) => state.auth.user);
   const [url, setUrl] = useState(config.API_URL);
   const { isError, isPending, postData, data } = useApi(url, "POST");
@@ -69,6 +79,23 @@ const SpecialTasks = ({ quests }) => {
       navigate(`/quest/${data.result.quest_order_id}`);
     }
   }, [data]);
+
+  useEffect(() => {
+    const eligibleOgInviteUser = OgEligibleUsers.includes(auth.uid);
+    setFilteredDailyTaskData(
+      dailytaskdata.filter((action) => {
+        if (action.task_no != 14) {
+          return true;
+        } else {
+          if (eligibleOgInviteUser) {
+            return true;
+          } else {
+            return false;
+          }
+        }
+      })
+    );
+  }, [quests]);
 
   const SliderSettings = {
     dots: false,
@@ -127,9 +154,9 @@ const SpecialTasks = ({ quests }) => {
     <div className="special-quests bg-green-12">
       <div className="wrapper ">
         <Slider {...SliderSettings}>
-          {dailytaskdata &&
-            dailytaskdata.length > 0 &&
-            dailytaskdata.map((data, ind) => {
+          {filteredDailyTaskData &&
+            filteredDailyTaskData.length > 0 &&
+            filteredDailyTaskData.map((data, ind) => {
               return (
                 <div
                   onClick={(e) => {

@@ -3,7 +3,12 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { WalletSplash } from "../../assets/images";
-import { TaskListIcon } from "../../assets/svg";
+import {
+  TaskListIcon,
+  StreakFireIcon,
+  streakCheck,
+  StreakFire,
+} from "../../assets/svg";
 import AlertModal from "../../components/alertModal/AlertModal";
 import { config } from "../../config";
 import { useApi } from "../../hooks/useApi";
@@ -17,7 +22,9 @@ import Skeleton from "./components/skeleton/Skeleton";
 function MyWallet() {
   const [openAlertModal, setOpenAlertModal] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [errorModalHeading, setErrorModalHeading] = useState("");
   const [sortedQuestsData, setSortedQuestsData] = useState([]);
+  const [streak, setStreak] = useState(14);
 
   const userData = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -43,11 +50,18 @@ function MyWallet() {
   }, [userData, error]);
 
   useEffect(() => {
-    if (questsData) {
+    if (questsData?.result.success === true) {
       const sortData = questsData?.result.wallet.sort((a, b) => {
         return dayjs(b.date).unix() - dayjs(a.date).unix();
       });
+      questsData?.result.wallet.forEach((element) => {
+        if (element.streak) {
+          // setStreak(element.streak);
+        }
+      });
       setSortedQuestsData(sortData);
+    } else if (questsData?.result.success === false) {
+      setErrorModalHeading(questsData?.result.message.toString());
     }
   }, [questsData]);
 
@@ -64,6 +78,53 @@ function MyWallet() {
     <>
       <div className="my-wallet md:px-10 p-6 md:py-11 flex flex-col gap-6">
         <WalletBanner />
+        {streak > 0 && (
+          <>
+            <div className="heading flex items-center pb-3">
+              <img src={StreakFireIcon} alt="Leaderboard" />
+              <h3 className="ml-3">Daily Streak</h3>
+            </div>
+            <div className="streak-wrapper flex md:ml-10 ml-0">
+              {Array(7)
+                .fill("")
+                .map((el, ind) => {
+                  return (
+                    <div
+                      className={`streak ${
+                        ind === 1 ? "current-streak" : ""
+                      } flex flex-col items-center mb-4 gap-1 relative`}
+                    >
+                      {ind <= 2 && (
+                        <img
+                          className="fire-img"
+                          src={StreakFire}
+                          alt="check"
+                        />
+                      )}
+                      {3 >= streak && ind < streak ? (
+                        <img
+                          className="check-img"
+                          src={streakCheck}
+                          alt="check"
+                        />
+                      ) : ind <= 2 ? (
+                        <img
+                          className="check-img"
+                          src={streakCheck}
+                          alt="check"
+                        />
+                      ) : (
+                        <span>-</span>
+                      )}
+
+                      <p>Day {streak < 3 ? ind + 1 : ind + streak - 2}</p>
+                    </div>
+                  );
+                })}
+            </div>
+          </>
+        )}
+
         <div className="heading flex items-center pb-3">
           <img src={TaskListIcon} alt="Leaderboard" />
           <h3 className="ml-3">Quests Report</h3>
@@ -82,7 +143,11 @@ function MyWallet() {
         handleClose={handleAlertModalClose}
       />
       {isPending && <TopLoader />}
-      <ErrorModal open={openErrorModal} handleClose={handleErrorModalClose} />
+      <ErrorModal
+        heading={errorModalHeading}
+        open={openErrorModal}
+        handleClose={handleErrorModalClose}
+      />
     </>
   );
 }

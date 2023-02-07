@@ -1,5 +1,5 @@
 import { onAuthStateChanged, onIdTokenChanged } from "firebase/auth";
-import { auth, db } from "../firebase/firebase";
+import { auth, db, analytics } from "../firebase/firebase";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAccessToken, setAuthStatus } from "./../store/slices/authSlice";
@@ -13,6 +13,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { logEvent,setUserProperties } from "firebase/analytics";
 
 export const useFireBaseAuth = () => {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export const useFireBaseAuth = () => {
           console.log("token detauls",tokenDetails);
           const userDoc = doc(db, "xusers", user.uid);
           const docSnap = await getDoc(userDoc);
-
+          setUserProperties(analytics, {userId : user.uid })
           if (docSnap.data() !== undefined && docSnap.exists()) {
             const userQuestCollection = collection(
               db,

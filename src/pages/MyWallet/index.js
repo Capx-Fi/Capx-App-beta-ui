@@ -24,7 +24,7 @@ function MyWallet() {
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const [errorModalHeading, setErrorModalHeading] = useState("");
   const [sortedQuestsData, setSortedQuestsData] = useState([]);
-  const [streak, setStreak] = useState(14);
+  const [streak, setStreak] = useState(1);
 
   const userData = useSelector((state) => state.user);
   const navigate = useNavigate();
@@ -56,7 +56,7 @@ function MyWallet() {
       });
       questsData?.result.wallet.forEach((element) => {
         if (element.streak) {
-          // setStreak(element.streak);
+          setStreak(element.streak);
         }
       });
       setSortedQuestsData(sortData);
@@ -88,38 +88,86 @@ function MyWallet() {
               {Array(7)
                 .fill("")
                 .map((el, ind) => {
-                  return (
-                    <div
-                      className={`streak ${
-                        ind === 1 ? "current-streak" : ""
-                      } flex flex-col items-center mb-4 gap-1 relative`}
-                    >
-                      {ind <= 2 && (
-                        <img
-                          className="fire-img"
-                          src={StreakFire}
-                          alt="check"
-                        />
-                      )}
-                      {3 >= streak && ind < streak ? (
+                  if (streak <= 3 && ind < streak) {
+                    return (
+                      <div
+                        className={`streak ${
+                          ind === streak ? "current-streak" : ""
+                        } flex flex-col items-center mb-4 gap-1 relative`}
+                      >
                         <img
                           className="check-img"
                           src={streakCheck}
                           alt="check"
                         />
-                      ) : ind <= 2 ? (
-                        <img
-                          className="check-img"
-                          src={streakCheck}
-                          alt="check"
-                        />
-                      ) : (
-                        <span>-</span>
-                      )}
+                        <p>Day {streak < 3 ? ind + 1 : ind + streak - 2}</p>
+                      </div>
+                    );
+                  } else if (streak > 3 && ind <= 2) {
+                    return (
+                      <div
+                        className={`streak ${
+                          (ind + streak - 2) % 7 == 0 ? "current-streak" : ""
+                        } flex flex-col items-center mb-4 gap-1 relative`}
+                      >
+                        {(ind + streak - 2) % 7 == 0 ? (
+                          <img
+                            className="check-img"
+                            src={StreakFire}
+                            alt="check"
+                          />
+                        ) : (
+                          <img
+                            className="check-img"
+                            src={streakCheck}
+                            alt="check"
+                          />
+                        )}
 
-                      <p>Day {streak < 3 ? ind + 1 : ind + streak - 2}</p>
-                    </div>
-                  );
+                        <p>Day {streak < 3 ? ind + 1 : ind + streak - 2}</p>
+                      </div>
+                    );
+                  } else if (streak > 3) {
+                    return (
+                      <div
+                        className={`streak ${
+                          (ind + streak - 2) % 7 == 0 ? "current-streak" : ""
+                        } flex flex-col items-center mb-4 gap-1 relative`}
+                      >
+                        {(ind + streak - 2) % 7 == 0 ? (
+                          <img
+                            className="fire-img"
+                            src={StreakFire}
+                            alt="check"
+                          />
+                        ) : (
+                          ""
+                        )}
+                        <span>-</span>
+                        <p>Day {streak < 3 ? ind + 1 : ind + streak - 2}</p>
+                      </div>
+                    );
+                  } else {
+                    return (
+                      <div
+                        className={`streak ${
+                          (ind + 1) % 7 == 0 ? "current-streak" : ""
+                        } flex flex-col items-center mb-4 gap-1 relative`}
+                      >
+                        {(ind + 1) % 7 == 0 ? (
+                          <img
+                            className="fire-img"
+                            src={StreakFire}
+                            alt="check"
+                          />
+                        ) : (
+                          ""
+                        )}
+                        <span>-</span>
+                        <p>Day {streak < 3 ? ind + 1 : ind + streak - 2}</p>
+                      </div>
+                    );
+                  }
                 })}
             </div>
           </>

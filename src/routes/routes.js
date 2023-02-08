@@ -2,6 +2,8 @@ import { useRoutes } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 import { publicRoutes, privateRoutes, semiProtectedRoutes, verificationRoute } from "./constants";
+import {analytics} from '../firebase/firebase'
+import {logEvent} from 'firebase/analytics'
 
 export default function Routes() {
   const [routes, setRoutes] = useState([]);
@@ -14,7 +16,7 @@ export default function Routes() {
 
 
   useEffect(() => {
-    
+    logEvent(analytics,'route_access',{route : window.location.pathname + window.location.search});
     if (isLoggedIn ) {
       console.log("user logged in");
       if (isUserProfileSet && isEmailVerified) {

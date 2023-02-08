@@ -1,7 +1,9 @@
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { useState } from "react";
 import { useSelector } from "react-redux";
-import { storage } from "../firebase/firebase";
+import { storage,analytics } from "../firebase/firebase";
+import { logEvent } from "firebase/analytics";
+
 
 export const useUploadProfileImage = () => {
   const [error, setError] = useState(null);
@@ -14,11 +16,12 @@ export const useUploadProfileImage = () => {
     if (image) {
       setError(null);
       setIsPending(true);
-
+      logEvent(analytics, 'IMAGEUPLOAD_ATTEMPT' , {user:Uid})
       try {
         const storageRef = ref(storage, `images/profileImage/${Uid}`);
         const uploadTask = await uploadBytesResumable(storageRef, image);
         const downloadURL = await getDownloadURL(uploadTask.ref);
+        logEvent(analytics, 'IMAGEUPLOAD_SUCCESS' , {user:Uid,url:downloadURL})
         imageUrl = downloadURL;
       } catch (error) {
         console.log(error);

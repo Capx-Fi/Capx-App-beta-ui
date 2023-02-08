@@ -21,7 +21,8 @@ import {
   where,
   getDocs,
 } from "firebase/firestore";
-import { async } from "@firebase/util";
+import { analytics } from "../firebase/firebase";
+import { logEvent } from "firebase/analytics";
 
 export const useFireBaseLogin = () => {
   const dispatch = useDispatch();
@@ -33,6 +34,7 @@ export const useFireBaseLogin = () => {
     setError(null);
     setIsPending(true);
     try {
+      logEvent(analytics, 'LOGIN_ATTEMPT_EMAIL' , {email})
       const response = await signInWithEmailAndPassword(auth, email, password);
       if (!response) {
         throw new Error("Could not complete signin");
@@ -40,6 +42,7 @@ export const useFireBaseLogin = () => {
       //dispatch action to set user state
       if (response.user) {
         const isProfileSet = await setUerDetails(response.user);
+        logEvent(analytics, 'LOGIN_SUCCESS_EMAIL' , {email,user:response.user.uid,newUser:!isProfileSet})
         dispatch(
           setLoggedInUser({
             user: response.user,
@@ -82,6 +85,7 @@ export const useFireBaseLogin = () => {
       setError(null);
       setIsPending(true);
       try {
+        logEvent(analytics, 'LOGIN_ATTEMPT_SOCIAL' , {method})
         await signInWithRedirect(auth, provider);
       } catch (error) {
         console.log(error);
@@ -101,6 +105,7 @@ export const useFireBaseLogin = () => {
     setError(null);
     setIsPending(true);
     try {
+      logEvent(analytics, 'LOGIN_ATTEMPT_SOCIAL' , {method:'Discord'})
       const response = await signInWithCustomToken(auth, token);
       if (!response) {
         throw new Error("Could not complete signin");
@@ -108,6 +113,7 @@ export const useFireBaseLogin = () => {
       //dispatch action to set user state
       if (response.user) {
         const isProfileSet = await setUerDetails(response.user);
+        logEvent(analytics, 'LOGIN_SUCCESS_SOCIAL' , {method:'Discord',user:response.user.uid,newUser:!isProfileSet})
         dispatch(
           setLoggedInUser({
             user: response.user,
@@ -190,6 +196,7 @@ export const useFireBaseLogin = () => {
       if (response) {
         const { user: userDetails } = response;
         const isProfileSet = await setUerDetails(userDetails);
+        logEvent(analytics, 'LOGIN_SUCCESS_SOCIAL' , {method:'gmail/twitter',user:userDetails.uid,newUser:!isProfileSet})
         dispatch(
           setLoggedInUser({
             user: userDetails,

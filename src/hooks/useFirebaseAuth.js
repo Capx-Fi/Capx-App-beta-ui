@@ -1,5 +1,5 @@
 import { onAuthStateChanged, onIdTokenChanged } from "firebase/auth";
-import { auth, db } from "../firebase/firebase";
+import { auth, db, analytics } from "../firebase/firebase";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { setAccessToken, setAuthStatus } from "./../store/slices/authSlice";
@@ -13,6 +13,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import { logEvent,setUserProperties } from "firebase/analytics";
 
 export const useFireBaseAuth = () => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ export const useFireBaseAuth = () => {
     const unsub = onAuthStateChanged(auth, async (user) => {
       //dispatch auth is ready redux change
       if (user) {
+        setUserProperties(analytics, {user : user.uid })
         try {
           const tokenDetails = auth.currentUser.getIdTokenResult();
           console.log("token detauls",tokenDetails);
@@ -50,8 +52,10 @@ export const useFireBaseAuth = () => {
                 });
               });
             }
+            logEvent(analytics, 'USER_SESSION_SET_PROFILE', {user:user.uid})
             dispatch(setUser({ ...docSnap.data(), userQuest: quests }));
           }
+          logEvent(analytics, 'USER_SESSION_SET_WITHOUT_PROFILE', {user:user.uid})
           dispatch(
             setAuthStatus({
               isAuthReady: true,
@@ -90,6 +94,7 @@ export const useFireBaseAuth = () => {
 
     onIdTokenChanged(auth, async (user) => {
       if (user) {
+        setUserProperties(analytics, {user : user.uid })
         dispatch(setAccessToken(user.stsTokenManager.accessToken));
       }
     });

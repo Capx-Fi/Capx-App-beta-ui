@@ -5,6 +5,8 @@ import { useDispatch } from "react-redux";
 import { logoutUser } from "../store/slices/authSlice";
 import { resetUser } from "../store/slices/userSlice";
 import { resetQuestData } from "../store/slices/questSlice";
+import { analytics } from "../firebase/firebase";
+import { logEvent } from "firebase/analytics";
 
 export const useFireBaseLogout = () => {
   const [isCancelled, setIsCancelled] = useState(false);
@@ -16,6 +18,7 @@ export const useFireBaseLogout = () => {
   const signOutUser = async () => {
     setError(null);
     setIsPending(false);
+    logEvent(analytics, 'LOGOUT_SUCCESS' , {user:auth.currentUser.uid})
     try {
       const response = await signOut(auth);
       if (!response) {

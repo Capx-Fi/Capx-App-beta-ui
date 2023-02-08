@@ -3,6 +3,8 @@ import { auth } from "../firebase/firebase";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useDispatch } from "react-redux";
 import { setLoggedInUser } from "../store/slices/authSlice";
+import { analytics } from "../firebase/firebase";
+import { logEvent } from "firebase/analytics";
 
 export const useFirebaseSignup = () => {
   const [isCancelled, setIsCancelled] = useState(false);
@@ -15,6 +17,7 @@ export const useFirebaseSignup = () => {
     setIsPending(true);
     setIsSuccess(false);
     try {
+      logEvent(analytics, 'SIGNUP_ATTEMPT_EMAIL' , {email})
       const response = await createUserWithEmailAndPassword(
         auth,
         email,
@@ -23,6 +26,7 @@ export const useFirebaseSignup = () => {
       if (!response) {
         throw new Error("Could not complete signup");
       }
+      logEvent(analytics, 'SIGNUP_SUCCESS_EMAIL' , {email,user:response.user.uid,newUser:false})
       dispatch(
         setLoggedInUser({ user: response.user, isUserProfileSet: false })
       );

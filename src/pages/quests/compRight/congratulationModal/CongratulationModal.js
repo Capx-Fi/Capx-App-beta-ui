@@ -4,7 +4,6 @@ import SuccessCoinLottie from "../../../../assets/lottie/SuccessCoinsAnimation.j
 import BgCongLottie from "../../../../assets/lottie/ConfettiAnimation.json";
 import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
-import { useNavigate } from "react-router-dom";
 
 const CongratulationModal = ({ open, leftButton, rightButton, modalText }) => {
   const cancelButtonRef = useRef(null);

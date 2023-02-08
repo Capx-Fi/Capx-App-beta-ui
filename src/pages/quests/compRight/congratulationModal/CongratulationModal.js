@@ -6,9 +6,8 @@ import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
 import { useNavigate } from "react-router-dom";
 
-const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
+const CongratulationModal = ({ open, leftButton, rightButton, modalText }) => {
   const cancelButtonRef = useRef(null);
-  const navigate = useNavigate();
 
   const defaultOptions = {
     loop: true,
@@ -70,25 +69,23 @@ const CongratulationModal = ({ open, handleClose, rewards, nextQuestFunc }) => {
                   Congratulations!
                 </h3>
                 <p className="dialog-text mb-3">
-                  You have earned {rewards} xCapx tokens as reward for
-                  successfully completing the quest
+                  {/* You have earned {rewards} xCapx tokens as reward for
+                  successfully completing the quest */}
+                  {modalText}
                 </p>
                 <div className="dialog-buttons flex justify-between">
                   <button
                     className="btn-outline outlined-effect flex items-center"
-                    onClick={nextQuestFunc}
+                    onClick={leftButton.handler}
                   >
-                    <span> Next Quest</span>
+                    <span>{leftButton.text}</span>
                     <HiArrowRight className="text-xl ml-3" />
                   </button>
                   <button
-                    onClick={(e) => {
-                      e.preventDefault();
-                      navigate("/");
-                    }}
+                    onClick={rightButton.handler}
                     className="btn-contained bg-gredient-2 contained-effect flex items-center"
                   >
-                    <span>Go To Home</span>
+                    <span>{rightButton.text}</span>
                     <HiArrowRight className="text-xl ml-3" />
                   </button>
                 </div>

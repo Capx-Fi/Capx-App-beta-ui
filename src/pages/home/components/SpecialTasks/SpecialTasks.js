@@ -141,7 +141,7 @@ const SpecialTasks = ({ quests }) => {
                 >
                   <div
                     className={`wrapper flex flex-col items-stretch rounded-xl p-3 gap-3 ${
-                      data.task_no == 14 ? "og-card" : ""
+                      data.quest_category === "OG_Invite_Code" ? "og-card" : ""
                     }`}
                   >
                     <div className="img-box rounded-xl overflow-hidden">

@@ -567,7 +567,7 @@ const AnswerQuiz = () => {
           }
         } else if (showClaimScreen && !isPending && !reFetchInProgress) {
           if (apiData.result.success === true) {
-            logEvent(analytics, "QUEST_ACTION_COMPLETE_SUCCESS", {
+            logEvent(analytics, "QUEST_CLAIM_COMPLETE_SUCCESS", {
               questOrderId: routeParams.questID,
               questType: questData.quest_category,
               user: auth.uid,

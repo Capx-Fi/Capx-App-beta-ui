@@ -23,7 +23,7 @@ import {
 } from "firebase/firestore";
 import { async } from "@firebase/util";
 import { analytics } from "../firebase/firebase";
-import { logEvent } from "firebase/analytics";
+import { logEvent, setUserId } from "firebase/analytics";
 
 export const useFireBaseLogin = () => {
   const dispatch = useDispatch();
@@ -43,6 +43,7 @@ export const useFireBaseLogin = () => {
       //dispatch action to set user state
       if (response.user) {
         const isProfileSet = await setUerDetails(response.user);
+        setUserId(analytics, {userId :response.user.uid })
         logEvent(analytics, 'LOGIN_SUCCESS_EMAIL' , {email,user:response.user.uid,newUser:!isProfileSet})
         dispatch(
           setLoggedInUser({
@@ -113,6 +114,7 @@ export const useFireBaseLogin = () => {
       }
       //dispatch action to set user state
       if (response.user) {
+        setUserId(analytics, {userId :response.user.uid })
         const isProfileSet = await setUerDetails(response.user);
         logEvent(analytics, 'LOGIN_SUCCESS_SOCIAL' , {method:'Discord',user:response.user.uid,newUser:!isProfileSet})
         dispatch(
@@ -197,6 +199,7 @@ export const useFireBaseLogin = () => {
       if (response) {
         const { user: userDetails } = response;
         const isProfileSet = await setUerDetails(userDetails);
+        setUserId(analytics, {userId :response.user.uid })
         logEvent(analytics, 'LOGIN_SUCCESS_SOCIAL' , {method:'gmail/twitter',user:userDetails.uid,newUser:!isProfileSet})
         dispatch(
           setLoggedInUser({

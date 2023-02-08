@@ -1,4 +1,31 @@
 .my-wallet {
+  .streak-wrapper {
+    flex-wrap: wrap;
+    .streak {
+      width: 82px;
+      border-radius: 20px;
+      padding: 9px;
+      font-weight: 900;
+      font-size: 13px;
+      line-height: 21px;
+      letter-spacing: -0.25px;
+      border: 2px solid transparent;
+      .check-img {
+        width: 19px;
+      }
+      span {
+        height: 19px;
+      }
+      .fire-img {
+        position: absolute;
+        top: -5%;
+        right: -5%;
+      }
+    }
+    .current-streak {
+      border: 2px solid #b4e6c0;
+    }
+  }
   .heading {
     border-bottom: 2px solid #c3ebcc;
     h3 {

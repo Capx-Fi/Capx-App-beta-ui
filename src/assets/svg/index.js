@@ -46,8 +46,14 @@ import TopUser2 from "./TopUser2.svg";
 import TopUser3 from "./TopUser3.svg";
 import TaskListIcon from "./TaskListIcon.svg";
 import ContainedCheckSvg from "./ContainedCheckSvg.svg";
+import StreakFireIcon from "./StreakFireIcon.svg";
+import streakCheck from "./streakCheck.svg";
+import StreakFire from "./StreakFire.svg";
 
 export {
+  StreakFire,
+  streakCheck,
+  StreakFireIcon,
   ContainedCheckSvg,
   TaskListIcon,
   TopUser1,

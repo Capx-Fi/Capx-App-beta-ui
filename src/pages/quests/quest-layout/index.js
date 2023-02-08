@@ -54,6 +54,10 @@ const AnswerQuiz = () => {
   const [actionData, setActionData] = useState(null);
   const [currentActionData, setCurrentActionData] = useState(null);
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
+  const [
+    openDailyQuestCongratulationModal,
+    setOpenDailyQuestCongratulationModal,
+  ] = useState(false);
   const [openActionCompleteModal, setOpenActionCompleteModel] = useState(false);
   const [isClaimQuest, setIsClaimQuest] = useState(false);
   const [showClaimScreen, setShowClaimScreen] = useState(false);
@@ -493,7 +497,7 @@ const AnswerQuiz = () => {
       }
       if (actionsData.length === 0) {
         console.log("All actions completed");
-
+        console.log(data[0].quest_category, "yo boy");
         if (isClaimQuest) {
           setActionData(null);
         } else if (
@@ -520,6 +524,8 @@ const AnswerQuiz = () => {
         ) {
           setShowClaimScreen(true);
           setActionData(null);
+        } else if (data[0].quest_category === "Daily_Reward") {
+          setOpenDailyQuestCongratulationModal(true);
         } else {
           setOpenCongratulationModal(true);
         }
@@ -552,7 +558,8 @@ const AnswerQuiz = () => {
             });
             if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
-                setOpenCongratulationModal(true);
+                // setOpenCongratulationModal(true);
+                setOpenDailyQuestCongratulationModal(true);
               } else {
                 setShowClaimScreen(true);
               }
@@ -696,12 +703,35 @@ const AnswerQuiz = () => {
 
           {showProfilePage && actionData.length === 0 && <Profile />}
 
-          <CongratulationModal
-            open={openCongratulationModal}
-            handleClose={handleCongratulationModal}
-            rewards={questData?.max_rewards}
-            nextQuestFunc={nextQuestSetup}
-          />
+          {openCongratulationModal && (
+            <CongratulationModal
+              open={openCongratulationModal}
+              modalText={`You have earned ${questData?.max_rewards} xCapx tokens as reward for
+                  successfully completing the quest`}
+              leftButton={{ text: "Next Quest", handler: nextQuestSetup }}
+              rightButton={{
+                text: "Go To Home",
+                handler: handleCongratulationModal,
+              }}
+            />
+          )}
+
+          {openDailyQuestCongratulationModal && (
+            <CongratulationModal
+              open={openDailyQuestCongratulationModal}
+              modalText={`Go to your wallet to check your “daily streak” status & the rewards earned`}
+              leftButton={{
+                text: "Go To Home",
+                handler: handleCongratulationModal,
+              }}
+              rightButton={{
+                text: "Go To Wallet",
+                handler: () => {
+                  navigate("/my-wallet");
+                },
+              }}
+            />
+          )}
 
           <ActionCompleteModal
             open={openActionCompleteModal}

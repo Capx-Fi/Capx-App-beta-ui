@@ -15,8 +15,12 @@ import FirePng from "./FirePng.png";
 import LightningPng from "./LightningPng.png";
 import CoinsPng from "./CoinsPng.png";
 import AnnouncePng from "./AnnouncePng.png";
+import streakCheck from "./streakCheck.png";
+import StreakFire from "./StreakFire.png";
 
 export {
+  StreakFire,
+  streakCheck,
   AnnouncePng,
   CoinsPng,
   LightningPng,

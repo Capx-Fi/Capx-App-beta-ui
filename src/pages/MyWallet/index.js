@@ -2,13 +2,8 @@ import React, { useState } from "react";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { WalletSplash } from "../../assets/images";
-import {
-  TaskListIcon,
-  StreakFireIcon,
-  streakCheck,
-  StreakFire,
-} from "../../assets/svg";
+import { streakCheck, WalletSplash, StreakFire } from "../../assets/images";
+import { TaskListIcon, StreakFireIcon } from "../../assets/svg";
 import AlertModal from "../../components/alertModal/AlertModal";
 import { config } from "../../config";
 import { useApi } from "../../hooks/useApi";

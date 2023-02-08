@@ -9,6 +9,8 @@ import { useApi } from "../../../../hooks/useApi";
 import { setQuestOrderId } from "../../../../store/slices/questSlice";
 import { config } from "../../../../config";
 import TopLoader from "../../../../components/topLoader/TopLoader";
+import { analytics } from "../../../../firebase/firebase";
+import { logEvent } from "firebase/analytics";
 
 const SpecialTasks = ({ quests }) => {
   const dailytaskdata = [...quests];
@@ -22,11 +24,20 @@ const SpecialTasks = ({ quests }) => {
 
   const handleClick = (e, quest) => {
     e.preventDefault();
-    setQuestId(questId);
+    setQuestId(quest.id);
     if (quest.status === "new") {
+      logEvent(analytics, "QUEST_REGISTRATION_ATTEMPT", {
+        questID: quest.id,
+        user: auth.uid,
+      });
       const apiDataObject = { data: { questId: quest.id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
+      logEvent(analytics, "QUEST_RESUME", {
+        questID: quest.id,
+        user: auth.uid,
+        questOrderId: quest.id + "|" + auth.uid,
+      });
       dispatch(setQuestOrderId({ questId: quest.id + "|" + auth.uid }));
       navigate(`/quest/${quest.id + "|" + auth.uid}`);
     }
@@ -34,6 +45,11 @@ const SpecialTasks = ({ quests }) => {
 
   useEffect(() => {
     if (data && data.result.success && data.result.success === true) {
+      logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
+        questID: questId,
+        user: auth.uid,
+        questOrderId: data.result.quest_order_id,
+      });
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate(`/quest/${data.result.quest_order_id}`);
     } else if (
@@ -44,6 +60,11 @@ const SpecialTasks = ({ quests }) => {
         data.result.quest_status === "CLAIMED" ||
         data.result.quest_status === "COMPLETED")
     ) {
+      logEvent(analytics, "QUEST_RESUME", {
+        questID: questId,
+        user: auth.uid,
+        questOrderId: data.result.quest_order_id,
+      });
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate(`/quest/${data.result.quest_order_id}`);
     }
@@ -115,10 +136,14 @@ const SpecialTasks = ({ quests }) => {
                     handleClick(e, data);
                   }}
                   key={"unique" + ind}
-                  className="specialcards-main flex pr-5"
+                  className={`specialcards-main flex pr-5 `}
                   style={{ cursor: "pointer" }}
                 >
-                  <div className="wrapper flex flex-col items-stretch rounded-xl p-3 gap-3">
+                  <div
+                    className={`wrapper flex flex-col items-stretch rounded-xl p-3 gap-3 ${
+                      data.task_no == 14 ? "og-card" : ""
+                    }`}
+                  >
                     <div className="img-box rounded-xl overflow-hidden">
                       <img
                         className="w-full card-img"
@@ -129,19 +154,23 @@ const SpecialTasks = ({ quests }) => {
                         }
                         alt="invite"
                       />
-                      <div className="card-chip md:hidden flex items-center">
-                        <img src={CardCoinIcon} alt="coin" />
-                        <span>{data.taskreward + " xCapx"}</span>
-                      </div>
+                      {data.taskreward > 0 && (
+                        <div className="card-chip md:hidden flex items-center">
+                          <img src={CardCoinIcon} alt="coin" />
+                          <span>{data.taskreward + " xCapx"}</span>
+                        </div>
+                      )}
                     </div>
                     <div className="flex items-center justify-between">
                       <p className="card-title">{data.tasktitle}</p>
-                      <div className="card-chip md:flex hidden items-center ml-10">
-                        <img src={CardCoinIcon} alt="coin" />
-                        <span className="ml-1">
-                          {data.taskreward + " xCapx"}
-                        </span>
-                      </div>
+                      {data.taskreward > 0 && (
+                        <div className="card-chip md:flex hidden items-center ml-10">
+                          <img src={CardCoinIcon} alt="coin" />
+                          <span className="ml-1">
+                            {data.taskreward + " xCapx"}
+                          </span>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>

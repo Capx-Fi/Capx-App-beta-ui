@@ -34,12 +34,12 @@ const DailyRewards = ({ actionData }) => {
           {actionDetails?.action_order_title}
         </p>
         <div className="reward-wrapper-outer flex flex-col p-4 w-full border-2 rounded-3xl gap-6">
-          <div className="reward-wrapper md:py-5 py-3 rounded-3xl flex flex-row items-center justify-center">
+          {/* <div className="reward-wrapper md:py-5 py-3 rounded-3xl flex flex-row items-center justify-center">
             <img src={CoinSvg} alt="coin" className="w-10" />
             <p className="text-white ml-4 text-cgreen-700 fs-22 font-bold">
               1 xCapx
             </p>
-          </div>
+          </div> */}
           <button
             className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full"
             onClick={handleCompleteAction}

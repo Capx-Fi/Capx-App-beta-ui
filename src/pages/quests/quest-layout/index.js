@@ -3,6 +3,8 @@ import Banner from "../banner";
 import QuestLeft from "../compLeft";
 import QuestDescription from "../compLeft/description/description.js";
 import Modal from "../../../components/Modal/Modal";
+import { analytics } from "../../../firebase/firebase";
+import { logEvent } from "firebase/analytics";
 
 // Day 01 Quest Imports ---------------------------------------------------------
 
@@ -38,16 +40,24 @@ import TopLoader from "../../../components/topLoader/TopLoader";
 import CapxBlog from "../compRight/capxBlog/CapxBlog";
 import WriteArticle from "../compRight/writeArticle/WriteArticle1";
 import WriteArticle2 from "../compRight/writeArticle/WriteArticle2";
+import WeeklyFeedback from "../compRight/weeklyFeedback/WeeklyFeedback";
 
 const AnswerQuiz = () => {
   const routeParams = useParams();
   const auth = useSelector((state) => state.auth.user);
+  const userData = useSelector((state) => state.user);
   const allQuestData = useSelector((state) => state.quest.allQuests);
   // const questOrderId = useSelector((state) => state.quest.currentQuest.questId);
   const [url, setUrl] = useState(config.API_URL);
   const [questData, setQuestData] = useState(null);
+  const [questID, setQuestID] = useState(null);
   const [actionData, setActionData] = useState(null);
+  const [currentActionData, setCurrentActionData] = useState(null);
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
+  const [
+    openDailyQuestCongratulationModal,
+    setOpenDailyQuestCongratulationModal,
+  ] = useState(false);
   const [openActionCompleteModal, setOpenActionCompleteModel] = useState(false);
   const [isClaimQuest, setIsClaimQuest] = useState(false);
   const [showClaimScreen, setShowClaimScreen] = useState(false);
@@ -93,21 +103,34 @@ const AnswerQuiz = () => {
 
   const nextQuestSetup = () => {
     const newQuestData = allQuestData.filter((val) => {
-      return val.status === "new" && val.id !== questData.quest_id;
+      if (val.status === "new" && val.id !== questData.quest_id) {
+        if (val.allowed_users.length > 0) {
+          return val.allowed_users.includes(userData.username);
+        } else {
+          return true;
+        }
+      } else {
+        return false;
+      }
     });
     if (newQuestData.length > 0) {
+      setQuestID(newQuestData[0].id);
       setReFetchInProgress(true);
       setOpenCongratulationModal(false);
       setShowClaimScreen(false);
       setShowActionClaim(false);
       setIsClaimQuest(false);
+      logEvent(analytics, "QUEST_REGISTRATION_ATTEMPT", {
+        questID: newQuestData[0].id,
+        user: auth.uid,
+      });
       const apiDataObject = { data: { questId: newQuestData[0].id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
       navigate("/");
     }
   };
-  console.log(actionData);
+
   const renderActionComponent = () => {
     if (actionData && questData) {
       switch (actionData.action_order_type) {
@@ -208,6 +231,15 @@ const AnswerQuiz = () => {
               }}
             />
           );
+        case "Generate_OG_Invite_Code":
+          return (
+            <GenCodeStep1
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+              }}
+            />
+          );
         case "Share_Invite_Code":
           return (
             <GenCodeStep2
@@ -257,6 +289,16 @@ const AnswerQuiz = () => {
               }}
             />
           );
+        case "FeedbackForm":
+          return (
+            <WeeklyFeedback
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
         default:
           return <p>No data</p>;
       }
@@ -269,11 +311,22 @@ const AnswerQuiz = () => {
 
   const claimRewardHandler = () => {
     if (questData?.quest_category !== "Build_Profile") {
+      logEvent(analytics, "QUEST_CLAIM_ATTEMPT", {
+        questOrderId: routeParams.questID,
+        questType: questData.quest_category,
+        user: auth.uid,
+      });
       let apiDataObject = {
         data: { quest_order_id: routeParams.questID },
       };
       postData(apiDataObject, "/claimReward");
     } else if (questData?.quest_category === "Build_Profile") {
+      logEvent(analytics, "QUEST_ACTION_CLAIM_ATTEMPT", {
+        questOrderId: routeParams.questID,
+        questType: questData.quest_category,
+        user: auth.uid,
+        action_order_id: actionData.action_order_id,
+      });
       let apiDataObject = {
         data: { action_order_id: actionData.action_order_id },
       };
@@ -287,6 +340,18 @@ const AnswerQuiz = () => {
       e.preventDefault();
     }
     let apiDataObject;
+    logEvent(analytics, "QUEST_ACTION_COMPLETE_ATTEMPT", {
+      questOrderId: routeParams.questID,
+      questType: questData.quest_category,
+      user: auth.uid,
+      actionType: actionData.action_order_type,
+      value:
+        input.value != null || input.value != undefined
+          ? input.value
+          : "no value",
+      action_order_id: actionData.action_order_id,
+    });
+    setCurrentActionData(actionData);
     switch (input.type) {
       case "singleQuiz": {
         apiDataObject = {
@@ -308,7 +373,7 @@ const AnswerQuiz = () => {
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
         };
-        setIsClaimQuest(true);
+
         break;
       }
       case "affiliate": {
@@ -385,6 +450,16 @@ const AnswerQuiz = () => {
         };
         break;
       }
+      case "submitFeedback": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
+            answers: input.value.answers,
+            comment: input.value.comment,
+          },
+        };
+        break;
+      }
       default:
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
@@ -405,7 +480,11 @@ const AnswerQuiz = () => {
   useEffect(() => {
     if (data) {
       setQuestData(data[0]);
-
+      logEvent(analytics, "QUEST_OPENED", {
+        questOrderId: routeParams.questID,
+        questType: data[0].quest_category,
+        user: auth.uid,
+      });
       let actionsData = [];
       if (data[0].quest_category === "Daily_Reward") {
         actionsData = Object.values(data[0].actions).filter((val) => {
@@ -416,9 +495,9 @@ const AnswerQuiz = () => {
           return val.is_claimed !== true;
         });
       }
-
       if (actionsData.length === 0) {
         console.log("All actions completed");
+        console.log(data[0].quest_category, "yo boy");
         if (isClaimQuest) {
           setActionData(null);
         } else if (
@@ -445,6 +524,8 @@ const AnswerQuiz = () => {
         ) {
           setShowClaimScreen(true);
           setActionData(null);
+        } else if (data[0].quest_category === "Daily_Reward") {
+          setOpenDailyQuestCongratulationModal(true);
         } else {
           setOpenCongratulationModal(true);
         }
@@ -468,9 +549,17 @@ const AnswerQuiz = () => {
       if (apiData && !isError) {
         if (!showClaimScreen && !showActionClaim && !reFetchInProgress) {
           if (apiData.result.success === true) {
+            logEvent(analytics, "QUEST_ACTION_COMPLETE_SUCCESS", {
+              questOrderId: routeParams.questID,
+              questType: questData.quest_category,
+              user: auth.uid,
+              actionType: currentActionData.action_order_type,
+              action_order_id: currentActionData.action_order_id,
+            });
             if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
-                setOpenCongratulationModal(true);
+                // setOpenCongratulationModal(true);
+                setOpenDailyQuestCongratulationModal(true);
               } else {
                 setShowClaimScreen(true);
               }
@@ -478,14 +567,35 @@ const AnswerQuiz = () => {
           }
         } else if (showClaimScreen && !isPending && !reFetchInProgress) {
           if (apiData.result.success === true) {
-            setOpenCongratulationModal(true);
+            logEvent(analytics, "QUEST_CLAIM_COMPLETE_SUCCESS", {
+              questOrderId: routeParams.questID,
+              questType: questData.quest_category,
+              user: auth.uid,
+              actionType: currentActionData.action_order_type,
+              action_order_id: currentActionData.action_order_id,
+            });
+            if (questData.quest_category !== "Feedback") {
+              setOpenCongratulationModal(true);
+            }
           }
         } else if (showActionClaim && !isPending && !reFetchInProgress) {
+          logEvent(analytics, "QUEST_ACTION_COMPLETE_SUCCESS", {
+            questOrderId: routeParams.questID,
+            questType: questData.quest_category,
+            user: auth.uid,
+            actionType: currentActionData.action_order_type,
+            action_order_id: currentActionData.action_order_id,
+          });
           if (apiData.result.success === true) {
             setOpenActionCompleteModel(true);
           }
         } else if (reFetchInProgress) {
           if (apiData.result.success === true) {
+            logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
+              questID: questID,
+              user: auth.uid,
+              questOrder: apiData.result.quest_order_id,
+            });
             dispatch(
               setQuestOrderId({ questId: apiData.result.quest_order_id })
             );
@@ -593,12 +703,35 @@ const AnswerQuiz = () => {
 
           {showProfilePage && actionData.length === 0 && <Profile />}
 
-          <CongratulationModal
-            open={openCongratulationModal}
-            handleClose={handleCongratulationModal}
-            rewards={questData?.max_rewards}
-            nextQuestFunc={nextQuestSetup}
-          />
+          {openCongratulationModal && (
+            <CongratulationModal
+              open={openCongratulationModal}
+              modalText={`You have earned ${questData?.max_rewards} xCapx tokens as reward for
+                  successfully completing the quest`}
+              leftButton={{ text: "Next Quest", handler: nextQuestSetup }}
+              rightButton={{
+                text: "Go To Home",
+                handler: handleCongratulationModal,
+              }}
+            />
+          )}
+
+          {openDailyQuestCongratulationModal && (
+            <CongratulationModal
+              open={openDailyQuestCongratulationModal}
+              modalText={`Go to your wallet to check your “daily streak” status & the rewards earned`}
+              leftButton={{
+                text: "Go To Home",
+                handler: handleCongratulationModal,
+              }}
+              rightButton={{
+                text: "Go To Wallet",
+                handler: () => {
+                  navigate("/my-wallet");
+                },
+              }}
+            />
+          )}
 
           <ActionCompleteModal
             open={openActionCompleteModal}

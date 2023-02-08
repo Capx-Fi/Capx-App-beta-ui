@@ -4,17 +4,8 @@ import InstagramIcon from "./Instagram.svg";
 import WhatsappIcon from "./Whatsapp.svg";
 import GoogleIcon from "./google.svg";
 import DiscordIcon from "./discord.svg";
-import OnboardSvg from "./OnboardSvg.svg";
-import GetStatedSvg from "./GetStatedSvg.svg";
-import GetStatedSvg2 from "./GetStatedSvg2.svg";
 import StepChecked from "./stepChecked.svg";
-import DxSignupSticker from "./dxSignupSticker.svg";
-import MobDxStocker from "./mobDxStocker.svg";
-import CreateunameSticker from "./createunameSticker.svg";
-import CreateunameStickermMob from "./createunameStickermMob.svg";
-import InviteCodeSideSticker from "./inviteCodeSideSticker.svg";
 import CongratulationSvg from "./congratulationSvg.svg";
-import InvitecodeStickerMob from "./invitecodeStickerMob.svg";
 import BrandLogoSvg from "./BrandLogo.svg";
 import HomeIconSvg from "./homeIcon.svg";
 import ProfileIconSvg from "./profileIcon.svg";
@@ -55,8 +46,10 @@ import TopUser2 from "./TopUser2.svg";
 import TopUser3 from "./TopUser3.svg";
 import TaskListIcon from "./TaskListIcon.svg";
 import ContainedCheckSvg from "./ContainedCheckSvg.svg";
+import StreakFireIcon from "./StreakFireIcon.svg";
 
 export {
+  StreakFireIcon,
   ContainedCheckSvg,
   TaskListIcon,
   TopUser1,
@@ -100,17 +93,8 @@ export {
   TwitterIcon,
   GoogleIcon,
   DiscordIcon,
-  OnboardSvg,
-  GetStatedSvg,
-  GetStatedSvg2,
   StepChecked,
-  DxSignupSticker,
-  MobDxStocker,
-  CreateunameSticker,
-  CreateunameStickermMob,
-  InviteCodeSideSticker,
   CongratulationSvg,
-  InvitecodeStickerMob,
   BrandLogoSvg,
   HomeIconSvg,
   Logout,

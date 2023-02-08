@@ -2,7 +2,6 @@ import OnboardImg from "./onboardImg.png";
 import GetStatedImg from "./getstartImg.png";
 import FrontPandaImg from "./frontPanda.png";
 import RightPandaImg from "./rightPanda.png";
-import OnboardMobBg from "./onboardMobBg.png";
 import GetstartImg2 from "./getstartImg2.png";
 import InviteFriends from "./InviteFriends.png";
 import DailyRewardPng from "./DailyReward.png";
@@ -16,8 +15,12 @@ import FirePng from "./FirePng.png";
 import LightningPng from "./LightningPng.png";
 import CoinsPng from "./CoinsPng.png";
 import AnnouncePng from "./AnnouncePng.png";
+import streakCheck from "./streakCheck.png";
+import StreakFire from "./StreakFire.png";
 
 export {
+  StreakFire,
+  streakCheck,
   AnnouncePng,
   CoinsPng,
   LightningPng,
@@ -34,6 +37,5 @@ export {
   GetStatedImg,
   FrontPandaImg,
   RightPandaImg,
-  OnboardMobBg,
   GetstartImg2,
 };

@@ -1,0 +1,12 @@
+.weekly-feedback {
+  .comment-box {
+    textarea {
+      background-color: transparent;
+      resize: none;
+      line-height: 20px;
+      &:focus-visible {
+        outline: none;
+      }
+    }
+  }
+}

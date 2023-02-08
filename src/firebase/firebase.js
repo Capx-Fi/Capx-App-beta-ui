@@ -3,6 +3,8 @@ import { config } from "../config.js";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage";
+import { getAnalytics } from "firebase/analytics";
+
 
 //initialize firebase config
 const firebaseConfig = {
@@ -26,4 +28,6 @@ const storage = getStorage();
 //init auth
 const auth = getAuth();
 
-export { db, auth, storage };
+const analytics = getAnalytics();
+
+export { db, auth, storage, analytics };

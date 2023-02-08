@@ -13,6 +13,9 @@ import Skeleton from "./components/skeleton/Skeleton";
 import { DailyRewardPanda } from "../../assets/images";
 import { useApi } from "../../hooks/useApi";
 import { useNavigate } from "react-router-dom";
+import { analytics } from "../../firebase/firebase";
+import { logEvent } from "firebase/analytics";
+import CongratulationModal from "../quests/compRight/congratulationModal/CongratulationModal";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -20,6 +23,7 @@ const Home = () => {
   const [dailyReward, setDailyReward] = useState([]);
   const [prevQuests, setPrevQuests] = useState([]);
   const [specialQuests, setSpecialQuests] = useState([]);
+  const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
@@ -31,7 +35,7 @@ const Home = () => {
     data: Apidata,
   } = useApi(config.API_URL, "POST");
 
-  const { data, error, isPending } = useFirestoreCollection(
+  const { data, error, isPending, reFetchData } = useFirestoreCollection(
     `${config.ORG_COLLECTION}/${config.ORG_ID}/${config.ORG_QUEST_COLLECTION}`,
     ["__name__", "==", "quest_agg_1"]
   );
@@ -42,6 +46,8 @@ const Home = () => {
       let result = [];
       Object.keys(data[0].quests).forEach((val) => {
         const dataObject = {
+          allowed_users: questData.quests[val].allowed_users,
+          quest_category: questData.quests[val].quest_category,
           task_no: val.split("=")[1].split("_")[1],
           id: val,
           tasktitle: questData.quests[val].title,
@@ -84,34 +90,57 @@ const Home = () => {
       setDailyQuests(
         result
           .filter((val) => {
-            return (
-              // val.taskCategory.toLowerCase() === "dailyreward" ||
+            if (
               val.created_on === todaysDate &&
               val.taskCategory.toLowerCase() !== "special" &&
               val.status === "new" &&
               val.taskCategory.toLowerCase() !== "dailyreward"
-            );
+            ) {
+              if (val.allowed_users.length > 0) {
+                return val.allowed_users.includes(user.username);
+              } else {
+                return true;
+              }
+            } else {
+              return false;
+            }
           })
           .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       setSpecialQuests(
         result
           .filter((val) => {
-            return val.taskCategory.toLowerCase() === "special";
+            if (val.taskCategory.toLowerCase() === "special") {
+              if (val.allowed_users.length > 0) {
+                return val.allowed_users.includes(user.username);
+              } else {
+                return true;
+              }
+            } else {
+              return false;
+            }
           })
           .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
       setPrevQuests(
         result
           .filter((val) => {
-            return (
+            if (
               (val.created_on !== todaysDate ||
                 val.status === "IN_PROGRESS" ||
                 val.status === "REGISTERED" ||
                 val.status === "COMPLETED") &&
               val.status !== "CLAIMED" &&
               val.taskCategory.toLowerCase() === "normal"
-            );
+            ) {
+              if (val.allowed_users.length > 0) {
+                return val.allowed_users.includes(user.username);
+              } else {
+                return true;
+              }
+            } else {
+              return false;
+            }
           })
           .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
@@ -143,34 +172,83 @@ const Home = () => {
   const handleClaimDailyReward = (e) => {
     e.preventDefault();
     if (dailyReward[0].status === "new") {
+      logEvent(analytics, "QUEST_REGISTRATION_ATTEMPT", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+      });
+      logEvent(analytics, "QUEST_REGISTRATION_DAILY_REWARD_ATTEMPT", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+      });
       const apiDataObject = { data: { questId: dailyReward[0].id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
+      logEvent(analytics, "QUEST_RESUME", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: dailyReward[0].id + "|" + auth.uid,
+      });
+      logEvent(analytics, "QUEST_DAILY_REWARD_RESUME", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: dailyReward[0].id + "|" + auth.uid,
+      });
       dispatch(
         setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
       );
-      navigate(`/quest/${dailyReward[0].id + "|" + auth.uid}`);
+      const apiDataObject = {
+        data: { action_order_id: dailyReward[0].id + "|" + auth.uid + "-1" },
+      };
+      postData(apiDataObject, "/completeAction");
     }
   };
 
   useEffect(() => {
     //to-do:change succcess to success
     if (Apidata && Apidata.result.success && Apidata.result.success === true) {
-      dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
-      navigate(`/quest/${Apidata.result.quest_order_id}`);
+      if (Apidata.result.quest_order_id) {
+        logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
+          questID: dailyReward[0].id,
+          user: auth.uid,
+          questOrderId: Apidata.result.quest_order_id,
+        });
+        logEvent(analytics, "QUEST_REGISTRATION_DAILY_REWARD_SUCCESS", {
+          questID: dailyReward[0].id,
+          user: auth.uid,
+          questOrderId: Apidata.result.quest_order_id,
+        });
+
+        dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
+        navigate(`/quest/${Apidata.result.quest_order_id}`);
+      } else {
+        setOpenCongratulationModal(true);
+        reFetchData({
+          status: true,
+          data: ["__name__", "==", "quest_agg_1"],
+        });
+      }
     } else if (
       Apidata &&
       Apidata.result.success === false &&
       (Apidata.result.quest_status === "REGISTERED" ||
         Apidata.result.quest_status === "IN_PROGRESS")
     ) {
+      logEvent(analytics, "QUEST_RESUME", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: Apidata.result.quest_order_id,
+      });
+      logEvent(analytics, "QUEST_DAILY_REWARD_RESUME", {
+        questID: dailyReward[0].id,
+        user: auth.uid,
+        questOrderId: Apidata.result.quest_order_id,
+      });
       dispatch(
         setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
       );
       navigate(`/quest/${Apidata.result.quest_order_id}`);
     }
   }, [Apidata]);
-
 
   return (
     <div
@@ -237,11 +315,29 @@ const Home = () => {
           <p className="ml-2">
             Claim your
             <br />
-            Daily Reward!
+            Daily Streak!
           </p>
         </button>
       )}
-
+      {openCongratulationModal && (
+        <CongratulationModal
+          open={openCongratulationModal}
+          modalText={`Go to your wallet to check your “daily streak” status & the rewards earned`}
+          leftButton={{
+            text: "Go To Home",
+            handler: () => {
+              setOpenCongratulationModal(false);
+              navigate("/");
+            },
+          }}
+          rightButton={{
+            text: "Go To Wallet",
+            handler: () => {
+              navigate("/my-wallet");
+            },
+          }}
+        />
+      )}
       {(isPending || isApiPending) && <TopLoader />}
     </div>
   );

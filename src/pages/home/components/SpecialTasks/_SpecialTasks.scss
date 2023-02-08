@@ -45,7 +45,9 @@
         font-size: 19px;
         line-height: 23px;
         letter-spacing: -0.2px;
+        padding: 7px 0;
         @media screen and (max-width: 767.98px) {
+          padding: unset;
           font-size: 14px;
           line-height: 18px;
         }
@@ -64,6 +66,15 @@
         }
       }
     }
+  }
+
+  .og-card {
+    background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 0.08),
+        rgba(255, 255, 255, 0.08)
+      ),
+      linear-gradient(180deg, #df9df6 0%, #b26edc 42.39%, #c25ee5 100%) !important;
   }
   .slick-track {
     margin-right: initial;

@@ -15,6 +15,7 @@ import { useApi } from "../../hooks/useApi";
 import { useNavigate } from "react-router-dom";
 import { analytics } from "../../firebase/firebase";
 import { logEvent } from "firebase/analytics";
+import CongratulationModal from "../quests/compRight/congratulationModal/CongratulationModal";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Home = () => {
   const [dailyReward, setDailyReward] = useState([]);
   const [prevQuests, setPrevQuests] = useState([]);
   const [specialQuests, setSpecialQuests] = useState([]);
+  const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
@@ -33,7 +35,7 @@ const Home = () => {
     data: Apidata,
   } = useApi(config.API_URL, "POST");
 
-  const { data, error, isPending } = useFirestoreCollection(
+  const { data, error, isPending, reFetchData } = useFirestoreCollection(
     `${config.ORG_COLLECTION}/${config.ORG_ID}/${config.ORG_QUEST_COLLECTION}`,
     ["__name__", "==", "quest_agg_1"]
   );
@@ -194,25 +196,37 @@ const Home = () => {
       dispatch(
         setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
       );
-      navigate(`/quest/${dailyReward[0].id + "|" + auth.uid}`);
+      const apiDataObject = {
+        data: { action_order_id: dailyReward[0].id + "|" + auth.uid + "-1" },
+      };
+      postData(apiDataObject, "/completeAction");
     }
   };
 
   useEffect(() => {
     //to-do:change succcess to success
     if (Apidata && Apidata.result.success && Apidata.result.success === true) {
-      logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
-        questID: dailyReward[0].id,
-        user: auth.uid,
-        questOrderId: Apidata.result.quest_order_id,
-      });
-      logEvent(analytics, "QUEST_REGISTRATION_DAILY_REWARD_SUCCESS", {
-        questID: dailyReward[0].id,
-        user: auth.uid,
-        questOrderId: Apidata.result.quest_order_id,
-      });
-      dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
-      navigate(`/quest/${Apidata.result.quest_order_id}`);
+      if (Apidata.result.quest_order_id) {
+        logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
+          questID: dailyReward[0].id,
+          user: auth.uid,
+          questOrderId: Apidata.result.quest_order_id,
+        });
+        logEvent(analytics, "QUEST_REGISTRATION_DAILY_REWARD_SUCCESS", {
+          questID: dailyReward[0].id,
+          user: auth.uid,
+          questOrderId: Apidata.result.quest_order_id,
+        });
+
+        dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
+        navigate(`/quest/${Apidata.result.quest_order_id}`);
+      } else {
+        setOpenCongratulationModal(true);
+        reFetchData({
+          status: true,
+          data: ["__name__", "==", "quest_agg_1"],
+        });
+      }
     } else if (
       Apidata &&
       Apidata.result.success === false &&
@@ -301,11 +315,29 @@ const Home = () => {
           <p className="ml-2">
             Claim your
             <br />
-            Daily Reward!
+            Daily Streak!
           </p>
         </button>
       )}
-
+      {openCongratulationModal && (
+        <CongratulationModal
+          open={openCongratulationModal}
+          modalText={`Go to your wallet to check your “daily streak” status & the rewards earned`}
+          leftButton={{
+            text: "Go To Home",
+            handler: () => {
+              setOpenCongratulationModal(false);
+              navigate("/");
+            },
+          }}
+          rightButton={{
+            text: "Go To Wallet",
+            handler: () => {
+              navigate("/my-wallet");
+            },
+          }}
+        />
+      )}
       {(isPending || isApiPending) && <TopLoader />}
     </div>
   );

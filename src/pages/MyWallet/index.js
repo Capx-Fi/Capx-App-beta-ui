@@ -24,7 +24,7 @@ function MyWallet() {
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const [errorModalHeading, setErrorModalHeading] = useState("");
   const [sortedQuestsData, setSortedQuestsData] = useState([]);
-  const [streak, setStreak] = useState(1);
+  const [streak, setStreak] = useState(0);
 
   const userData = useSelector((state) => state.user);
   const navigate = useNavigate();

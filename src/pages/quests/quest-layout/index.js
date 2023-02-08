@@ -497,7 +497,6 @@ const AnswerQuiz = () => {
       }
       if (actionsData.length === 0) {
         console.log("All actions completed");
-        console.log(data[0].quest_category, "yo boy");
         if (isClaimQuest) {
           setActionData(null);
         } else if (
@@ -543,7 +542,6 @@ const AnswerQuiz = () => {
       console.log(error);
     }
   }, [data, error]);
-
   useEffect(() => {
     if (!apiIsPending) {
       if (apiData && !isError) {
@@ -558,10 +556,21 @@ const AnswerQuiz = () => {
             });
             if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
-                // setOpenCongratulationModal(true);
                 setOpenDailyQuestCongratulationModal(true);
               } else {
                 setShowClaimScreen(true);
+              }
+            } else {
+              if (
+                questData.quest_category === "OG_Invite_Code" ||
+                questData.quest_category === "Invite_Code"
+              ) {
+                setOpenCongratulationModal(true);
+              } else if (
+                questData.quest_category === "Build_Profile" &&
+                questData.status === "CLAIMED"
+              ) {
+                setOpenCongratulationModal(true);
               }
             }
           }
@@ -706,8 +715,12 @@ const AnswerQuiz = () => {
           {openCongratulationModal && (
             <CongratulationModal
               open={openCongratulationModal}
-              modalText={`You have earned ${questData?.max_rewards} xCapx tokens as reward for
-                  successfully completing the quest`}
+              modalText={
+                questData?.max_rewards == 0
+                  ? `You have successfully completed the quest. Keep learning! Keep earning!`
+                  : `You have earned ${questData?.max_rewards} xCapx tokens as reward for
+                  successfully completing the quest`
+              }
               leftButton={{ text: "Next Quest", handler: nextQuestSetup }}
               rightButton={{
                 text: "Go To Home",

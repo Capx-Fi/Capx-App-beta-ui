@@ -111,10 +111,17 @@ const Home = () => {
         result
           .filter((val) => {
             if (val.taskCategory.toLowerCase() === "special") {
-              if (val.allowed_users.length > 0) {
-                return val.allowed_users.includes(user.username);
+              if (
+                val.quest_category === "Alpha_AirDrop" &&
+                val.status === "CLAIMED"
+              ) {
+                return false;
               } else {
-                return true;
+                if (val.allowed_users.length > 0) {
+                  return val.allowed_users.includes(user.username);
+                } else {
+                  return true;
+                }
               }
             } else {
               return false;

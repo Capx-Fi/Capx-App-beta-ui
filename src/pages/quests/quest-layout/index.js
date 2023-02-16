@@ -41,6 +41,7 @@ import CapxBlog from "../compRight/capxBlog/CapxBlog";
 import WriteArticle from "../compRight/writeArticle/WriteArticle1";
 import WriteArticle2 from "../compRight/writeArticle/WriteArticle2";
 import WeeklyFeedback from "../compRight/weeklyFeedback/WeeklyFeedback";
+import AlphavDrop from "../compRight/alphaAirdrop/AlphaAirdrop";
 
 const AnswerQuiz = () => {
   const routeParams = useParams();
@@ -252,6 +253,16 @@ const AnswerQuiz = () => {
         case "Daily_Reward":
           return (
             <DailyReward
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
+        case "Alpha_AirDrop":
+          return (
+            <AlphavDrop
               actionData={{
                 ...actionData,
                 handleCompleteAction: handleCompleteAction,
@@ -563,7 +574,8 @@ const AnswerQuiz = () => {
             } else {
               if (
                 questData.quest_category === "OG_Invite_Code" ||
-                questData.quest_category === "Invite_Code"
+                questData.quest_category === "Invite_Code" ||
+                questData.quest_category === "Alpha_AirDrop"
               ) {
                 setOpenCongratulationModal(true);
               } else if (

@@ -22,7 +22,8 @@ const AlphavDrop = ({ actionData }) => {
   return (
     <div className="rewards flex flex-col gap-3">
       <p className="reward-title action-heading">
-        {actionDetails?.action_order_title}
+        {/* {actionDetails?.action_order_title} */}
+        Action #1 : Claim your Alpha Airdrop.
       </p>
       <div className="reward-wrapper-outer flex flex-col p-4 w-full border-2 rounded-3xl gap-6">
         <button

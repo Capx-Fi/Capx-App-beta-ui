@@ -24,6 +24,7 @@ const Home = () => {
   const [prevQuests, setPrevQuests] = useState([]);
   const [specialQuests, setSpecialQuests] = useState([]);
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
+  const [congratulationModalText, setCongratulationModalText] = useState("");
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
@@ -212,7 +213,10 @@ const Home = () => {
 
   useEffect(() => {
     //to-do:change succcess to success
+
+    console.log(Apidata, "Apidata");
     if (Apidata && Apidata.result.success && Apidata.result.success === true) {
+      console.log(Apidata, "Apidata");
       if (Apidata.result.quest_order_id) {
         logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
           questID: dailyReward[0].id,
@@ -228,6 +232,7 @@ const Home = () => {
         dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
         navigate(`/quest/${Apidata.result.quest_order_id}`);
       } else {
+        setCongratulationModalText(Apidata.result.message);
         setOpenCongratulationModal(true);
         reFetchData({
           status: true,
@@ -329,7 +334,7 @@ const Home = () => {
       {openCongratulationModal && (
         <CongratulationModal
           open={openCongratulationModal}
-          modalText={`Go to your wallet to check your “daily streak” status & the rewards earned`}
+          modalText={congratulationModalText}
           leftButton={{
             text: "Go To Home",
             handler: () => {

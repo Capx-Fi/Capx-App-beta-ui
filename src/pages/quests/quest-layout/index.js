@@ -59,6 +59,10 @@ const AnswerQuiz = () => {
     openDailyQuestCongratulationModal,
     setOpenDailyQuestCongratulationModal,
   ] = useState(false);
+  const [
+    dailyQuestCongratulationsModalText,
+    setDailyQuestCongratulationsModalText,
+  ] = useState("");
   const [openActionCompleteModal, setOpenActionCompleteModel] = useState(false);
   const [isClaimQuest, setIsClaimQuest] = useState(false);
   const [showClaimScreen, setShowClaimScreen] = useState(false);
@@ -535,6 +539,7 @@ const AnswerQuiz = () => {
           setShowClaimScreen(true);
           setActionData(null);
         } else if (data[0].quest_category === "Daily_Reward") {
+          setDailyQuestCongratulationsModalText(apiData?.result.message);
           setOpenDailyQuestCongratulationModal(true);
         } else {
           setOpenCongratulationModal(true);
@@ -565,6 +570,7 @@ const AnswerQuiz = () => {
               actionType: currentActionData.action_order_type,
               action_order_id: currentActionData.action_order_id,
             });
+            setDailyQuestCongratulationsModalText(apiData?.result?.message);
             if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
                 setOpenDailyQuestCongratulationModal(true);
@@ -744,7 +750,7 @@ const AnswerQuiz = () => {
           {openDailyQuestCongratulationModal && (
             <CongratulationModal
               open={openDailyQuestCongratulationModal}
-              modalText={`Go to your wallet to check your “daily streak” status & the rewards earned`}
+              modalText={dailyQuestCongratulationsModalText}
               leftButton={{
                 text: "Go To Home",
                 handler: handleCongratulationModal,

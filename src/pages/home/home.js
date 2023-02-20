@@ -213,10 +213,7 @@ const Home = () => {
 
   useEffect(() => {
     //to-do:change succcess to success
-
-    console.log(Apidata, "Apidata");
     if (Apidata && Apidata.result.success && Apidata.result.success === true) {
-      console.log(Apidata, "Apidata");
       if (Apidata.result.quest_order_id) {
         logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
           questID: dailyReward[0].id,

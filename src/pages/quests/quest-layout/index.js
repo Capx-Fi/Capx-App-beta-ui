@@ -63,6 +63,10 @@ const AnswerQuiz = () => {
     dailyQuestCongratulationsModalText,
     setDailyQuestCongratulationsModalText,
   ] = useState("");
+  const [
+    dailyQuestCongratulationsModalHeading,
+    setDailyQuestCongratulationsModalHeading,
+  ] = useState("");
   const [openActionCompleteModal, setOpenActionCompleteModel] = useState(false);
   const [isClaimQuest, setIsClaimQuest] = useState(false);
   const [showClaimScreen, setShowClaimScreen] = useState(false);
@@ -570,7 +574,12 @@ const AnswerQuiz = () => {
               actionType: currentActionData.action_order_type,
               action_order_id: currentActionData.action_order_id,
             });
-            setDailyQuestCongratulationsModalText(apiData?.result?.message);
+            if (apiData?.result?.message.includes("|")) {
+              const modalData = apiData?.result?.message.split("|");
+              setDailyQuestCongratulationsModalHeading(modalData[0]);
+              setDailyQuestCongratulationsModalText(modalData[1]);
+            }
+
             if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
                 setOpenDailyQuestCongratulationModal(true);
@@ -750,6 +759,7 @@ const AnswerQuiz = () => {
           {openDailyQuestCongratulationModal && (
             <CongratulationModal
               open={openDailyQuestCongratulationModal}
+              heading={dailyQuestCongratulationsModalHeading}
               modalText={dailyQuestCongratulationsModalText}
               leftButton={{
                 text: "Go To Home",

@@ -25,6 +25,8 @@ const Home = () => {
   const [specialQuests, setSpecialQuests] = useState([]);
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
   const [congratulationModalText, setCongratulationModalText] = useState("");
+  const [congratulationModalHeading, setCongratulationModalHeading] =
+    useState("");
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
@@ -229,7 +231,11 @@ const Home = () => {
         dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
         navigate(`/quest/${Apidata.result.quest_order_id}`);
       } else {
-        setCongratulationModalText(Apidata.result.message);
+        if (Apidata.result.message.includes("|")) {
+          const modalData = Apidata.result.message.split("|");
+          setCongratulationModalHeading(modalData[0]);
+          setCongratulationModalText(modalData[1]);
+        }
         setOpenCongratulationModal(true);
         reFetchData({
           status: true,
@@ -331,6 +337,8 @@ const Home = () => {
       {openCongratulationModal && (
         <CongratulationModal
           open={openCongratulationModal}
+          // open={true}
+          heading={congratulationModalHeading}
           modalText={congratulationModalText}
           leftButton={{
             text: "Go To Home",

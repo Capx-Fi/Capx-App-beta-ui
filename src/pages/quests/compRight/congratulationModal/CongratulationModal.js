@@ -76,7 +76,19 @@ const CongratulationModal = ({
                 <p className="dialog-text mb-3">
                   {/* You have earned {rewards} xCapx tokens as reward for
                   successfully completing the quest */}
-                  {modalText}
+                  {modalText &&
+                    modalText.split("%").map((line, ind) => {
+                      return (
+                        <>
+                          {ind !== 0 && (
+                            <>
+                              <br />
+                            </>
+                          )}
+                          {line}
+                        </>
+                      );
+                    })}
                 </p>
                 <div className="dialog-buttons flex justify-between">
                   <button

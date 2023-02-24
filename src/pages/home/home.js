@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { analytics } from "../../firebase/firebase";
 import { logEvent } from "firebase/analytics";
 import CongratulationModal from "../quests/compRight/congratulationModal/CongratulationModal";
+import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -23,7 +24,12 @@ const Home = () => {
   const [dailyReward, setDailyReward] = useState([]);
   const [prevQuests, setPrevQuests] = useState([]);
   const [specialQuests, setSpecialQuests] = useState([]);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [errorModalHeading, setErrorModalHeading] = useState("");
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
+  const [congratulationModalText, setCongratulationModalText] = useState("");
+  const [congratulationModalHeading, setCongratulationModalHeading] =
+    useState("");
   const user = useSelector((state) => state.user);
   const auth = useSelector((state) => state.auth.user);
   const navigate = useNavigate();
@@ -228,6 +234,11 @@ const Home = () => {
         dispatch(setQuestOrderId({ questId: Apidata.result.quest_order_id }));
         navigate(`/quest/${Apidata.result.quest_order_id}`);
       } else {
+        if (Apidata.result.message.includes("|")) {
+          const modalData = Apidata.result.message.split("|");
+          setCongratulationModalHeading(modalData[0]);
+          setCongratulationModalText(modalData[1]);
+        }
         setOpenCongratulationModal(true);
         reFetchData({
           status: true,
@@ -254,8 +265,19 @@ const Home = () => {
         setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
       );
       navigate(`/quest/${Apidata.result.quest_order_id}`);
+    } else if (
+      Apidata &&
+      Apidata.result.success === false &&
+      Apidata.result.message
+    ) {
+      setErrorModalHeading(Apidata.result.message);
+      setOpenErrorModal(true);
     }
   }, [Apidata]);
+
+  const handleErrorModal = () => {
+    setOpenErrorModal(false);
+  };
 
   return (
     <div
@@ -329,7 +351,9 @@ const Home = () => {
       {openCongratulationModal && (
         <CongratulationModal
           open={openCongratulationModal}
-          modalText={`Go to your wallet to check your “daily streak” status & the rewards earned`}
+          // open={true}
+          heading={congratulationModalHeading}
+          modalText={congratulationModalText}
           leftButton={{
             text: "Go To Home",
             handler: () => {
@@ -345,6 +369,11 @@ const Home = () => {
           }}
         />
       )}
+      <ErrorModal
+        open={openErrorModal}
+        heading={errorModalHeading}
+        handleClose={handleErrorModal}
+      />
       {(isPending || isApiPending) && <TopLoader />}
     </div>
   );

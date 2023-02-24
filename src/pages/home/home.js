@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { analytics } from "../../firebase/firebase";
 import { logEvent } from "firebase/analytics";
 import CongratulationModal from "../quests/compRight/congratulationModal/CongratulationModal";
+import ErrorModal from "../quests/compRight/errorModal/ErrorModal";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -23,6 +24,8 @@ const Home = () => {
   const [dailyReward, setDailyReward] = useState([]);
   const [prevQuests, setPrevQuests] = useState([]);
   const [specialQuests, setSpecialQuests] = useState([]);
+  const [openErrorModal, setOpenErrorModal] = useState(false);
+  const [errorModalHeading, setErrorModalHeading] = useState("");
   const [openCongratulationModal, setOpenCongratulationModal] = useState(false);
   const [congratulationModalText, setCongratulationModalText] = useState("");
   const [congratulationModalHeading, setCongratulationModalHeading] =
@@ -262,8 +265,19 @@ const Home = () => {
         setQuestOrderId({ questId: dailyReward[0].id + "|" + auth.uid })
       );
       navigate(`/quest/${Apidata.result.quest_order_id}`);
+    } else if (
+      Apidata &&
+      Apidata.result.success === false &&
+      Apidata.result.message
+    ) {
+      setErrorModalHeading(Apidata.result.message);
+      setOpenErrorModal(true);
     }
   }, [Apidata]);
+
+  const handleErrorModal = () => {
+    setOpenErrorModal(false);
+  };
 
   return (
     <div
@@ -355,6 +369,11 @@ const Home = () => {
           }}
         />
       )}
+      <ErrorModal
+        open={openErrorModal}
+        heading={errorModalHeading}
+        handleClose={handleErrorModal}
+      />
       {(isPending || isApiPending) && <TopLoader />}
     </div>
   );

@@ -142,6 +142,7 @@ const AnswerQuiz = () => {
 
   const renderActionComponent = () => {
     if (actionData && questData) {
+      console.log(actionData);
       switch (actionData.action_order_type) {
         case "Video":
           return (
@@ -758,7 +759,10 @@ const AnswerQuiz = () => {
 
           {openDailyQuestCongratulationModal && (
             <CongratulationModal
-              open={openDailyQuestCongratulationModal}
+              open={
+                openDailyQuestCongratulationModal &&
+                !!dailyQuestCongratulationsModalText
+              }
               heading={dailyQuestCongratulationsModalHeading}
               modalText={dailyQuestCongratulationsModalText}
               leftButton={{

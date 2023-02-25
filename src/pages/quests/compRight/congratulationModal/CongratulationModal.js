@@ -5,7 +5,13 @@ import BgCongLottie from "../../../../assets/lottie/ConfettiAnimation.json";
 import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
 
-const CongratulationModal = ({ open, leftButton, rightButton, modalText }) => {
+const CongratulationModal = ({
+  open,
+  heading,
+  leftButton,
+  rightButton,
+  modalText,
+}) => {
   const cancelButtonRef = useRef(null);
 
   const defaultOptions = {
@@ -65,12 +71,24 @@ const CongratulationModal = ({ open, leftButton, rightButton, modalText }) => {
                   <Lottie options={defaultOptions} />
                 </div>
                 <h3 className="dialog-heading gredient-text">
-                  Congratulations!
+                  {heading ? heading : "Congratulations!"}
                 </h3>
                 <p className="dialog-text mb-3">
                   {/* You have earned {rewards} xCapx tokens as reward for
                   successfully completing the quest */}
-                  {modalText}
+                  {modalText &&
+                    modalText.split("%").map((line, ind) => {
+                      return (
+                        <>
+                          {ind !== 0 && (
+                            <>
+                              <br />
+                            </>
+                          )}
+                          {line}
+                        </>
+                      );
+                    })}
                 </p>
                 <div className="dialog-buttons flex justify-between">
                   <button

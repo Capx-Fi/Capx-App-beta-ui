@@ -102,7 +102,7 @@ const CreateUsername = () => {
           </div>
 
           <p className="text-gray-400 fs-15 font-bold hidden md:block absolute bottom-0 py-5">
-            © Capx 2022. All rights reserved
+            © Capx 2023. All rights reserved
           </p>
           {!!formik.values.username && !formik.errors.username && (
             <img

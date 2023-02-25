@@ -59,6 +59,14 @@ const AnswerQuiz = () => {
     openDailyQuestCongratulationModal,
     setOpenDailyQuestCongratulationModal,
   ] = useState(false);
+  const [
+    dailyQuestCongratulationsModalText,
+    setDailyQuestCongratulationsModalText,
+  ] = useState("");
+  const [
+    dailyQuestCongratulationsModalHeading,
+    setDailyQuestCongratulationsModalHeading,
+  ] = useState("");
   const [openActionCompleteModal, setOpenActionCompleteModel] = useState(false);
   const [isClaimQuest, setIsClaimQuest] = useState(false);
   const [showClaimScreen, setShowClaimScreen] = useState(false);
@@ -134,6 +142,7 @@ const AnswerQuiz = () => {
 
   const renderActionComponent = () => {
     if (actionData && questData) {
+      console.log(actionData);
       switch (actionData.action_order_type) {
         case "Video":
           return (
@@ -535,6 +544,7 @@ const AnswerQuiz = () => {
           setShowClaimScreen(true);
           setActionData(null);
         } else if (data[0].quest_category === "Daily_Reward") {
+          setDailyQuestCongratulationsModalText(apiData?.result.message);
           setOpenDailyQuestCongratulationModal(true);
         } else {
           setOpenCongratulationModal(true);
@@ -565,6 +575,12 @@ const AnswerQuiz = () => {
               actionType: currentActionData.action_order_type,
               action_order_id: currentActionData.action_order_id,
             });
+            if (apiData?.result?.message.includes("|")) {
+              const modalData = apiData?.result?.message.split("|");
+              setDailyQuestCongratulationsModalHeading(modalData[0]);
+              setDailyQuestCongratulationsModalText(modalData[1]);
+            }
+
             if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
                 setOpenDailyQuestCongratulationModal(true);
@@ -743,8 +759,12 @@ const AnswerQuiz = () => {
 
           {openDailyQuestCongratulationModal && (
             <CongratulationModal
-              open={openDailyQuestCongratulationModal}
-              modalText={`Go to your wallet to check your “daily streak” status & the rewards earned`}
+              open={
+                openDailyQuestCongratulationModal &&
+                !!dailyQuestCongratulationsModalText
+              }
+              heading={dailyQuestCongratulationsModalHeading}
+              modalText={dailyQuestCongratulationsModalText}
               leftButton={{
                 text: "Go To Home",
                 handler: handleCongratulationModal,

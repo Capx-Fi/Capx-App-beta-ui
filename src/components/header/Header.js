@@ -28,11 +28,11 @@ const Header = ({ userAction }) => {
         <img src={CoinSvg} alt="coin" />
         <span className="ml-2">{userData.earned_rewards} xCapx</span>
       </Link>
-      {userData?.balances?.comdex_earned_rewards && (
+      {userData?.comdex_earned_rewards && (
         <div className="btn">
           <img src={CoinSvg} alt="coin" />
           <span className="ml-2">
-            {userData?.balances?.comdex_earned_rewards} xCMDX
+            {userData?.comdex_earned_rewards} xCMDX
           </span>
         </div>
       )}

@@ -42,6 +42,7 @@ export const userSlice = createSlice({
       state.isLoggedIn = action.payload.email ? true : false;
       state.docType = action.payload.docType;
       state.earned_rewards = action.payload.earned_rewards;
+      state.comdex_earned_rewards = action.payload?.comdex_earned_rewards ? action.payload?.comdex_earned_rewards : 0;
       state.email = action.payload.email;
       state.image_url = action.payload.image_url;
       state.invite_code = action.payload.generated_invite_code;

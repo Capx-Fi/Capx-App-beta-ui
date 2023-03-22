@@ -789,9 +789,8 @@ const AnswerQuiz = () => {
                 questData?.max_rewards == 0
                   ? `You have successfully completed the quest. Keep learning! Keep earning!`
                   : `You have earned ${questData?.max_rewards} ${
-                      questData.rewards_type === "IOU" && " xCapx"
-                    } ${
-                      questData.rewards_type === "CMDX" && " xCMDX"
+                      questData.rewards_type === "IOU" ? " xCapx"
+                      : " xCMDX" 
                     } tokens as reward for
                   successfully completing the quest`
               }

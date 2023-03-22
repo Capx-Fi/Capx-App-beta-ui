@@ -65,7 +65,6 @@ const Tweetstep2 = ({ actionData }) => {
     }, 1500);
   };
 
-  console.log(userData);
   const handleActionComplete = (e) => {
     if (tweetUrl.trim().match(regex) || actionDetails?.action_order_subtype) {
       if (
@@ -96,7 +95,6 @@ const Tweetstep2 = ({ actionData }) => {
       SetIsOpenErrorModal(true);
     }
   };
-  console.log(actionDetails);
 
   return (
     <div className="createtweet relative flex flex-col gap-3">

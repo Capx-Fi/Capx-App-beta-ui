@@ -13,7 +13,6 @@ const RedirectQuest = ({ actionData }) => {
   const [ModalHeadning, setModalHeadning] = useState("");
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const userData = useSelector((state) => state.user);
-  console.log(actionData);
 
   const handleErrorModal = () => {
     SetIsOpenErrorModal(false);

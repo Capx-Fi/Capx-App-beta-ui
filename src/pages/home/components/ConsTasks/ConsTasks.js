@@ -25,7 +25,10 @@ const ConsTasks = ({ quests }) => {
   const handleClick = (e, questId) => {
     e.preventDefault();
     setQuestId(questId);
-    logEvent(analytics, 'QUEST_REGISTRATION_ATTEMPT', {questID:questId,user:auth.uid})
+    logEvent(analytics, "QUEST_REGISTRATION_ATTEMPT", {
+      questID: questId,
+      user: auth.uid,
+    });
     const apiDataObject = { data: { questId: questId } };
     postData(apiDataObject, "/registerForQuest");
   };
@@ -33,7 +36,11 @@ const ConsTasks = ({ quests }) => {
   useEffect(() => {
     //to-do:change succcess to success
     if (data && data.result.success && data.result.success === true) {
-      logEvent(analytics, 'QUEST_REGISTRATION_SUCCESS', {questID:questId,user:auth.uid,questOrderId:data.result.quest_order_id})
+      logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
+        questID: questId,
+        user: auth.uid,
+        questOrderId: data.result.quest_order_id,
+      });
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate(`/quest/${data.result.quest_order_id}`);
     } else if (
@@ -42,7 +49,11 @@ const ConsTasks = ({ quests }) => {
       (data.result.quest_status === "REGISTERED" ||
         data.result.quest_status === "IN_PROGRESS")
     ) {
-      logEvent(analytics, 'QUEST_RESUME', {questID:questId,user:auth.uid,questOrderId:data.result.quest_order_id})
+      logEvent(analytics, "QUEST_RESUME", {
+        questID: questId,
+        user: auth.uid,
+        questOrderId: data.result.quest_order_id,
+      });
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
       navigate(`/quest/${data.result.quest_order_id}`);
     }
@@ -122,6 +133,7 @@ const ConsTasks = ({ quests }) => {
           {dailytaskdata &&
             dailytaskdata.length > 0 &&
             dailytaskdata.map((data, ind) => {
+              console.log(data);
               return (
                 <div className="constcards-main flex pr-5" key={data.id}>
                   <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
@@ -136,7 +148,11 @@ const ConsTasks = ({ quests }) => {
                       />
                       <div className="card-chip flex items-center">
                         <img src={CardCoinIcon} alt="coin" />
-                        <span>{data.taskreward + " xCapx"}</span>
+                        <span>
+                          {data.taskreward}{" "}
+                          {data.rewards_type === "CMDX" && " xCMDX"}
+                          {data.rewards_type === "IOU" && " xCapx"}
+                        </span>
                       </div>
                     </div>
                     <p className="card-title px-3">{data.tasktitle}</p>

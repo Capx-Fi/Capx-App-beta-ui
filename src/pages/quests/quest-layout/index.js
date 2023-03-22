@@ -714,6 +714,7 @@ const AnswerQuiz = () => {
             data={{
               title: questData.quest_title,
               rewards: questData.max_rewards,
+              rewards_type: questData.rewards_type,
             }}
           />
         )}
@@ -787,7 +788,11 @@ const AnswerQuiz = () => {
               modalText={
                 questData?.max_rewards == 0
                   ? `You have successfully completed the quest. Keep learning! Keep earning!`
-                  : `You have earned ${questData?.max_rewards} xCapx tokens as reward for
+                  : `You have earned ${questData?.max_rewards} ${
+                      questData.rewards_type === "IOU" && " xCapx"
+                    } ${
+                      questData.rewards_type === "CMDX" && " xCMDX"
+                    } tokens as reward for
                   successfully completing the quest`
               }
               leftButton={{ text: "Next Quest", handler: nextQuestSetup }}

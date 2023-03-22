@@ -50,22 +50,19 @@ const RedirectQuest = ({ actionData }) => {
 
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
         <div className="createtweet-1 flex flex-col gap-1">
-          <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
-            {actionDetails?.action_order_info.details}
-          </p>
-          <div className="url-box p-4 flex items-center justify-between underline">
-            {actionDetails && <p>{actionDetails.action_order_info.link}</p>}
+          <button
+            className="url-box p-4 flex items-center justify-between outlined-effect heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15"
+            onClick={() => {
+              window.open(actionDetails.action_order_info.link);
+              setEnableVerify(true);
+            }}
+          >
+            {actionDetails && <p>{actionDetails.action_order_info.details}</p>}
 
-            <button
-              onClick={() => {
-                window.open(actionDetails.action_order_info.link);
-                setEnableVerify(true);
-              }}
-              className="ml-3"
-            >
-              <GoLinkExternal />
-            </button>
-          </div>
+            <div className="ml-3">
+              <GoLinkExternal className="text-xl" />
+            </div>
+          </button>
         </div>
         <button
           className={`${

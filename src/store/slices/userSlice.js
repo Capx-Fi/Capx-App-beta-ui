@@ -17,6 +17,7 @@ const initialState = {
   username: "",
   wallets: "",
   registered_on: "",
+  balances: {},
   isLoggedIn: false,
   isUserNameSet: false,
   questData: [],
@@ -33,6 +34,7 @@ export const userSlice = createSlice({
       state.username = action.payload.username;
     },
     setUser: (state, action) => {
+      console.log(action);
       state.isUserNameSet =
         action.payload.username && action.payload.username !== ""
           ? true
@@ -57,6 +59,7 @@ export const userSlice = createSlice({
       state.questData = action.payload.userQuest
         ? action.payload.userQuest
         : [];
+      state.balances = action.payload.balances;
     },
     setUserWithQuest: (state, action) => {
       state.questData = action.payload.quest_data;

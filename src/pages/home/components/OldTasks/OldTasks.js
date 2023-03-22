@@ -37,11 +37,18 @@ const OldTasks = ({ quests }) => {
     e.preventDefault();
     setQuestId(quest.id);
     if (quest.status === "new") {
-      logEvent(analytics, 'QUEST_REGISTRATION_ATTEMPT', {questID:quest.id,user:auth.uid})
+      logEvent(analytics, "QUEST_REGISTRATION_ATTEMPT", {
+        questID: quest.id,
+        user: auth.uid,
+      });
       const apiDataObject = { data: { questId: quest.id } };
       postData(apiDataObject, "/registerForQuest");
     } else {
-      logEvent(analytics, 'QUEST_RESUME', {questID:quest.id,user:auth.uid,questOrderId:quest.id + "|" + auth.uid})
+      logEvent(analytics, "QUEST_RESUME", {
+        questID: quest.id,
+        user: auth.uid,
+        questOrderId: quest.id + "|" + auth.uid,
+      });
       dispatch(setQuestOrderId({ questId: quest.id + "|" + auth.uid }));
       navigate(`/quest/${quest.id + "|" + auth.uid}`);
     }
@@ -49,7 +56,11 @@ const OldTasks = ({ quests }) => {
 
   useEffect(() => {
     if (data && data.result.success && data.result.success === true) {
-      logEvent(analytics, 'QUEST_REGISTRATION_SUCCESS', {questID:questId,user:auth.uid,questOrderId:data.result.quest_order_id});
+      logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
+        questID: questId,
+        user: auth.uid,
+        questOrderId: data.result.quest_order_id,
+      });
       dispatch(setQuestOrderId({ questId: data.result.quest_order_id }));
       navigate(`/quest/${data.result.quest_order_id}`);
     } else if (
@@ -59,7 +70,11 @@ const OldTasks = ({ quests }) => {
         data.result.quest_status === "IN_PROGRESS" ||
         data.result.quest_status === "COMPLETED")
     ) {
-      logEvent(analytics, 'QUEST_RESUME', {questID:questId,user:auth.uid,questOrderId:data.result.quest_order_id})
+      logEvent(analytics, "QUEST_RESUME", {
+        questID: questId,
+        user: auth.uid,
+        questOrderId: data.result.quest_order_id,
+      });
       dispatch(setQuestOrderId({ questId: questId + "|" + auth.uid }));
       navigate(`/quest/${data.result.quest_order_id}`);
     }
@@ -152,7 +167,11 @@ const OldTasks = ({ quests }) => {
                     />
                     <div className="card-chip flex items-center">
                       <img src={CardCoinIcon} alt="coin" />
-                      <span>{data.taskreward + " xCapx"}</span>
+                      <span>
+                        {data.taskreward}{" "}
+                        {data.rewards_type === "CMDX" && " xCMDX"}
+                        {data.rewards_type === "IOU" && " xCapx"}
+                      </span>
                     </div>
                   </div>
                   <p className="card-title px-3">{data.tasktitle}</p>

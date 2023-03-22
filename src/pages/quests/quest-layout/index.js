@@ -42,6 +42,8 @@ import WriteArticle from "../compRight/writeArticle/WriteArticle1";
 import WriteArticle2 from "../compRight/writeArticle/WriteArticle2";
 import WeeklyFeedback from "../compRight/weeklyFeedback/WeeklyFeedback";
 import AlphavDrop from "../compRight/alphaAirdrop/AlphaAirdrop";
+import ConnectWallet from "../compRight/connectWallet/ConnectWallet";
+import RedirectQuest from "../compRight/redirectQuest/RedirectQuest";
 
 const AnswerQuiz = () => {
   const routeParams = useParams();
@@ -319,6 +321,26 @@ const AnswerQuiz = () => {
               }}
             />
           );
+        case "Verify_OnChain":
+          return (
+            <RedirectQuest
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
+        case "Harbor_AirDrop":
+          return (
+            <ConnectWallet
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
         default:
           return <p>No data</p>;
       }
@@ -417,11 +439,20 @@ const AnswerQuiz = () => {
         };
         break;
       }
-      case "twitterVerify": {
+      case "verifyTweet": {
         apiDataObject = {
           data: {
             action_order_id: actionData.action_order_id,
             tweet_url: input.value,
+          },
+        };
+        setIsClaimQuest(true);
+        break;
+      }
+      case "twitterVerify": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
           },
         };
         setIsClaimQuest(true);
@@ -478,6 +509,16 @@ const AnswerQuiz = () => {
             comment: input.value.comment,
           },
         };
+        break;
+      }
+      case "harborAirdrop": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
+            comdex_address: input.value.address,
+          },
+        };
+        setIsClaimQuest(true);
         break;
       }
       default:
@@ -673,6 +714,7 @@ const AnswerQuiz = () => {
             data={{
               title: questData.quest_title,
               rewards: questData.max_rewards,
+              rewards_type: questData.rewards_type,
             }}
           />
         )}
@@ -746,7 +788,10 @@ const AnswerQuiz = () => {
               modalText={
                 questData?.max_rewards == 0
                   ? `You have successfully completed the quest. Keep learning! Keep earning!`
-                  : `You have earned ${questData?.max_rewards} xCapx tokens as reward for
+                  : `You have earned ${questData?.max_rewards} ${
+                      questData.rewards_type === "IOU" ? " xCapx"
+                      : " xCMDX" 
+                    } tokens as reward for
                   successfully completing the quest`
               }
               leftButton={{ text: "Next Quest", handler: nextQuestSetup }}

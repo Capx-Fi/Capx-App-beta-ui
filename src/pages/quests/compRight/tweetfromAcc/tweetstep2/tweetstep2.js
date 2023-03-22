@@ -66,10 +66,7 @@ const Tweetstep2 = ({ actionData }) => {
   };
 
   const handleActionComplete = (e) => {
-    if (
-      tweetUrl.trim().match(regex) ||
-      actionDetails?.action_order_details?.tweet_url
-    ) {
+    if (tweetUrl.trim().match(regex) || actionDetails?.action_order_subtype) {
       if (
         userData &&
         userData.socials &&
@@ -78,13 +75,13 @@ const Tweetstep2 = ({ actionData }) => {
       ) {
         if (tweetUrl) {
           actionData.handleCompleteAction(e, {
-            type: "twitterVerify",
+            type: "verifyTweet",
             value: tweetUrl,
           });
-        } else if (actionDetails?.action_order_details?.tweet_url) {
+        } else if (actionDetails?.action_order_subtype) {
           actionData.handleCompleteAction(e, {
             type: "twitterVerify",
-            value: actionDetails?.action_order_details?.tweet_url,
+            // value: Object.values(actionDetails?.action_order_details)[0],
           });
         }
       } else {
@@ -106,7 +103,7 @@ const Tweetstep2 = ({ actionData }) => {
       </p>
       {showCopiedBox && <p className="copied-box ">Copied!</p>}
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
-        {!actionDetails?.action_order_details ? (
+        {actionDetails && !actionDetails?.action_order_subtype ? (
           <>
             <div className="createtweet-1 flex flex-col gap-1">
               <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
@@ -140,13 +137,22 @@ const Tweetstep2 = ({ actionData }) => {
         ) : (
           <div className="createtweet-1 flex flex-col gap-1">
             <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
-              Retweet the below
+              {actionDetails?.action_order_subtype === "checkIfUserFollows" &&
+                "Follow on twitter "}
+              {actionDetails?.action_order_subtype === "checkIfUserRetweeted" &&
+                "Retweet the below"}
             </p>
             <div className="url-box p-4 flex items-center justify-between underline">
-              <p>{actionDetails?.action_order_details?.tweet_url}</p>
+              {/* <p>{actionDetails?.action_order_details?.tweet_url}</p> */}
+              {actionDetails && (
+                <p>{Object.values(actionDetails?.action_order_details)[0]}</p>
+              )}
+
               <button
                 onClick={() => {
-                  window.open(actionDetails?.action_order_details?.tweet_url);
+                  window.open(
+                    Object.values(actionDetails?.action_order_details)[0]
+                  );
                   setEnableVerify(true);
                 }}
                 className="ml-3"

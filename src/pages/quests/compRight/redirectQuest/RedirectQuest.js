@@ -51,13 +51,15 @@ const RedirectQuest = ({ actionData }) => {
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
         <div className="createtweet-1 flex flex-col gap-1">
           <button
-            className="url-box p-4 flex items-center justify-between outlined-effect heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15"
+            className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl"
             onClick={() => {
               window.open(actionDetails.action_order_info.link);
               setEnableVerify(true);
             }}
           >
-            {actionDetails && <p>{actionDetails.action_order_info.details}</p>}
+            {actionDetails && (
+              <p>{actionDetails.action_order_info.details.replace(".", "")}</p>
+            )}
 
             <div className="ml-3">
               <GoLinkExternal className="text-xl" />

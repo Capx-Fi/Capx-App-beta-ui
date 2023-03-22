@@ -67,7 +67,6 @@ const Tweetstep2 = ({ actionData }) => {
 
   console.log(userData);
   const handleActionComplete = (e) => {
-    debugger;
     if (tweetUrl.trim().match(regex) || actionDetails?.action_order_subtype) {
       if (
         userData &&
@@ -77,20 +76,14 @@ const Tweetstep2 = ({ actionData }) => {
       ) {
         if (tweetUrl) {
           actionData.handleCompleteAction(e, {
-            type: "twitterVerify",
+            type: "verifyTweet",
             value: tweetUrl,
           });
-        } else if (
-          actionDetails?.action_order_subtype &&
-          userData.wallets?.cosmos?.comdex
-        ) {
+        } else if (actionDetails?.action_order_subtype) {
           actionData.handleCompleteAction(e, {
             type: "twitterVerify",
-            value: Object.values(actionDetails?.action_order_details)[0],
+            // value: Object.values(actionDetails?.action_order_details)[0],
           });
-        } else {
-          setModalHeadning("Please connect your wallet");
-          SetIsOpenErrorModal(true);
         }
       } else {
         setModalHeadning(
@@ -146,7 +139,10 @@ const Tweetstep2 = ({ actionData }) => {
         ) : (
           <div className="createtweet-1 flex flex-col gap-1">
             <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
-              Retweet the below
+              {actionDetails?.action_order_subtype === "checkIfUserFollows" &&
+                "Follow on twitter "}
+              {actionDetails?.action_order_subtype === "checkIfUserRetweeted" &&
+                "Retweet the below"}
             </p>
             <div className="url-box p-4 flex items-center justify-between underline">
               {/* <p>{actionDetails?.action_order_details?.tweet_url}</p> */}

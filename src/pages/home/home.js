@@ -43,7 +43,7 @@ const Home = () => {
 
   const { data, error, isPending, reFetchData } = useFirestoreCollection(
     `${config.ORG_COLLECTION}/${config.ORG_ID}/${config.ORG_QUEST_COLLECTION}`,
-    ["__name__", "==", "quest_agg_1"]
+    ["__name__", "==", "quest_agg"]
   );
 
   useEffect(() => {

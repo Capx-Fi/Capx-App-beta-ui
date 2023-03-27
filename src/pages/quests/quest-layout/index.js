@@ -518,7 +518,7 @@ const AnswerQuiz = () => {
             comdex_address: input.value.address,
           },
         };
-        setIsClaimQuest(true);
+        // setIsClaimQuest(true);
         break;
       }
       default:
@@ -636,7 +636,8 @@ const AnswerQuiz = () => {
               ) {
                 setOpenCongratulationModal(true);
               } else if (
-                questData.quest_category === "Build_Profile" &&
+                (questData.quest_category === "Build_Profile" ||
+                  questData.quest_category === "Harbor_AirDrop") &&
                 questData.status === "CLAIMED"
               ) {
                 setOpenCongratulationModal(true);

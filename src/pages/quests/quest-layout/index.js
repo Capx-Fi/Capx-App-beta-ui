@@ -144,7 +144,7 @@ const AnswerQuiz = () => {
 
   const renderActionComponent = () => {
     if (actionData && questData) {
-      console.log(actionData);
+      console.log(actionData.action_order_type);
       switch (actionData.action_order_type) {
         case "Video":
           return (
@@ -789,8 +789,7 @@ const AnswerQuiz = () => {
                 questData?.max_rewards == 0
                   ? `You have successfully completed the quest. Keep learning! Keep earning!`
                   : `You have earned ${questData?.max_rewards} ${
-                      questData.rewards_type === "IOU" ? " xCapx"
-                      : " xCMDX" 
+                      questData.rewards_type === "IOU" ? " xCapx" : " xCMDX"
                     } tokens as reward for
                   successfully completing the quest`
               }

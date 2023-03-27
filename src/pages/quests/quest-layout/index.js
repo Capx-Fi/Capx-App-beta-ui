@@ -144,7 +144,7 @@ const AnswerQuiz = () => {
 
   const renderActionComponent = () => {
     if (actionData && questData) {
-      console.log(actionData);
+      console.log(actionData.action_order_type);
       switch (actionData.action_order_type) {
         case "Video":
           return (
@@ -518,7 +518,7 @@ const AnswerQuiz = () => {
             comdex_address: input.value.address,
           },
         };
-        setIsClaimQuest(true);
+        // setIsClaimQuest(true);
         break;
       }
       default:
@@ -636,7 +636,8 @@ const AnswerQuiz = () => {
               ) {
                 setOpenCongratulationModal(true);
               } else if (
-                questData.quest_category === "Build_Profile" &&
+                (questData.quest_category === "Build_Profile" ||
+                  questData.quest_category === "Harbor_AirDrop") &&
                 questData.status === "CLAIMED"
               ) {
                 setOpenCongratulationModal(true);
@@ -789,8 +790,7 @@ const AnswerQuiz = () => {
                 questData?.max_rewards == 0
                   ? `You have successfully completed the quest. Keep learning! Keep earning!`
                   : `You have earned ${questData?.max_rewards} ${
-                      questData.rewards_type === "IOU" ? " xCapx"
-                      : " xCMDX" 
+                      questData.rewards_type === "IOU" ? " xCapx" : " xCMDX"
                     } tokens as reward for
                   successfully completing the quest`
               }

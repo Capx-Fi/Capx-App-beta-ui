@@ -324,11 +324,11 @@ const Home = () => {
             <div className="home-title flex flex-row items-center gap-2">
               <img src={DailyQuestsIcon} className="w-8" alt="quest" />
               <p className="fs-16 font-black">
-                Unclaimed{" "}
-                {prevQuests.reduce((acc, val) => {
+                Unclaimed Quests
+                {/* {prevQuests.reduce((acc, val) => {
                   return acc + Number(val.taskreward);
                 }, 0)}{" "}
-                xCapx
+                xCapx */}
               </p>
             </div>
             <OldTasks quests={prevQuests} />

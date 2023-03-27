@@ -1,6 +1,11 @@
 import React from "react";
 
+const token_name = {
+  IOU: "xCapx",
+  CMDX: "xCMDX",
+};
 const QuestTable = ({ quests }) => {
+  console.log(quests);
   return (
     <div className="quest-table">
       <div className="table-wrapper">
@@ -21,7 +26,7 @@ const QuestTable = ({ quests }) => {
                   </td>
                   <td className="table-data text-start">{details.title}</td>
                   <td className="table-data text-center whitespace-nowrap">
-                    {details.earned_rewards} xCapx
+                    {details.earned_rewards} {token_name[details.rewards_type]}
                   </td>
                 </tr>
               );

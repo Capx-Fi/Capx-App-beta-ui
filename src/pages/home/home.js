@@ -335,19 +335,21 @@ const Home = () => {
           </div>
         </div>
       )}
-      {dailyReward.length > 0 && dailyReward[0].status !== "CLAIMED" && (
-        <button
-          onClick={handleClaimDailyReward}
-          className="fixed-daily-reward fixed flex items-center outlined-effect text-start"
-        >
-          <img src={DailyRewardPanda} alt="panda" />
-          <p className="ml-2">
-            Claim your
-            <br />
-            Daily Streak!
-          </p>
-        </button>
-      )}
+      {dailyReward.length > 0 &&
+        dailyReward[0].allowed_users.includes(user.username) &&
+        dailyReward[0].status !== "CLAIMED" && (
+          <button
+            onClick={handleClaimDailyReward}
+            className="fixed-daily-reward fixed flex items-center outlined-effect text-start"
+          >
+            <img src={DailyRewardPanda} alt="panda" />
+            <p className="ml-2">
+              Claim your
+              <br />
+              Daily Streak!
+            </p>
+          </button>
+        )}
       {openCongratulationModal && (
         <CongratulationModal
           open={openCongratulationModal}

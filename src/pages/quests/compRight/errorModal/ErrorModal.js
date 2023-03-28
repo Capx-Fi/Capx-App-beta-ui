@@ -4,7 +4,7 @@ import ErrorLottie from "../../../../assets/lottie/ErrorAnimation.json";
 import Lottie from "react-lottie";
 import { HiArrowRight } from "react-icons/hi";
 
-const ErrorModal = ({ open, handleClose, heading, message }) => {
+const ErrorModal = ({ open, handleClose, heading, message, BtnText }) => {
   const cancelButtonRef = useRef(null);
 
   const defaultOptions = {
@@ -61,7 +61,9 @@ const ErrorModal = ({ open, handleClose, heading, message }) => {
                     onClick={handleClose}
                     className="btn-contained contained-effect bg-gredient-2 flex justify-center items-center"
                   >
-                    <span>Try Again</span>
+                    <span className="capitalize">
+                      {BtnText ? BtnText : "Try Again"}
+                    </span>
                     <HiArrowRight className="text-xl ml-3" />
                   </button>
                 </div>

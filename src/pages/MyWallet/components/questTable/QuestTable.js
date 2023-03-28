@@ -5,7 +5,6 @@ const token_name = {
   CMDX: "xCMDX",
 };
 const QuestTable = ({ quests }) => {
-  console.log(quests);
   return (
     <div className="quest-table">
       <div className="table-wrapper">

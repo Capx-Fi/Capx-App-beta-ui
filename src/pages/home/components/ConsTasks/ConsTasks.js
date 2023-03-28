@@ -133,7 +133,6 @@ const ConsTasks = ({ quests }) => {
           {dailytaskdata &&
             dailytaskdata.length > 0 &&
             dailytaskdata.map((data, ind) => {
-              console.log(data);
               return (
                 <div className="constcards-main flex pr-5" key={data.id}>
                   <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">

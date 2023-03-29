@@ -35,7 +35,7 @@ const RedirectQuest = ({ actionData }) => {
 
   const handleActionComplete = (e) => {
     if (userData.wallets?.cosmos?.comdex) {
-      actionData.handleCompleteAction(e, { type: "" });
+      actionData.handleCompleteAction(e, { type: "Verify_OnChain" });
     } else {
       setModalHeadning("Please connect your wallet");
       SetIsOpenErrorModal(true);

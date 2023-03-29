@@ -520,6 +520,13 @@ const AnswerQuiz = () => {
         // setIsClaimQuest(true);
         break;
       }
+      case "Verify_OnChain": {
+        apiDataObject = {
+          data: { action_order_id: actionData.action_order_id },
+        };
+        setIsClaimQuest(true);
+        break;
+      }
       default:
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },

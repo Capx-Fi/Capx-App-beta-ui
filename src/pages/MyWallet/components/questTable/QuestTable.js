@@ -2,10 +2,9 @@ import React from "react";
 
 const token_name = {
   IOU: "xCapx",
-  CMDX: "xCMDX",
+  CMDX: "xHARBOR",
 };
 const QuestTable = ({ quests }) => {
-  console.log(quests);
   return (
     <div className="quest-table">
       <div className="table-wrapper">

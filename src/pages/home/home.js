@@ -23,6 +23,7 @@ const Home = () => {
   const [dailyQuests, setDailyQuests] = useState([]);
   const [dailyReward, setDailyReward] = useState([]);
   const [prevQuests, setPrevQuests] = useState([]);
+  const [harborQuests, setHarborQuests] = useState([]);
   const [specialQuests, setSpecialQuests] = useState([]);
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const [errorModalHeading, setErrorModalHeading] = useState("");
@@ -135,6 +136,30 @@ const Home = () => {
           })
           .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
       );
+      setHarborQuests(
+        result
+          .filter((val) => {
+            console.log(val);
+            if (
+              (val.created_on !== todaysDate ||
+                val.status === "IN_PROGRESS" ||
+                val.status === "REGISTERED" ||
+                val.status === "COMPLETED") &&
+              val.status !== "CLAIMED" &&
+              val.taskCategory.toLowerCase() === "normal" &&
+              val.rewards_type === "CMDX"
+            ) {
+              if (val.allowed_users.length > 0) {
+                return val.allowed_users.includes(user.username);
+              } else {
+                return true;
+              }
+            } else {
+              return false;
+            }
+          })
+          .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
+      );
       setPrevQuests(
         result
           .filter((val) => {
@@ -144,7 +169,8 @@ const Home = () => {
                 val.status === "REGISTERED" ||
                 val.status === "COMPLETED") &&
               val.status !== "CLAIMED" &&
-              val.taskCategory.toLowerCase() === "normal"
+              val.taskCategory.toLowerCase() === "normal" &&
+              val.rewards_type !== "CMDX"
             ) {
               if (val.allowed_users.length > 0) {
                 return val.allowed_users.includes(user.username);
@@ -242,7 +268,7 @@ const Home = () => {
         setOpenCongratulationModal(true);
         reFetchData({
           status: true,
-          data: ["__name__", "==", "quest_agg_1"],
+          data: ["__name__", "==", "quest_agg"],
         });
       }
     } else if (
@@ -297,7 +323,7 @@ const Home = () => {
               <div className="home-wrapper-1-inner flex flex-col gap-5">
                 <div className="home-title flex flex-row items-center gap-2">
                   <img src={DailyQuestsIcon} className="w-8" alt="quest" />
-                  <p className="fs-16 font-black">Daily Rewards</p>
+                  <p className="fs-16 font-black">All Quests</p>
                 </div>
                 <div className="home-tasks flex flex-row 11/12">
                   <ConsTasks quests={dailyQuests} />
@@ -324,7 +350,7 @@ const Home = () => {
             <div className="home-title flex flex-row items-center gap-2">
               <img src={DailyQuestsIcon} className="w-8" alt="quest" />
               <p className="fs-16 font-black">
-                Unclaimed Quests
+                Capx Quests
                 {/* {prevQuests.reduce((acc, val) => {
                   return acc + Number(val.taskreward);
                 }, 0)}{" "}
@@ -335,19 +361,39 @@ const Home = () => {
           </div>
         </div>
       )}
-      {dailyReward.length > 0 && dailyReward[0].status !== "CLAIMED" && (
-        <button
-          onClick={handleClaimDailyReward}
-          className="fixed-daily-reward fixed flex items-center outlined-effect text-start"
-        >
-          <img src={DailyRewardPanda} alt="panda" />
-          <p className="ml-2">
-            Claim your
-            <br />
-            Daily Streak!
-          </p>
-        </button>
+      {harborQuests && harborQuests.length > 0 && (
+        <div className="home-wrapper-2 w-full">
+          <div className="home-wrapper-1-inner flex flex-col gap-5">
+            <div className="home-title flex flex-row items-center gap-2">
+              <img src={DailyQuestsIcon} className="w-8" alt="quest" />
+              <p className="fs-16 font-black">
+                Harbor Quests
+                {/* {prevQuests.reduce((acc, val) => {
+                  return acc + Number(val.taskreward);
+                }, 0)}{" "}
+                xCapx */}
+              </p>
+            </div>
+            {/* <ConsTasks quests={prevQuests} /> */}
+            <OldTasks quests={harborQuests} />
+          </div>
+        </div>
       )}
+      {dailyReward.length > 0 &&
+        dailyReward[0].allowed_users.includes(user.username) &&
+        dailyReward[0].status !== "CLAIMED" && (
+          <button
+            onClick={handleClaimDailyReward}
+            className="fixed-daily-reward fixed flex items-center outlined-effect text-start"
+          >
+            <img src={DailyRewardPanda} alt="panda" />
+            <p className="ml-2">
+              Claim your
+              <br />
+              Daily Streak!
+            </p>
+          </button>
+        )}
       {openCongratulationModal && (
         <CongratulationModal
           open={openCongratulationModal}

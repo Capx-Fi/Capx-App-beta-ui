@@ -30,7 +30,6 @@ const WriteArticle = ({ actionData }) => {
       console.log(error);
     }
   }, [data, error]);
-  console.log(data);
 
   if (actionDetails?.action_order_details?.comdex_chain) {
     return (

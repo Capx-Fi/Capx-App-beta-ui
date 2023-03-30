@@ -133,7 +133,6 @@ const ConsTasks = ({ quests }) => {
           {dailytaskdata &&
             dailytaskdata.length > 0 &&
             dailytaskdata.map((data, ind) => {
-              console.log(data);
               return (
                 <div className="constcards-main flex pr-5" key={data.id}>
                   <div className="wrapper flex flex-col items-stretch bg-white rounded-xl p-3 gap-3">
@@ -150,7 +149,7 @@ const ConsTasks = ({ quests }) => {
                         <img src={CardCoinIcon} alt="coin" />
                         <span>
                           {data.taskreward}{" "}
-                          {data.rewards_type === "CMDX" && " xCMDX"}
+                          {data.rewards_type === "CMDX" && " xHARBOR"}
                           {data.rewards_type === "IOU" && " xCapx"}
                         </span>
                       </div>

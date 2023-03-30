@@ -21,6 +21,7 @@ import {
   FirePng,
   LightningPng,
 } from "../../assets/images";
+import { auth } from "../../firebase/firebase";
 
 function Profile() {
   const navigate = useNavigate();
@@ -62,7 +63,14 @@ function Profile() {
   }, [data, isError]);
 
   const handleSocialLink = (method) => {
-    linkWithSocail(method);
+    const twitterProvider = auth.currentUser.providerData.filter(
+      (provider) => provider.providerId === "twitter.com"
+    )[0];
+    if (twitterProvider) {
+      postData({ data: {} }, "/linkYourTwitter");
+    } else {
+      linkWithSocail(method);
+    }
   };
 
   useEffect(() => {
@@ -188,7 +196,7 @@ function Profile() {
                     className="social-box outlined-effect flex items-center"
                   >
                     <img src={TwitterIcon} alt="twitter" />
-                    <p className="name ml-2">Connect you twitter</p>
+                    <p className="name ml-2">Connect your twitter</p>
                     <div className="grow" />
                   </button>
                 )}
@@ -207,7 +215,7 @@ function Profile() {
                     className="social-box outlined-effect flex items-center"
                   >
                     <img src={DiscordIcon} alt="twitter" />
-                    <p className="name ml-2">Connect you discord</p>
+                    <p className="name ml-2">Connect your discord</p>
                     <div className="grow" />
                   </button>
                 )}

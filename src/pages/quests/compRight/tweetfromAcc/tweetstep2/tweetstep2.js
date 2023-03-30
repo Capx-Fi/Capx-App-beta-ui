@@ -8,6 +8,7 @@ import { config } from "../../../../../config";
 import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
 import ErrorModal from "../../errorModal/ErrorModal";
 import { GoLinkExternal } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 
 const Tweetstep2 = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
@@ -17,9 +18,12 @@ const Tweetstep2 = ({ actionData }) => {
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const [ModalHeadning, setModalHeadning] = useState("");
   const [showCopiedBox, setShowCopiedBox] = useState(false);
+  const [errorModalBtnText, setErrorModalBtnText] = useState("");
   const [textForTweet, setTextForTweet] = useState(
     "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
   );
+
+  const navigate = useNavigate();
 
   var expression =
     /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
@@ -54,7 +58,16 @@ const Tweetstep2 = ({ actionData }) => {
   }, [tweetUrl]);
 
   const handleErrorModal = () => {
-    SetIsOpenErrorModal(false);
+    if (
+      userData &&
+      userData.socials &&
+      userData.socials.twitter_id.trim().length > 0 &&
+      userData.socials.twitter_username.trim().length > 0
+    ) {
+      SetIsOpenErrorModal(false);
+    } else {
+      navigate("/profile");
+    }
   };
 
   const handleCopyText = () => {
@@ -88,10 +101,14 @@ const Tweetstep2 = ({ actionData }) => {
         setModalHeadning(
           "Please connect your twitter account before continuing"
         );
+
+        setErrorModalBtnText("Navigate to profile");
         SetIsOpenErrorModal(true);
       }
     } else {
       setModalHeadning("Please enter a valid tweet link");
+
+      setErrorModalBtnText("");
       SetIsOpenErrorModal(true);
     }
   };
@@ -142,24 +159,24 @@ const Tweetstep2 = ({ actionData }) => {
               {actionDetails?.action_order_subtype === "checkIfUserRetweeted" &&
                 "Retweet the below"}
             </p>
-            <div className="url-box p-4 flex items-center justify-between underline">
+            <button
+              className="url-box p-4 flex items-center justify-between underline outlined-effect"
+              onClick={() => {
+                window.open(
+                  Object.values(actionDetails?.action_order_details)[0]
+                );
+                setEnableVerify(true);
+              }}
+            >
               {/* <p>{actionDetails?.action_order_details?.tweet_url}</p> */}
               {actionDetails && (
                 <p>{Object.values(actionDetails?.action_order_details)[0]}</p>
               )}
 
-              <button
-                onClick={() => {
-                  window.open(
-                    Object.values(actionDetails?.action_order_details)[0]
-                  );
-                  setEnableVerify(true);
-                }}
-                className="ml-3"
-              >
+              <button className="ml-3">
                 <GoLinkExternal />
               </button>
-            </div>
+            </button>
           </div>
         )}
 
@@ -178,6 +195,7 @@ const Tweetstep2 = ({ actionData }) => {
         heading={ModalHeadning}
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
+        BtnText={errorModalBtnText}
       />
       {isPending && <TopLoader />}
     </div>

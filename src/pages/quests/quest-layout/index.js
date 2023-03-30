@@ -75,7 +75,8 @@ const AnswerQuiz = () => {
   const [showActionClaim, setShowActionClaim] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const [showProfilePage, setShowProfilePage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorModalHeading, setErrorModalHeading] = useState(null);
+  const [errorModalMessage, setErrorModalMessage] = useState(null);
   const [reFetchInProgress, setReFetchInProgress] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -541,7 +542,7 @@ const AnswerQuiz = () => {
 
   const taskErrorReset = () => {
     setTaskError(null);
-    setErrorMessage(null);
+    // setErrorModalHeading(null);
   };
 
   useEffect(() => {
@@ -693,7 +694,14 @@ const AnswerQuiz = () => {
         }
       } else if (apiData && isError) {
         if (apiData.result.success === false) {
-          setErrorMessage(apiData.result?.message);
+          console.log(apiData.result?.message.includes("|"));
+          if (apiData.result?.message.includes("|")) {
+            const errorModalData = apiData.result?.message.split("|");
+            setErrorModalHeading(errorModalData[0]);
+            setErrorModalMessage(errorModalData[1]);
+          } else {
+            setErrorModalHeading(apiData.result?.message);
+          }
           if (
             apiData.result?.message ===
             "ERROR: Twitter already linked to different user"
@@ -796,7 +804,7 @@ const AnswerQuiz = () => {
                 questData?.max_rewards == 0
                   ? `You have successfully completed the quest. Keep learning! Keep earning!`
                   : `You have earned ${questData?.max_rewards} ${
-                      questData.rewards_type === "IOU" ? " xCapx" : " xCMDX"
+                      questData.rewards_type === "IOU" ? " xCapx" : " xHARBOR"
                     } tokens as reward for
                   successfully completing the quest`
               }
@@ -836,8 +844,9 @@ const AnswerQuiz = () => {
 
           <ErrorModal
             open={taskError === true ? true : false}
-            heading={errorMessage}
+            heading={errorModalHeading}
             handleClose={taskErrorReset}
+            message={errorModalMessage}
           />
         </div>
       </div>

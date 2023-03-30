@@ -17,7 +17,7 @@ const Banner = ({ data }) => {
           <div className="text-right flex items-center">
             <img src={CoinSvg} alt="coin" className="" />
             <span className="ml-2 md:ml-2">
-              {data.rewards} {data.rewards_type === "CMDX" && " xCMDX"}
+              {data.rewards} {data.rewards_type === "CMDX" && " xHARBOR"}
               {data.rewards_type === "IOU" && " xCapx"}
             </span>
           </div>

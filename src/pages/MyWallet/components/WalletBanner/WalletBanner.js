@@ -30,7 +30,7 @@ const WalletBanner = () => {
             <h4 className="text-center mt-2">
               {userData.comdex_earned_rewards}
             </h4>
-            <p className="text-center">XCMDX</p>
+            <p className="text-center">xHARBOR</p>
           </div>
         </div>
       </div>

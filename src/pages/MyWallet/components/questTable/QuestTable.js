@@ -2,7 +2,7 @@ import React from "react";
 
 const token_name = {
   IOU: "xCapx",
-  CMDX: "xCMDX",
+  CMDX: "xHARBOR",
 };
 const QuestTable = ({ quests }) => {
   return (

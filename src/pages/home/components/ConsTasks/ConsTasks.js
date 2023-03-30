@@ -149,7 +149,7 @@ const ConsTasks = ({ quests }) => {
                         <img src={CardCoinIcon} alt="coin" />
                         <span>
                           {data.taskreward}{" "}
-                          {data.rewards_type === "CMDX" && " xCMDX"}
+                          {data.rewards_type === "CMDX" && " xHARBOR"}
                           {data.rewards_type === "IOU" && " xCapx"}
                         </span>
                       </div>

@@ -54,8 +54,10 @@ const ErrorModal = ({ open, handleClose, heading, message, BtnText }) => {
                 <h3 className="dialog-heading gredient-text">
                   {heading ? heading : "Something went wrong"}
                 </h3>
-                <p className="dialog-text mb-3">Please try again</p>
-                <p className="dialog-text mb-3">{message}</p>
+                <p className="dialog-text mb-3">
+                  {message ? message : "Please try again"}
+                </p>
+                {/* <p className="dialog-text mb-3">{message}</p> */}
                 <div className="dialog-buttons flex flex-col">
                   <button
                     onClick={handleClose}

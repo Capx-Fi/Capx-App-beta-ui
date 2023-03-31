@@ -78,6 +78,8 @@ const AnswerQuiz = () => {
   const [errorModalHeading, setErrorModalHeading] = useState(null);
   const [errorModalMessage, setErrorModalMessage] = useState(null);
   const [reFetchInProgress, setReFetchInProgress] = useState(false);
+  const [poolData, setPoolData] = useState();
+  const [completeActionData, setCompleteActionData] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isPending, data, error, reFetchData } = useFirestoreCollection(
@@ -89,6 +91,7 @@ const AnswerQuiz = () => {
     isPending: apiIsPending,
     postData,
     data: apiData,
+    getData,
   } = useApi(url, "POST");
 
   const {
@@ -611,11 +614,50 @@ const AnswerQuiz = () => {
       console.log(error);
     }
   }, [data, error]);
+
+  useEffect(() => {
+    if (
+      !apiIsPending &&
+      apiData &&
+      !isError &&
+      apiData.result.success === true
+    ) {
+      if (apiData.result?.rewardPool) {
+        setPoolData(apiData);
+      } else {
+        setCompleteActionData(apiData);
+      }
+    } else if (apiData && apiData.result.success === false && isError) {
+      if (apiData.result.success === false) {
+        if (apiData.result?.message.includes("|")) {
+          const errorModalData = apiData.result?.message.split("|");
+          setErrorModalHeading(errorModalData[0]);
+          setErrorModalMessage(errorModalData[1]);
+        } else {
+          setErrorModalHeading(apiData.result?.message);
+        }
+        if (
+          apiData.result?.message ===
+          "ERROR: Twitter already linked to different user"
+        ) {
+          unlinkWithSocail("twitter");
+        }
+      }
+      setTaskError(true);
+    } else if (isError) {
+      console.log(isError);
+      if (isError === "unexpected_error") {
+        navigate("/");
+      }
+      setTaskError(true);
+    }
+  }, [apiData, apiIsPending, isError, routeParams]);
+
   useEffect(() => {
     if (!apiIsPending) {
-      if (apiData && !isError) {
+      if (completeActionData && !isError) {
         if (!showClaimScreen && !showActionClaim && !reFetchInProgress) {
-          if (apiData.result.success === true) {
+          if (completeActionData.result.success === true) {
             logEvent(analytics, "QUEST_ACTION_COMPLETE_SUCCESS", {
               questOrderId: routeParams.questID,
               questType: questData.quest_category,
@@ -623,8 +665,8 @@ const AnswerQuiz = () => {
               actionType: currentActionData.action_order_type,
               action_order_id: currentActionData.action_order_id,
             });
-            if (apiData?.result?.message.includes("|")) {
-              const modalData = apiData?.result?.message.split("|");
+            if (completeActionData?.result?.message.includes("|")) {
+              const modalData = completeActionData?.result?.message.split("|");
               setDailyQuestCongratulationsModalHeading(modalData[0]);
               setDailyQuestCongratulationsModalText(modalData[1]);
             }
@@ -652,7 +694,7 @@ const AnswerQuiz = () => {
             }
           }
         } else if (showClaimScreen && !isPending && !reFetchInProgress) {
-          if (apiData.result.success === true) {
+          if (completeActionData.result.success === true) {
             logEvent(analytics, "QUEST_CLAIM_COMPLETE_SUCCESS", {
               questOrderId: routeParams.questID,
               questType: questData.quest_category,
@@ -672,53 +714,60 @@ const AnswerQuiz = () => {
             actionType: currentActionData.action_order_type,
             action_order_id: currentActionData.action_order_id,
           });
-          if (apiData.result.success === true) {
+          if (completeActionData.result.success === true) {
             setOpenActionCompleteModel(true);
           }
         } else if (reFetchInProgress) {
-          if (apiData.result.success === true) {
+          if (completeActionData.result.success === true) {
             logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
               questID: questID,
               user: auth.uid,
-              questOrder: apiData.result.quest_order_id,
+              questOrder: completeActionData.result.quest_order_id,
             });
             dispatch(
-              setQuestOrderId({ questId: apiData.result.quest_order_id })
+              setQuestOrderId({
+                questId: completeActionData.result.quest_order_id,
+              })
             );
             reFetchData({
               status: true,
-              data: ["__name__", "==", apiData.result.quest_order_id],
+              data: [
+                "__name__",
+                "==",
+                completeActionData.result.quest_order_id,
+              ],
             });
-            navigate(`/quest/${apiData.result.quest_order_id}`);
+            navigate(`/quest/${completeActionData.result.quest_order_id}`);
           }
         }
-      } else if (apiData && isError) {
-        if (apiData.result.success === false) {
-          console.log(apiData.result?.message.includes("|"));
-          if (apiData.result?.message.includes("|")) {
-            const errorModalData = apiData.result?.message.split("|");
-            setErrorModalHeading(errorModalData[0]);
-            setErrorModalMessage(errorModalData[1]);
-          } else {
-            setErrorModalHeading(apiData.result?.message);
-          }
-          if (
-            apiData.result?.message ===
-            "ERROR: Twitter already linked to different user"
-          ) {
-            unlinkWithSocail("twitter");
-          }
-        }
-        setTaskError(true);
-      } else if (isError) {
-        console.log(isError);
-        if (isError === "unexpected_error") {
-          navigate("/");
-        }
-        setTaskError(true);
       }
     }
-  }, [apiData, apiIsPending, isError]);
+  }, [completeActionData, isError]);
+
+  useEffect(() => {
+    if (data) {
+      reFetchData({
+        status: true,
+        data: ["__name__", "==", routeParams.questID],
+      });
+    }
+    if (poolData) {
+      setPoolData(null);
+    }
+  }, [routeParams]);
+
+  useEffect(() => {
+    if (
+      !apiIsPending &&
+      questData &&
+      !isError &&
+      !poolData &&
+      questData.rewards_type === "CMDX"
+    ) {
+      const encoded = encodeURIComponent(questData.quest_order_id);
+      getData({}, "/fetchRewardPool?questOrderId=" + encoded);
+    }
+  }, [routeParams, apiIsPending, questData]);
 
   return (
     <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">
@@ -739,11 +788,12 @@ const AnswerQuiz = () => {
         <div className="quest-details-1 flex flex-col md:gap-16 gap-12 md:px-5">
           {/* Pass Description & Expiry Details Here --------------------------------------------------------- */}
 
-          {true && (
+          {questData && (
             <QuestDescription
               primarydetails={{
                 qdescription: questData?.quest_description,
                 qexpiry: questData?.quest_end_date,
+                poolData,
               }}
             />
           )}

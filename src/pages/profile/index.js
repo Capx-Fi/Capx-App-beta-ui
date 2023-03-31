@@ -62,11 +62,12 @@ function Profile() {
     }
   }, [data, isError]);
 
-  const handleSocialLink = (method) => {
+  const handleSocialLink = async (method) => {
     const twitterProvider = auth.currentUser.providerData.filter(
       (provider) => provider.providerId === "twitter.com"
     )[0];
     if (twitterProvider) {
+      await auth.currentUser.getIdTokenResult(true);
       postData({ data: {} }, "/linkYourTwitter");
     } else {
       linkWithSocail(method);
@@ -85,19 +86,22 @@ function Profile() {
   };
 
   useEffect(() => {
-    if (!isSOcialLinkPending && !isPending && useAccessToken?.length > 0) {
-      if (
-        socialRedirectProvider === "twitter.com" &&
-        userData.socials.twitter_id.length === 0
-      ) {
-        postData({ data: {} }, "/linkYourTwitter");
-      } else if (
-        socialRedirectProvider === "google.com" &&
-        userData.socials.google_id.length === 0
-      ) {
-        postData({ data: {} }, "/linkYourGoogle");
+    (async () => {
+      if (!isSOcialLinkPending && !isPending && useAccessToken?.length > 0) {
+        if (
+          socialRedirectProvider === "twitter.com" &&
+          userData.socials.twitter_id.length === 0
+        ) {
+          await auth.currentUser.getIdTokenResult(true);
+          postData({ data: {} }, "/linkYourTwitter");
+        } else if (
+          socialRedirectProvider === "google.com" &&
+          userData.socials.google_id.length === 0
+        ) {
+          postData({ data: {} }, "/linkYourGoogle");
+        }
       }
-    }
+    })();
   }, [isSOcialLinkPending, socialRedirectProvider, isPending]);
 
   useEffect(() => {

@@ -699,8 +699,8 @@ const AnswerQuiz = () => {
               questOrderId: routeParams.questID,
               questType: questData.quest_category,
               user: auth.uid,
-              actionType: currentActionData.action_order_type,
-              action_order_id: currentActionData.action_order_id,
+              actionType: currentActionData?.action_order_type,
+              action_order_id: currentActionData?.action_order_id,
             });
             if (questData.quest_category !== "Feedback") {
               setOpenCongratulationModal(true);

@@ -139,7 +139,6 @@ const Home = () => {
       setHarborQuests(
         result
           .filter((val) => {
-            console.log(val);
             if (
               (val.created_on !== todaysDate ||
                 val.status === "IN_PROGRESS" ||

@@ -6,17 +6,73 @@ import ErrorModal from "../errorModal/ErrorModal";
 import TopLoader from "../../../../components/topLoader/TopLoader";
 import { HiArrowRight } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { auth } from "../../../../firebase/firebase";
+import { useApi } from "../../../../hooks/useApi";
 
 const RedirectQuest = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
   const [enableVerify, setEnableVerify] = useState(false);
   const [ModalHeadning, setModalHeadning] = useState("");
+  const [errorModalBtnText, setErrorModalBtnText] = useState("");
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
+  const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
+  const questData = useSelector((state) => state.quest.allQuests);
+
+  const {
+    isError,
+    isPending: isApiPenind,
+    postData,
+    data: apiData,
+  } = useApi(config.API_URL, "POST");
 
   const handleErrorModal = () => {
+    if (userData.wallets?.cosmos?.comdex) {
+      SetIsOpenErrorModal(false);
+    } else {
+      if (questData.length > 0) {
+        const connectWalletQuest = questData.filter((quest) => {
+          return (
+            quest.quest_category === "Harbor_Airdrop" &&
+            quest.taskCategory === "Special"
+          );
+        })[0];
+        if (connectWalletQuest.status === "new") {
+          const apiDataObject = {
+            data: { questId: actionDetails?.action_order_info?.req_quest_id },
+          };
+          postData(apiDataObject, "/registerForQuest");
+        } else {
+          navigate(
+            `/quest/${
+              actionDetails?.action_order_info?.req_quest_id +
+              "|" +
+              auth.currentUser.uid
+            }`
+          );
+        }
+      } else {
+        const apiDataObject = {
+          data: { questId: actionDetails?.action_order_info?.req_quest_id },
+        };
+        postData(apiDataObject, "/registerForQuest");
+      }
+    }
     SetIsOpenErrorModal(false);
   };
+
+  useEffect(() => {
+    if (apiData && !isApiPenind) {
+      navigate(
+        `/quest/${
+          actionDetails?.action_order_info?.req_quest_id +
+          "|" +
+          auth.currentUser.uid
+        }`
+      );
+    }
+  }, [apiData, isApiPenind]);
 
   const { isPending, data, error } = useFirestoreCollection(
     `${config.QUEST_ORDER_COLLECTION}/` +
@@ -38,6 +94,7 @@ const RedirectQuest = ({ actionData }) => {
       actionData.handleCompleteAction(e, { type: "Verify_OnChain" });
     } else {
       setModalHeadning("Please connect your wallet");
+      setErrorModalBtnText("Connect Wallet");
       SetIsOpenErrorModal(true);
     }
   };
@@ -81,8 +138,9 @@ const RedirectQuest = ({ actionData }) => {
         heading={ModalHeadning}
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
+        BtnText={errorModalBtnText}
       />
-      {isPending && <TopLoader />}
+      {(isPending || isApiPenind) && <TopLoader />}
     </div>
   );
 };

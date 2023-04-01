@@ -87,7 +87,7 @@ const Home = () => {
       });
       let todaysDate = formatDate(new Date());
       dispatch(setQuestsData({ allQuests: result }));
-
+      console.log(result);
       setDailyReward(
         result.filter((val) => {
           return val.taskCategory.toLowerCase() === "dailyreward";

@@ -13,7 +13,7 @@ import {
   query,
   where,
 } from "firebase/firestore";
-import { logEvent,setUserId } from "firebase/analytics";
+import { logEvent, setUserId } from "firebase/analytics";
 
 export const useFireBaseAuth = () => {
   const dispatch = useDispatch();
@@ -23,15 +23,16 @@ export const useFireBaseAuth = () => {
       if (user) {
         try {
           const tokenDetails = auth.currentUser.getIdTokenResult();
-          console.log("token detauls",tokenDetails);
+          console.log("token detauls", tokenDetails);
           const userDoc = doc(db, "xusers", user.uid);
           const docSnap = await getDoc(userDoc);
-          setUserId(analytics, {userId : user.uid })
+          setUserId(analytics, { userId: user.uid });
           if (docSnap.data() !== undefined && docSnap.exists()) {
             const userQuestCollection = collection(
               db,
               `${config.USER_COLLECTION}/${user.uid}/quest-order`
             );
+
             const questDataQuery = query(
               userQuestCollection,
               where("docType", "==", "Aggregate")
@@ -42,19 +43,26 @@ export const useFireBaseAuth = () => {
             userQuestData.forEach((doc) => {
               result.push(doc.data());
             });
-            if (result.length > 0 && result[0].quests) {
-              Object.keys(result[0].quests).forEach((key) => {
-                quests.push({
-                  ...result[0].quests[key],
-                  questID: key.split("|")[0],
-                  quest_order_id: key,
+
+            for (let x = 0; x < result.length; x++) {
+              if (result[x].quests) {
+                Object.keys(result[x].quests).forEach((key) => {
+                  quests.push({
+                    ...result[x].quests[key],
+                    questID: key.split("|")[0],
+                    quest_order_id: key,
+                  });
                 });
-              });
+              }
             }
-            logEvent(analytics, "USER_SESSION_WITH_PROFILE" , {user:user.uid})
+            logEvent(analytics, "USER_SESSION_WITH_PROFILE", {
+              user: user.uid,
+            });
             dispatch(setUser({ ...docSnap.data(), userQuest: quests }));
           }
-          logEvent(analytics, "USER_SESSION_WITHOUT_PROFILE" , {user:user.uid})
+          logEvent(analytics, "USER_SESSION_WITHOUT_PROFILE", {
+            user: user.uid,
+          });
           dispatch(
             setAuthStatus({
               isAuthReady: true,
@@ -65,7 +73,7 @@ export const useFireBaseAuth = () => {
                 docSnap.data().username.trim().length > 0
                   ? true
                   : false,
-              tokenDetails:tokenDetails,
+              tokenDetails: tokenDetails,
             })
           );
         } catch (error) {
@@ -75,7 +83,7 @@ export const useFireBaseAuth = () => {
               isAuthReady: true,
               user: null,
               isUserProfileSet: false,
-              tokenDetails:null
+              tokenDetails: null,
             })
           );
         }
@@ -85,7 +93,7 @@ export const useFireBaseAuth = () => {
             isAuthReady: true,
             user: null,
             isUserProfileSet: false,
-            tokenDetails:null
+            tokenDetails: null,
           })
         );
       }

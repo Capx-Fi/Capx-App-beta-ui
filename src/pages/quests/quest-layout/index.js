@@ -148,7 +148,6 @@ const AnswerQuiz = () => {
 
   const renderActionComponent = () => {
     if (actionData && questData) {
-      console.log(actionData.action_order_type);
       switch (actionData.action_order_type) {
         case "Video":
           return (
@@ -769,9 +768,6 @@ const AnswerQuiz = () => {
       getData({}, "/fetchRewardPool?questOrderId=" + encoded);
     }
   }, [routeParams, apiIsPending, questData]);
-
-  console.log(showClaimScreen);
-  console.log(!actionData);
 
   return (
     <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">

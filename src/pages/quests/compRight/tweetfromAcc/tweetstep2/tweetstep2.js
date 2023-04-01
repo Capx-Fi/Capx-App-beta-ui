@@ -173,10 +173,14 @@ const Tweetstep2 = ({ actionData }) => {
             <button
               className="url-box p-4 flex items-center justify-between underline outlined-effect"
               onClick={() => {
-                window.open(
-                  Object.values(actionDetails?.action_order_details)[0]
-                );
-                setEnableVerify(true);
+                if (
+                  Object.values(actionDetails?.action_order_details).length > 0
+                ) {
+                  window.open(
+                    Object.values(actionDetails?.action_order_details)[0]
+                  );
+                  setEnableVerify(true);
+                }
               }}
             >
               {/* <p>{actionDetails?.action_order_details?.tweet_url}</p> */}

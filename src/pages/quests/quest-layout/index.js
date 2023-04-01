@@ -569,6 +569,7 @@ const AnswerQuiz = () => {
       if (actionsData.length === 0) {
         console.log("All actions completed");
         if (isClaimQuest) {
+          setShowClaimScreen(true);
           setActionData(null);
         } else if (
           data[0].quest_type.toLowerCase() === "special" &&

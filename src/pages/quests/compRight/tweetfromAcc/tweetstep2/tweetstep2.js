@@ -130,6 +130,7 @@ const Tweetstep2 = ({ actionData }) => {
       {showCopiedBox && <p className="copied-box ">Copied!</p>}
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
         {actionDetails &&
+        actionDetails?.action_order_subtype &&
         actionDetails?.action_order_subtype === "checkUserTweet" ? (
           <>
             <div className="createtweet-1 flex flex-col gap-1">
@@ -164,10 +165,10 @@ const Tweetstep2 = ({ actionData }) => {
         ) : (
           <div className="createtweet-1 flex flex-col gap-1">
             <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
-              {actionDetails?.action_order_subtype === "checkIfUserFollows" &&
-                "Follow on twitter "}
-              {actionDetails?.action_order_subtype === "checkIfUserRetweeted" &&
-                "Retweet the below"}
+              {actionDetails?.action_order_subtype &&
+              actionDetails?.action_order_subtype === "checkIfUserFollows"
+                ? "Follow on twitter"
+                : "Retweet the below"}
             </p>
             <button
               className="url-box p-4 flex items-center justify-between underline outlined-effect"
@@ -179,9 +180,11 @@ const Tweetstep2 = ({ actionData }) => {
               }}
             >
               {/* <p>{actionDetails?.action_order_details?.tweet_url}</p> */}
-              {actionDetails && (
-                <p>{Object.values(actionDetails?.action_order_details)[0]}</p>
-              )}
+              {actionDetails &&
+                Object.values(actionDetails?.action_order_details).length >
+                  0 && (
+                  <p>{Object.values(actionDetails?.action_order_details)[0]}</p>
+                )}
 
               <button className="ml-3">
                 <GoLinkExternal />

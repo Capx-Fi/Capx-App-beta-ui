@@ -34,7 +34,7 @@ const RedirectQuest = ({ actionData }) => {
       if (questData.length > 0) {
         const connectWalletQuest = questData.filter((quest) => {
           return (
-            quest.quest_category === "Harbor_Airdrop" &&
+            quest.quest_category === "Harbor_AirDrop" &&
             quest.taskCategory === "Special"
           );
         })[0];

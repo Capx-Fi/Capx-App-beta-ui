@@ -29,12 +29,12 @@ const Header = ({ userAction }) => {
         <span className="ml-2">{userData.earned_rewards} xCapx</span>
       </Link>
       {!!userData?.comdex_earned_rewards && (
-        <div className="btn">
+        <Link to="/my-wallet" className="btn">
           <img src={CoinSvg} alt="coin" />
           <span className="ml-2">
             {userData?.comdex_earned_rewards} xHARBOR
           </span>
-        </div>
+        </Link>
       )}
 
       <button className="btn logout-btn md:hidden" onClick={handleLogout}>

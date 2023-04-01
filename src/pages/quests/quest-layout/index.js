@@ -148,6 +148,7 @@ const AnswerQuiz = () => {
 
   const renderActionComponent = () => {
     if (actionData && questData) {
+      console.log(actionData.action_order_type);
       switch (actionData.action_order_type) {
         case "Video":
           return (

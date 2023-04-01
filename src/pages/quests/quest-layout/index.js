@@ -769,6 +769,9 @@ const AnswerQuiz = () => {
     }
   }, [routeParams, apiIsPending, questData]);
 
+  console.log(showClaimScreen);
+  console.log(!actionData);
+
   return (
     <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">
       {/* Pass Banner Details Here --------------------------------------------------------------------- */}

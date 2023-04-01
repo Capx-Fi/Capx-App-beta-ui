@@ -42,6 +42,8 @@ import WriteArticle from "../compRight/writeArticle/WriteArticle1";
 import WriteArticle2 from "../compRight/writeArticle/WriteArticle2";
 import WeeklyFeedback from "../compRight/weeklyFeedback/WeeklyFeedback";
 import AlphavDrop from "../compRight/alphaAirdrop/AlphaAirdrop";
+import ConnectWallet from "../compRight/connectWallet/ConnectWallet";
+import RedirectQuest from "../compRight/redirectQuest/RedirectQuest";
 
 const AnswerQuiz = () => {
   const routeParams = useParams();
@@ -73,8 +75,11 @@ const AnswerQuiz = () => {
   const [showActionClaim, setShowActionClaim] = useState(false);
   const [openErrorModal, setOpenErrorModal] = useState(false);
   const [showProfilePage, setShowProfilePage] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [errorModalHeading, setErrorModalHeading] = useState(null);
+  const [errorModalMessage, setErrorModalMessage] = useState(null);
   const [reFetchInProgress, setReFetchInProgress] = useState(false);
+  const [poolData, setPoolData] = useState();
+  const [completeActionData, setCompleteActionData] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isPending, data, error, reFetchData } = useFirestoreCollection(
@@ -86,6 +91,7 @@ const AnswerQuiz = () => {
     isPending: apiIsPending,
     postData,
     data: apiData,
+    getData,
   } = useApi(url, "POST");
 
   const {
@@ -142,7 +148,6 @@ const AnswerQuiz = () => {
 
   const renderActionComponent = () => {
     if (actionData && questData) {
-      console.log(actionData);
       switch (actionData.action_order_type) {
         case "Video":
           return (
@@ -319,6 +324,26 @@ const AnswerQuiz = () => {
               }}
             />
           );
+        case "Verify_OnChain":
+          return (
+            <RedirectQuest
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
+        case "Harbor_AirDrop":
+          return (
+            <ConnectWallet
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
         default:
           return <p>No data</p>;
       }
@@ -417,11 +442,20 @@ const AnswerQuiz = () => {
         };
         break;
       }
-      case "twitterVerify": {
+      case "verifyTweet": {
         apiDataObject = {
           data: {
             action_order_id: actionData.action_order_id,
             tweet_url: input.value,
+          },
+        };
+        setIsClaimQuest(true);
+        break;
+      }
+      case "twitterVerify": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
           },
         };
         setIsClaimQuest(true);
@@ -480,6 +514,23 @@ const AnswerQuiz = () => {
         };
         break;
       }
+      case "harborAirdrop": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
+            comdex_address: input.value.address,
+          },
+        };
+        // setIsClaimQuest(true);
+        break;
+      }
+      case "Verify_OnChain": {
+        apiDataObject = {
+          data: { action_order_id: actionData.action_order_id },
+        };
+        setIsClaimQuest(true);
+        break;
+      }
       default:
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
@@ -494,7 +545,7 @@ const AnswerQuiz = () => {
 
   const taskErrorReset = () => {
     setTaskError(null);
-    setErrorMessage(null);
+    // setErrorModalHeading(null);
   };
 
   useEffect(() => {
@@ -563,11 +614,50 @@ const AnswerQuiz = () => {
       console.log(error);
     }
   }, [data, error]);
+
+  useEffect(() => {
+    if (
+      !apiIsPending &&
+      apiData &&
+      !isError &&
+      apiData.result.success === true
+    ) {
+      if (apiData.result?.rewardPool) {
+        setPoolData(apiData);
+      } else {
+        setCompleteActionData(apiData);
+      }
+    } else if (apiData && apiData.result.success === false && isError) {
+      if (apiData.result.success === false) {
+        if (apiData.result?.message.includes("|")) {
+          const errorModalData = apiData.result?.message.split("|");
+          setErrorModalHeading(errorModalData[0]);
+          setErrorModalMessage(errorModalData[1]);
+        } else {
+          setErrorModalHeading(apiData.result?.message);
+        }
+        if (
+          apiData.result?.message ===
+          "ERROR: Twitter already linked to different user"
+        ) {
+          unlinkWithSocail("twitter");
+        }
+      }
+      setTaskError(true);
+    } else if (isError) {
+      console.log(isError);
+      if (isError === "unexpected_error") {
+        navigate("/");
+      }
+      setTaskError(true);
+    }
+  }, [apiData, apiIsPending, isError, routeParams]);
+
   useEffect(() => {
     if (!apiIsPending) {
-      if (apiData && !isError) {
+      if (completeActionData && !isError) {
         if (!showClaimScreen && !showActionClaim && !reFetchInProgress) {
-          if (apiData.result.success === true) {
+          if (completeActionData.result.success === true) {
             logEvent(analytics, "QUEST_ACTION_COMPLETE_SUCCESS", {
               questOrderId: routeParams.questID,
               questType: questData.quest_category,
@@ -575,8 +665,8 @@ const AnswerQuiz = () => {
               actionType: currentActionData.action_order_type,
               action_order_id: currentActionData.action_order_id,
             });
-            if (apiData?.result?.message.includes("|")) {
-              const modalData = apiData?.result?.message.split("|");
+            if (completeActionData?.result?.message.includes("|")) {
+              const modalData = completeActionData?.result?.message.split("|");
               setDailyQuestCongratulationsModalHeading(modalData[0]);
               setDailyQuestCongratulationsModalText(modalData[1]);
             }
@@ -595,7 +685,8 @@ const AnswerQuiz = () => {
               ) {
                 setOpenCongratulationModal(true);
               } else if (
-                questData.quest_category === "Build_Profile" &&
+                (questData.quest_category === "Build_Profile" ||
+                  questData.quest_category === "Harbor_AirDrop") &&
                 questData.status === "CLAIMED"
               ) {
                 setOpenCongratulationModal(true);
@@ -603,13 +694,13 @@ const AnswerQuiz = () => {
             }
           }
         } else if (showClaimScreen && !isPending && !reFetchInProgress) {
-          if (apiData.result.success === true) {
+          if (completeActionData.result.success === true) {
             logEvent(analytics, "QUEST_CLAIM_COMPLETE_SUCCESS", {
               questOrderId: routeParams.questID,
               questType: questData.quest_category,
               user: auth.uid,
-              actionType: currentActionData.action_order_type,
-              action_order_id: currentActionData.action_order_id,
+              actionType: currentActionData?.action_order_type,
+              action_order_id: currentActionData?.action_order_id,
             });
             if (questData.quest_category !== "Feedback") {
               setOpenCongratulationModal(true);
@@ -623,46 +714,60 @@ const AnswerQuiz = () => {
             actionType: currentActionData.action_order_type,
             action_order_id: currentActionData.action_order_id,
           });
-          if (apiData.result.success === true) {
+          if (completeActionData.result.success === true) {
             setOpenActionCompleteModel(true);
           }
         } else if (reFetchInProgress) {
-          if (apiData.result.success === true) {
+          if (completeActionData.result.success === true) {
             logEvent(analytics, "QUEST_REGISTRATION_SUCCESS", {
               questID: questID,
               user: auth.uid,
-              questOrder: apiData.result.quest_order_id,
+              questOrder: completeActionData.result.quest_order_id,
             });
             dispatch(
-              setQuestOrderId({ questId: apiData.result.quest_order_id })
+              setQuestOrderId({
+                questId: completeActionData.result.quest_order_id,
+              })
             );
             reFetchData({
               status: true,
-              data: ["__name__", "==", apiData.result.quest_order_id],
+              data: [
+                "__name__",
+                "==",
+                completeActionData.result.quest_order_id,
+              ],
             });
-            navigate(`/quest/${apiData.result.quest_order_id}`);
+            navigate(`/quest/${completeActionData.result.quest_order_id}`);
           }
         }
-      } else if (apiData && isError) {
-        if (apiData.result.success === false) {
-          setErrorMessage(apiData.result?.message);
-          if (
-            apiData.result?.message ===
-            "ERROR: Twitter already linked to different user"
-          ) {
-            unlinkWithSocail("twitter");
-          }
-        }
-        setTaskError(true);
-      } else if (isError) {
-        console.log(isError);
-        if (isError === "unexpected_error") {
-          navigate("/");
-        }
-        setTaskError(true);
       }
     }
-  }, [apiData, apiIsPending, isError]);
+  }, [completeActionData, isError]);
+
+  useEffect(() => {
+    if (data) {
+      reFetchData({
+        status: true,
+        data: ["__name__", "==", routeParams.questID],
+      });
+    }
+    if (poolData) {
+      setPoolData(null);
+    }
+  }, [routeParams]);
+
+  useEffect(() => {
+    if (
+      !apiIsPending &&
+      questData &&
+      !isError &&
+      !poolData &&
+      questData.rewards_type === "CMDX"
+    ) {
+      const encoded = encodeURIComponent(questData.quest_order_id);
+      getData({}, "/fetchRewardPool?questOrderId=" + encoded);
+    }
+  }, [routeParams, apiIsPending, questData]);
 
   return (
     <div className="quest-layout flex flex-col px-4 py-8 md:p-8 md:gap-0 gap-8 ">
@@ -673,6 +778,7 @@ const AnswerQuiz = () => {
             data={{
               title: questData.quest_title,
               rewards: questData.max_rewards,
+              rewards_type: questData.rewards_type,
             }}
           />
         )}
@@ -682,11 +788,12 @@ const AnswerQuiz = () => {
         <div className="quest-details-1 flex flex-col md:gap-16 gap-12 md:px-5">
           {/* Pass Description & Expiry Details Here --------------------------------------------------------- */}
 
-          {true && (
+          {questData && (
             <QuestDescription
               primarydetails={{
                 qdescription: questData?.quest_description,
                 qexpiry: questData?.quest_end_date,
+                poolData,
               }}
             />
           )}
@@ -746,7 +853,9 @@ const AnswerQuiz = () => {
               modalText={
                 questData?.max_rewards == 0
                   ? `You have successfully completed the quest. Keep learning! Keep earning!`
-                  : `You have earned ${questData?.max_rewards} xCapx tokens as reward for
+                  : `You have earned ${questData?.max_rewards} ${
+                      questData.rewards_type === "IOU" ? " xCapx" : " xHARBOR"
+                    } tokens as reward for
                   successfully completing the quest`
               }
               leftButton={{ text: "Next Quest", handler: nextQuestSetup }}
@@ -785,8 +894,9 @@ const AnswerQuiz = () => {
 
           <ErrorModal
             open={taskError === true ? true : false}
-            heading={errorMessage}
+            heading={errorModalHeading}
             handleClose={taskErrorReset}
+            message={errorModalMessage}
           />
         </div>
       </div>

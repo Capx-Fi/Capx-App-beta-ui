@@ -8,6 +8,7 @@ import { config } from "../../../../../config";
 import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollection";
 import ErrorModal from "../../errorModal/ErrorModal";
 import { GoLinkExternal } from "react-icons/go";
+import { useNavigate } from "react-router-dom";
 
 const Tweetstep2 = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
@@ -17,9 +18,12 @@ const Tweetstep2 = ({ actionData }) => {
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const [ModalHeadning, setModalHeadning] = useState("");
   const [showCopiedBox, setShowCopiedBox] = useState(false);
+  const [errorModalBtnText, setErrorModalBtnText] = useState("");
   const [textForTweet, setTextForTweet] = useState(
     "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
   );
+
+  const navigate = useNavigate();
 
   var expression =
     /[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)?/gi;
@@ -54,7 +58,19 @@ const Tweetstep2 = ({ actionData }) => {
   }, [tweetUrl]);
 
   const handleErrorModal = () => {
-    SetIsOpenErrorModal(false);
+    if (actionDetails?.action_order_subtype === "checkUserTweet") {
+      if (!regex.test(tweetUrl.trim())) {
+        SetIsOpenErrorModal(false);
+      } else {
+        navigate("/profile");
+        SetIsOpenErrorModal(false);
+      }
+    } else {
+      if (!userData.socials.twitter_username) {
+        navigate("/profile");
+        SetIsOpenErrorModal(false);
+      }
+    }
   };
 
   const handleCopyText = () => {
@@ -66,36 +82,43 @@ const Tweetstep2 = ({ actionData }) => {
   };
 
   const handleActionComplete = (e) => {
-    if (
-      tweetUrl.trim().match(regex) ||
-      actionDetails?.action_order_details?.tweet_url
-    ) {
+    if (actionDetails?.action_order_subtype === "checkUserTweet") {
       if (
+        regex.test(tweetUrl.trim()) &&
         userData &&
         userData.socials &&
-        userData.socials.twitter_id.trim().length > 0 &&
-        userData.socials.twitter_username.trim().length > 0
+        userData.socials.twitter_username
       ) {
-        if (tweetUrl) {
-          actionData.handleCompleteAction(e, {
-            type: "twitterVerify",
-            value: tweetUrl,
-          });
-        } else if (actionDetails?.action_order_details?.tweet_url) {
-          actionData.handleCompleteAction(e, {
-            type: "twitterVerify",
-            value: actionDetails?.action_order_details?.tweet_url,
-          });
+        actionData.handleCompleteAction(e, {
+          type: "verifyTweet",
+          value: tweetUrl,
+        });
+      } else {
+        if (!regex.test(tweetUrl.trim())) {
+          setModalHeadning("Please enter a valid tweet link");
+          setErrorModalBtnText("");
+          SetIsOpenErrorModal(true);
+        } else {
+          setModalHeadning(
+            "Please connect your twitter account before continuing"
+          );
+
+          setErrorModalBtnText("Navigate to profile");
+          SetIsOpenErrorModal(true);
         }
+      }
+    } else {
+      if (userData && userData.socials && userData.socials.twitter_username) {
+        actionData.handleCompleteAction(e, {
+          type: "twitterVerify",
+        });
       } else {
         setModalHeadning(
           "Please connect your twitter account before continuing"
         );
+        setErrorModalBtnText("Navigate to profile");
         SetIsOpenErrorModal(true);
       }
-    } else {
-      setModalHeadning("Please enter a valid tweet link");
-      SetIsOpenErrorModal(true);
     }
   };
 
@@ -106,7 +129,8 @@ const Tweetstep2 = ({ actionData }) => {
       </p>
       {showCopiedBox && <p className="copied-box ">Copied!</p>}
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
-        {!actionDetails?.action_order_details ? (
+        {actionDetails &&
+        actionDetails?.action_order_subtype === "checkUserTweet" ? (
           <>
             <div className="createtweet-1 flex flex-col gap-1">
               <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
@@ -140,20 +164,29 @@ const Tweetstep2 = ({ actionData }) => {
         ) : (
           <div className="createtweet-1 flex flex-col gap-1">
             <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">
-              Retweet the below
+              {actionDetails?.action_order_subtype === "checkIfUserFollows" &&
+                "Follow on twitter "}
+              {actionDetails?.action_order_subtype === "checkIfUserRetweeted" &&
+                "Retweet the below"}
             </p>
-            <div className="url-box p-4 flex items-center justify-between underline">
-              <p>{actionDetails?.action_order_details?.tweet_url}</p>
-              <button
-                onClick={() => {
-                  window.open(actionDetails?.action_order_details?.tweet_url);
-                  setEnableVerify(true);
-                }}
-                className="ml-3"
-              >
+            <button
+              className="url-box p-4 flex items-center justify-between underline outlined-effect"
+              onClick={() => {
+                window.open(
+                  Object.values(actionDetails?.action_order_details)[0]
+                );
+                setEnableVerify(true);
+              }}
+            >
+              {/* <p>{actionDetails?.action_order_details?.tweet_url}</p> */}
+              {actionDetails && (
+                <p>{Object.values(actionDetails?.action_order_details)[0]}</p>
+              )}
+
+              <button className="ml-3">
                 <GoLinkExternal />
               </button>
-            </div>
+            </button>
           </div>
         )}
 
@@ -172,6 +205,7 @@ const Tweetstep2 = ({ actionData }) => {
         heading={ModalHeadning}
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
+        BtnText={errorModalBtnText}
       />
       {isPending && <TopLoader />}
     </div>

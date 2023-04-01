@@ -21,6 +21,7 @@ import {
   FirePng,
   LightningPng,
 } from "../../assets/images";
+import { auth } from "../../firebase/firebase";
 
 function Profile() {
   const navigate = useNavigate();
@@ -61,8 +62,16 @@ function Profile() {
     }
   }, [data, isError]);
 
-  const handleSocialLink = (method) => {
-    linkWithSocail(method);
+  const handleSocialLink = async (method) => {
+    const twitterProvider = auth.currentUser.providerData.filter(
+      (provider) => provider.providerId === "twitter.com"
+    )[0];
+    if (twitterProvider) {
+      await auth.currentUser.getIdTokenResult(true);
+      postData({ data: {} }, "/linkYourTwitter");
+    } else {
+      linkWithSocail(method);
+    }
   };
 
   useEffect(() => {
@@ -77,19 +86,22 @@ function Profile() {
   };
 
   useEffect(() => {
-    if (!isSOcialLinkPending && !isPending && useAccessToken?.length > 0) {
-      if (
-        socialRedirectProvider === "twitter.com" &&
-        userData.socials.twitter_id.length === 0
-      ) {
-        postData({ data: {} }, "/linkYourTwitter");
-      } else if (
-        socialRedirectProvider === "google.com" &&
-        userData.socials.google_id.length === 0
-      ) {
-        postData({ data: {} }, "/linkYourGoogle");
+    (async () => {
+      if (!isSOcialLinkPending && !isPending && useAccessToken?.length > 0) {
+        if (
+          socialRedirectProvider === "twitter.com" &&
+          userData.socials.twitter_id.length === 0
+        ) {
+          await auth.currentUser.getIdTokenResult(true);
+          postData({ data: {} }, "/linkYourTwitter");
+        } else if (
+          socialRedirectProvider === "google.com" &&
+          userData.socials.google_id.length === 0
+        ) {
+          postData({ data: {} }, "/linkYourGoogle");
+        }
       }
-    }
+    })();
   }, [isSOcialLinkPending, socialRedirectProvider, isPending]);
 
   useEffect(() => {
@@ -188,7 +200,7 @@ function Profile() {
                     className="social-box outlined-effect flex items-center"
                   >
                     <img src={TwitterIcon} alt="twitter" />
-                    <p className="name ml-2">Connect you twitter</p>
+                    <p className="name ml-2">Connect your twitter</p>
                     <div className="grow" />
                   </button>
                 )}
@@ -207,7 +219,7 @@ function Profile() {
                     className="social-box outlined-effect flex items-center"
                   >
                     <img src={DiscordIcon} alt="twitter" />
-                    <p className="name ml-2">Connect you discord</p>
+                    <p className="name ml-2">Connect your discord</p>
                     <div className="grow" />
                   </button>
                 )}

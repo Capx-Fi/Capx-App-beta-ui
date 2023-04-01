@@ -1,12 +1,19 @@
 import React, { useState } from "react";
 import { HiArrowRight } from "react-icons/hi";
-import { useRef } from "react";
+import ErrorModal from "../../errorModal/ErrorModal";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Tweetstep1 = ({ actionData }) => {
   const [showCopiedBox, setShowCopiedBox] = useState(false);
+  const [errorModalHeading, setErrorModalHeading] = useState("");
+  const [isErrorModalOpen, setIsErrorModalOpen] = useState(false);
+  const [errorModalBtnText, setErrorModalBtnText] = useState("");
   const [textForTweet, setTextForTweet] = useState(
     "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
   );
+  const navigate = useNavigate();
+  const userData = useSelector((state) => state.user);
 
   const handleCopyTextButton = () => {
     navigator.clipboard.writeText(textForTweet);
@@ -14,6 +21,29 @@ const Tweetstep1 = ({ actionData }) => {
     setTimeout(() => {
       setShowCopiedBox(false);
     }, 1500);
+  };
+
+  const handleErrorModal = () => {
+    if (userData?.socials?.twitter_username) {
+      setIsErrorModalOpen(false);
+    } else {
+      navigate("/profile");
+    }
+  };
+
+  const handleActionComplete = (e) => {
+    if (userData?.socials?.twitter_username) {
+      actionData.handleCompleteAction(e, {
+        type: "video",
+        value: "twitterCopy",
+      });
+    } else {
+      setErrorModalHeading(
+        "Please connect your twitter account before continuing"
+      );
+      setErrorModalBtnText("Navigate to profile");
+      setIsErrorModalOpen(true);
+    }
   };
 
   return (
@@ -68,18 +98,19 @@ const Tweetstep1 = ({ actionData }) => {
           </button>
           <button
             className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl"
-            onClick={(e) =>
-              actionData.handleCompleteAction(e, {
-                type: "video",
-                value: "twitterCopy",
-              })
-            }
+            onClick={handleActionComplete}
           >
             Next Action
             <HiArrowRight className="text-xl ml-4" />
           </button>
         </div>
       </div>
+      <ErrorModal
+        heading={errorModalHeading}
+        open={isErrorModalOpen}
+        handleClose={handleErrorModal}
+        BtnText={errorModalBtnText}
+      />
     </div>
   );
 };

@@ -23,7 +23,6 @@ export const useFireBaseAuth = () => {
       if (user) {
         try {
           const tokenDetails = auth.currentUser.getIdTokenResult();
-          console.log("token detauls", tokenDetails);
           const userDoc = doc(db, "xusers", user.uid);
           const docSnap = await getDoc(userDoc);
           setUserId(analytics, { userId: user.uid });

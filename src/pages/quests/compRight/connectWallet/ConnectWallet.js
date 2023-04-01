@@ -57,7 +57,11 @@ const ConnectWallet = ({ actionData }) => {
   return (
     <div className="connect-wallet flex flex-col gap-3">
       <p className="reward-title action-heading">
-        {actionDetails?.action_order_title}
+        {userData.wallets?.cosmos?.comdex
+          ? "Wallet Connected"
+          : !isWalletInstalled
+          ? "Action #2 : Download extention"
+          : actionDetails?.action_order_title}
       </p>
       {userData.wallets?.cosmos?.comdex ? (
         <div className="createtweet relative flex flex-col gap-3">

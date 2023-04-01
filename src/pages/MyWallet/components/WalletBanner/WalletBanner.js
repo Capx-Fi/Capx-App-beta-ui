@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 const WalletBanner = () => {
   const userData = useSelector((state) => state.user);
-  console.log(userData);
 
   return (
     <div className="wallet-banner rounded-2xl w-full md:rounded-3xl">

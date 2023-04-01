@@ -33,6 +33,7 @@ const Layout = () => {
     }/quest-order`,
     ["docType", "==", "Aggregate"]
   );
+
   const {
     signOutUser,
     error: logoutError,
@@ -67,14 +68,16 @@ const Layout = () => {
       !userLogout &&
       !questIsPending
     ) {
-      const userQuestData = questData[0].quests;
-      Object.keys(userQuestData).forEach((key) => {
-        result.push({
-          ...userQuestData[key],
-          questID: key.split("|")[0],
-          quest_order_id: key,
+      for (let x = 0; x < questData.length; x++) {
+        const userQuestData = questData[x].quests;
+        Object.keys(userQuestData).forEach((key) => {
+          result.push({
+            ...userQuestData[key],
+            questID: key.split("|")[0],
+            quest_order_id: key,
+          });
         });
-      });
+      }
       setUserQuests(result);
     } else if (!questIsPending && !userLogout && questError) {
       setUserQuests(result);

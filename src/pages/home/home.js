@@ -87,7 +87,7 @@ const Home = () => {
       });
       let todaysDate = formatDate(new Date());
       dispatch(setQuestsData({ allQuests: result }));
-
+      console.log(result);
       setDailyReward(
         result.filter((val) => {
           return val.taskCategory.toLowerCase() === "dailyreward";
@@ -139,7 +139,6 @@ const Home = () => {
       setHarborQuests(
         result
           .filter((val) => {
-            console.log(val);
             if (
               (val.created_on !== todaysDate ||
                 val.status === "IN_PROGRESS" ||

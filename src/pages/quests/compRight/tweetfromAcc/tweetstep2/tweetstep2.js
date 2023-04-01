@@ -58,15 +58,18 @@ const Tweetstep2 = ({ actionData }) => {
   }, [tweetUrl]);
 
   const handleErrorModal = () => {
-    if (
-      userData &&
-      userData.socials &&
-      userData.socials.twitter_id.trim().length > 0 &&
-      userData.socials.twitter_username.trim().length > 0
-    ) {
-      SetIsOpenErrorModal(false);
+    if (actionDetails?.action_order_subtype === "checkUserTweet") {
+      if (!regex.test(tweetUrl.trim())) {
+        SetIsOpenErrorModal(false);
+      } else {
+        navigate("/profile");
+        SetIsOpenErrorModal(false);
+      }
     } else {
-      navigate("/profile");
+      if (!userData.socials.twitter_username) {
+        navigate("/profile");
+        SetIsOpenErrorModal(false);
+      }
     }
   };
 
@@ -79,37 +82,43 @@ const Tweetstep2 = ({ actionData }) => {
   };
 
   const handleActionComplete = (e) => {
-    if (tweetUrl.trim().match(regex) || actionDetails?.action_order_subtype) {
+    if (actionDetails?.action_order_subtype === "checkUserTweet") {
       if (
+        regex.test(tweetUrl.trim()) &&
         userData &&
         userData.socials &&
-        userData.socials.twitter_id.trim().length > 0 &&
-        userData.socials.twitter_username.trim().length > 0
+        userData.socials.twitter_username
       ) {
-        if (tweetUrl) {
-          actionData.handleCompleteAction(e, {
-            type: "verifyTweet",
-            value: tweetUrl,
-          });
-        } else if (actionDetails?.action_order_subtype) {
-          actionData.handleCompleteAction(e, {
-            type: "twitterVerify",
-            // value: Object.values(actionDetails?.action_order_details)[0],
-          });
+        actionData.handleCompleteAction(e, {
+          type: "verifyTweet",
+          value: tweetUrl,
+        });
+      } else {
+        if (!regex.test(tweetUrl.trim())) {
+          setModalHeadning("Please enter a valid tweet link");
+          setErrorModalBtnText("");
+          SetIsOpenErrorModal(true);
+        } else {
+          setModalHeadning(
+            "Please connect your twitter account before continuing"
+          );
+
+          setErrorModalBtnText("Navigate to profile");
+          SetIsOpenErrorModal(true);
         }
+      }
+    } else {
+      if (userData && userData.socials && userData.socials.twitter_username) {
+        actionData.handleCompleteAction(e, {
+          type: "twitterVerify",
+        });
       } else {
         setModalHeadning(
           "Please connect your twitter account before continuing"
         );
-
         setErrorModalBtnText("Navigate to profile");
         SetIsOpenErrorModal(true);
       }
-    } else {
-      setModalHeadning("Please enter a valid tweet link");
-
-      setErrorModalBtnText("");
-      SetIsOpenErrorModal(true);
     }
   };
 
@@ -120,7 +129,8 @@ const Tweetstep2 = ({ actionData }) => {
       </p>
       {showCopiedBox && <p className="copied-box ">Copied!</p>}
       <div className="createtweet-wrapper p-4 w-full border-2 rounded-3xl flex flex-col gap-8">
-        {actionDetails && !actionDetails?.action_order_subtype ? (
+        {actionDetails &&
+        actionDetails?.action_order_subtype === "checkUserTweet" ? (
           <>
             <div className="createtweet-1 flex flex-col gap-1">
               <p className="heading text-cgreen-700 opacity-50 font-medium pl-2 fs-15">

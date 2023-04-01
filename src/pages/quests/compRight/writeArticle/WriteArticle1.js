@@ -37,7 +37,9 @@ const WriteArticle = ({ actionData }) => {
       actionDetails && (
         <div className="connect-wallet flex flex-col gap-3">
           <p className="reward-title action-heading">
-            {actionDetails?.action_order_title}
+            {!isWalletInstalled
+              ? "Action #1 : Download extention"
+              : actionDetails?.action_order_title}
           </p>
           {!isWalletInstalled ? (
             <>

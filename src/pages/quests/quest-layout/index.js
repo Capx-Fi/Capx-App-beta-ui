@@ -79,7 +79,8 @@ const AnswerQuiz = () => {
   const [errorModalMessage, setErrorModalMessage] = useState(null);
   const [reFetchInProgress, setReFetchInProgress] = useState(false);
   const [isFirstRun, setIsFirstRun] = useState(true);
-  const [poolData, setPoolData] = useState();
+  const [disableVerifyBtn, setDisableVerifyBtn] = useState(false);
+  const [poolData, setPoolData] = useState(null);
   const [completeActionData, setCompleteActionData] = useState();
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -235,6 +236,8 @@ const AnswerQuiz = () => {
                 ...actionData,
                 handleCompleteAction: handleCompleteAction,
                 questID: routeParams.questID,
+                btnState: disableVerifyBtn,
+                poolData,
               }}
             />
           );
@@ -332,6 +335,8 @@ const AnswerQuiz = () => {
                 ...actionData,
                 handleCompleteAction: handleCompleteAction,
                 questID: routeParams.questID,
+                btnState: disableVerifyBtn,
+                poolData,
               }}
             />
           );
@@ -529,7 +534,7 @@ const AnswerQuiz = () => {
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
         };
-        setIsClaimQuest(true);
+
         break;
       }
       default:
@@ -537,6 +542,11 @@ const AnswerQuiz = () => {
           data: { action_order_id: actionData.action_order_id },
         };
     }
+    setIsClaimQuest(true);
+    setDisableVerifyBtn(true);
+    setTimeout(() => {
+      setDisableVerifyBtn(false);
+    }, 60000);
     if (input.accessToken && input.accessToken.length > 0) {
       postData(apiDataObject, "/completeAction", input.accessToken);
     } else {
@@ -627,8 +637,9 @@ const AnswerQuiz = () => {
       !isFirstRun
     ) {
       if (apiData.result?.rewardPool) {
-        setPoolData(apiData);
+        setPoolData(apiData.result.rewardPool);
       } else {
+        setDisableVerifyBtn(false);
         setCompleteActionData(apiData);
       }
     } else if (apiData && apiData.result.success === false && isError) {

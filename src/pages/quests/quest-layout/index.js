@@ -655,7 +655,7 @@ const AnswerQuiz = () => {
       }
       setTaskError(true);
     }
-  }, [apiData, apiIsPending, isError, routeParams]);
+  }, [apiData, apiIsPending, isError, routeParams, isFirstRun]);
 
   useEffect(() => {
     if (!apiIsPending) {

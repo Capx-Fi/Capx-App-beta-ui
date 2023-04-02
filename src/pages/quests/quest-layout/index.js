@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Banner from "../banner";
 import QuestLeft from "../compLeft";
 import QuestDescription from "../compLeft/description/description.js";
@@ -78,6 +78,7 @@ const AnswerQuiz = () => {
   const [errorModalHeading, setErrorModalHeading] = useState(null);
   const [errorModalMessage, setErrorModalMessage] = useState(null);
   const [reFetchInProgress, setReFetchInProgress] = useState(false);
+  const [isFirstRun, setIsFirstRun] = useState(true);
   const [poolData, setPoolData] = useState();
   const [completeActionData, setCompleteActionData] = useState();
   const navigate = useNavigate();
@@ -541,6 +542,7 @@ const AnswerQuiz = () => {
     } else {
       postData(apiDataObject, "/completeAction");
     }
+    setIsFirstRun(true);
   };
 
   const taskErrorReset = () => {
@@ -569,7 +571,6 @@ const AnswerQuiz = () => {
       if (actionsData.length === 0) {
         console.log("All actions completed");
         if (isClaimQuest) {
-          setShowClaimScreen(true);
           setActionData(null);
         } else if (
           data[0].quest_type.toLowerCase() === "special" &&
@@ -611,6 +612,7 @@ const AnswerQuiz = () => {
       if (reFetchInProgress === true) {
         setReFetchInProgress(false);
       }
+      setIsFirstRun(false);
     } else if (error) {
       console.log(error);
     }
@@ -621,7 +623,8 @@ const AnswerQuiz = () => {
       !apiIsPending &&
       apiData &&
       !isError &&
-      apiData.result.success === true
+      apiData.result.success === true &&
+      !isFirstRun
     ) {
       if (apiData.result?.rewardPool) {
         setPoolData(apiData);
@@ -652,7 +655,7 @@ const AnswerQuiz = () => {
       }
       setTaskError(true);
     }
-  }, [apiData, apiIsPending, isError, routeParams]);
+  }, [apiData, apiIsPending, isError, routeParams, isFirstRun]);
 
   useEffect(() => {
     if (!apiIsPending) {

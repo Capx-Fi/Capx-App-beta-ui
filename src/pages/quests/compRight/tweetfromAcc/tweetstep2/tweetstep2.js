@@ -19,6 +19,7 @@ const Tweetstep2 = ({ actionData }) => {
   const [ModalHeadning, setModalHeadning] = useState("");
   const [showCopiedBox, setShowCopiedBox] = useState(false);
   const [errorModalBtnText, setErrorModalBtnText] = useState("");
+  const [errorModalMessage, setErrorModalMessage] = useState("");
   const [textForTweet, setTextForTweet] = useState(
     "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
   );
@@ -58,17 +59,24 @@ const Tweetstep2 = ({ actionData }) => {
   }, [tweetUrl]);
 
   const handleErrorModal = () => {
-    if (actionDetails?.action_order_subtype === "checkUserTweet") {
-      if (!regex.test(tweetUrl.trim())) {
-        SetIsOpenErrorModal(false);
-      } else {
-        navigate("/profile");
-        SetIsOpenErrorModal(false);
-      }
+    if (
+      actionData.poolData &&
+      actionData.poolData.claimedRewards === actionData.poolData.totalRewards
+    ) {
+      navigate("/");
     } else {
-      if (!userData.socials.twitter_username) {
-        navigate("/profile");
-        SetIsOpenErrorModal(false);
+      if (actionDetails?.action_order_subtype === "checkUserTweet") {
+        if (!regex.test(tweetUrl.trim())) {
+          SetIsOpenErrorModal(false);
+        } else {
+          navigate("/profile");
+          SetIsOpenErrorModal(false);
+        }
+      } else {
+        if (!userData.socials.twitter_username) {
+          navigate("/profile");
+          SetIsOpenErrorModal(false);
+        }
       }
     }
   };
@@ -82,42 +90,54 @@ const Tweetstep2 = ({ actionData }) => {
   };
 
   const handleActionComplete = (e) => {
-    if (actionDetails?.action_order_subtype === "checkUserTweet") {
-      if (
-        regex.test(tweetUrl.trim()) &&
-        userData &&
-        userData.socials &&
-        userData.socials.twitter_username
-      ) {
-        actionData.handleCompleteAction(e, {
-          type: "verifyTweet",
-          value: tweetUrl,
-        });
+    if (
+      actionData.poolData &&
+      actionData.poolData.claimedRewards === actionData.poolData.totalRewards
+    ) {
+      setModalHeadning(
+        "xHARBOR token pool for this quest has been fully distributed"
+      );
+      setErrorModalBtnText("Go to home");
+      setErrorModalMessage(" ");
+      SetIsOpenErrorModal(true);
+    } else {
+      if (actionDetails?.action_order_subtype === "checkUserTweet") {
+        if (
+          regex.test(tweetUrl.trim()) &&
+          userData &&
+          userData.socials &&
+          userData.socials.twitter_username
+        ) {
+          actionData.handleCompleteAction(e, {
+            type: "verifyTweet",
+            value: tweetUrl,
+          });
+        } else {
+          if (!regex.test(tweetUrl.trim())) {
+            setModalHeadning("Please enter a valid tweet link");
+            setErrorModalBtnText("");
+            SetIsOpenErrorModal(true);
+          } else {
+            setModalHeadning(
+              "Please connect your twitter account before continuing"
+            );
+
+            setErrorModalBtnText("Navigate to profile");
+            SetIsOpenErrorModal(true);
+          }
+        }
       } else {
-        if (!regex.test(tweetUrl.trim())) {
-          setModalHeadning("Please enter a valid tweet link");
-          setErrorModalBtnText("");
-          SetIsOpenErrorModal(true);
+        if (userData && userData.socials && userData.socials.twitter_username) {
+          actionData.handleCompleteAction(e, {
+            type: "twitterVerify",
+          });
         } else {
           setModalHeadning(
             "Please connect your twitter account before continuing"
           );
-
           setErrorModalBtnText("Navigate to profile");
           SetIsOpenErrorModal(true);
         }
-      }
-    } else {
-      if (userData && userData.socials && userData.socials.twitter_username) {
-        actionData.handleCompleteAction(e, {
-          type: "twitterVerify",
-        });
-      } else {
-        setModalHeadning(
-          "Please connect your twitter account before continuing"
-        );
-        setErrorModalBtnText("Navigate to profile");
-        SetIsOpenErrorModal(true);
       }
     }
   };
@@ -192,10 +212,12 @@ const Tweetstep2 = ({ actionData }) => {
 
         <button
           className={`${
-            !enableVerify ? "disabled" : "bg-gredient-2 contained-effect"
+            !enableVerify || actionData.btnState
+              ? "disabled"
+              : "bg-gredient-2 contained-effect"
           } action-btn self-stretch flex justify-center items-center p-3 rounded-2xl`}
           onClick={handleActionComplete}
-          disabled={!enableVerify}
+          disabled={!enableVerify || actionData.btnState}
         >
           Verify
           <HiArrowRight className="text-xl ml-4" />
@@ -205,6 +227,7 @@ const Tweetstep2 = ({ actionData }) => {
         heading={ModalHeadning}
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
+        message={errorModalMessage}
         BtnText={errorModalBtnText}
       />
       {isPending && <TopLoader />}

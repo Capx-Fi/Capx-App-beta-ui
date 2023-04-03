@@ -15,6 +15,7 @@ const RedirectQuest = ({ actionData }) => {
   const [enableVerify, setEnableVerify] = useState(false);
   const [ModalHeadning, setModalHeadning] = useState("");
   const [errorModalBtnText, setErrorModalBtnText] = useState("");
+  const [errorModalMessage, setErrorModalMessage] = useState("");
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
@@ -28,37 +29,45 @@ const RedirectQuest = ({ actionData }) => {
   } = useApi(config.API_URL, "POST");
 
   const handleErrorModal = () => {
-    if (userData.wallets?.cosmos?.comdex) {
-      SetIsOpenErrorModal(false);
+    if (
+      actionData?.poolData &&
+      actionData.poolData.claimedRewards === actionData.poolData.totalRewards
+    ) {
+      navigate("/");
     } else {
-      if (questData.length > 0) {
-        const connectWalletQuest = questData.filter((quest) => {
-          return (
-            quest.quest_category === "Harbor_AirDrop" &&
-            quest.taskCategory === "Special"
-          );
-        })[0];
-        if (connectWalletQuest.status === "new") {
+      if (userData.wallets?.cosmos?.comdex) {
+        SetIsOpenErrorModal(false);
+      } else {
+        if (questData.length > 0) {
+          const connectWalletQuest = questData.filter((quest) => {
+            return (
+              quest.quest_category === "Harbor_AirDrop" &&
+              quest.taskCategory === "Special"
+            );
+          })[0];
+          if (connectWalletQuest.status === "new") {
+            const apiDataObject = {
+              data: { questId: actionDetails?.action_order_info?.req_quest_id },
+            };
+            postData(apiDataObject, "/registerForQuest");
+          } else {
+            navigate(
+              `/quest/${
+                actionDetails?.action_order_info?.req_quest_id +
+                "|" +
+                auth.currentUser.uid
+              }`
+            );
+          }
+        } else {
           const apiDataObject = {
             data: { questId: actionDetails?.action_order_info?.req_quest_id },
           };
           postData(apiDataObject, "/registerForQuest");
-        } else {
-          navigate(
-            `/quest/${
-              actionDetails?.action_order_info?.req_quest_id +
-              "|" +
-              auth.currentUser.uid
-            }`
-          );
         }
-      } else {
-        const apiDataObject = {
-          data: { questId: actionDetails?.action_order_info?.req_quest_id },
-        };
-        postData(apiDataObject, "/registerForQuest");
       }
     }
+
     SetIsOpenErrorModal(false);
   };
 
@@ -90,15 +99,26 @@ const RedirectQuest = ({ actionData }) => {
   }, [data, error]);
 
   const handleActionComplete = (e) => {
-    if (userData.wallets?.cosmos?.comdex) {
-      actionData.handleCompleteAction(e, { type: "Verify_OnChain" });
-    } else {
-      setModalHeadning("Please connect your wallet");
-      setErrorModalBtnText("Connect Wallet");
+    if (
+      actionData?.poolData &&
+      actionData.poolData.claimedRewards === actionData.poolData.totalRewards
+    ) {
+      setModalHeadning(
+        "xHARBOR token pool for this quest has been fully distributed"
+      );
+      setErrorModalBtnText("Go to home");
+      setErrorModalMessage(" ");
       SetIsOpenErrorModal(true);
+    } else {
+      if (userData.wallets?.cosmos?.comdex) {
+        actionData.handleCompleteAction(e, { type: "Verify_OnChain" });
+      } else {
+        setModalHeadning("Please connect your wallet");
+        setErrorModalBtnText("Connect Wallet");
+        SetIsOpenErrorModal(true);
+      }
     }
   };
-
   return (
     <div className="createtweet relative flex flex-col gap-3">
       <p className="createtweet-title action-heading ">
@@ -125,10 +145,12 @@ const RedirectQuest = ({ actionData }) => {
         </div>
         <button
           className={`${
-            !enableVerify ? "disabled" : "bg-gredient-2 contained-effect"
+            !enableVerify || actionData.btnState
+              ? "disabled"
+              : "bg-gredient-2 contained-effect"
           } action-btn self-stretch flex justify-center items-center p-3 rounded-2xl`}
           onClick={handleActionComplete}
-          disabled={!enableVerify}
+          disabled={!enableVerify || actionData.btnState}
         >
           Verify
           <HiArrowRight className="text-xl ml-4" />
@@ -138,6 +160,7 @@ const RedirectQuest = ({ actionData }) => {
         heading={ModalHeadning}
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
+        message={errorModalMessage}
         BtnText={errorModalBtnText}
       />
       {(isPending || isApiPenind) && <TopLoader />}

@@ -15,6 +15,7 @@ const RedirectQuest = ({ actionData }) => {
   const [enableVerify, setEnableVerify] = useState(false);
   const [ModalHeadning, setModalHeadning] = useState("");
   const [errorModalBtnText, setErrorModalBtnText] = useState("");
+  const [errorModalMessage, setErrorModalMessage] = useState("");
   const [isOpenErrorModal, SetIsOpenErrorModal] = useState(false);
   const navigate = useNavigate();
   const userData = useSelector((state) => state.user);
@@ -102,8 +103,11 @@ const RedirectQuest = ({ actionData }) => {
       actionData?.poolData &&
       actionData.poolData.claimedRewards === actionData.poolData.totalRewards
     ) {
-      setModalHeadning("Pool is already distributed");
+      setModalHeadning(
+        "xHARBOR token pool for this quest has been fully distributed"
+      );
       setErrorModalBtnText("Go to home");
+      setErrorModalMessage(" ");
       SetIsOpenErrorModal(true);
     } else {
       if (userData.wallets?.cosmos?.comdex) {
@@ -156,6 +160,7 @@ const RedirectQuest = ({ actionData }) => {
         heading={ModalHeadning}
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
+        message={errorModalMessage}
         BtnText={errorModalBtnText}
       />
       {(isPending || isApiPenind) && <TopLoader />}

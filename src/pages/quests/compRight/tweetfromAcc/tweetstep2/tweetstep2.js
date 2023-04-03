@@ -19,6 +19,7 @@ const Tweetstep2 = ({ actionData }) => {
   const [ModalHeadning, setModalHeadning] = useState("");
   const [showCopiedBox, setShowCopiedBox] = useState(false);
   const [errorModalBtnText, setErrorModalBtnText] = useState("");
+  const [errorModalMessage, setErrorModalMessage] = useState("");
   const [textForTweet, setTextForTweet] = useState(
     "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
   );
@@ -93,8 +94,11 @@ const Tweetstep2 = ({ actionData }) => {
       actionData.poolData &&
       actionData.poolData.claimedRewards === actionData.poolData.totalRewards
     ) {
-      setModalHeadning("Pool is already distributed");
+      setModalHeadning(
+        "xHARBOR token pool for this quest has been fully distributed"
+      );
       setErrorModalBtnText("Go to home");
+      setErrorModalMessage(" ");
       SetIsOpenErrorModal(true);
     } else {
       if (actionDetails?.action_order_subtype === "checkUserTweet") {
@@ -223,6 +227,7 @@ const Tweetstep2 = ({ actionData }) => {
         heading={ModalHeadning}
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
+        message={errorModalMessage}
         BtnText={errorModalBtnText}
       />
       {isPending && <TopLoader />}

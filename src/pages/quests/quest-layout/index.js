@@ -82,6 +82,7 @@ const AnswerQuiz = () => {
   const [disableVerifyBtn, setDisableVerifyBtn] = useState(false);
   const [poolData, setPoolData] = useState(null);
   const [completeActionData, setCompleteActionData] = useState();
+  const [countDown, setCountDown] = useState(62);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isPending, data, error, reFetchData } = useFirestoreCollection(
@@ -117,6 +118,20 @@ const AnswerQuiz = () => {
     setOpenActionCompleteModel((prev) => (prev ? !prev : prev));
     setShowActionClaim((prev) => (prev ? !prev : prev));
   };
+
+  // this useEffect for 60 sec countDown
+  useEffect(() => {
+    let interval;
+    if (disableVerifyBtn) {
+      interval = setInterval(() => {
+        setCountDown((prev) => prev - 1);
+      }, 1000);
+    } else {
+      clearInterval(interval);
+      setCountDown(60);
+    }
+    return () => clearInterval(interval);
+  }, [disableVerifyBtn]);
 
   const nextQuestSetup = () => {
     const newQuestData = allQuestData.filter((val) => {
@@ -238,6 +253,7 @@ const AnswerQuiz = () => {
                 questID: routeParams.questID,
                 btnState: disableVerifyBtn,
                 poolData,
+                countDown,
               }}
             />
           );
@@ -337,6 +353,7 @@ const AnswerQuiz = () => {
                 questID: routeParams.questID,
                 btnState: disableVerifyBtn,
                 poolData,
+                countDown,
               }}
             />
           );

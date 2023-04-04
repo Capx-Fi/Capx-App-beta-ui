@@ -226,7 +226,7 @@ const Tweetstep2 = ({ actionData }) => {
           {actionData.btnState === true && actionData.countDown < 60 && (
             <p>Please wait till 00:{actionData.countDown}</p>
           )}
-          <p>Please wait till 00:{actionData.countDown}</p>
+
           <button
             className={`${
               !enableVerify || actionData.btnState

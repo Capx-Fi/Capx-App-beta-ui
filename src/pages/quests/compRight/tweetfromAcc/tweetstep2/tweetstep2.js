@@ -222,10 +222,11 @@ const Tweetstep2 = ({ actionData }) => {
           </div>
         )}
 
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-3">
           {actionData.btnState === true && actionData.countDown < 60 && (
             <p>Please wait till 00:{actionData.countDown}</p>
           )}
+          <p>Please wait till 00:{actionData.countDown}</p>
           <button
             className={`${
               !enableVerify || actionData.btnState

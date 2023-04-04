@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../../../firebase/firebase";
 import { useApi } from "../../../../hooks/useApi";
+import { RxLapTimer } from "react-icons/rx";
 
 const RedirectQuest = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
@@ -119,6 +120,24 @@ const RedirectQuest = ({ actionData }) => {
       }
     }
   };
+
+  const handleRedirectButton = () => {
+    if (
+      actionData?.poolData &&
+      actionData.poolData.claimedRewards === actionData.poolData.totalRewards
+    ) {
+      setModalHeadning(
+        "xHARBOR token pool for this quest has been fully distributed"
+      );
+      setErrorModalBtnText("Go to home");
+      setErrorModalMessage(" ");
+      SetIsOpenErrorModal(true);
+    } else {
+      window.open(actionDetails.action_order_info.link);
+      setEnableVerify(true);
+    }
+  };
+
   return (
     <div className="createtweet relative flex flex-col gap-3">
       <p className="createtweet-title action-heading ">
@@ -129,10 +148,7 @@ const RedirectQuest = ({ actionData }) => {
         <div className="createtweet-1 flex flex-col gap-1">
           <button
             className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl"
-            onClick={() => {
-              window.open(actionDetails.action_order_info.link);
-              setEnableVerify(true);
-            }}
+            onClick={handleRedirectButton}
           >
             {actionDetails && (
               <p>{actionDetails.action_order_info.details.replace(".", "")}</p>
@@ -143,18 +159,26 @@ const RedirectQuest = ({ actionData }) => {
             </div>
           </button>
         </div>
-        <button
-          className={`${
-            !enableVerify || actionData.btnState
-              ? "disabled"
-              : "bg-gredient-2 contained-effect"
-          } action-btn self-stretch flex justify-center items-center p-3 rounded-2xl`}
-          onClick={handleActionComplete}
-          disabled={!enableVerify || actionData.btnState}
-        >
-          Verify
-          <HiArrowRight className="text-xl ml-4" />
-        </button>
+        <div className="flex flex-col gap-3">
+          {actionData.btnState === true && actionData.countDown < 60 && (
+            <p className="flex items-center gap-1">
+              <RxLapTimer />
+              Please wait till 00:{actionData.countDown}
+            </p>
+          )}
+          <button
+            className={`${
+              !enableVerify || actionData.btnState
+                ? "disabled"
+                : "bg-gredient-2 contained-effect"
+            } action-btn self-stretch flex justify-center items-center p-3 rounded-2xl`}
+            onClick={handleActionComplete}
+            disabled={!enableVerify || actionData.btnState}
+          >
+            Verify
+            <HiArrowRight className="text-xl ml-4" />
+          </button>
+        </div>
       </div>
       <ErrorModal
         heading={ModalHeadning}

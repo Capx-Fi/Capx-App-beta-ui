@@ -9,6 +9,7 @@ import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollect
 import ErrorModal from "../../errorModal/ErrorModal";
 import { GoLinkExternal } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
+import { RxLapTimer } from "react-icons/rx";
 
 const Tweetstep2 = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
@@ -224,7 +225,10 @@ const Tweetstep2 = ({ actionData }) => {
 
         <div className="flex flex-col gap-3">
           {actionData.btnState === true && actionData.countDown < 60 && (
-            <p>Please wait till 00:{actionData.countDown}</p>
+            <p className="flex items-center gap-1">
+              <RxLapTimer />
+              Please wait till 00:{actionData.countDown}
+            </p>
           )}
 
           <button

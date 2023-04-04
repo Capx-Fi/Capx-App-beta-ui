@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../../../../firebase/firebase";
 import { useApi } from "../../../../hooks/useApi";
+import { RxLapTimer } from "react-icons/rx";
 
 const RedirectQuest = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
@@ -158,9 +159,12 @@ const RedirectQuest = ({ actionData }) => {
             </div>
           </button>
         </div>
-        <div className="flex flex-col">
+        <div className="flex flex-col gap-3">
           {actionData.btnState === true && actionData.countDown < 60 && (
-            <p>Please wait till 00:{actionData.countDown}</p>
+            <p className="flex items-center gap-1">
+              <RxLapTimer />
+              Please wait till 00:{actionData.countDown}
+            </p>
           )}
           <button
             className={`${

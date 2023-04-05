@@ -22,7 +22,7 @@ const Tweetstep2 = ({ actionData }) => {
   const [errorModalBtnText, setErrorModalBtnText] = useState("");
   const [errorModalMessage, setErrorModalMessage] = useState("");
   const [textForTweet, setTextForTweet] = useState(
-    "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
+    "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - discord.com/invite/HAGATNqT8J\n\n@CapxFi"
   );
 
   const navigate = useNavigate();

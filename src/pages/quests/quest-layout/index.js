@@ -82,7 +82,7 @@ const AnswerQuiz = () => {
   const [disableVerifyBtn, setDisableVerifyBtn] = useState(false);
   const [poolData, setPoolData] = useState(null);
   const [completeActionData, setCompleteActionData] = useState();
-  const [countDown, setCountDown] = useState(62);
+  const [countDown, setCountDown] = useState(65);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { isPending, data, error, reFetchData } = useFirestoreCollection(
@@ -128,7 +128,7 @@ const AnswerQuiz = () => {
       }, 1000);
     } else {
       clearInterval(interval);
-      setCountDown(60);
+      setCountDown(65);
     }
     return () => clearInterval(interval);
   }, [disableVerifyBtn]);
@@ -706,6 +706,15 @@ const AnswerQuiz = () => {
             if (!actionData) {
               if (questData.quest_category === "Daily_Reward") {
                 setOpenDailyQuestCongratulationModal(true);
+              } else if (
+                (questData.quest_category === "OG_Invite_Code" ||
+                  questData.quest_category === "Invite_Code" ||
+                  questData.quest_category === "Alpha_AirDrop" ||
+                  questData.quest_category === "Build_Profile" ||
+                  questData.quest_category === "Harbor_AirDrop") &&
+                questData.status === "CLAIMED"
+              ) {
+                setOpenCongratulationModal(true);
               } else {
                 setShowClaimScreen(true);
               }

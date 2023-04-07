@@ -1,7 +1,6 @@
 import React from "react";
 
 const QuestLeft = ({ primarydetails }) => {
-  const { poolData } = primarydetails;
   return (
     <div className="left-side flex flex-col text-cgreen-700 gap-10">
       <div className="qdescription flex flex-col gap-3">
@@ -25,15 +24,15 @@ const QuestLeft = ({ primarydetails }) => {
           </p>
         )}
         {primarydetails.poolData &&
-          poolData.result.rewardPool.totalRewards > 0 && (
+          primarydetails.poolData.totalRewards > 0 && (
             <>
               <p className="qdescription-title action-heading font-semibold underline underline-offset-2 fs-15 md:mt-12 mt-8">
                 Token Pool
               </p>
               <div className="pool-box self-start flex items-center gap-3">
                 <p className="distribution">
-                  {poolData.result.rewardPool.claimedRewards}/{" "}
-                  {poolData.result.rewardPool.totalRewards}
+                  {primarydetails.poolData.claimedRewards}/{" "}
+                  {primarydetails.poolData.totalRewards}
                 </p>
                 <span className="chip">xHARBOR</span>
               </div>

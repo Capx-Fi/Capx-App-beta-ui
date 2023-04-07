@@ -9,6 +9,7 @@ import { useFirestoreCollection } from "../../../../../hooks/useFirestoreCollect
 import ErrorModal from "../../errorModal/ErrorModal";
 import { GoLinkExternal } from "react-icons/go";
 import { useNavigate } from "react-router-dom";
+import { RxLapTimer } from "react-icons/rx";
 
 const Tweetstep2 = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
@@ -19,8 +20,9 @@ const Tweetstep2 = ({ actionData }) => {
   const [ModalHeadning, setModalHeadning] = useState("");
   const [showCopiedBox, setShowCopiedBox] = useState(false);
   const [errorModalBtnText, setErrorModalBtnText] = useState("");
+  const [errorModalMessage, setErrorModalMessage] = useState("");
   const [textForTweet, setTextForTweet] = useState(
-    "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - capx.fi/waitlist\n\n@CapxFi"
+    "I just earned 5 xCapx tokens on #CapxApp Beta 🫶\n\nYou can join too - discord.com/invite/HAGATNqT8J\n\n@CapxFi"
   );
 
   const navigate = useNavigate();
@@ -58,17 +60,24 @@ const Tweetstep2 = ({ actionData }) => {
   }, [tweetUrl]);
 
   const handleErrorModal = () => {
-    if (actionDetails?.action_order_subtype === "checkUserTweet") {
-      if (!regex.test(tweetUrl.trim())) {
-        SetIsOpenErrorModal(false);
-      } else {
-        navigate("/profile");
-        SetIsOpenErrorModal(false);
-      }
+    if (
+      actionData.poolData &&
+      actionData.poolData.claimedRewards === actionData.poolData.totalRewards
+    ) {
+      navigate("/");
     } else {
-      if (!userData.socials.twitter_username) {
-        navigate("/profile");
-        SetIsOpenErrorModal(false);
+      if (actionDetails?.action_order_subtype === "checkUserTweet") {
+        if (!regex.test(tweetUrl.trim())) {
+          SetIsOpenErrorModal(false);
+        } else {
+          navigate("/profile");
+          SetIsOpenErrorModal(false);
+        }
+      } else {
+        if (!userData.socials.twitter_username) {
+          navigate("/profile");
+          SetIsOpenErrorModal(false);
+        }
       }
     }
   };
@@ -82,43 +91,72 @@ const Tweetstep2 = ({ actionData }) => {
   };
 
   const handleActionComplete = (e) => {
-    if (actionDetails?.action_order_subtype === "checkUserTweet") {
-      if (
-        regex.test(tweetUrl.trim()) &&
-        userData &&
-        userData.socials &&
-        userData.socials.twitter_username
-      ) {
-        actionData.handleCompleteAction(e, {
-          type: "verifyTweet",
-          value: tweetUrl,
-        });
+    if (
+      actionData.poolData &&
+      actionData.poolData.claimedRewards === actionData.poolData.totalRewards
+    ) {
+      setModalHeadning(
+        "xHARBOR token pool for this quest has been fully distributed"
+      );
+      setErrorModalBtnText("Go to home");
+      setErrorModalMessage(" ");
+      SetIsOpenErrorModal(true);
+    } else {
+      if (actionDetails?.action_order_subtype === "checkUserTweet") {
+        if (
+          regex.test(tweetUrl.trim()) &&
+          userData &&
+          userData.socials &&
+          userData.socials.twitter_username
+        ) {
+          actionData.handleCompleteAction(e, {
+            type: "verifyTweet",
+            value: tweetUrl,
+          });
+        } else {
+          if (!regex.test(tweetUrl.trim())) {
+            setModalHeadning("Please enter a valid tweet link");
+            setErrorModalBtnText("");
+            SetIsOpenErrorModal(true);
+          } else {
+            setModalHeadning(
+              "Please connect your twitter account before continuing"
+            );
+
+            setErrorModalBtnText("Navigate to profile");
+            SetIsOpenErrorModal(true);
+          }
+        }
       } else {
-        if (!regex.test(tweetUrl.trim())) {
-          setModalHeadning("Please enter a valid tweet link");
-          setErrorModalBtnText("");
-          SetIsOpenErrorModal(true);
+        if (userData && userData.socials && userData.socials.twitter_username) {
+          actionData.handleCompleteAction(e, {
+            type: "twitterVerify",
+          });
         } else {
           setModalHeadning(
             "Please connect your twitter account before continuing"
           );
-
           setErrorModalBtnText("Navigate to profile");
           SetIsOpenErrorModal(true);
         }
       }
+    }
+  };
+
+  const handleRedirectButton = () => {
+    if (
+      actionData?.poolData &&
+      actionData.poolData.claimedRewards === actionData.poolData.totalRewards
+    ) {
+      setModalHeadning(
+        "xHARBOR token pool for this quest has been fully distributed"
+      );
+      setErrorModalBtnText("Go to home");
+      setErrorModalMessage(" ");
+      SetIsOpenErrorModal(true);
     } else {
-      if (userData && userData.socials && userData.socials.twitter_username) {
-        actionData.handleCompleteAction(e, {
-          type: "twitterVerify",
-        });
-      } else {
-        setModalHeadning(
-          "Please connect your twitter account before continuing"
-        );
-        setErrorModalBtnText("Navigate to profile");
-        SetIsOpenErrorModal(true);
-      }
+      window.open(Object.values(actionDetails?.action_order_details)[0]);
+      setEnableVerify(true);
     }
   };
 
@@ -171,12 +209,7 @@ const Tweetstep2 = ({ actionData }) => {
             </p>
             <button
               className="url-box p-4 flex items-center justify-between underline outlined-effect"
-              onClick={() => {
-                window.open(
-                  Object.values(actionDetails?.action_order_details)[0]
-                );
-                setEnableVerify(true);
-              }}
+              onClick={handleRedirectButton}
             >
               {/* <p>{actionDetails?.action_order_details?.tweet_url}</p> */}
               {actionDetails && (
@@ -190,21 +223,33 @@ const Tweetstep2 = ({ actionData }) => {
           </div>
         )}
 
-        <button
-          className={`${
-            !enableVerify ? "disabled" : "bg-gredient-2 contained-effect"
-          } action-btn self-stretch flex justify-center items-center p-3 rounded-2xl`}
-          onClick={handleActionComplete}
-          disabled={!enableVerify}
-        >
-          Verify
-          <HiArrowRight className="text-xl ml-4" />
-        </button>
+        <div className="flex flex-col gap-3">
+          {actionData.btnState === true && actionData.countDown < 60 && (
+            <p className="flex items-center gap-1">
+              <RxLapTimer />
+              Please wait till 00:{actionData.countDown}
+            </p>
+          )}
+
+          <button
+            className={`${
+              !enableVerify || actionData.btnState
+                ? "disabled"
+                : "bg-gredient-2 contained-effect"
+            } action-btn self-stretch flex justify-center items-center p-3 rounded-2xl`}
+            onClick={handleActionComplete}
+            disabled={!enableVerify || actionData.btnState}
+          >
+            Verify
+            <HiArrowRight className="text-xl ml-4" />
+          </button>
+        </div>
       </div>
       <ErrorModal
         heading={ModalHeadning}
         open={isOpenErrorModal}
         handleClose={handleErrorModal}
+        message={errorModalMessage}
         BtnText={errorModalBtnText}
       />
       {isPending && <TopLoader />}

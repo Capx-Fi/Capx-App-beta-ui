@@ -25,7 +25,7 @@ export const useWeb3Auth = () => {
                     loginConfig: {
                       jwt: {
                         name: "webapp",
-                        verifier: "w3a-capx-verifier",
+                        verifier: config.WEB3AUTH_VERIFIER,
                         typeOfLogin: "jwt",
                         clientId: config.WEB3AUTH_CLIENT_ID,
                       },

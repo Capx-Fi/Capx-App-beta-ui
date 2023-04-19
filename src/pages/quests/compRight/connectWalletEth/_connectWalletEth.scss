@@ -1,0 +1,14 @@
+.connect-wallet {
+    .quest-text {
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 24px;
+      letter-spacing: -0.5px;
+      color: #153945;
+      @media screen and (max-width: 767.98px) {
+        font-size: 13px;
+        line-height: 19px;
+      }
+    }
+  }
+  

@@ -203,6 +203,7 @@ export const useFireBaseLogin = () => {
     setError(null);
     try {
       const response = await getRedirectResult(auth);
+      console.log(response)
       if (!response) {
         throw new Error("Could not complete signin");
       }

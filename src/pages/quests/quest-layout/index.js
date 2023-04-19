@@ -43,6 +43,7 @@ import WriteArticle2 from "../compRight/writeArticle/WriteArticle2";
 import WeeklyFeedback from "../compRight/weeklyFeedback/WeeklyFeedback";
 import AlphavDrop from "../compRight/alphaAirdrop/AlphaAirdrop";
 import ConnectWallet from "../compRight/connectWallet/ConnectWallet";
+import ConnectWalletEth from "../compRight/connectWalletEth/connectWalletEth";
 import RedirectQuest from "../compRight/redirectQuest/RedirectQuest";
 
 const AnswerQuiz = () => {
@@ -367,6 +368,16 @@ const AnswerQuiz = () => {
               }}
             />
           );
+        case "Connect_Capx_Wallet":
+          return (
+            <ConnectWalletEth
+              actionData={{
+                ...actionData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+              }}
+            />
+          );
         default:
           return <p>No data</p>;
       }
@@ -547,6 +558,16 @@ const AnswerQuiz = () => {
         // setIsClaimQuest(true);
         break;
       }
+      case "capxWallet": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
+            wallet_address: input.value.address,
+          },
+        };
+        // setIsClaimQuest(true);
+        break;
+      }
       case "Verify_OnChain": {
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
@@ -597,6 +618,7 @@ const AnswerQuiz = () => {
       }
       if (actionsData.length === 0) {
         console.log("All actions completed");
+        console.log(data[0])
         if (isClaimQuest) {
           setActionData(null);
         } else if (
@@ -711,7 +733,8 @@ const AnswerQuiz = () => {
                   questData.quest_category === "Invite_Code" ||
                   questData.quest_category === "Alpha_AirDrop" ||
                   questData.quest_category === "Build_Profile" ||
-                  questData.quest_category === "Harbor_AirDrop") &&
+                  questData.quest_category === "Harbor_AirDrop"||
+                  questData.quest_category === "Capx_Wallet") &&
                 questData.status === "CLAIMED"
               ) {
                 setOpenCongratulationModal(true);
@@ -727,7 +750,8 @@ const AnswerQuiz = () => {
                 setOpenCongratulationModal(true);
               } else if (
                 (questData.quest_category === "Build_Profile" ||
-                  questData.quest_category === "Harbor_AirDrop") &&
+                  questData.quest_category === "Harbor_AirDrop"||
+                  questData.quest_category === "Capx_Wallet") &&
                 questData.status === "CLAIMED"
               ) {
                 setOpenCongratulationModal(true);

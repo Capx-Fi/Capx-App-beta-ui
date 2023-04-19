@@ -8,6 +8,9 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "@web3auth/base": "^5.1.0",
+    "@web3auth/no-modal": "^5.1.0",
+    "@web3auth/openlogin-adapter": "^5.1.1",
     "axios": "^1.2.0",
     "dayjs": "^1.11.7",
     "firebase": "^9.14.0",
@@ -26,12 +29,13 @@
     "sass": "^1.56.1",
     "slick-carousel": "^1.8.1",
     "web-vitals": "^2.1.4",
+    "web3": "^1.9.0",
     "yup": "^0.32.11"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -53,8 +57,18 @@
     ]
   },
   "devDependencies": {
+    "assert": "^2.0.0",
     "autoprefixer": "^10.4.13",
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.0",
+    "https-browserify": "^1.0.0",
+    "os-browserify": "^0.3.0",
     "postcss": "^8.4.19",
-    "tailwindcss": "^3.2.4"
+    "process": "^0.11.10",
+    "react-app-rewired": "^2.2.1",
+    "stream-browserify": "^3.0.0",
+    "stream-http": "^3.2.0",
+    "tailwindcss": "^3.2.4",
+    "url": "^0.11.0"
   }
 }

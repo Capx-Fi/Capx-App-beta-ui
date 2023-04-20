@@ -133,7 +133,7 @@ const Home = () => {
               return false;
             }
           })
-          .sort((a, b) => (a.task_no > b.task_no ? 1 : -1))
+          .sort((a, b) => (parseInt(a.task_no) < parseInt(b.task_no) ? 1 : -1))
       );
       setHarborQuests(
         result

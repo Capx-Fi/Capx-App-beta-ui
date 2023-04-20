@@ -11,7 +11,7 @@ export const useWeb3Auth = () => {
         const run = async () => {
             const web3auth = new Web3AuthNoModal({
                 clientId: config.WEB3AUTH_CLIENT_ID,
-                web3AuthNetwork: "testnet",
+                web3AuthNetwork: config.WEB3AUTH_NETWORK,
                 chainConfig: {
                   chainNamespace: CHAIN_NAMESPACES.EIP155, // SOLANA, OTHER
                   chainId: "0x1",

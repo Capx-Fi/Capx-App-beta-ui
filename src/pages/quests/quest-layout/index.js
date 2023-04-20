@@ -43,6 +43,7 @@ import WriteArticle2 from "../compRight/writeArticle/WriteArticle2";
 import WeeklyFeedback from "../compRight/weeklyFeedback/WeeklyFeedback";
 import AlphavDrop from "../compRight/alphaAirdrop/AlphaAirdrop";
 import ConnectWallet from "../compRight/connectWallet/ConnectWallet";
+import ConnectWalletEth from "../compRight/connectWalletEth/connectWalletEth";
 import RedirectQuest from "../compRight/redirectQuest/RedirectQuest";
 
 const AnswerQuiz = () => {
@@ -367,6 +368,18 @@ const AnswerQuiz = () => {
               }}
             />
           );
+        case "Connect_Capx_Wallet":
+          return (
+            <ConnectWalletEth
+              actionData={{
+                ...actionData,
+                ...questData,
+                handleCompleteAction: handleCompleteAction,
+                questID: routeParams.questID,
+                claimHandler:claimRewardHandler
+              }}
+            />
+          );
         default:
           return <p>No data</p>;
       }
@@ -374,6 +387,7 @@ const AnswerQuiz = () => {
   };
 
   useEffect(() => {
+    setCurrentActionData(actionData);
     renderActionComponent();
   }, [actionData]);
 
@@ -400,7 +414,7 @@ const AnswerQuiz = () => {
       };
       setShowActionClaim(true);
       postData(apiDataObject, "/claimReward");
-    }
+    } 
   };
 
   const handleCompleteAction = (e, input) => {
@@ -547,6 +561,16 @@ const AnswerQuiz = () => {
         // setIsClaimQuest(true);
         break;
       }
+      case "capxWallet": {
+        apiDataObject = {
+          data: {
+            action_order_id: actionData.action_order_id,
+            wallet_address: input.value.address,
+          },
+        };
+        // setIsClaimQuest(true);
+        break;
+      }
       case "Verify_OnChain": {
         apiDataObject = {
           data: { action_order_id: actionData.action_order_id },
@@ -597,9 +621,11 @@ const AnswerQuiz = () => {
       }
       if (actionsData.length === 0) {
         console.log("All actions completed");
-        if (isClaimQuest) {
+        
+        if (isClaimQuest && data[0].quest_category.toLowerCase() !== "capx_wallet" ) {
           setActionData(null);
         } else if (
+          
           data[0].quest_type.toLowerCase() === "special" &&
           data[0].status.toLowerCase() === "claimed"
         ) {
@@ -621,8 +647,19 @@ const AnswerQuiz = () => {
           data[0].quest_type.toLowerCase() === "special" &&
           data[0].status.toLowerCase() === "completed"
         ) {
-          setShowClaimScreen(true);
-          setActionData(null);
+          console.log("data was here", data[0].quest_category.toLowerCase())
+          if(data[0].quest_category.toLowerCase() === "capx_wallet"){
+            setActionData({
+              ...Object.values(data[0].actions)
+                .filter((val) => {
+                  return val.action_order_status === "COMPLETED";
+                })
+                .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
+                .reverse()[0],});
+          }else{
+            setShowClaimScreen(true);
+            setActionData(null);
+          }
         } else if (data[0].quest_category === "Daily_Reward") {
           setDailyQuestCongratulationsModalText(apiData?.result.message);
           setOpenDailyQuestCongratulationModal(true);
@@ -711,12 +748,15 @@ const AnswerQuiz = () => {
                   questData.quest_category === "Invite_Code" ||
                   questData.quest_category === "Alpha_AirDrop" ||
                   questData.quest_category === "Build_Profile" ||
-                  questData.quest_category === "Harbor_AirDrop") &&
+                  questData.quest_category === "Harbor_AirDrop"||
+                  questData.quest_category === "Capx_Wallet") &&
                 questData.status === "CLAIMED"
               ) {
                 setOpenCongratulationModal(true);
               } else {
-                setShowClaimScreen(true);
+                if(questData.quest_category !== "Capx_Wallet"){
+                  setShowClaimScreen(true);
+                }
               }
             } else {
               if (
@@ -727,7 +767,8 @@ const AnswerQuiz = () => {
                 setOpenCongratulationModal(true);
               } else if (
                 (questData.quest_category === "Build_Profile" ||
-                  questData.quest_category === "Harbor_AirDrop") &&
+                  questData.quest_category === "Harbor_AirDrop"||
+                  questData.quest_category === "Capx_Wallet") &&
                 questData.status === "CLAIMED"
               ) {
                 setOpenCongratulationModal(true);

@@ -7,6 +7,7 @@ import { resetUser } from "../store/slices/userSlice";
 import { resetQuestData } from "../store/slices/questSlice";
 import { analytics } from "../firebase/firebase";
 import { logEvent } from "firebase/analytics";
+import { useWeb3Auth } from "./useWeb3Auth";
 
 export const useFireBaseLogout = () => {
   const [isCancelled, setIsCancelled] = useState(false);
@@ -14,13 +15,14 @@ export const useFireBaseLogout = () => {
   const [isPending, setIsPending] = useState(false);
   const [data, setData] = useState(null);
   const dispatch = useDispatch();
- 
+  const web3AuthInstance = useWeb3Auth();
 
   const signOutUser = async () => {
     setError(null);
     setIsPending(false);
     logEvent(analytics, 'LOGOUT_SUCCESS' , {user:auth.currentUser.uid})
     try {
+      await web3AuthInstance.logout();
       const response = await signOut(auth);
       
       //dispatch action to clear user state

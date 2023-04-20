@@ -77,6 +77,7 @@ const SpecialTasks = ({ quests }) => {
     variableWidth: true,
     slidesToShow: 2,
     slidesToScroll: 1,
+    adaptiveHeight: false,
     prevArrow: <SliderArrow direction="left" />,
     nextArrow: <SliderArrow direction="right" />,
     responsive: [
@@ -164,7 +165,7 @@ const SpecialTasks = ({ quests }) => {
                     <div className="flex items-center justify-between">
                       <p className="card-title">{data.tasktitle}</p>
                       {data.taskreward > 0 && (
-                        <div className="card-chip md:flex hidden items-center ml-10">
+                        <div className="card-chip md:flex hidden items-center ml-5">
                           <img src={CardCoinIcon} alt="coin" />
                           <span className="ml-1">
                             {data.taskreward + " xCapx"}

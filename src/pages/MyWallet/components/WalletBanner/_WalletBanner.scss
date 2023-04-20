@@ -21,25 +21,6 @@
   //   font-size: 34px;
   //   line-height: 40px;
   //   letter-spacing: -0.8px;
-  //   color: $cgreen-700;
-  //   @media screen and (max-width: 767.98px) {
-  //     font-size: 20px;
-  //     line-height: 24px;
-  //   }
-  // }
-
-  // button {
-  //   padding: 12px 16px 14px;
-  //   background: $gradient-cgreen-2;
-  //   border-radius: 12px;
-  //   min-width: 238px;
-
-  //   @media screen and (max-width: 767.98px) {
-  //     min-width: 138px;
-  //     font-size: 12px;
-  //     line-height: 14px;
-  //   }
-  // }
 
   .balance-wrapper {
     background: $gredient-green-2;
@@ -73,5 +54,73 @@
         line-height: 16px;
       }
     }
+  }
+}
+.address-wrapper {
+  background: $gredient-green-2;
+  padding: 28px;
+  border-radius: 20px;
+  @media screen and (max-width: 767.98px) {
+    background: #d6eedb;
+    border: 1px solid #c1dfbe;
+    padding: 22px 17px 27px;
+  }
+
+  .address-title {
+    font-weight: 900;
+    font-size: 24px;
+    color: #fff;
+    @media screen and (max-width: 767.98px) {
+      font-weight: 900;
+      font-size: 16px;
+      line-height: 20px;
+      color: #385761;
+      opacity: 0.9;
+    }
+  }
+  .adress-box {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(37, 129, 91, 0.38);
+    border-radius: 12px;
+    padding: 12px 20px;
+    @media screen and (max-width: 767.98px) {
+      font-weight: 900;
+      padding: 15px 20px;
+      background: rgba(255, 255, 255, 0.33);
+    }
+    .address {
+      font-weight: 900;
+      font-size: 22px;
+      line-height: 40px;
+      color: rgba(21, 57, 69, 0.9);
+      opacity: 0.9;
+      @media screen and (max-width: 767.98px) {
+        font-weight: 900;
+        font-size: 18px;
+      }
+    }
+  }
+}
+.copy-not {
+  position: absolute;
+  top: 0;
+  left: 110%;
+  background: #ccf3ff;
+  border: 1px solid #92c1dc;
+  border-radius: 12px;
+  padding: 12px 20px;
+  width: 150px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: -0.65px;
+  color: #153945;
+  @media screen and (max-width: 767.98px) {
+    position: initial;
+    width: unset;
+    padding: 8px 20px;
+    font-size: 13px;
+    line-height: 20px;
   }
 }

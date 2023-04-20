@@ -375,6 +375,7 @@ const AnswerQuiz = () => {
                 ...actionData,
                 handleCompleteAction: handleCompleteAction,
                 questID: routeParams.questID,
+                claimHandler:claimRewardHandler
               }}
             />
           );
@@ -411,7 +412,7 @@ const AnswerQuiz = () => {
       };
       setShowActionClaim(true);
       postData(apiDataObject, "/claimReward");
-    }
+    } 
   };
 
   const handleCompleteAction = (e, input) => {

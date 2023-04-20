@@ -48,10 +48,17 @@ const ConnectWalletEth = ({ actionData }) => {
         }
         await web3AuthInstance.logout();
     }
-    run()
-    .then(() => {})
-    .catch(error => console.log(`[Error] ${error.message}`))
-  },[web3AuthInstance])
+    if(!walletAddress){
+      run()
+      .then(() => {})
+      .catch(error => console.log(`[Error] ${error.message}`))
+    }else if(walletAddress){
+      actionData.handleCompleteAction(null, {
+        type: "capxWallet",
+        value: { address: walletAddress },
+      });
+    }
+  },[web3AuthInstance,walletAddress])
 
   const handleWalletConnection = async () => {
     try {
@@ -73,7 +80,9 @@ const ConnectWalletEth = ({ actionData }) => {
   };
 
   const handleCopyTextButton = () => {
-    navigator.clipboard.writeText(walletAddress);
+    console.log(typeof userData.wallets?.evm)
+    userData.wallets?.evm.trim().length > 0 ?
+    navigator.clipboard.writeText(userData?.wallets?.evm.trim()) : navigator.clipboard.writeText(walletAddress);
     setShowCopiedBox(true);
     setTimeout(() => {
       setShowCopiedBox(false);
@@ -122,11 +131,8 @@ const ConnectWalletEth = ({ actionData }) => {
 
             <button
               className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full"
-              onClick={(e) => {
-                actionData.handleCompleteAction(e, {
-                  type: "capxWallet",
-                  value: { address: walletAddress },
-                });
+              onClick={() => {
+                actionData.claimHandler()
               }}
             >
               {actionDetails?.action_order_cta}

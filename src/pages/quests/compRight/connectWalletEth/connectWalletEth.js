@@ -9,6 +9,7 @@ import Web3 from "web3";
 import { WALLET_ADAPTERS } from "@web3auth/base";
 import TopLoader from "../../../../components/topLoader/TopLoader";
 
+
 const ConnectWalletEth = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
   const [showCopiedBox, setShowCopiedBox] = useState(false);
@@ -17,7 +18,7 @@ const ConnectWalletEth = ({ actionData }) => {
   const [isWalletInstalled, setIsWalletInstalled] = useState(false);
   const  web3AuthInstance  = useWeb3Auth();
   const [provider,setProvider] = useState(null);
-  const [web3connect, setweb3Connect] = useState(false);
+  const [web3Connect, setweb3Connect] = useState(true);
 
   const userData = useSelector((state) => state.user);
   const { isPending, data, error } = useFirestoreCollection(
@@ -42,20 +43,20 @@ const ConnectWalletEth = ({ actionData }) => {
         console.log(web3AuthInstance)
         if(!web3AuthInstance.provider){
             console.log("provider not initialized yet");
+            setweb3Connect(false);
             return;
         }else{
             const web3 = new Web3(web3AuthInstance.provider);
             const userAccounts = await web3.eth.getAccounts();
-            console.log(userAccounts);
+            console.log(web3Connect);
             setWalletAddress(userAccounts[0]);
         }
         await web3AuthInstance.logout();
     }
     if(!walletAddress){
-      setweb3Connect(true);
       run()
-      .then(() => { setweb3Connect(false);})
-      .catch(error => {console.log(`[Error] ${error.message}`);setweb3Connect(false);})
+      .then(() => { })
+      .catch(error => {console.log(`[Error] ${error.message}`);})
     }else if(walletAddress){
       actionData.handleCompleteAction(null, {
         type: "capxWallet",
@@ -72,7 +73,7 @@ const ConnectWalletEth = ({ actionData }) => {
             extraLoginOptions: {
             id_token: idToken,
             verifierIdField: "sub", // same as your JWT Verifier ID
-            domain: "http://localhost:3000",
+            domain: window.location.host,
             },
         });
         setProvider(web3AuthInstance);
@@ -156,18 +157,13 @@ const ConnectWalletEth = ({ actionData }) => {
         <>
           <button
             onClick={handleWalletConnection}
+            disabled={web3Connect}
             className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full"
           >
-            Create your wallet
+            {web3Connect?"Wallet Creation in Process":"Create your wallet"}
           </button>
-          {!isChainAddedToWallet && (
-            <p className="quest-text text-center">
-              Please add comdex chain into your wallet.
-            </p>
-          )}
         </>
       )}
-      {web3connect && <TopLoader />}
     </div>
   );
 };

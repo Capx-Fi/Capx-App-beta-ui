@@ -7,6 +7,7 @@ import { useFirestoreCollection } from "../../../../hooks/useFirestoreCollection
 import  {useWeb3Auth}  from "../../../../hooks/useWeb3Auth";
 import Web3 from "web3";
 import { WALLET_ADAPTERS } from "@web3auth/base";
+import TopLoader from "../../../../components/topLoader/TopLoader";
 
 const ConnectWalletEth = ({ actionData }) => {
   const [actionDetails, setActionDetails] = useState(null);
@@ -16,6 +17,7 @@ const ConnectWalletEth = ({ actionData }) => {
   const [isWalletInstalled, setIsWalletInstalled] = useState(false);
   const  web3AuthInstance  = useWeb3Auth();
   const [provider,setProvider] = useState(null);
+  const [web3connect, setweb3Connect] = useState(false);
 
   const userData = useSelector((state) => state.user);
   const { isPending, data, error } = useFirestoreCollection(
@@ -27,6 +29,7 @@ const ConnectWalletEth = ({ actionData }) => {
 
   useEffect(() => {
     if (data) {
+      console.log(data[0],actionData);
       setActionDetails(data[0]);
       setIsWalletInstalled(true);
     } else if (error) {
@@ -49,9 +52,10 @@ const ConnectWalletEth = ({ actionData }) => {
         await web3AuthInstance.logout();
     }
     if(!walletAddress){
+      setweb3Connect(true);
       run()
-      .then(() => {})
-      .catch(error => console.log(`[Error] ${error.message}`))
+      .then(() => { setweb3Connect(false);})
+      .catch(error => {console.log(`[Error] ${error.message}`);setweb3Connect(false);})
     }else if(walletAddress){
       actionData.handleCompleteAction(null, {
         type: "capxWallet",
@@ -109,6 +113,14 @@ const ConnectWalletEth = ({ actionData }) => {
               >
                 {userData.wallets?.evm}
               </button>
+              { actionData?.status.toLowerCase() === "completed" && <button
+              className="bg-gredient-2 contained-effect action-btn self-stretch flex justify-center items-center p-3 rounded-2xl text-white font-semibold fs-16 w-full"
+              onClick={() => {
+                actionData.claimHandler()
+              }}
+            >{"Complete Quest"}
+            <HiArrowRight className="text-xl ml-4" />
+          </button>}
             </div>
           </div>
         </div>
@@ -155,6 +167,7 @@ const ConnectWalletEth = ({ actionData }) => {
           )}
         </>
       )}
+      {web3connect && <TopLoader />}
     </div>
   );
 };

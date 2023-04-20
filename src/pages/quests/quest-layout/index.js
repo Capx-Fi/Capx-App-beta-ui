@@ -373,6 +373,7 @@ const AnswerQuiz = () => {
             <ConnectWalletEth
               actionData={{
                 ...actionData,
+                ...questData,
                 handleCompleteAction: handleCompleteAction,
                 questID: routeParams.questID,
                 claimHandler:claimRewardHandler
@@ -386,6 +387,7 @@ const AnswerQuiz = () => {
   };
 
   useEffect(() => {
+    setCurrentActionData(actionData);
     renderActionComponent();
   }, [actionData]);
 
@@ -619,10 +621,11 @@ const AnswerQuiz = () => {
       }
       if (actionsData.length === 0) {
         console.log("All actions completed");
-        console.log(data[0])
-        if (isClaimQuest) {
+        
+        if (isClaimQuest && data[0].quest_category.toLowerCase() !== "capx_wallet" ) {
           setActionData(null);
         } else if (
+          
           data[0].quest_type.toLowerCase() === "special" &&
           data[0].status.toLowerCase() === "claimed"
         ) {
@@ -644,8 +647,19 @@ const AnswerQuiz = () => {
           data[0].quest_type.toLowerCase() === "special" &&
           data[0].status.toLowerCase() === "completed"
         ) {
-          setShowClaimScreen(true);
-          setActionData(null);
+          console.log("data was here", data[0].quest_category.toLowerCase())
+          if(data[0].quest_category.toLowerCase() === "capx_wallet"){
+            setActionData({
+              ...Object.values(data[0].actions)
+                .filter((val) => {
+                  return val.action_order_status === "COMPLETED";
+                })
+                .sort((a, b) => (a.action_id > b.action_id ? 1 : -1))
+                .reverse()[0],});
+          }else{
+            setShowClaimScreen(true);
+            setActionData(null);
+          }
         } else if (data[0].quest_category === "Daily_Reward") {
           setDailyQuestCongratulationsModalText(apiData?.result.message);
           setOpenDailyQuestCongratulationModal(true);
@@ -740,7 +754,9 @@ const AnswerQuiz = () => {
               ) {
                 setOpenCongratulationModal(true);
               } else {
-                setShowClaimScreen(true);
+                if(questData.quest_category !== "Capx_Wallet"){
+                  setShowClaimScreen(true);
+                }
               }
             } else {
               if (
